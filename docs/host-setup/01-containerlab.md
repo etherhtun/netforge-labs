@@ -67,26 +67,34 @@ cd vrnetlab
 > upstream — it has the current Juniper build recipes.
 
 ### 4c. Drop the image in and build
+On the `23.2R1` release the directory is **`vjunosswitch`** (confirmed):
 ```bash
-# NOTE: confirm the exact directory name in the fork — it has been both
-# 'vjunos-switch' and 'vjunosswitch' across versions. Check with:
-#   ls vrnetlab/juniper*/
 cp ~/vJunos-switch-23.2R1.14.qcow2 juniper/vjunosswitch/
 cd juniper/vjunosswitch
 make
 ```
 The `make` boots the VM once, bakes in defaults, and produces a Docker image.
+> If your fork/version differs, list the options with `ls ~/vrnetlab/juniper*/`.
 
 ### 4d. Capture the exact image tag
 ```bash
 docker images | grep -i vjunos
-# e.g.  vrnetlab/juniper_vjunos-switch   23.2R1.14   <id>   ...
 ```
-Note the **`REPOSITORY:TAG`** exactly — you'll paste it into the topology next.
+On `23.2R1.14` this produces exactly:
+```
+vrnetlab/juniper_vjunos-switch   23.2R1.14   <id>   7.27GB
+```
+Note the **`REPOSITORY:TAG`** (`vrnetlab/juniper_vjunos-switch:23.2R1.14`).
 
 ## 5. Point the topology at your image
 
-Edit `labs/01-ospf-ibgp/topology.clab.yml` and set the image + confirm the kind:
+**Good news:** the lab's `topology.clab.yml` already defaults to exactly this
+tag — if you built `23.2R1.14`, **no edit is needed.** Confirm with:
+```bash
+grep image labs/01-ospf-ibgp/topology.clab.yml
+# → vrnetlab/juniper_vjunos-switch:23.2R1.14
+```
+If your tag differs (different Junos version), edit the `image:` line to match:
 ```yaml
   kinds:
     juniper_vjunosswitch:                       # containerlab kind for vJunos-switch
@@ -96,9 +104,21 @@ Edit `labs/01-ospf-ibgp/topology.clab.yml` and set the image + confirm the kind:
 > `containerlab version` — very old versions predate the native
 > `juniper_vjunosswitch` kind.
 
-## 6. Smoke test
+## 6. Clone the lab repo
 
-From the repo root on the VM:
+The image build happened inside the **vrnetlab** repo. The labs live in a
+**separate** repo — clone it now:
+```bash
+cd ~
+git clone https://github.com/etherhtun/vxlan-evpn-juniper.git
+cd vxlan-evpn-juniper
+ls labs/                    # → 01-ospf-ibgp
+```
+All the `./scripts/*` and `labs/*` commands below run from **this** directory.
+
+## 7. Smoke test
+
+From the repo root (`~/vxlan-evpn-juniper`):
 ```bash
 ./scripts/deploy.sh 01-ospf-ibgp
 ```
@@ -115,7 +135,7 @@ ssh admin@clab-vxlan-evpn-jnpr-spine1        # confirm creds on first login
 > login user/password, and the `ethN → et-/xe-/ge-` interface mapping
 > (`show interfaces terse`). Lock both into `common/ipplan.md` once confirmed.
 
-## 7. Troubleshooting
+## 8. Troubleshooting
 
 | Symptom | Cause / fix |
 |---------|-------------|
