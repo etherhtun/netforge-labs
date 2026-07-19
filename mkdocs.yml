@@ -40,15 +40,8 @@ nav:
     - EVPN-VXLAN Primer: concepts/evpn-vxlan-primer.md
     - Route Types: concepts/route-types.md
     - Verification Cheatsheet: concepts/verify-cheatsheet.md
-  - Lab 01 (OSPF+iBGP):
-    - Overview: ../labs/01-ospf-ibgp/README.md
-    - Step 1 - Fabric: ../labs/01-ospf-ibgp/steps/01-fabric.md
-    - Step 2 - Underlay OSPF: ../labs/01-ospf-ibgp/steps/02-underlay-ospf.md
-    - Step 3 - Overlay iBGP: ../labs/01-ospf-ibgp/steps/03-overlay-ibgp.md
-    - Step 4 - EVPN+VXLAN: ../labs/01-ospf-ibgp/steps/04-evpn-vxlan.md
-    - Step 5 - Services: ../labs/01-ospf-ibgp/steps/05-services-verify.md
-    - Verify: ../labs/01-ospf-ibgp/verify.md
-    - Break-it: ../labs/01-ospf-ibgp/break-it.md
+  - Labs:
+    - Overview: labs.md
 
 plugins:
   - search
@@ -59,8 +52,7 @@ markdown_extensions:
   - admonition
   - codehilite
   - pymdownx.arithmatex
-  - pymdownx.betterem:
-      smart_underscores: true
+  - pymdownx.betterem
   - pymdownx.caret
   - pymdownx.critic
   - pymdownx.details

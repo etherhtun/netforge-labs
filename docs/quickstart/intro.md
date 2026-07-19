@@ -49,7 +49,7 @@ docker logs -f clab-vxlan-evpn-jnpr-spine1
 ### Path 1: Learn by hand (recommended)
 Follow the lab steps and type the config yourself. This is how you actually learn.
 
-1. Read [Lab 01 Step 1 — Fabric](../../labs/01-ospf-ibgp/steps/01-fabric.md)
+1. Read [Lab 01 Step 1 — Fabric](https://github.com/etherhtun/vxlan-evpn-juniper/blob/main/labs/01-ospf-ibgp/steps/01-fabric.md)
 2. SSH into a node and apply the config:
    ```bash
    ssh admin@clab-vxlan-evpn-jnpr-leaf1

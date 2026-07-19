@@ -37,8 +37,8 @@ Each lab is built layer-by-layer through 5 steps. Verify before you move on.
    ```
    vJunos nodes boot in ~5–8 minutes. Watch the logs in another terminal.
 
-3. **Work through the steps** — follow [Lab 01 Step 1](../labs/01-ospf-ibgp/steps/01-fabric.md) onwards.
-   Each step has a concept, config, and verify commands.
+3. **Work through the steps** — see the [Labs](labs.md) page for lab 01's
+   step-by-step guide. Each step has a concept, config, and verify commands.
 
 4. **Reset if needed**:
    ```bash
@@ -65,7 +65,7 @@ layer* — you never debug the whole stack at once.
 
 - **New to EVPN?** Start with [Concepts — EVPN-VXLAN Primer](concepts/evpn-vxlan-primer.md).
 - **Host not ready yet?** Read [Host Setup](host-setup/00-gcp-instance.md).
-- **Ready to deploy?** Jump to [Lab 01 Overview](../labs/01-ospf-ibgp/README.md).
+- **Ready to deploy?** Jump to the [Labs](labs.md) page.
 
 ---
 

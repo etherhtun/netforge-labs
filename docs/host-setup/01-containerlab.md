@@ -128,5 +128,5 @@ ssh admin@clab-vxlan-evpn-jnpr-spine1        # confirm creds on first login
 
 ---
 
-Next: back to [lab 01](../../labs/01-ospf-ibgp/README.md) — deploy the bare
-fabric and work through `steps/01 → 05`.
+Next: back to [lab 01](https://github.com/etherhtun/vxlan-evpn-juniper/blob/main/labs/01-ospf-ibgp/README.md)
+— deploy the bare fabric and work through `steps/01 → 05`.
