@@ -56,11 +56,19 @@ gcloud compute instances create clab-lab \
   --zone=us-central1-a \
   --machine-type=n2-standard-16 \
   --enable-nested-virtualization \
-  --image-family=ubuntu-2404-lts \
+  --image-family=ubuntu-2404-lts-amd64 \
   --image-project=ubuntu-os-cloud \
   --boot-disk-size=100GB \
   --boot-disk-type=pd-ssd
 ```
+
+> ⚠️ **Image family naming:** Ubuntu 24.04's family carries an arch suffix —
+> `ubuntu-2404-lts-amd64`, **not** `ubuntu-2404-lts` (the latter errors with
+> *"resource … not found"*). Confirm the exact name anytime with:
+> ```bash
+> gcloud compute images list --project=ubuntu-os-cloud --filter="family~ubuntu-2404"
+> ```
+> The older `ubuntu-2204-lts` (no suffix) also works fine for containerlab.
 
 What each flag does:
 
@@ -68,7 +76,7 @@ What each flag does:
 |------|-----|
 | `--machine-type=n2-standard-16` | 16 vCPU / 64 GB — comfortable for 2×2 vJunos (each node ~4 GB). N2 = Intel Cascade Lake, supports nested virt. |
 | `--enable-nested-virtualization` | **The critical one.** Exposes VT-x to the guest so KVM works inside. |
-| `--image-family=ubuntu-2404-lts` | Ubuntu 24.04 LTS — well-tested with containerlab. |
+| `--image-family=ubuntu-2404-lts-amd64` | Ubuntu 24.04 LTS — well-tested with containerlab. (Note the `-amd64` suffix — see warning below.) |
 | `--boot-disk-size=100GB` `--boot-disk-type=pd-ssd` | vJunos images + Docker layers are large; SSD makes boot faster. |
 
 > Start smaller/cheaper if you like: `n2-standard-8` (8 vCPU / 32 GB) is the
