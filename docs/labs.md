@@ -54,12 +54,23 @@ Fabric: `clab-evpn-mt-*`.
 ./scripts/deploy.sh 04-multitenancy && ./scripts/apply.sh 04-multitenancy all
 ```
 
+## Lab 05 — ESI multihoming (all-active dual-homing) ⚠️ draft
+
+host1 dual-homed to both leaves as an LACP bond / Ethernet Segment — survives a
+leaf failure, uses both uplinks. Fabric: `clab-evpn-esi-*`.
+
+👉 **[Open the complete guide →](labs/lab-05-esi.md)** *(pending live validation)*
+
+```bash
+./scripts/deploy.sh 05-esi && ./scripts/apply.sh 05-esi all
+```
+
 ## Planned
 
 | Lab | Adds | Status |
 |-----|------|--------|
-| 05 | ESI multihoming (dual-homed hosts) | 📋 planned |
 | 06 | eBGP underlay / eBGP-EVPN designs | 📋 planned |
+| 07 | External connectivity (L3 out) | 📋 planned |
 
 Each will be a full self-contained guide like the ones above.
 

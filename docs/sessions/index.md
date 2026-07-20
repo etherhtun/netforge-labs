@@ -26,7 +26,7 @@ teaching rhythm:
 | 3 | [L2VNI — stretching a VLAN](03-l2vni.md) | bridging, Type-2/Type-3, flood lists | ✅ |
 | 4 | [Anycast gateway & L3VNI](04-l3vni-anycast.md) | inter-subnet routing, Type-5, symmetric IRB | ✅ (lab draft) |
 | 5 | [Multi-tenancy](05-multitenancy.md) | VRFs, route leaking, RT policy | ✅ (lab draft) |
-| 6 | ESI multihoming | dual-homed hosts, Type-1/Type-4, DF election | 📋 |
+| 6 | [ESI multihoming](06-esi-multihoming.md) | dual-homed hosts, Type-1/Type-4, DF election | ✅ (lab draft) |
 | 7 | eBGP designs | eBGP underlay, eBGP-EVPN overlay | 📋 |
 | 8 | External connectivity (L3 out) | routing to the WAN, default origination | 📋 |
 | 9 | Multi-site / DCI | stitching fabrics together | 📋 |

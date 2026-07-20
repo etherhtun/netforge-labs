@@ -34,6 +34,7 @@ nav:
     - 3 · L2VNI (stretch a VLAN): sessions/03-l2vni.md
     - 4 · L3VNI & anycast gateway: sessions/04-l3vni-anycast.md
     - 5 · Multi-tenancy: sessions/05-multitenancy.md
+    - 6 · ESI multihoming: sessions/06-esi-multihoming.md
   - Study (quick concepts):
     - Start here: study/index.md
     - 1 · Why VXLAN-EVPN?: study/01-why-vxlan-evpn.md
@@ -52,6 +53,7 @@ nav:
     - Lab 02 · Route reflectors: labs/lab-02-rr.md
     - Lab 03 · L3VNI + anycast GW: labs/lab-03-l3vni.md
     - Lab 04 · Multi-tenancy: labs/lab-04-multitenancy.md
+    - Lab 05 · ESI multihoming: labs/lab-05-esi.md
   - Reference:
     - IP addressing plan: reference/ipplan.md
     - Verification Cheatsheet: concepts/verify-cheatsheet.md

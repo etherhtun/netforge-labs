@@ -1,0 +1,35 @@
+name: evpn-esi
+
+# Lab 05 — ESI multihoming. host1 is DUAL-HOMED to leaf1 AND leaf2 (LACP bond /
+# Ethernet Segment). host2 is single-homed on leaf1 to test reaching host1.
+#
+# NOTE: set the image tag to your built vJunos-switch image.
+
+topology:
+  kinds:
+    juniper_vjunosswitch:
+      image: vrnetlab/juniper_vjunos-switch:23.2R1.14   # TODO: your real image tag
+    linux:
+      image: alpine:latest
+
+  nodes:
+    spine1: { kind: juniper_vjunosswitch }
+    spine2: { kind: juniper_vjunosswitch }
+    leaf1:  { kind: juniper_vjunosswitch }
+    leaf2:  { kind: juniper_vjunosswitch }
+    host1:  { kind: linux }
+    host2:  { kind: linux }
+
+  links:
+    # ── Spine-leaf fabric ──
+    - endpoints: ["spine1:eth1", "leaf1:eth1"]
+    - endpoints: ["spine1:eth2", "leaf2:eth1"]
+    - endpoints: ["spine2:eth1", "leaf1:eth2"]
+    - endpoints: ["spine2:eth2", "leaf2:eth2"]
+
+    # ── host1 DUAL-HOMED (the Ethernet Segment) ──
+    - endpoints: ["leaf1:eth3", "host1:eth1"]   # → leaf1 ge-0/0/2 (ae0 member)
+    - endpoints: ["leaf2:eth3", "host1:eth2"]   # → leaf2 ge-0/0/2 (ae0 member)
+
+    # ── host2 single-homed on leaf1 (to test reaching the multihomed host1) ──
+    - endpoints: ["leaf1:eth4", "host2:eth1"]   # → leaf1 ge-0/0/3

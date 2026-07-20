@@ -1,0 +1,8 @@
+set chassis aggregated-devices ethernet device-count 1
+set interfaces ge-0/0/2 ether-options 802.3ad ae0
+set interfaces ae0 esi 00:11:22:33:44:55:66:77:88:99
+set interfaces ae0 esi all-active
+set interfaces ae0 aggregated-ether-options lacp active
+set interfaces ae0 aggregated-ether-options lacp system-id 00:00:5e:00:53:01
+set interfaces ae0 unit 0 family ethernet-switching interface-mode access
+set interfaces ae0 unit 0 family ethernet-switching vlan members v100
