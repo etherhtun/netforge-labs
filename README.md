@@ -68,8 +68,32 @@ layer* — you never debug the whole stack at once.
 
 ./scripts/deploy.sh 01-ospf-ibgp       # boot the fabric (vJunos ~5-8 min/node)
 # ... follow labs/01-ospf-ibgp/steps/ by hand, OR:
-./scripts/switch.sh 01-ospf-ibgp       # push the full working config
+./scripts/apply.sh  01-ospf-ibgp all   # build every step with one command
+./scripts/switch.sh 01-ospf-ibgp       # (alt) push the full working config
 ./scripts/reset.sh  01-ospf-ibgp       # destroy + redeploy clean
+```
+
+## Tearing down / wiping a lab
+
+To completely wipe a running fabric (destroy the containers, leave nothing up):
+
+```bash
+containerlab destroy -t labs/01-ospf-ibgp/topology.clab.yml --cleanup
+#   (prefix with sudo if you hit a permissions error)
+
+docker ps | grep clab                  # confirm nothing is left running
+```
+
+> **Note — all labs share one topology name** (`vxlan-evpn-jnpr`), so they use the
+> same 4 containers and only **one lab runs at a time**. You don't need to wipe
+> before switching labs: `./scripts/reset.sh <other-lab>` destroys the current
+> fabric and redeploys the new one in a single step. For example, to move from
+> lab 01 to lab 02: `./scripts/reset.sh 02-ospf-ibgp-rr`.
+
+**Stop the GCP VM** when you're done for the day (the fabric does not survive a
+VM stop/start — you re-run `deploy.sh` after starting it again):
+```bash
+gcloud compute instances stop clab-lab --zone=us-central1-a
 ```
 
 ## ⚠️ Do not commit
