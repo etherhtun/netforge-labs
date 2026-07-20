@@ -148,5 +148,5 @@ ssh admin@clab-evpn-fullmesh-spine1        # confirm creds on first login
 
 ---
 
-Next: back to [lab 01](https://github.com/etherhtun/netforge-labs/blob/main/labs/01-ospf-ibgp/README.md)
+Next: back to [lab 01](../labs/lab-01-fullmesh.md)
 — deploy the bare fabric and work through the complete guide.

@@ -1,9 +1,6 @@
 site_name: NetForge Labs
 site_description: Learn networking by building it — hands-on, lab-driven courses. Course 1 - VXLAN-EVPN on Juniper.
 site_author: etherhtun
-repo_url: https://github.com/etherhtun/netforge-labs
-repo_name: netforge-labs
-edit_uri: edit/main/
 
 theme:
   name: material
@@ -47,7 +44,10 @@ nav:
     - Docker & containerlab: host-setup/01-containerlab.md
   - Labs:
     - Overview: labs.md
+    - Lab 01 · Full mesh: labs/lab-01-fullmesh.md
+    - Lab 02 · Route reflectors: labs/lab-02-rr.md
   - Reference:
+    - IP addressing plan: reference/ipplan.md
     - Verification Cheatsheet: concepts/verify-cheatsheet.md
     - Team Quickstart: quickstart/intro.md
 

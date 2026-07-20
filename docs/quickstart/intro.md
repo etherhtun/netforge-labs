@@ -49,7 +49,7 @@ docker logs -f clab-evpn-fullmesh-spine1
 ### Path 1: Learn by hand (recommended)
 Follow the lab guide and type the config yourself. This is how you actually learn.
 
-1. Open the complete guide: [Lab 01 README](https://github.com/etherhtun/netforge-labs/blob/main/labs/01-ospf-ibgp/README.md)
+1. Open the complete guide: [Lab 01 README](../labs/lab-01-fullmesh.md)
 2. SSH into a node and apply each step's config:
    ```bash
    ssh admin@clab-evpn-fullmesh-leaf1     # password admin@123

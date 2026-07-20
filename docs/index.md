@@ -70,6 +70,6 @@ refresher on one idea? Hit the [Study primers](study/index.md).
 2. **Open [Course 1, Session 1](sessions/01-underlay.md)** and build the underlay.
 3. Work session by session; each ends with a checkpoint you must pass.
 
-> Source, configs, and scripts live in the
-> [GitHub repo](https://github.com/etherhtun/netforge-labs). Never commit the
-> vJunos image or credentials (see the repo's `.gitignore`).
+Everything you need is in this portal — the theory, the guides, and the exact
+commands. The [Host Setup](host-setup/00-gcp-instance.md) page shows the one-time
+step to pull the lab files onto your host.
