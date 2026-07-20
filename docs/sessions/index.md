@@ -22,7 +22,7 @@ teaching rhythm:
 |---|---------|---------------|--------|
 | 0 | [Lab platform](../host-setup/00-gcp-instance.md) | GCP + containerlab + vJunos | ✅ |
 | 1 | [The underlay (OSPF)](01-underlay.md) | loopback reachability, ECMP, SPF | ✅ |
-| 2 | The overlay (iBGP-EVPN + route reflectors) | BGP-EVPN, RD/RT, RR | 🏗️ next |
+| 2 | [The overlay (iBGP-EVPN + route reflectors)](02-overlay-rr.md) | BGP-EVPN, RD/RT, RR | ✅ |
 | 3 | L2VNI — stretching a VLAN | bridging, Type-2/Type-3, flood lists | 📋 |
 | 4 | Anycast gateway & IRB | inter-subnet routing, Type-5, L3VNI | 📋 |
 | 5 | Multi-tenancy | VRFs, route leaking, RT policy | 📋 |
