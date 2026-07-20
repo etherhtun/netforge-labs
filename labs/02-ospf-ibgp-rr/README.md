@@ -44,17 +44,24 @@ The **control plane** goes leaf → spine → leaf (reflected). The **data plane
 (the VXLAN tunnel) is still **leaf → leaf directly**. The spine never
 encapsulates a data packet — it's not a VTEP.
 
-## What's different from lab 01
+## The build — follow the steps in order
 
-**Only Step 3 (the overlay).** Everything else is identical.
+Each step has the concept, the exact config, and a verify command you must pass
+before moving on. This lab is self-contained — you don't need lab 01 open.
 
-| Step | vs lab 01 |
-|------|-----------|
-| 1 · Fabric | identical → see [lab 01 step 1](../01-ospf-ibgp/steps/01-fabric.md) |
-| 2 · Underlay OSPF | identical → see [lab 01 step 2](../01-ospf-ibgp/steps/02-underlay-ospf.md) |
-| **3 · Overlay (RR)** | **[different — see steps/03-overlay-rr.md](steps/03-overlay-rr.md)** |
-| 4 · EVPN + VXLAN | identical → see [lab 01 step 4](../01-ospf-ibgp/steps/04-evpn-vxlan.md) |
-| 5 · Services | identical → see [lab 01 step 5](../01-ospf-ibgp/steps/05-services-verify.md) |
+| Step | File | Verifies before you continue |
+|------|------|------------------------------|
+| 1 | [steps/01-fabric.md](steps/01-fabric.md) | interfaces up, loopbacks present, `/31` pings |
+| 2 | [steps/02-underlay-ospf.md](steps/02-underlay-ospf.md) | leaf-to-leaf loopback ping |
+| **3** | **[steps/03-overlay-rr.md](steps/03-overlay-rr.md)** | leaves peer to **both spines** (the RR part) |
+| 4 | [steps/04-evpn-vxlan.md](steps/04-evpn-vxlan.md) | EVPN instance up (routes come in Step 5) |
+| 5 | [steps/05-services-verify.md](steps/05-services-verify.md) | host ↔ host ping; spine stays out of data path |
+
+Then: [verify.md](verify.md) (full checklist) and [break-it.md](break-it.md)
+(deliberate failures — #2 teaches *why* RR exists).
+
+> Steps 1, 2, 4, 5 are the same commands as lab 01 (the fabric, underlay, and
+> VXLAN don't change). **Step 3 is where the production RR design lives.**
 
 ## Run it
 

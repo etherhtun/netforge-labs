@@ -1,8 +1,17 @@
-# Step 3 (RR) — Overlay: iBGP-EVPN with spine route-reflectors
+# Step 3 — Overlay: iBGP-EVPN with spine route-reflectors
 
-This is the only step that differs from lab 01. Instead of the leaves peering
-directly with each other, **every leaf peers with both spines**, and the
-**spines reflect** EVPN routes between the leaves.
+## What this step does
+The **overlay** is the control plane that tells each leaf where every host lives.
+It's an internal BGP (iBGP) session carrying the **EVPN** address family.
+
+The naive way (lab 01) is a full mesh — every leaf peers with every other leaf.
+That doesn't scale: N leaves need N×(N-1)/2 sessions. **Production fabrics use
+route reflectors**: the spines become RRs, every leaf peers only with the two
+spines (just 2 sessions, no matter how big the fabric grows), and the spines
+*reflect* EVPN routes between the leaves.
+
+> **Key point:** the spine reflects the routing *information* but is **not** a
+> VTEP — it never encapsulates a data packet. See the "why" below.
 
 ## Concept
 - **Spines** run BGP-EVPN with a `cluster` id → that makes them **route
@@ -67,6 +76,7 @@ show route table bgp.evpn.0 extensive | match "Protocol next hop"
 Proves the spine reflects control only; the VXLAN tunnel bypasses it.
 
 ## Checkpoint
-Leaves ↔ both spines `Establ`, spine holds EVPN routes, host ping works with
-leaf-to-leaf next-hop → RR overlay is production-correct. Continue to
-[Step 4](../../01-ospf-ibgp/steps/04-evpn-vxlan.md) (identical to lab 01).
+✅ Leaves peer to **both spines** (`Establ`), and the session shows the `evpn`
+family. (Routes will still be 0 until Step 5 — that's expected.) → go to Step 4.
+
+→ Next: [Step 4 — EVPN + VXLAN](04-evpn-vxlan.md)
