@@ -74,6 +74,23 @@ graph TB
 # OR learn by hand — type each step below yourself, or one step at a time:
 ./scripts/apply.sh 01-ospf-ibgp 02      # e.g. just Step 2
 ```
+
+**Check the fabric is ready** (vJunos takes ~5–8 min/node to boot):
+```bash
+docker ps --filter "name=clab-evpn-fullmesh" --format "table {{.Names}}\t{{.Status}}"
+```
+| STATUS shows | Meaning |
+|--------------|---------|
+| `Up … (health: starting)` | still booting — wait |
+| `Up … (healthy)` | ✅ ready — safe to `apply.sh` |
+
+Wait until all four switches read **`(healthy)`** (the two hosts just show `Up`).
+Watch it live: `watch -n 5 'docker ps --filter "name=clab-evpn-fullmesh" --format "table {{.Names}}\t{{.Status}}"'`.
+Or just log in to confirm: `ssh admin@clab-evpn-fullmesh-leaf1` (password `admin@123`).
+
+> `apply.sh` **waits for each node's CLI on its own**, so you can run it right
+> after deploy — it holds until nodes are ready (up to ~2 min/node).
+
 Wipe or redo:
 ```bash
 ./scripts/destroy.sh 01-ospf-ibgp       # wipe (no redeploy)

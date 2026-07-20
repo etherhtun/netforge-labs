@@ -70,6 +70,22 @@ leaf directly**. The spine never encapsulates a data packet.
 # ...or one step at a time: ./scripts/apply.sh 02-ospf-ibgp-rr 03
 ./scripts/reset.sh  02-ospf-ibgp-rr        # wipe + redeploy clean
 ```
+
+**Check the fabric is ready** (vJunos takes ~5–8 min/node to boot):
+```bash
+docker ps --filter "name=clab-evpn-rr" --format "table {{.Names}}\t{{.Status}}"
+```
+| STATUS shows | Meaning |
+|--------------|---------|
+| `Up … (health: starting)` | still booting — wait |
+| `Up … (healthy)` | ✅ ready — safe to `apply.sh` |
+
+Wait until all four switches read **`(healthy)`** (the two hosts just show `Up`).
+Watch it live: `watch -n 5 'docker ps --filter "name=clab-evpn-rr" --format "table {{.Names}}\t{{.Status}}"'`.
+
+> `apply.sh` **waits for each node's CLI on its own**, so you can run it right
+> after deploy — it holds until nodes are ready (up to ~2 min/node).
+
 By hand: `ssh admin@clab-evpn-rr-leaf1` (password `admin@123`), `configure`,
 paste a step's block, `commit`.
 
