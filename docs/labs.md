@@ -31,14 +31,26 @@ past a few leaves; this does. Fabric: `clab-evpn-rr-*`.
 ./scripts/deploy.sh 02-ospf-ibgp-rr && ./scripts/apply.sh 02-ospf-ibgp-rr all
 ```
 
+## Lab 03 — Anycast gateway + L3VNI (inter-subnet routing) ⚠️ draft
+
+Adds a **second subnet** and routes between subnets across the fabric — an anycast
+gateway on every leaf + a Layer-3 VNI (Type-5, symmetric IRB). Built on the
+route-reflector fabric. Fabric: `clab-evpn-l3vni-*`.
+
+👉 **[Open the complete guide →](labs/lab-03-l3vni.md)** *(config pending live validation)*
+
+```bash
+./scripts/deploy.sh 03-l3vni-anycast && ./scripts/apply.sh 03-l3vni-anycast all
+```
+
 ## Planned
 
-| Lab | Underlay | Overlay | Status |
-|-----|----------|---------|--------|
-| 03  | IS-IS | iBGP-EVPN (RR) | 📋 planned |
-| 04  | eBGP  | iBGP-EVPN (RR) | 📋 planned |
-| 05  | eBGP  | eBGP-EVPN | 📋 planned |
+| Lab | Adds | Status |
+|-----|------|--------|
+| 04 | Multi-tenancy (2nd VRF, route leaking) | 📋 planned |
+| 05 | ESI multihoming (dual-homed hosts) | 📋 planned |
+| 06 | eBGP underlay / eBGP-EVPN designs | 📋 planned |
 
-Each will be a full self-contained guide like the two above.
+Each will be a full self-contained guide like the ones above.
 
 See the [Quickstart](quickstart/intro.md) for the team workflow.
