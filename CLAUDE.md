@@ -76,7 +76,7 @@ Never teach/configure a layer before the one beneath it is verified.
   config has actually been **run on a live vJunos fabric**. Only mark it **✅ /
   "validated"** after a real run. **Never claim a config works or is validated
   without a live run.** Flag unverified syntax and list likely fix-spots in the
-  guide. (Currently only **Lab 01** is validated live; labs 02–04 are drafts.)
+  guide. (All 9 session teachings are written. Only **Lab 01** is validated live; labs 02–05 are drafts pending validation; labs for sessions 7–9 built after core validation.)
 - Config in guides is Junos **`set`-format**. Each `apply/NN-node.set` is one step;
   steps stack (`apply.sh <lab> <NN|all>`). `configs/<node>.conf` = the node's
   snippets concatenated.

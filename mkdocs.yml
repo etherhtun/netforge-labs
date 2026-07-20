@@ -36,6 +36,8 @@ nav:
     - 5 · Multi-tenancy: sessions/05-multitenancy.md
     - 6 · ESI multihoming: sessions/06-esi-multihoming.md
     - 7 · eBGP designs: sessions/07-ebgp.md
+    - 8 · External connectivity (L3 out): sessions/08-l3out.md
+    - 9 · Multi-site / DCI: sessions/09-multisite.md
   - Study (quick concepts):
     - Start here: study/index.md
     - 1 · Why VXLAN-EVPN?: study/01-why-vxlan-evpn.md

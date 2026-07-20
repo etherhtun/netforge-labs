@@ -28,8 +28,8 @@ teaching rhythm:
 | 5 | [Multi-tenancy](05-multitenancy.md) | VRFs, route leaking, RT policy | ✅ (lab draft) |
 | 6 | [ESI multihoming](06-esi-multihoming.md) | dual-homed hosts, Type-1/Type-4, DF election | ✅ (lab draft) |
 | 7 | [eBGP designs](07-ebgp.md) | eBGP underlay, eBGP-EVPN overlay | ✅ teaching (lab TBD) |
-| 8 | External connectivity (L3 out) | routing to the WAN, default origination | 📋 |
-| 9 | Multi-site / DCI | stitching fabrics together | 📋 |
+| 8 | [External connectivity (L3 out)](08-l3out.md) | routing to the WAN, default origination | ✅ teaching (lab TBD) |
+| 9 | [Multi-site / DCI](09-multisite.md) | stitching fabrics together | ✅ teaching (lab TBD) |
 
 ## How this relates to the other sections
 
