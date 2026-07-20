@@ -1,0 +1,27 @@
+set protocols evpn encapsulation vxlan
+set protocols evpn extended-vni-list all
+set switch-options vtep-source-interface lo0.0
+set switch-options route-distinguisher 10.0.0.22:1
+set switch-options vrf-target target:65000:1
+set vlans v100 vlan-id 100
+set vlans v100 l3-interface irb.100
+set vlans v100 vxlan vni 10100
+set vlans v300 vlan-id 300
+set vlans v300 l3-interface irb.300
+set vlans v300 vxlan vni 10300
+set interfaces irb unit 100 family inet address 10.100.10.3/24 virtual-gateway-address 10.100.10.1
+set interfaces irb unit 300 family inet address 10.100.30.3/24 virtual-gateway-address 10.100.30.1
+set routing-instances TENANT-A instance-type vrf
+set routing-instances TENANT-A interface irb.100
+set routing-instances TENANT-A route-distinguisher 10.0.0.22:100
+set routing-instances TENANT-A vrf-target target:65000:5000
+set routing-instances TENANT-A protocols evpn ip-prefix-routes advertise direct-nexthop
+set routing-instances TENANT-A protocols evpn ip-prefix-routes encapsulation vxlan
+set routing-instances TENANT-A protocols evpn ip-prefix-routes vni 50000
+set routing-instances TENANT-B instance-type vrf
+set routing-instances TENANT-B interface irb.300
+set routing-instances TENANT-B route-distinguisher 10.0.0.22:200
+set routing-instances TENANT-B vrf-target target:65000:5001
+set routing-instances TENANT-B protocols evpn ip-prefix-routes advertise direct-nexthop
+set routing-instances TENANT-B protocols evpn ip-prefix-routes encapsulation vxlan
+set routing-instances TENANT-B protocols evpn ip-prefix-routes vni 50001

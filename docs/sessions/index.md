@@ -25,7 +25,7 @@ teaching rhythm:
 | 2 | [The overlay (iBGP-EVPN + route reflectors)](02-overlay-rr.md) | BGP-EVPN, RD/RT, RR | ✅ |
 | 3 | [L2VNI — stretching a VLAN](03-l2vni.md) | bridging, Type-2/Type-3, flood lists | ✅ |
 | 4 | [Anycast gateway & L3VNI](04-l3vni-anycast.md) | inter-subnet routing, Type-5, symmetric IRB | ✅ (lab draft) |
-| 5 | Multi-tenancy | VRFs, route leaking, RT policy | 📋 |
+| 5 | [Multi-tenancy](05-multitenancy.md) | VRFs, route leaking, RT policy | ✅ (lab draft) |
 | 6 | ESI multihoming | dual-homed hosts, Type-1/Type-4, DF election | 📋 |
 | 7 | eBGP designs | eBGP underlay, eBGP-EVPN overlay | 📋 |
 | 8 | External connectivity (L3 out) | routing to the WAN, default origination | 📋 |

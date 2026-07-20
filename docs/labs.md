@@ -43,11 +43,21 @@ route-reflector fabric. Fabric: `clab-evpn-l3vni-*`.
 ./scripts/deploy.sh 03-l3vni-anycast && ./scripts/apply.sh 03-l3vni-anycast all
 ```
 
+## Lab 04 — Multi-tenancy (isolation + route leaking) ⚠️ draft
+
+Two tenants on one fabric, isolated by route-target, then leaked on purpose.
+Fabric: `clab-evpn-mt-*`.
+
+👉 **[Open the complete guide →](labs/lab-04-multitenancy.md)** *(pending live validation)*
+
+```bash
+./scripts/deploy.sh 04-multitenancy && ./scripts/apply.sh 04-multitenancy all
+```
+
 ## Planned
 
 | Lab | Adds | Status |
 |-----|------|--------|
-| 04 | Multi-tenancy (2nd VRF, route leaking) | 📋 planned |
 | 05 | ESI multihoming (dual-homed hosts) | 📋 planned |
 | 06 | eBGP underlay / eBGP-EVPN designs | 📋 planned |
 

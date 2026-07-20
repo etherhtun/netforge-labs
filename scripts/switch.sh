@@ -125,6 +125,7 @@ case "$LAB" in
   01-ospf-ibgp)       MARKER="family evpn signaling"; NODE="leaf1" ;;
   02-ospf-ibgp-rr)    MARKER="cluster";               NODE="spine1" ;;
   03-l3vni-anycast)   MARKER="ip-prefix-routes vni";  NODE="leaf1" ;;
+  04-multitenancy)    MARKER="TENANT-B";              NODE="leaf1" ;;
   02-isis-ibgp)     MARKER="protocols isis";        NODE="leaf1" ;;
   03-ebgp-ibgp)  MARKER="family evpn signaling"; NODE="leaf1" ;;
   04-ebgp-ebgp)  MARKER="family evpn signaling"; NODE="leaf1" ;;
