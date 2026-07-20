@@ -1,126 +1,72 @@
-# VXLAN-EVPN on Juniper — Zero to Hero
+# NetForge Labs
 
-Welcome. This is a hands-on learning path for building VXLAN-EVPN fabrics on
-**Juniper vJunos-switch**, running in **containerlab** on a **GCP VM**.
+**Learn networking by building it.** Hands-on, lab-driven courses where you stand
+up real network fabrics, break them on purpose, and understand *why* every line of
+config is there — not just what to paste.
 
-> Learn by building, not by pasting. Each layer is a checkpoint you *verify*
-> before moving on. The fabric is built bottom-up — underlay first, then the
-> overlay, then services — because that is the order in which it actually
-> becomes real.
+!!! tip "The NetForge method"
+    Every topic follows the same rhythm: **mental model → why before how →
+    the mechanism (deep) → build it in a lab → verify (and read the output) →
+    break & observe → lessons & interview questions.** You finish able to design
+    it *and* troubleshoot it.
 
 ---
 
-## The labs
+## Course catalog
 
-Four routing-design variants, all on the same 2-spine × 2-leaf topology:
+### ▶ Course 1 — VXLAN-EVPN on Juniper &nbsp; ✅ available
 
-| Lab | Underlay | Overlay | Status |
-|-----|----------|---------|--------|
-| **01** | OSPF | iBGP-EVPN (full mesh) | 🏗️ in progress |
-| **02** | IS-IS | iBGP-EVPN | 📋 planned |
-| **03** | eBGP | iBGP-EVPN | 📋 planned |
-| **04** | eBGP | eBGP-EVPN | 📋 planned |
+Build a production data-center fabric on **Juniper vJunos-switch**, in
+**containerlab**, from bare nodes to a working overlay — session by session.
 
-Each lab is built layer-by-layer through 5 steps. Verify before you move on.
-
-## The topology
-
-All labs share the same 2 spine × 2 leaf fabric — only the routing design
-changes between them.
+- **[Start the Course →](sessions/index.md)** — the guided, session-by-session path
+- **[Quick concepts](study/index.md)** — 5-minute primers + interview questions
+- **[Labs](labs.md)** — the runnable fabrics
+- **[Host setup](host-setup/00-gcp-instance.md)** — GCP + containerlab + vJunos
 
 ```mermaid
 graph TB
-    S1["spine1<br/>lo0 10.0.0.11"]
-    S2["spine2<br/>lo0 10.0.0.12"]
-    L1["leaf1 · VTEP<br/>lo0 10.0.0.21"]
-    L2["leaf2 · VTEP<br/>lo0 10.0.0.22"]
-    H1["host1<br/>10.100.10.10"]
-    H2["host2<br/>10.100.10.11"]
-
-    S1 ---|"10.10.1.0/31"| L1
-    S1 ---|"10.10.2.0/31"| L2
-    S2 ---|"10.10.3.0/31"| L1
-    S2 ---|"10.10.4.0/31"| L2
-    L1 ---|"VLAN 100"| H1
-    L2 ---|"VLAN 100"| H2
-
-    classDef spine fill:#e3f2fd,stroke:#1565c0,color:#0d47a1;
-    classDef leaf  fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
-    classDef host  fill:#fff3e0,stroke:#ef6c00,color:#e65100;
-    class S1,S2 spine;
-    class L1,L2 leaf;
-    class H1,H2 host;
+    S1["spine1"]:::s --- L1["leaf1 · VTEP"]:::l
+    S1 --- L2["leaf2 · VTEP"]:::l
+    S2["spine2"]:::s --- L1
+    S2 --- L2
+    L1 --- H1["host1"]:::h
+    L2 --- H2["host2"]:::h
+    classDef s fill:#e3f2fd,stroke:#1565c0,color:#0d47a1;
+    classDef l fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+    classDef h fill:#fff3e0,stroke:#ef6c00,color:#e65100;
 ```
 
----
+*Topics:* underlay (OSPF/IS-IS/eBGP) · overlay (iBGP-EVPN + route reflectors) ·
+L2VNI · anycast gateway · multi-tenancy · ESI multihoming · external connectivity
+· multi-site.
 
-## Recommended path: study first, then lab
+### 🔜 More courses
 
-!!! tip "Read the theory before you touch the lab"
-    The **[Study track](study/index.md)** is a short, ordered course — *why*
-    VXLAN-EVPN exists, the underlay/overlay model, the VXLAN data plane, the EVPN
-    control plane, route types, and a step-by-step packet walk. Read it first and
-    the lab configs stop being commands to paste and start being things you
-    understand. Then test yourself with the
-    **[interview questions](study/interview-questions.md)**.
-
-    **[→ Start the Study track](study/index.md)**
+Coming as NetForge grows — e.g. EVPN on other NOSes, segment routing, automation.
+The platform is built to add courses without reshaping what's here.
 
 ---
 
-## Quick start (once you've studied)
+## How a course is structured
 
-1. **Set up the host** (if you haven't already):
-   - [GCP instance with nested virtualization](host-setup/00-gcp-instance.md)
-   - [Docker, containerlab, and vJunos image](host-setup/01-containerlab.md)
+| Layer | What it is | Where |
+|-------|-----------|-------|
+| **Course** | The deep, guided path — session by session | [sessions/](sessions/index.md) |
+| **Study** | Short concept primers + interview bank | [study/](study/index.md) |
+| **Labs** | The runnable fabrics each session drives | [labs.md](labs.md) |
 
-2. **Deploy a lab**:
-   ```bash
-   ./scripts/deploy.sh 01-ospf-ibgp
-   ```
-   vJunos nodes boot in ~5–8 minutes. Watch the logs in another terminal.
-
-3. **Work through the steps** — see the [Labs](labs.md) page for lab 01's
-   step-by-step guide. Each step has a concept, config, and verify commands.
-
-4. **Reset if needed**:
-   ```bash
-   ./scripts/reset.sh 01-ospf-ibgp    # destroy and redeploy clean
-   ./scripts/switch.sh 01-ospf-ibgp   # push the full working config (skip the hand-typing)
-   ```
+New to the topic? **Start with the [Course](sessions/index.md).** Just need a
+refresher on one idea? Hit the [Study primers](study/index.md).
 
 ---
 
-## The learning principle
+## Get started
 
-```
-lo0 reachable (ping)  →  BGP Establ  →  Type-3 + tunnel up  →  Type-2  →  host ping
-     ▲                       ▲                 ▲                  ▲
-  underlay               overlay            evpn/vxlan         services
-```
+1. **Set up a lab host** — [GCP + containerlab + vJunos](host-setup/00-gcp-instance.md) (one-time).
+2. **Open [Course 1, Session 1](sessions/01-underlay.md)** and build the underlay.
+3. Work session by session; each ends with a checkpoint you must pass.
 
-Each arrow is a `show` command. If an arrow is broken, the fault is *at that
-layer* — you never debug the whole stack at once.
-
----
-
-## Next steps
-
-- **New to EVPN?** Start the [Study track](study/index.md) — theory first.
-- **Want to self-test?** [Interview questions](study/interview-questions.md).
-- **Host not ready yet?** Read [Host Setup](host-setup/00-gcp-instance.md).
-- **Ready to deploy?** Jump to the [Labs](labs.md) page.
-
----
-
-## Repository
-
-All code, configs, and scripts are in the GitHub repo:
-[etherhtun/vxlan-evpn-juniper](https://github.com/etherhtun/vxlan-evpn-juniper)
-
-Never commit:
-- vJunos `.qcow2` images (licence violation)
-- Juniper credentials or licence keys
-- GCP service-account JSON files
-
-All covered by `.gitignore`.
+> Source, configs, and scripts live in the
+> [GitHub repo](https://github.com/etherhtun/vxlan-evpn-juniper). Never commit the
+> vJunos image or credentials (see the repo's `.gitignore`).

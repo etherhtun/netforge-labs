@@ -1,5 +1,5 @@
-site_name: VXLAN-EVPN on Juniper
-site_description: Hands-on, layer-by-layer learning path for VXLAN-EVPN on Juniper vJunos-switch
+site_name: NetForge Labs
+site_description: Learn networking by building it — hands-on, lab-driven courses. Course 1 - VXLAN-EVPN on Juniper.
 site_author: etherhtun
 repo_url: https://github.com/etherhtun/vxlan-evpn-juniper
 repo_name: vxlan-evpn-juniper
