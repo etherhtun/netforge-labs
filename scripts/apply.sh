@@ -10,8 +10,8 @@
 #   ./scripts/apply.sh 01-ospf-ibgp 03     # Step 3 (overlay) on leaf1+leaf2
 #   ./scripts/apply.sh 01-ospf-ibgp all    # Steps 01→05 in order (full build)
 #
-# Snippets are `set` format, loaded with `load set terminal` (additive), so
-# steps stack. For a guaranteed clean slate, use ./scripts/reset.sh first.
+# Snippets are `set` format, sent directly as config-mode commands (additive),
+# so steps stack. For a guaranteed clean slate, use ./scripts/reset.sh first.
 #
 # NOTE: no `set -e` here on purpose — Junos CLI over `ssh -tt` returns non-zero
 # routinely, and we handle failures explicitly per node.
@@ -67,21 +67,23 @@ push() {
   if ! docker inspect "$c" >/dev/null 2>&1; then echo "container not found"; return 0; fi
   if ! wait_cli "$c"; then echo "CLI not ready (boot still in progress?)"; return 0; fi
 
-  # -tt for the interactive load; `timeout` caps it so it can never hang.
+  # Send `set` lines directly as config-mode commands — no `load set terminal`,
+  # no Ctrl-D (which doesn't survive the ssh pty). rollback 0 clears any stale
+  # candidate from a prior aborted run. timeout caps it so it can't hang.
   local out=""
-  out=$( { echo "configure exclusive"
-           echo "load set terminal"
-           cat "$file"
-           printf '\004'                 # Ctrl-D ends the terminal load
+  out=$( { echo "configure"
+           echo "rollback 0"
+           grep -E '^(set|delete|deactivate|activate) ' "$file"
            echo "commit and-quit"
-           echo "exit"                    # close operational CLI cleanly
+           echo "exit"
          } | timeout 90 sshpass -p "$LAB_PASS" ssh -tt "${SSH_OPTS[@]}" \
                "${LAB_USER}@${c}" 2>&1 ) || true
 
   if echo "$out" | grep -qi 'commit complete'; then
     echo "committed"
-  elif echo "$out" | grep -qi 'commit.*not needed\|no changes'; then
-    echo "no change (already applied)"
+  elif echo "$out" | grep -qiE 'error:|syntax error|unknown command|missing argument'; then
+    echo "ERROR:"
+    echo "$out" | grep -iE 'error:|syntax error|unknown command|missing argument' | sed 's/^/        /' | head -5
   else
     echo "CHECK — no 'commit complete' seen:"
     echo "$out" | sed 's/^/        /' | tail -10

@@ -9,9 +9,8 @@
 # ── How it works ───────────────────────────────────────────────────────────
 # configs/*.conf are set-format (the same commands you'd type by hand, = the
 # concatenation of apply/*.set). We push them with:
-#   configure exclusive; load set terminal; <set lines>; commit and-quit
-# load set is ADDITIVE, so run switch.sh on a freshly-deployed fabric (or
-# reset.sh first) for a clean result.
+#   configure; rollback 0; <set lines>; commit and-quit
+# The set lines are additive; rollback 0 clears any stale candidate first.
 #
 # For step-by-step application instead of the whole config at once, use
 # ./scripts/apply.sh <lab> <step>.
@@ -91,7 +90,7 @@ for node in "${NODES[@]}"; do
 done
 
 echo ""
-echo "==> Pushing $LAB configs in parallel (load override)..."
+echo "==> Pushing $LAB configs in parallel..."
 START=$(date +%s)
 PUSH_LOG="${REPO_ROOT}/scripts/_push.log"
 : > "$PUSH_LOG"
@@ -103,12 +102,12 @@ push_cfg() {
   [ -f "$cfg" ] || { echo "[$node] no cfg, skip" >> "$PUSH_LOG"; return; }
   echo "[$node] BEGIN push" >> "$PUSH_LOG"
   {
-    echo "configure exclusive"
-    echo "load set terminal"
-    grep '^set ' "$cfg"           # set-format lines only (skip ## comments)
-    printf '\004'                 # Ctrl-D ends the terminal load
+    echo "configure"
+    echo "rollback 0"
+    grep '^set ' "$cfg"           # set lines only (skip ## comments)
     echo "commit and-quit"
-  } | sshpass -p "$LAB_PASS" ssh -tt \
+    echo "exit"
+  } | timeout 120 sshpass -p "$LAB_PASS" ssh -tt \
         -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
         -o LogLevel=ERROR -o ConnectTimeout=10 \
         "${LAB_USER}@${c}" >> "$PUSH_LOG" 2>&1
