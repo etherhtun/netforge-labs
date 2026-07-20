@@ -143,3 +143,11 @@ workflow? Reflect it here.
 - Automating Junos config over SSH: send `set` lines directly in `configure` mode
   (`configure; rollback 0; <set lines>; commit and-quit; exit`). **Do not** use
   `load set terminal` + Ctrl-D — the `^D` doesn't survive the ssh pty and hangs.
+
+## Course scope
+
+- Sessions **1–9** = core curriculum (bare fabric → multi-site). Sessions **10+**
+  = **Production & Advanced track** (hardening, MAC mobility, CRB/ERB, DHCP,
+  troubleshooting). Base labs are **learning-simplified**; Session 10 holds the
+  **production delta** (jumbo **MTU 9216** + **BFD** are non-negotiable in prod and
+  are NOT in the base labs yet — apply them via the hardening session).

@@ -38,6 +38,7 @@ nav:
     - 7 · eBGP designs: sessions/07-ebgp.md
     - 8 · External connectivity (L3 out): sessions/08-l3out.md
     - 9 · Multi-site / DCI: sessions/09-multisite.md
+    - 10 · Production hardening: sessions/10-production-hardening.md
   - Study (quick concepts):
     - Start here: study/index.md
     - 1 · Why VXLAN-EVPN?: study/01-why-vxlan-evpn.md

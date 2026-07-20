@@ -31,6 +31,16 @@ teaching rhythm:
 | 8 | [External connectivity (L3 out)](08-l3out.md) | routing to the WAN, default origination | ✅ teaching (lab TBD) |
 | 9 | [Multi-site / DCI](09-multisite.md) | stitching fabrics together | ✅ teaching (lab TBD) |
 
+### Production & advanced track
+
+| # | Session | You'll master | Status |
+|---|---------|---------------|--------|
+| 10 | [Production hardening](10-production-hardening.md) | MTU, BFD, CoPP, auth, guard-rails, the prod checklist | ✅ |
+| 11 | MAC mobility & duplicate detection | VM moves, sequence numbers, loop protection | 🏗️ next |
+| 12 | CRB vs ERB gateway design | where the L3 gateway lives | 📋 |
+| 13 | DHCP relay in EVPN-VXLAN | IP assignment across VNIs/tenants | 📋 |
+| 14 | Troubleshooting methodology | a systematic walk-the-layers debug flow | 📋 |
+
 ## How this relates to the other sections
 
 - **[Study track](../study/index.md)** — shorter concept primers. Read these if
