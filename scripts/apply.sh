@@ -94,7 +94,10 @@ push() {
   if ! docker inspect "$c" >/dev/null 2>&1; then echo "container not found"; FAILED+=("$node"); return 0; fi
   if ! wait_cli "$c"; then echo "CLI not ready (boot still in progress?)"; FAILED+=("$node"); return 0; fi
 
-  local marker; marker="$(grep -m1 '^set ' "$file" | sed 's/^set //')"
+  # Marker = last 3 tokens of the first set line (the "value" end). We avoid the
+  # front of the statement because Junos normalizes some tokens (e.g. OSPF
+  # 'area 0' → 'area 0.0.0.0'), which would fail a literal match on the full line.
+  local marker; marker="$(grep -m1 '^set ' "$file" | awk 'NF>=3{print $(NF-2), $(NF-1), $NF}')"
   local out; out="$(do_push "$c" "$file")" || true
   if verify_committed "$c" "$marker"; then echo "committed"; return 0; fi
 
