@@ -176,7 +176,8 @@ docker exec clab-evpn-fullmesh-host1 ping -c3 10.100.10.11           # 🎉 0% l
 
 # The build
 
-Do the steps in order. **Each ends with a check you must pass before the next.**
+Do the steps in order. Each one follows the same rhythm — **Apply → Verify → ✅ DONE**
+— and you must pass the check before moving to the next.
 
 ```
 lo0 reachable (ping) → BGP Establ → Type-3 + tunnel → Type-2 → host ping
@@ -217,9 +218,16 @@ set interfaces ge-0/0/1 unit 0 family inet address 10.10.4.1/31
 set interfaces lo0 unit 0 family inet address 10.0.0.22/32
 set routing-options router-id 10.0.0.22
 ```
-**Verify** (leaf1): `show interfaces terse | match "ge-|lo0"` (links up/up), then
-`ping 10.10.1.0 count 3` — the directly-connected `/31` replies.
-**✅ Checkpoint:** links up, loopbacks present, `/31` pings → Step 2.
+**Apply:** `./scripts/apply.sh 01-ospf-ibgp 01`  ·  or paste the four blocks above by hand.
+
+**Verify** (from the host):
+```bash
+jrun leaf1 "show interfaces terse | match ge-"   # fabric links admin/link up
+jrun leaf1 "ping 10.10.1.0 count 3"              # directly-connected /31 replies
+```
+
+!!! success "Step 1 — DONE ✅"
+    Fabric links up, loopbacks present, `/31` ping replies. **→ Step 2**
 
 ## Step 2 — Underlay: OSPF
 
@@ -233,13 +241,16 @@ set protocols ospf area 0 interface lo0.0 passive
 set protocols ospf area 0 interface ge-0/0/0.0 interface-type p2p
 set protocols ospf area 0 interface ge-0/0/1.0 interface-type p2p
 ```
-**Verify** (leaf1):
+**Apply:** `./scripts/apply.sh 01-ospf-ibgp 02`  ·  the same three lines on all four switches.
+
+**Verify** (from the host):
+```bash
+jrun leaf1 "show ospf neighbor"                         # both spines in state Full
+jrun leaf1 "ping 10.0.0.22 source 10.0.0.21 count 3"    # leaf-to-leaf loopback, ttl=63 (one spine hop)
 ```
-show ospf neighbor                → both spines in state Full
-ping 10.0.0.22 source 10.0.0.21   → leaf-to-leaf loopback; MUST succeed (ttl=63 = one spine hop)
-```
-**✅ Checkpoint:** loopback-to-loopback ping works → Step 3. *If it fails, stop —
-nothing above works without the underlay.*
+
+!!! success "Step 2 — DONE ✅"
+    Loopback-to-loopback ping works. **→ Step 3.** *If it fails, stop — nothing above works without the underlay.*
 
 ## Step 3 — Overlay: iBGP-EVPN (full mesh)
 
@@ -256,10 +267,16 @@ set protocols bgp group overlay family evpn signaling
 set protocols bgp group overlay neighbor 10.0.0.22
 ```
 **leaf2** — mirror: `local-address 10.0.0.22`, `neighbor 10.0.0.21`.
-**Verify** (leaf1): `show bgp summary` → peer `10.0.0.22` **Establ**, table
-`bgp.evpn.0` present. **0 routes is correct** (no VXLAN yet).
+**Apply:** `./scripts/apply.sh 01-ospf-ibgp 03`  ·  leaf1 above; leaf2 mirrors it.
+
+**Verify** (from the host):
+```bash
+jrun leaf1 "show bgp summary"    # peer 10.0.0.22 = Establ; bgp.evpn.0 present (0 routes is correct — no VXLAN yet)
+```
 > The `License key missing; requires 'bgp'` warning is a benign vJunos-eval message.
-**✅ Checkpoint:** EVPN session Establ → Step 4.
+
+!!! success "Step 3 — DONE ✅"
+    The EVPN session to the other leaf is **Establ**. **→ Step 4**
 
 ## Step 4 — EVPN + VXLAN glue
 
@@ -278,12 +295,20 @@ set switch-options vrf-target target:65000:1
 set vlans v100 vlan-id 100
 set vlans v100 vxlan vni 10100
 ```
-**⚠️ Expect NO routes yet.** `show route table bgp.evpn.0` is still empty — this
-is correct. **Junos only advertises a VNI once its VLAN has an up member
-interface** (unlike Cisco). It lights up in Step 5.
-**Verify:** `show configuration vlans` / `switch-options` present;
-`show bgp summary` now lists `default-switch.evpn.0`.
-**✅ Checkpoint:** EVPN instance appears → Step 5.
+**Apply:** `./scripts/apply.sh 01-ospf-ibgp 04`  ·  leaf1 above; leaf2 mirrors (RD `10.0.0.22:1`).
+
+**⚠️ Expect NO routes yet.** `show route table bgp.evpn.0` is still empty — this is
+correct. **Junos only advertises a VNI once its VLAN has an up member interface**
+(unlike Cisco). It lights up in Step 5.
+
+**Verify** (from the host):
+```bash
+jrun leaf1 "show configuration vlans"    # v100 → vni 10100 present
+jrun leaf1 "show bgp summary"            # now lists the default-switch.evpn.0 table
+```
+
+!!! success "Step 4 — DONE ✅"
+    EVPN/VXLAN instance configured (VLAN 100 → VNI 10100), even with 0 routes. **→ Step 5**
 
 ## Step 5 — Services: attach hosts & prove it
 
@@ -296,16 +321,24 @@ talk, **Type-2 (MAC/IP)** routes teach both leaves where each host is.
 set interfaces ge-0/0/2 unit 0 family ethernet-switching interface-mode access
 set interfaces ge-0/0/2 unit 0 family ethernet-switching vlan members v100
 ```
-Confirm (leaf1): `show route table bgp.evpn.0` → two Type-3 (`3:`) routes;
-`show ethernet-switching vxlan-tunnel-end-point remote` → tunnel to the other leaf.
+**Apply 5a:** `./scripts/apply.sh 01-ospf-ibgp 05`  ·  or paste the two lines above on both leaves.
 
-**5b — host IPs (on the clab host shell, not Junos):**
+**Verify 5a** (from the host):
+```bash
+jrun leaf1 "show route table bgp.evpn.0"                            # two Type-3 (3:) routes appear
+jrun leaf1 "show ethernet-switching vxlan-tunnel-end-point remote"  # tunnel to the other leaf
 ```
+
+**5b — give the hosts their IPs** (clab host shell, **not** Junos):
+```bash
 docker exec clab-evpn-fullmesh-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up"
 docker exec clab-evpn-fullmesh-host2 sh -c "ip addr add 10.100.10.11/24 dev eth1; ip link set eth1 up"
 docker exec clab-evpn-fullmesh-host1 ping -c3 10.100.10.11
 ```
-**✅ Checkpoint — the finish line:** 0% packet loss across the VXLAN fabric. 🎉
+
+!!! success "Step 5 — DONE ✅ · the finish line 🎉"
+    `host1 → host2` ping returns **0% packet loss** across the VXLAN fabric.
+    Once traffic flows, `jrun leaf1 "show route table bgp.evpn.0"` also shows the **Type-2 (`2:`)** MAC/IP routes.
 
 ---
 
@@ -318,7 +351,7 @@ until it passes. (`jrun` is the helper from the cheat-sheet above.)
 - [ ] All 4 switches `(healthy)` — `docker ps --filter name=clab-evpn-fullmesh --format "table {{.Names}}\t{{.Status}}"`
 
 **Step 1 · interfaces & loopbacks**
-- [ ] Fabric links up/up — `jrun leaf1 "show interfaces terse | match ge-/lo0"`
+- [ ] Fabric links up/up — `jrun leaf1 "show interfaces terse | match ge-"`
 - [ ] Directly-connected /31 replies — `jrun leaf1 "ping 10.10.1.0 count 3"`
 
 **Step 2 · OSPF underlay**
