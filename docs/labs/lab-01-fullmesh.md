@@ -301,14 +301,19 @@ set vlans v100 vxlan vni 10100
 correct. **Junos only advertises a VNI once its VLAN has an up member interface**
 (unlike Cisco). It lights up in Step 5.
 
-**Verify** (from the host):
+**Verify by CONFIG PRESENCE** — the EVPN route table does *not* appear yet:
 ```bash
-jrun leaf1 "show configuration vlans"    # v100 → vni 10100 present
-jrun leaf1 "show bgp summary"            # now lists the default-switch.evpn.0 table
+jrun leaf1 "show configuration protocols evpn"   # encapsulation vxlan + extended-vni-list
+jrun leaf1 "show configuration vlans"            # v100 → vni 10100
 ```
+> **⚠️ No `bgp.evpn.0` / `default-switch.evpn.0` table yet — this is correct.**
+> `show route table ?` still lists only `inet.0` / `mgmt_junos.*`. The EVPN table
+> only materialises in **Step 5**, once the access port brings VLAN 100 *up* — the
+> same reason Type-3 waits for an up member. Verify Step 4 by **config**, not routes.
 
 !!! success "Step 4 — DONE ✅"
-    EVPN/VXLAN instance configured (VLAN 100 → VNI 10100), even with 0 routes. **→ Step 5**
+    `protocols evpn` + `switch-options` + VLAN 100 → VNI 10100 are committed.
+    (No EVPN route table yet — that's expected; it appears in Step 5.) **→ Step 5**
 
 ## Step 5 — Services: attach hosts & prove it
 
@@ -361,9 +366,9 @@ until it passes. (`jrun` is the helper from the cheat-sheet above.)
 **Step 3 · iBGP-EVPN overlay**
 - [ ] Peer `10.0.0.22` **Establ** — `jrun leaf1 "show bgp summary"` *(0 routes here is correct)*
 
-**Step 4 · EVPN + VXLAN glue**
-- [ ] `default-switch.evpn.0` table appears — `jrun leaf1 "show bgp summary"`
-- [ ] VLAN/switch-options present — `jrun leaf1 "show configuration vlans"` *(still no routes — correct)*
+**Step 4 · EVPN + VXLAN glue** *(verify by config — no EVPN route table until Step 5)*
+- [ ] `protocols evpn` present — `jrun leaf1 "show configuration protocols evpn"`
+- [ ] VLAN → VNI present — `jrun leaf1 "show configuration vlans"` *(no `bgp.evpn.0` yet — appears in Step 5)*
 
 **Step 5 · services + proof**
 - [ ] Two Type-3 (`3:`) routes — `jrun leaf1 "show route table bgp.evpn.0"`
