@@ -124,12 +124,12 @@ From the repo root (`~/netforge-labs`):
 ```
 First boot is slow — **~5–8 min per vJunos node**. Watch one boot:
 ```bash
-docker logs -f clab-evpn-fullmesh-spine1
+docker logs -f clab-evpn-lab-spine1
 ```
 When it settles, list the lab and SSH into a node:
 ```bash
 containerlab inspect -t labs/01-ospf-ibgp/topology.clab.yml
-ssh admin@clab-evpn-fullmesh-spine1        # confirm creds on first login
+ssh admin@clab-evpn-lab-spine1        # confirm creds on first login
 ```
 > This is exactly when you resolve the repo's `NOTE/TODO` markers: the real
 > login user/password, and the `ethN → et-/xe-/ge-` interface mapping

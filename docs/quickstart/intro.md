@@ -39,7 +39,7 @@ This boots the bare 2×2 fabric (no configs yet). **Wait 5–8 minutes** for nod
 
 In another terminal, watch boot progress:
 ```bash
-docker logs -f clab-evpn-fullmesh-spine1
+docker logs -f clab-evpn-lab-spine1
 ```
 
 ---
@@ -52,7 +52,7 @@ Follow the lab guide and type the config yourself. This is how you actually lear
 1. Open the complete guide: [Lab 01 README](../labs/lab-01-fullmesh.md)
 2. SSH into a node and apply each step's config:
    ```bash
-   ssh admin@clab-evpn-fullmesh-leaf1     # password admin@123
+   ssh admin@clab-evpn-lab-leaf1     # password admin@123
    ```
 3. Run the step's verify command, confirm the checkpoint, move to the next step
 

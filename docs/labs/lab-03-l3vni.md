@@ -26,7 +26,7 @@ that lives on every leaf.
 | host1 | `10.100.10.10/24` gw `.1` — leaf1, VLAN 100 |
 | host2 | `10.100.20.10/24` gw `.1` — leaf2, VLAN 200 |
 
-Fabric: `clab-evpn-l3vni-*`. **Login:** `admin` / `admin@123`.
+Fabric: `clab-evpn-lab-*`. **Login:** `admin` / `admin@123`.
 
 ```mermaid
 graph TB
@@ -60,7 +60,7 @@ sudo docker rm -f $(docker ps -aq --filter name=clab-)   # if needed
 ./scripts/deploy.sh 03-l3vni-anycast
 ./scripts/apply.sh  03-l3vni-anycast all
 ```
-Ready check: `docker ps --filter "name=clab-evpn-l3vni" --format "table {{.Names}}\t{{.Status}}"`
+Ready check: `docker ps --filter "name=clab-evpn-lab" --format "table {{.Names}}\t{{.Status}}"`
 (wait for all four switches `(healthy)`).
 
 ---
@@ -114,8 +114,8 @@ set interfaces ge-0/0/2 unit 0 family ethernet-switching vlan members v200
 
 ## Host setup (clab host shell)
 ```bash
-docker exec clab-evpn-l3vni-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up; ip route replace default via 10.100.10.1"
-docker exec clab-evpn-l3vni-host2 sh -c "ip addr add 10.100.20.10/24 dev eth1; ip link set eth1 up; ip route replace default via 10.100.20.1"
+docker exec clab-evpn-lab-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up; ip route replace default via 10.100.10.1"
+docker exec clab-evpn-lab-host2 sh -c "ip addr add 10.100.20.10/24 dev eth1; ip link set eth1 up; ip route replace default via 10.100.20.1"
 ```
 
 ---
@@ -133,7 +133,7 @@ show route table TENANT.inet.0 10.100.20.0/24   → via L3VNI toward leaf2
 ```
 **⭐ The payoff — inter-subnet ping** (different subnet, different leaf):
 ```bash
-docker exec clab-evpn-l3vni-host1 ping -c3 10.100.20.10
+docker exec clab-evpn-lab-host1 ping -c3 10.100.20.10
 ```
 `ttl` decrements by 1+ (it was **routed**, not bridged) = the L3VNI worked. 🎉
 

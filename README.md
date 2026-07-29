@@ -101,7 +101,7 @@ docker ps | grep clab                  # confirm nothing is left running
 `sudo` if you hit a permissions error.)
 
 > **Each lab has its own independent fabric** (distinct container names, e.g.
-> `clab-evpn-fullmesh-*` for lab 01, `clab-evpn-rr-*` for lab 02) — so labs never
+> `clab-evpn-lab-*` for lab 01, `clab-evpn-lab-*` for lab 02) — so labs never
 > conflict. But a 2×2 vJunos fabric needs ~16 GB RAM, so **run only one lab at a
 > time.** To switch labs, wipe the current one first, then deploy the next:
 > ```bash

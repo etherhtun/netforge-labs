@@ -11,7 +11,7 @@ independent fabric** (distinct container names), so they never conflict.
 
 The **foundational** lab (validated on vJunos-switch 23.2R1.14). The simplest
 overlay — leaves peer directly — so you see EVPN in its clearest form. Fabric:
-`clab-evpn-fullmesh-*`.
+`clab-evpn-lab-*`.
 
 👉 **[Open the complete guide →](labs/lab-01-fullmesh.md)**
 
@@ -23,7 +23,7 @@ overlay — leaves peer directly — so you see EVPN in its clearest form. Fabri
 
 The **production** overlay: leaves peer only to the spines; spines reflect EVPN
 routes (control-plane only — **not** VTEPs). Full-mesh (lab 01) doesn't scale
-past a few leaves; this does. Fabric: `clab-evpn-rr-*`.
+past a few leaves; this does. Fabric: `clab-evpn-lab-*`.
 
 👉 **[Open the complete guide →](labs/lab-02-rr.md)**
 
@@ -35,7 +35,7 @@ past a few leaves; this does. Fabric: `clab-evpn-rr-*`.
 
 Adds a **second subnet** and routes between subnets across the fabric — an anycast
 gateway on every leaf + a Layer-3 VNI (Type-5, symmetric IRB). Built on the
-route-reflector fabric. Fabric: `clab-evpn-l3vni-*`.
+route-reflector fabric. Fabric: `clab-evpn-lab-*`.
 
 👉 **[Open the complete guide →](labs/lab-03-l3vni.md)** *(config pending live validation)*
 
@@ -46,7 +46,7 @@ route-reflector fabric. Fabric: `clab-evpn-l3vni-*`.
 ## Lab 04 — Multi-tenancy (isolation + route leaking) ⚠️ draft
 
 Two tenants on one fabric, isolated by route-target, then leaked on purpose.
-Fabric: `clab-evpn-mt-*`.
+Fabric: `clab-evpn-lab-*`.
 
 👉 **[Open the complete guide →](labs/lab-04-multitenancy.md)** *(pending live validation)*
 

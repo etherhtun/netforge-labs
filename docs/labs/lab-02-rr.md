@@ -61,37 +61,44 @@ leaf directly**. The spine never encapsulates a data packet.
 ## Before you start
 
 - Host set up — see [Host Setup](../host-setup/00-gcp-instance.md).
-- This lab runs on its own fabric (`clab-evpn-rr-*`).
+- This lab runs on its own fabric (`clab-evpn-lab-*`).
 
-**⚠️ Pre-flight — only ONE lab at a time.** A 2×2 vJunos fabric needs ~16 GB RAM.
-If you just finished lab 01, **destroy it first** (its containers are
-`clab-evpn-fullmesh-*`):
+**⚠️ Pre-flight.** Labs 01–04 share **one fabric** (`clab-evpn-lab-*`) — same topology,
+same container name. If it's already booted (from lab 01 or any of 01–04), **don't
+redeploy — reuse it** (see the Faster path below). Only deploy fresh if nothing's up:
 ```bash
-docker ps --format '{{.Names}}' | grep '^clab-' || echo "clean — nothing running"
-./scripts/destroy.sh 01-ospf-ibgp        # wipe lab 01 if it's still up
+docker ps --filter name=clab-evpn-lab --format '{{.Names}}' || echo "nothing running"
 ```
-(`deploy.sh` also **refuses to start** if another fabric is up, so you can't hit
-this by accident — but checking first is good habit.)
+A 2×2 vJunos fabric needs ~16 GB RAM, so keep one fabric running at a time.
+
+> 💡 **Faster path — don't redeploy at all.** Because labs 01–04 share the fabric,
+> if it's already up you just apply this lab's config on it — no reboot, no override:
+> ```bash
+> ./scripts/clean.sh 02-ospf-ibgp-rr        # wipe config (~30s)
+> ./scripts/apply.sh 02-ospf-ibgp-rr all    # apply the RR design in place
+> ```
+> Verify with `jrun` (targets `clab-evpn-lab-*`). The full deploy below is only for a
+> *cold* start (no fabric running).
 
 ---
 
 ## 📋 Command cheat-sheet (copy-paste)
 
 Everything runs from the **clab host** (`~/netforge-labs`) unless marked *Junos CLI*.
-Note the helper and every command target **`clab-evpn-rr-*`** (not `evpn-fullmesh`).
+The helper and every command target the shared fabric **`clab-evpn-lab-*`** (labs 01–04).
 
 **Reusable helper** — paste once, then check any node without logging in:
 ```bash
 jrun() { sshpass -p 'admin@123' ssh -o StrictHostKeyChecking=no \
          -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR \
-         admin@clab-evpn-rr-"$1" "${@:2}"; }
+         admin@clab-evpn-lab-"$1" "${@:2}"; }
 # usage:  jrun spine1 "show bgp summary"
 ```
 
 **Deploy & check the fabric**
 ```bash
 ./scripts/deploy.sh 02-ospf-ibgp-rr                          # boot the fabric (~5-8 min/node)
-docker ps --filter name=clab-evpn-rr \
+docker ps --filter name=clab-evpn-lab \
   --format "table {{.Names}}\t{{.Status}}"                   # all 4 switches must read (healthy)
 ```
 
@@ -118,9 +125,9 @@ jrun leaf1  "show route table bgp.evpn.0 extensive | match \"Protocol next hop\"
 
 **Hosts + final proof** (host commands run on the clab host, not Junos):
 ```bash
-docker exec clab-evpn-rr-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up"
-docker exec clab-evpn-rr-host2 sh -c "ip addr add 10.100.10.11/24 dev eth1; ip link set eth1 up"
-docker exec clab-evpn-rr-host1 ping -c3 10.100.10.11           # 🎉 0% loss = done
+docker exec clab-evpn-lab-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up"
+docker exec clab-evpn-lab-host2 sh -c "ip addr add 10.100.10.11/24 dev eth1; ip link set eth1 up"
+docker exec clab-evpn-lab-host1 ping -c3 10.100.10.11           # 🎉 0% loss = done
 ```
 
 **Tear down**
@@ -301,9 +308,9 @@ jrun leaf1  "show route table bgp.evpn.0 extensive | match \"Protocol next hop\"
 
 **5b — give the hosts their IPs** (clab host shell, **not** Junos):
 ```bash
-docker exec clab-evpn-rr-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up"
-docker exec clab-evpn-rr-host2 sh -c "ip addr add 10.100.10.11/24 dev eth1; ip link set eth1 up"
-docker exec clab-evpn-rr-host1 ping -c3 10.100.10.11
+docker exec clab-evpn-lab-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up"
+docker exec clab-evpn-lab-host2 sh -c "ip addr add 10.100.10.11/24 dev eth1; ip link set eth1 up"
+docker exec clab-evpn-lab-host1 ping -c3 10.100.10.11
 ```
 
 !!! success "Step 5 — DONE ✅ · the finish line 🎉"
@@ -316,10 +323,10 @@ docker exec clab-evpn-rr-host1 ping -c3 10.100.10.11
 ## ✅ Full checklist — deploy to ping
 
 Work top to bottom. Each item lists the command that proves it. (`jrun` targets
-`clab-evpn-rr-*` — see the cheat-sheet.)
+`clab-evpn-lab-*` — see the cheat-sheet.)
 
 **Fabric up**
-- [ ] All 4 switches `(healthy)` — `docker ps --filter name=clab-evpn-rr --format "table {{.Names}}\t{{.Status}}"`
+- [ ] All 4 switches `(healthy)` — `docker ps --filter name=clab-evpn-lab --format "table {{.Names}}\t{{.Status}}"`
 
 **Step 1 · interfaces & loopbacks**
 - [ ] Fabric links up/up — `jrun leaf1 "show interfaces terse | match ge-"`
@@ -341,7 +348,7 @@ Work top to bottom. Each item lists the command that proves it. (`jrun` targets
 - [ ] Type-3 (`3:`) routes on the leaf — `jrun leaf1 "show route table bgp.evpn.0"`
 - [ ] ⭐ **RR holds the routes** — `jrun spine1 "show route table bgp.evpn.0"` *(routes present)*
 - [ ] ⭐ **next-hop = far leaf, not spine** — `jrun leaf1 "show route table bgp.evpn.0 extensive | match \"Protocol next hop\""`
-- [ ] **host1 → host2 ping, 0% loss** — `docker exec clab-evpn-rr-host1 ping -c3 10.100.10.11` 🎉
+- [ ] **host1 → host2 ping, 0% loss** — `docker exec clab-evpn-lab-host1 ping -c3 10.100.10.11` 🎉
 
 Those two ⭐ checks are what make this *production RR*: the spine holds and reflects
 routes, but never sits in the data path.
@@ -360,16 +367,20 @@ routes, but never sits in the data path.
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| `apply.sh` says **`container not found`** on every node | Wrong lab folder — lab 02's fabric is `clab-evpn-rr-*` | Use `02-ospf-ibgp-rr`; confirm with `docker ps --filter name=clab-evpn-rr` |
+| `apply.sh` says **`container not found`** on every node | Wrong lab folder — lab 02's fabric is `clab-evpn-lab-*` | Use `02-ospf-ibgp-rr`; confirm with `docker ps --filter name=clab-evpn-lab` |
 | Leaf BGP stuck **Active/Connect** | Underlay not up — spine loopback unreachable | Re-check Step 2: `jrun leaf1 "show ospf neighbor"` + `ping 10.0.0.11 source 10.0.0.21` |
 | Leaf peers up but **far leaf gets no routes** after Step 5 | Spine `cluster` (RR) missing → no reflection | Confirm the RR `cluster` is set — `jrun spine1 "show configuration protocols bgp group overlay"` |
 | ⭐ Spine's `bgp.evpn.0` is **empty** after Step 5 | RR isn't retaining reflected routes | See **Open validation item** below |
 | A step **`committed`** but nothing works | Steps applied out of order | Rebuild bottom-up: `apply.sh 02-ospf-ibgp-rr all` |
 | Commits take **30–90 s** / `apply` reports `FAILED` | Contention while all 4 nodes boot at once | Wait until idle (`top` → low load, `0.0 st`), then re-run; iterate with `clean.sh`, not `reset.sh` |
 | `show bgp summary` warns `License key missing` | Benign vJunos-eval message | Ignore |
+| A node exits with `FileNotFoundError: init.conf` | It was `docker restart`ed — clab nodes lose `init.conf` on restart | **Never `docker restart` a clab node.** Recover with `sudo containerlab deploy --reconfigure -t <topo>` (clab 0.77 can't recreate a single node) |
 
 **Golden rule for iterating:** boot the fabric **once** with `deploy.sh`, then loop
-`clean.sh` → `apply.sh`. Reach for `reset.sh` (slow reboot) only when a node wedges.
+`clean.sh` → `apply.sh`. **Never `docker restart` a node** (it wipes `init.conf`), and
+you don't need a fresh fabric per lab — labs 01–04 share this topology, so run any
+design on the *same* nodes with `FABRIC=<prefix>`. Reach for `reset.sh` /
+`--reconfigure` only when a node is truly dead.
 
 ## Open validation item
 

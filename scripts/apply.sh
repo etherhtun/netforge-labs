@@ -43,7 +43,12 @@ TOPOLOGY="${LAB_DIR}/topology.clab.yml"
 [ -f "$TOPOLOGY" ]   || { echo "ERROR: no topology at $TOPOLOGY"; exit 1; }
 command -v sshpass >/dev/null 2>&1 || { echo "ERROR: install sshpass (sudo apt install -y sshpass)"; exit 1; }
 
-PREFIX="$(grep -m1 '^name:' "$TOPOLOGY" | awk '{print $2}')"
+# Container prefix. Normally derived from the lab's own topology `name:`, but
+# FABRIC=<name> overrides it so you can apply THIS lab's config onto a DIFFERENT
+# already-booted fabric (labs 01-04 share one 2x2 topology — boot once, then switch
+# designs with clean+apply, no reboot). e.g. FABRIC=evpn-lab ./apply.sh 01-ospf-ibgp all
+PREFIX="${FABRIC:-$(grep -m1 '^name:' "$TOPOLOGY" | awk '{print $2}')}"
+[ -n "${FABRIC:-}" ] && echo "↪ targeting fabric: clab-${PREFIX}-* (FABRIC override)"
 
 SSH_OPTS=(-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
           -o LogLevel=ERROR -o ConnectTimeout=8

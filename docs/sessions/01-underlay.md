@@ -132,7 +132,7 @@ of [Lab 01](../labs/lab-01-fullmesh.md).
 
 **Is the fabric ready?** vJunos takes ~5–8 min/node to boot. Check:
 ```bash
-docker ps --filter "name=clab-evpn-fullmesh" --format "table {{.Names}}\t{{.Status}}"
+docker ps --filter "name=clab-evpn-lab" --format "table {{.Names}}\t{{.Status}}"
 ```
 Wait until all four switches show `(healthy)`. (You don't have to wait manually —
 `apply.sh` holds for each node's CLI before pushing.)

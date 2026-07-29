@@ -1,4 +1,4 @@
-name: evpn-mt
+name: evpn-lab
 
 # Lab 01 — OSPF underlay + iBGP-EVPN (leaf-to-leaf full mesh).
 #

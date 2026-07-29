@@ -31,7 +31,11 @@ TOPOLOGY="${LAB_DIR}/topology.clab.yml"
 [ -f "$TOPOLOGY" ] || { echo "ERROR: no topology at $TOPOLOGY"; exit 1; }
 command -v sshpass >/dev/null 2>&1 || { echo "ERROR: install sshpass (sudo apt install -y sshpass)"; exit 1; }
 
-PREFIX="$(grep -m1 '^name:' "$TOPOLOGY" | awk '{print $2}')"
+# FABRIC=<name> overrides the topology-derived prefix, so you can wipe THIS lab's
+# config off a DIFFERENT running fabric (one booted 2x2 fabric serves labs 01-04 —
+# switch designs with clean+apply, no reboot). e.g. FABRIC=evpn-lab ./clean.sh 01-ospf-ibgp
+PREFIX="${FABRIC:-$(grep -m1 '^name:' "$TOPOLOGY" | awk '{print $2}')}"
+[ -n "${FABRIC:-}" ] && echo "↪ targeting fabric: clab-${PREFIX}-* (FABRIC override)"
 SSH_OPTS=(-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
           -o LogLevel=ERROR -o ConnectTimeout=8 -o PreferredAuthentications=password)
 

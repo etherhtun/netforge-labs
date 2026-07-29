@@ -17,7 +17,7 @@
 | B | `TENANT-B` | 300 / 10300 | `10.100.30.0/24` | 50001 | `target:65000:5001` |
 
 - host1 `10.100.10.10` (Tenant-A, leaf1) · host2 `10.100.30.10` (Tenant-B, leaf2)
-- Overlay = spine route reflectors. Fabric: `clab-evpn-mt-*`. Login `admin`/`admin@123`.
+- Overlay = spine route reflectors. Fabric: `clab-evpn-lab-*`. Login `admin`/`admin@123`.
 
 **The whole point:** distinct route-targets (`:5000` vs `:5001`) = the tenants
 can't see each other. Same fabric, sealed worlds.
@@ -35,8 +35,8 @@ sudo docker rm -f $(docker ps -aq --filter name=clab-)   # if needed
 ```
 Host setup:
 ```bash
-docker exec clab-evpn-mt-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up; ip route replace default via 10.100.10.1"
-docker exec clab-evpn-mt-host2 sh -c "ip addr add 10.100.30.10/24 dev eth1; ip link set eth1 up; ip route replace default via 10.100.30.1"
+docker exec clab-evpn-lab-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up; ip route replace default via 10.100.10.1"
+docker exec clab-evpn-lab-host2 sh -c "ip addr add 10.100.30.10/24 dev eth1; ip link set eth1 up; ip route replace default via 10.100.30.1"
 ```
 
 ---
@@ -84,7 +84,7 @@ Step 5 access ports: leaf1 `ge-0/0/2` → `v100`; leaf2 `ge-0/0/2` → `v300`.
 
 **Isolation (default) — the cross-tenant ping must FAIL:**
 ```bash
-docker exec clab-evpn-mt-host1 ping -c3 10.100.30.10        # → 100% loss (isolated) ✅ correct
+docker exec clab-evpn-lab-host1 ping -c3 10.100.30.10        # → 100% loss (isolated) ✅ correct
 ```
 ```
 leaf1> show route table TENANT-A.inet.0     → only 10.100.10.0/24; NO 10.100.30.0/24
@@ -103,7 +103,7 @@ set routing-instances TENANT-B vrf-import LEAK-A-B
 ```
 Re-test — now it should SUCCEED:
 ```bash
-docker exec clab-evpn-mt-host1 ping -c3 10.100.30.10        # → 0% loss (leaked) 🎉
+docker exec clab-evpn-lab-host1 ping -c3 10.100.30.10        # → 0% loss (leaked) 🎉
 leaf1> show route table TENANT-A.inet.0     → now includes 10.100.30.0/24
 ```
 

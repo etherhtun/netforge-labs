@@ -59,7 +59,7 @@ graph TB
 
 - Host set up (GCP + containerlab + vJunos image) — see
   [Host Setup](../host-setup/00-gcp-instance.md).
-- This lab runs on its own fabric (`clab-evpn-fullmesh-*`).
+- This lab runs on its own fabric (`clab-evpn-lab-*`).
 
 **⚠️ Pre-flight — only ONE lab at a time.** A 2×2 vJunos fabric needs ~16 GB RAM;
 two at once starve the host and boot `unhealthy`. **Before deploying, check
@@ -88,7 +88,7 @@ you can't hit this by accident — but checking first is good habit.)
 
 **Check the fabric is ready** (vJunos takes ~5–8 min/node to boot):
 ```bash
-docker ps --filter "name=clab-evpn-fullmesh" --format "table {{.Names}}\t{{.Status}}"
+docker ps --filter "name=clab-evpn-lab" --format "table {{.Names}}\t{{.Status}}"
 ```
 | STATUS shows | Meaning |
 |--------------|---------|
@@ -96,8 +96,8 @@ docker ps --filter "name=clab-evpn-fullmesh" --format "table {{.Names}}\t{{.Stat
 | `Up … (healthy)` | ✅ ready — safe to `apply.sh` |
 
 Wait until all four switches read **`(healthy)`** (the two hosts just show `Up`).
-Watch it live: `watch -n 5 'docker ps --filter "name=clab-evpn-fullmesh" --format "table {{.Names}}\t{{.Status}}"'`.
-Or just log in to confirm: `ssh admin@clab-evpn-fullmesh-leaf1` (password `admin@123`).
+Watch it live: `watch -n 5 'docker ps --filter "name=clab-evpn-lab" --format "table {{.Names}}\t{{.Status}}"'`.
+Or just log in to confirm: `ssh admin@clab-evpn-lab-leaf1` (password `admin@123`).
 
 > `apply.sh` **waits for each node's CLI on its own**, so you can run it right
 > after deploy — it holds until nodes are ready (up to ~2 min/node).
@@ -108,7 +108,7 @@ Wipe or redo:
 ./scripts/reset.sh   01-ospf-ibgp       # wipe + redeploy clean
 ```
 
-To do it by hand: `ssh admin@clab-evpn-fullmesh-leaf1` (password `admin@123`),
+To do it by hand: `ssh admin@clab-evpn-lab-leaf1` (password `admin@123`),
 `configure`, paste the step's block, `commit`.
 
 ---
@@ -121,14 +121,14 @@ Everything runs from the **clab host** (`~/netforge-labs`) unless marked *Junos 
 ```bash
 jrun() { sshpass -p 'admin@123' ssh -o StrictHostKeyChecking=no \
          -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR \
-         admin@clab-evpn-fullmesh-"$1" "${@:2}"; }
+         admin@clab-evpn-lab-"$1" "${@:2}"; }
 # usage:  jrun leaf1 "show bgp summary"
 ```
 
 **Deploy & check the fabric**
 ```bash
 ./scripts/deploy.sh 01-ospf-ibgp                             # boot the fabric (~5-8 min/node)
-docker ps --filter name=clab-evpn-fullmesh \
+docker ps --filter name=clab-evpn-lab \
   --format "table {{.Names}}\t{{.Status}}"                   # all 4 switches must read (healthy)
 ```
 
@@ -145,6 +145,16 @@ docker ps --filter name=clab-evpn-fullmesh \
 ./scripts/apply.sh 01-ospf-ibgp all       # then rebuild from scratch
 ```
 
+**Switch to another design WITHOUT a reboot** — labs 01–04 share this 2×2 topology
+**and the same container name** (`clab-evpn-lab-*`), so **one booted fabric runs any
+of them.** Just clean and apply the other lab's config — no override, no new deploy:
+```bash
+./scripts/clean.sh 02-ospf-ibgp-rr        # wipe config (~30s)
+./scripts/apply.sh 02-ospf-ibgp-rr all    # apply lab 02's RR design in place
+```
+Boot the fabric **once**, then flip between full-mesh / RR / L3VNI / multi-tenancy by
+config alone. (Lab 05 ESI cables hosts differently, so it still needs its own deploy.)
+
 **Verify from the host** (no login needed, via the `jrun` helper):
 ```bash
 jrun leaf1 "show ospf neighbor"           # underlay: both spines Full
@@ -155,9 +165,9 @@ jrun leaf1 "show ethernet-switching vxlan-tunnel-end-point remote"   # tunnel up
 
 **Hosts + final proof** (host commands run on the clab host, not Junos):
 ```bash
-docker exec clab-evpn-fullmesh-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up"
-docker exec clab-evpn-fullmesh-host2 sh -c "ip addr add 10.100.10.11/24 dev eth1; ip link set eth1 up"
-docker exec clab-evpn-fullmesh-host1 ping -c3 10.100.10.11           # 🎉 0% loss = done
+docker exec clab-evpn-lab-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up"
+docker exec clab-evpn-lab-host2 sh -c "ip addr add 10.100.10.11/24 dev eth1; ip link set eth1 up"
+docker exec clab-evpn-lab-host1 ping -c3 10.100.10.11           # 🎉 0% loss = done
 ```
 
 **Tear down**
@@ -336,9 +346,9 @@ jrun leaf1 "show ethernet-switching vxlan-tunnel-end-point remote"  # tunnel to 
 
 **5b — give the hosts their IPs** (clab host shell, **not** Junos):
 ```bash
-docker exec clab-evpn-fullmesh-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up"
-docker exec clab-evpn-fullmesh-host2 sh -c "ip addr add 10.100.10.11/24 dev eth1; ip link set eth1 up"
-docker exec clab-evpn-fullmesh-host1 ping -c3 10.100.10.11
+docker exec clab-evpn-lab-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up"
+docker exec clab-evpn-lab-host2 sh -c "ip addr add 10.100.10.11/24 dev eth1; ip link set eth1 up"
+docker exec clab-evpn-lab-host1 ping -c3 10.100.10.11
 ```
 
 !!! success "Step 5 — DONE ✅ · the finish line 🎉"
@@ -353,7 +363,7 @@ Work top to bottom. Each item lists the command that proves it — don't move on
 until it passes. (`jrun` is the helper from the cheat-sheet above.)
 
 **Fabric up**
-- [ ] All 4 switches `(healthy)` — `docker ps --filter name=clab-evpn-fullmesh --format "table {{.Names}}\t{{.Status}}"`
+- [ ] All 4 switches `(healthy)` — `docker ps --filter name=clab-evpn-lab --format "table {{.Names}}\t{{.Status}}"`
 
 **Step 1 · interfaces & loopbacks**
 - [ ] Fabric links up/up — `jrun leaf1 "show interfaces terse | match ge-"`
@@ -374,7 +384,7 @@ until it passes. (`jrun` is the helper from the cheat-sheet above.)
 - [ ] Two Type-3 (`3:`) routes — `jrun leaf1 "show route table bgp.evpn.0"`
 - [ ] Tunnel to other leaf — `jrun leaf1 "show ethernet-switching vxlan-tunnel-end-point remote"`
 - [ ] Remote host MAC via `vtep.xxxx` — `jrun leaf1 "show ethernet-switching table"`
-- [ ] **host1 → host2 ping, 0% loss** — `docker exec clab-evpn-fullmesh-host1 ping -c3 10.100.10.11` 🎉
+- [ ] **host1 → host2 ping, 0% loss** — `docker exec clab-evpn-lab-host1 ping -c3 10.100.10.11` 🎉
 
 ## Break-it exercises
 
@@ -403,14 +413,17 @@ Predict the symptom, break it, find the `show` that exposes it, then fix it.
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| `apply.sh` says **`container not found`** on every node | Wrong lab folder — the running fabric is `evpn-fullmesh` (lab 01), you ran a different lab's name | Use `01-ospf-ibgp` (it matches `clab-evpn-fullmesh-*`) |
+| `apply.sh` says **`container not found`** on every node | Wrong lab folder — the running fabric is `evpn-lab` (lab 01), you ran a different lab's name | Use `01-ospf-ibgp` (it matches `clab-evpn-lab-*`) |
 | A step **`committed`** but nothing works | Steps applied out of order — config landed on an empty fabric | Rebuild bottom-up: `apply.sh 01-ospf-ibgp all` |
 | `clean.sh` shows **`syntax error, expecting <identifier>`** on one node | A command got garbled over that node's slow pty (harmless if the node was already clean) | Re-run `clean.sh`, or confirm the node is baseline: `jrun spine1 "show configuration \| display set \| match routing-instances"` — only `mgmt_junos` lines = already clean |
 | Commits take **30–90 s** or `apply` reports `FAILED` | Contention while all 4 nodes boot/converge at once | Wait until the fabric is idle (`top` → low load, `0.0 st` steal), then re-run; iterate with `clean.sh`, not `reset.sh` |
 | `gcloud: SERVFAIL` / `command not found` | You typed `gcloud` **inside** the VM or a device CLI | Run `gcloud` only from your **laptop** or **Cloud Shell**, never inside the VM |
 | Lost SSH after a config wipe | An old wholesale `delete` removed the mgmt instance | Already fixed in `clean.sh` (it deletes only named lab hierarchies); if stuck, recover via console/telnet |
 | `show bgp summary` warns `License key missing` | Benign vJunos-eval message | Ignore |
+| A node exits with `FileNotFoundError: init.conf` | It was `docker restart`ed — clab nodes lose `init.conf` on restart | **Never `docker restart` a clab node.** Recover with `sudo containerlab deploy --reconfigure -t <topo>` (rebuilds the fabric — clab 0.77 can't recreate a single node) |
 
 **Golden rule for iterating:** boot the fabric **once** with `deploy.sh`, then loop
-`clean.sh` → `apply.sh` as often as you like. Reach for `reset.sh` (slow reboot)
-only when a node is genuinely wedged.
+`clean.sh` → `apply.sh`. **Never `docker restart` a node** (it wipes `init.conf` and
+the node exits), and you don't need a fresh fabric per lab — labs 01–04 share this
+topology, so run any design on the *same* nodes with `FABRIC=<prefix>` (see the
+cheat-sheet). Reach for `reset.sh` / `--reconfigure` only when a node is truly dead.
