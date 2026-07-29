@@ -113,6 +113,67 @@ To do it by hand: `ssh admin@clab-evpn-fullmesh-leaf1` (password `admin@123`),
 
 ---
 
+## 📋 Command cheat-sheet (copy-paste)
+
+Everything runs from the **clab host** (`~/netforge-labs`) unless marked *Junos CLI*.
+
+**Reusable helper** — paste once into your shell, then check any node without logging in:
+```bash
+jrun() { sshpass -p 'admin@123' ssh -o StrictHostKeyChecking=no \
+         -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR \
+         admin@clab-evpn-fullmesh-"$1" "${@:2}"; }
+# usage:  jrun leaf1 "show bgp summary"
+```
+
+**Deploy & check the fabric**
+```bash
+./scripts/deploy.sh 01-ospf-ibgp                             # boot the fabric (~5-8 min/node)
+docker ps --filter name=clab-evpn-fullmesh \
+  --format "table {{.Names}}\t{{.Status}}"                   # all 4 switches must read (healthy)
+```
+
+**Build the config**
+```bash
+./scripts/apply.sh 01-ospf-ibgp all       # ⭐ build every step 01→05 in order (recommended)
+./scripts/apply.sh 01-ospf-ibgp 01        # a single step (only if 01..N-1 are already applied)
+./scripts/apply.sh 01-ospf-ibgp 01-03     # a range of steps, in order
+```
+
+**Iterate without a reboot** — wipe config to baseline and rebuild (seconds, not minutes):
+```bash
+./scripts/clean.sh 01-ospf-ibgp           # wipe lab config, keep mgmt/SSH — NO reboot
+./scripts/apply.sh 01-ospf-ibgp all       # then rebuild from scratch
+```
+
+**Verify from the host** (no login needed, via the `jrun` helper):
+```bash
+jrun leaf1 "show ospf neighbor"           # underlay: both spines Full
+jrun leaf1 "show bgp summary"             # overlay: peer 10.0.0.22 Establ
+jrun leaf1 "show route table bgp.evpn.0"  # EVPN routes (Type-3 then Type-2)
+jrun leaf1 "show ethernet-switching vxlan-tunnel-end-point remote"   # tunnel up
+```
+
+**Hosts + final proof** (host commands run on the clab host, not Junos):
+```bash
+docker exec clab-evpn-fullmesh-host1 sh -c "ip addr add 10.100.10.10/24 dev eth1; ip link set eth1 up"
+docker exec clab-evpn-fullmesh-host2 sh -c "ip addr add 10.100.10.11/24 dev eth1; ip link set eth1 up"
+docker exec clab-evpn-fullmesh-host1 ping -c3 10.100.10.11           # 🎉 0% loss = done
+```
+
+**Tear down**
+```bash
+./scripts/destroy.sh 01-ospf-ibgp         # wipe containers (no redeploy)
+./scripts/reset.sh   01-ospf-ibgp         # destroy + redeploy clean (slow — last resort)
+```
+
+> **⚠️ Steps are cumulative — build bottom-up.** Each step depends on the one below
+> it (`01 fabric → 02 OSPF → 03 iBGP → 04 L2VNI → 05 access`). On a freshly-cleaned
+> fabric you must apply **01 through N in order** — jumping straight to a later step
+> commits config onto an empty box that silently can't work. When unsure, just run
+> **`apply.sh 01-ospf-ibgp all`**.
+
+---
+
 # The build
 
 Do the steps in order. **Each ends with a check you must pass before the next.**
@@ -248,15 +309,34 @@ docker exec clab-evpn-fullmesh-host1 ping -c3 10.100.10.11
 
 ---
 
-## Verify checklist
+## ✅ Full checklist — deploy to ping
 
-- [ ] `show ospf neighbor` — every fabric link `Full`
-- [ ] `ping 10.0.0.22 source 10.0.0.21` — leaf-to-leaf loopback
-- [ ] `show bgp summary` — EVPN peer `Establ`
-- [ ] `show route table bgp.evpn.0` — Type-3 then Type-2 routes (after Step 5)
-- [ ] `show ethernet-switching vxlan-tunnel-end-point remote` — tunnel up
-- [ ] `show ethernet-switching table` — remote host MAC flagged `DR` via `vtep.xxxxx`
-- [ ] host1 → host2 ping — 0% loss
+Work top to bottom. Each item lists the command that proves it — don't move on
+until it passes. (`jrun` is the helper from the cheat-sheet above.)
+
+**Fabric up**
+- [ ] All 4 switches `(healthy)` — `docker ps --filter name=clab-evpn-fullmesh --format "table {{.Names}}\t{{.Status}}"`
+
+**Step 1 · interfaces & loopbacks**
+- [ ] Fabric links up/up — `jrun leaf1 "show interfaces terse | match ge-/lo0"`
+- [ ] Directly-connected /31 replies — `jrun leaf1 "ping 10.10.1.0 count 3"`
+
+**Step 2 · OSPF underlay**
+- [ ] Both spines `Full` — `jrun leaf1 "show ospf neighbor"`
+- [ ] Leaf-to-leaf loopback ping, ttl=63 — `jrun leaf1 "ping 10.0.0.22 source 10.0.0.21 count 3"`
+
+**Step 3 · iBGP-EVPN overlay**
+- [ ] Peer `10.0.0.22` **Establ** — `jrun leaf1 "show bgp summary"` *(0 routes here is correct)*
+
+**Step 4 · EVPN + VXLAN glue**
+- [ ] `default-switch.evpn.0` table appears — `jrun leaf1 "show bgp summary"`
+- [ ] VLAN/switch-options present — `jrun leaf1 "show configuration vlans"` *(still no routes — correct)*
+
+**Step 5 · services + proof**
+- [ ] Two Type-3 (`3:`) routes — `jrun leaf1 "show route table bgp.evpn.0"`
+- [ ] Tunnel to other leaf — `jrun leaf1 "show ethernet-switching vxlan-tunnel-end-point remote"`
+- [ ] Remote host MAC via `vtep.xxxx` — `jrun leaf1 "show ethernet-switching table"`
+- [ ] **host1 → host2 ping, 0% loss** — `docker exec clab-evpn-fullmesh-host1 ping -c3 10.100.10.11` 🎉
 
 ## Break-it exercises
 
@@ -280,3 +360,19 @@ Predict the symptom, break it, find the `show` that exposes it, then fix it.
 - Management (`fxp0`) is on `10.0.0.0/24`, overlapping the loopbacks but isolated
   in the `mgmt_junos` instance — harmless.
 - "OSPF instance is not running" right after commit is just timing — wait ~30 s.
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| `apply.sh` says **`container not found`** on every node | Wrong lab folder — the running fabric is `evpn-fullmesh` (lab 01), you ran a different lab's name | Use `01-ospf-ibgp` (it matches `clab-evpn-fullmesh-*`) |
+| A step **`committed`** but nothing works | Steps applied out of order — config landed on an empty fabric | Rebuild bottom-up: `apply.sh 01-ospf-ibgp all` |
+| `clean.sh` shows **`syntax error, expecting <identifier>`** on one node | A command got garbled over that node's slow pty (harmless if the node was already clean) | Re-run `clean.sh`, or confirm the node is baseline: `jrun spine1 "show configuration \| display set \| match routing-instances"` — only `mgmt_junos` lines = already clean |
+| Commits take **30–90 s** or `apply` reports `FAILED` | Contention while all 4 nodes boot/converge at once | Wait until the fabric is idle (`top` → low load, `0.0 st` steal), then re-run; iterate with `clean.sh`, not `reset.sh` |
+| `gcloud: SERVFAIL` / `command not found` | You typed `gcloud` **inside** the VM or a device CLI | Run `gcloud` only from your **laptop** or **Cloud Shell**, never inside the VM |
+| Lost SSH after a config wipe | An old wholesale `delete` removed the mgmt instance | Already fixed in `clean.sh` (it deletes only named lab hierarchies); if stuck, recover via console/telnet |
+| `show bgp summary` warns `License key missing` | Benign vJunos-eval message | Ignore |
+
+**Golden rule for iterating:** boot the fabric **once** with `deploy.sh`, then loop
+`clean.sh` → `apply.sh` as often as you like. Reach for `reset.sh` (slow reboot)
+only when a node is genuinely wedged.

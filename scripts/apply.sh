@@ -144,7 +144,7 @@ if [ "${#FAILED[@]}" -gt 0 ]; then
   echo "   clab host; a 2x2 vJunos fabric wants a VM with plenty of headroom (≥ n2-standard-16)."
   echo ""
 fi
-echo "Done. Verify with the matching labs/${LAB}/steps/ doc."
+echo "Done. Verify with the lab guide in the portal → docs/labs/ (https://netforge-labs.pages.dev/)."
 case "$STEP" in
   *05|5|all) HOST_HINT=1 ;; *) HOST_HINT="" ;;
 esac
