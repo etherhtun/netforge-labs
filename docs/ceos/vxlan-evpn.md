@@ -65,6 +65,10 @@ graph TB
 You need **Docker + containerlab + the cEOS image**. On a Mac, run everything inside
 a Linux VM (e.g. **OrbStack**) so containerlab has a real Linux host.
 
+> 📖 **Full walkthrough:** [Lab setup on macOS](00-mac-setup.md) covers OrbStack, the
+> Linux machine, the cEOS import, and a single-node smoke test end to end. The quick
+> version is below.
+
 **1. Import cEOS** (free from [arista.com](https://www.arista.com) → Software Download →
 cEOS-lab). On Apple Silicon, force amd64 — OrbStack runs it under Rosetta:
 ```bash

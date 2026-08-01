@@ -46,6 +46,7 @@ nav:
     - 10 · Production hardening: sessions/10-production-hardening.md
     - All labs (overview): labs.md
   - "Course 2: VXLAN-EVPN (Arista cEOS)":
+    - Lab setup (macOS): ceos/00-mac-setup.md
     - VXLAN-EVPN on cEOS: ceos/vxlan-evpn.md
   - Study (quick concepts):
     - Start here: study/index.md
