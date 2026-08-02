@@ -49,6 +49,9 @@ nav:
   - "Course 2: VXLAN-EVPN (Arista cEOS)":
     - Lab setup (macOS): ceos/00-mac-setup.md
     - VXLAN-EVPN on cEOS: ceos/vxlan-evpn.md
+  - "Course 3: MPLS & L3VPN":
+    - Overview: courses/03-mpls-l3vpn/index.md
+    - "🧪 Lab 01 · MPLS + LDP underlay": courses/03-mpls-l3vpn/lab-01-mpls-ldp.md
   - Study (quick concepts):
     - Start here: study/index.md
     - 1 · Why VXLAN-EVPN?: study/01-why-vxlan-evpn.md

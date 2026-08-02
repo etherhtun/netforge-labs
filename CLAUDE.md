@@ -229,7 +229,7 @@ commands *do* error, so "accepted" is meaningful.
 
 ### LDP live test — 3-node scratch fabric (2026-08-02)
 
-Ran `pe1 — p1 — pe2` with OSPF + LDP (see `meta/task-01-mpls-forwarding-test.md`).
+Ran `pe1 — p1 — pe2` with OSPF + LDP (see `docs/courses/03-mpls-l3vpn/lab-01-mpls-ldp.md`).
 
 **Confirmed working:**
 
