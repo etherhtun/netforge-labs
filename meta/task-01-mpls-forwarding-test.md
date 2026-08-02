@@ -34,9 +34,17 @@ topology:
       kind: arista_ceos
       image: ceos:4.32.0F
   links:
-    - endpoints: ["p1:Ethernet1", "pe1:Ethernet1"]
-    - endpoints: ["p1:Ethernet2", "pe2:Ethernet1"]
+    - endpoints: ["p1:eth1", "pe1:eth1"]   # 10.1.1.0/24
+    - endpoints: ["p1:eth2", "pe2:eth1"]   # 10.1.2.0/24
 ```
+
+!!! warning "Endpoints must be lowercase `ethN`"
+    cEOS's entrypoint counts interfaces matching `eth*` to decide when containerlab
+    has finished wiring. Naming an endpoint `Ethernet1` makes containerlab create the
+    veth with that literal name, the counter stays at zero, and the container hangs
+    on `Connected 0 interfaces out of N` **forever** — EOS never boots, so `Cli` does
+    not exist yet and `docker exec … Cli` fails with "executable file not found".
+    Inside EOS, `eth1` shows up as `Ethernet1`, which is what the config below uses.
 
 ### Deploy
 

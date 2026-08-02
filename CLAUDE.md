@@ -188,6 +188,13 @@ Mandatory config that is easy to miss:
 
 - cEOS is **amd64-only** → runs under Rosetta on M-series. `docker import
   --platform linux/amd64` is mandatory (else `exec format error`).
+- ⭐ **Link endpoints MUST be lowercase `ethN`** in `.clab.yml` — `["p1:eth1",
+  "pe1:eth1"]`, never `Ethernet1`. cEOS's entrypoint counts `eth*` interfaces to know
+  when wiring is done; a literal `Ethernet1` veth never matches, so it hangs on
+  `Connected 0 interfaces out of N` forever and **EOS never boots** — which also
+  makes `docker exec … Cli` fail with *"executable file not found"*. That error means
+  **EOS hasn't started**, not that the image is broken. Inside EOS, `eth1` is
+  `Ethernet1`.
 - **Boot race:** with 4 nodes booting at once under emulation, a node can come up
   degraded — `show int Et1 status` shows type **`Unknown`**. `reload` is unsupported
   and **`docker restart` destroys the clab veths**. Fix = `containerlab destroy` +

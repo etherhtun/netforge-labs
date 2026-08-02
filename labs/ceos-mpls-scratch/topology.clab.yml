@@ -1,3 +1,12 @@
+# Scratch topology for the MPLS data-plane forwarding test (task #1).
+# Deliberately separate from the validated ceos-evpn fabric.
+#
+#   pe1 --- p1 --- pe2
+#
+# NOTE: endpoints MUST use lowercase ethN naming. cEOS's entrypoint counts
+# interfaces matching eth* to decide when containerlab has finished wiring;
+# naming them "Ethernet1" makes it wait forever and EOS never boots.
+# Inside EOS, eth1 appears as Ethernet1.
 name: ceos-mpls-scratch
 topology:
   nodes:
@@ -11,5 +20,5 @@ topology:
       kind: arista_ceos
       image: ceos:4.32.0F
   links:
-    - endpoints: ["p1:Ethernet1", "pe1:Ethernet1"]
-    - endpoints: ["p1:Ethernet2", "pe2:Ethernet1"]
+    - endpoints: ["p1:eth1", "pe1:eth1"]   # 10.1.1.0/24
+    - endpoints: ["p1:eth2", "pe2:eth1"]   # 10.1.2.0/24
