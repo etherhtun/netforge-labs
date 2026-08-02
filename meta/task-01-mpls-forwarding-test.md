@@ -93,6 +93,7 @@ service routing protocols model multi-agent
 mpls ip
 interface Loopback0
  ip address 1.1.1.1 255.255.255.255
+ ip ospf area 0.0.0.0
 interface Ethernet1
  no switchport
  no shutdown
@@ -128,6 +129,7 @@ service routing protocols model multi-agent
 mpls ip
 interface Loopback0
  ip address 2.2.2.2 255.255.255.255
+ ip ospf area 0.0.0.0
 interface Ethernet1
  no switchport
  no shutdown
@@ -157,6 +159,7 @@ service routing protocols model multi-agent
 mpls ip
 interface Loopback0
  ip address 3.3.3.3 255.255.255.255
+ ip ospf area 0.0.0.0
 interface Ethernet1
  no switchport
  no shutdown
@@ -297,4 +300,17 @@ sudo containerlab destroy -t ~/mpls-scratch/topology.clab.yml --cleanup
 | *Change will take effect on the next agent start* | LdpAgent not running yet | `agent LdpAgent terminate` to respawn it |
 | OSPF never reaches `FULL` | port still L2 | `no switchport` on the routed ports |
 | `show mpls route` empty but LDP established | labels not allocated | check `mpls ip` is set globally on every node |
+| `show mpls route` = **0 routes** *and* ping = **100% loss** | loopbacks not advertised into OSPF, so there is no route to bind a label to — **not** an MPLS fault | add `ip ospf area 0.0.0.0` under `interface Loopback0` on every node |
 | Ping fails but labels present | **the real finding** | record it — Phases 3/3.5 move to cRPD |
+
+!!! danger "Don't mistake a broken underlay for an MPLS verdict"
+    **100% packet loss means plain IP routing is broken too.** With a healthy OSPF
+    underlay, a loopback-to-loopback ping succeeds over ordinary IP whether or not
+    labels exist — MPLS is an optimisation on top of reachability, not a
+    prerequisite for it.
+
+    So loss of 100% *plus* an empty MPLS table almost always means the underlay
+    never came up, not that the data plane can't forward labels. Fix step 1 and
+    re-test before concluding anything about the platform. The failure that
+    actually answers this task is narrower: **labels present in `show mpls route`,
+    yet traffic still doesn't pass.**
