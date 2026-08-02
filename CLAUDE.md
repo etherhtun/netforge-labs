@@ -88,6 +88,28 @@ Never teach or configure a layer before the one beneath it is verified.
 
 ---
 
+## Two kinds of phase: lab track vs reading track
+
+Not every phase earns a lab.
+
+- **Lab track** (Phases 3, 4, …) — runnable fabric, per-step Apply → Verify → DONE
+  gates, real captured output. The default.
+- **Reading track** (Phase 0 · IGP) — theory only, no lab. Used where the topic is
+  heavily covered elsewhere and a lab would add little: another "configure OSPF on
+  three routers" walkthrough teaches nothing our readers can't get free elsewhere.
+  Its value is the *mental model* every later phase depends on.
+
+A reading track still carries the 7-part spirit (mental model → why → mechanism →
+failure modes → interview Q&A) minus build/verify. Mark it clearly at the top —
+`📖 Reading track — no lab` — so nobody goes hunting for a topology.
+
+**The honesty rule still binds a reading track.** If you show command output, it
+must be **really captured**. Phase 0's OSPF page uses live output from the cEOS
+fabric; the IS-IS page states plainly that nothing has been run and shows syntax
+only. **Never invent output to make a page look complete.**
+
+---
+
 ## ⭐ The honesty rule (most important convention)
 
 A lab is **⚠️ DRAFT** until its config has actually been **run on a live fabric**.

@@ -46,6 +46,13 @@ nav:
     - Cloud VM (optional): host-setup/00-gcp-instance.md
     - Team quickstart: quickstart/intro.md
 
+  - "Phase 0 · IGP Fundamentals":
+    - Overview: courses/00-igp-fundamentals/index.md
+    - 1 · How link-state routing works: courses/00-igp-fundamentals/01-link-state.md
+    - 2 · OSPF: courses/00-igp-fundamentals/02-ospf.md
+    - 3 · IS-IS: courses/00-igp-fundamentals/03-isis.md
+    - 4 · Choosing between them: courses/00-igp-fundamentals/04-choosing.md
+
   - "Phase 3 · MPLS & L3VPN":
     - Overview: courses/03-mpls-l3vpn/index.md
     - "🧪 Lab 01 · MPLS + LDP underlay": courses/03-mpls-l3vpn/lab-01-mpls-ldp.md

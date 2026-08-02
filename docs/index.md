@@ -61,6 +61,15 @@ Everything runs in containers on your own laptop. No hardware, no cloud bill.
 
     [Overview →](courses/03-mpls-l3vpn/index.md) · [Lab 01 →](courses/03-mpls-l3vpn/lab-01-mpls-ldp.md)
 
+-   **Phase 0 · IGP Fundamentals** &nbsp; <span class="nf-badge ok">reading track</span>
+
+    ---
+
+    Link-state routing, OSPF, IS-IS and dual-stack IPv6 — the foundation every
+    later phase assumes. No lab; read it and move on.
+
+    [Start reading →](courses/00-igp-fundamentals/index.md)
+
 </div>
 
 The remaining phases — IGP, BGP, internet edge, segment routing, automation, cloud

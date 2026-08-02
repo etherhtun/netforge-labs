@@ -33,7 +33,7 @@ graph TD
 
 | Phase | Course | Focus | Status |
 |---|---|---|---|
-| **0** | IGP Fundamentals | OSPFv2/v3, IS-IS (dual-stack IPv4/IPv6) | 📋 Planned |
+| **0** | [IGP Fundamentals](courses/00-igp-fundamentals/index.md) | OSPFv2/v3, IS-IS (dual-stack IPv4/IPv6) | 🟢 **Available** — reading track |
 | **1** | BGP Fundamentals & Policies | eBGP, iBGP, route reflectors, advanced path selection | 📋 Planned |
 | **2** | BGP-DIA & Internet Edge | Multi-homing, RPKI, peering, NAT / CGNAT | 📋 Planned |
 | **3** | MPLS & L3VPN | LDP, RSVP-TE, L3VPN (Options A, B, C) | 🔬 LDP validated live |
@@ -43,9 +43,11 @@ graph TD
 | **6** | Hybrid Cloud & Edge | AWS TGW, BGP over DirectConnect, IPSec / SD-WAN | 📋 Planned |
 | **7** | Telemetry & Observability | Prometheus, Grafana, OpenConfig, TRex | 📋 Planned |
 
-**Available now:** [VXLAN-EVPN on Arista cEOS](ceos/vxlan-evpn.md) — the validated
-core of Phase 4 — plus [VXLAN-EVPN on Juniper](sessions/index.md) as a written
-reference course.
+**Available now:** [IGP Fundamentals](courses/00-igp-fundamentals/index.md) (Phase 0,
+reading track) · [MPLS + LDP](courses/03-mpls-l3vpn/lab-01-mpls-ldp.md) (Phase 3,
+Lab 01) · [VXLAN-EVPN on Arista cEOS](ceos/vxlan-evpn.md) — the validated core of
+Phase 4 — plus [VXLAN-EVPN on Juniper](sessions/index.md) as a written reference
+course.
 
 ---
 
