@@ -89,8 +89,8 @@ graph LR
     B --> C["<b>LSDB</b><br/>identical map"]
     C --> D["<b>SPF</b><br/>compute my tree"]
     D --> E["<b>Routing<br/>table</b>"]
-    classDef process fill:#ffffff,stroke:#333333,color:#000000,stroke-width:2px,font-size:14px;
-    classDef result fill:#f0f0f0,stroke:#333333,color:#000000,stroke-width:2px,font-size:14px;
+    classDef process fill:#4a5568,stroke:#ffffff,color:#ffffff,stroke-width:3px,font-size:15px,font-weight:bold;
+    classDef result fill:#48bb78,stroke:#ffffff,color:#000000,stroke-width:3px,font-size:15px,font-weight:bold;
     class A,B,C,D process; class E result;
 ```
 
