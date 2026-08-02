@@ -50,6 +50,12 @@ nav:
 
   - Courses:
     - courses/index.md
+    - "Foundations · Linux":
+      - courses/linux-foundations/index.md
+      - 1 · Namespaces and veth pairs: courses/linux-foundations/01-namespaces-veth.md
+      - 2 · Reading the Linux network stack: courses/linux-foundations/02-inspecting.md
+      - 3 · Containers and cEOS behaviour: courses/linux-foundations/03-containers.md
+      - Interview questions: courses/linux-foundations/interview-questions.md
     - "Phase 0 · IGP Fundamentals":
       - courses/00-igp-fundamentals/index.md
       - 1 · How link-state routing works: courses/00-igp-fundamentals/01-link-state.md

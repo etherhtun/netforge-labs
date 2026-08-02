@@ -70,6 +70,10 @@ common/ipplan.md        canonical addressing (mirrored to docs/reference/ipplan.
 mkdocs.yml · requirements.txt · .vscode/
 ```
 
+**Prerequisite tracks may omit the number** (`docs/courses/linux-foundations/`).
+They are not curriculum phases and must not be numbered as one — the roadmap lists
+them with `–` in the Phase column. Everything else takes `<nn>-`.
+
 ⭐ **There is exactly ONE content scheme: `docs/courses/<nn>-<slug>/`.** Everything
 was consolidated into it — there are no legacy directories left, and adding a new
 one is how the mess started last time. If content doesn't fit the scheme, change

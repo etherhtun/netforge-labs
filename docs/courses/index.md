@@ -8,6 +8,21 @@ Nothing is marked finished until it has actually been run. See the
 
 ---
 
+## Start here
+
+<div class="grid cards" markdown>
+
+-   **Foundations · Linux** &nbsp; <span class="nf-badge ok">prerequisite</span>
+
+    ---
+
+    Network namespaces, veth pairs, `ip` and `tcpdump`, and what containerlab is
+    actually doing. Explains the layer every lab already runs on.
+
+    [Start reading →](linux-foundations/index.md)
+
+</div>
+
 ## Foundations
 
 <div class="grid cards" markdown>
