@@ -131,6 +131,55 @@ has to say, as TLVs.
 
 ---
 
+## Route leaking and the ATT bit
+
+By default an L1 router knows only its own area. To reach anything outside, it
+follows a default route toward the nearest L1/L2 router — which advertises itself
+as an exit by setting the **ATT (attached) bit** in its L1 LSP.
+
+That's efficient, and usually fine. But it's **nearest-exit routing**, and nearest
+isn't always best: if the destination actually sits behind a *different* L1/L2
+router, traffic goes to the closest exit and then crosses the L2 backbone to get
+where it was going. Sub-optimal, sometimes badly so.
+
+**Route leaking** fixes it. An L1/L2 router can leak specific L2 prefixes down into
+L1, so L1 routers see real destinations rather than just a default and can choose
+the correct exit directly.
+
+Leak selectively. Leaking everything recreates the full-table problem that levels
+existed to avoid — the point is to leak the prefixes where exit choice genuinely
+matters and leave the rest to the default.
+
+!!! note "The OSPF parallel"
+    This is the same trade-off as OSPF's stub areas, arrived at from the opposite
+    direction. OSPF areas are standard by default and you *opt into* less detail;
+    IS-IS L1 areas start with almost no detail and you *opt into* more via leaking.
+
+## The overload bit
+
+A router can set the **overload bit** in its LSP to say: *reachable, but do not
+route transit traffic through me.* Others still reach destinations attached
+directly to it, but stop using it as a path to anywhere else.
+
+Two situations where it matters:
+
+**Automatically at boot.** A router whose IGP has converged but whose BGP table is
+still loading would otherwise attract transit traffic it cannot yet forward — a
+black hole lasting minutes. Setting overload on startup until BGP converges is
+standard practice on any router carrying full tables.
+
+**Manually for maintenance.** Set overload, wait for traffic to drain onto other
+paths, then work on the box. Far cleaner than shutting interfaces, which causes an
+abrupt reconvergence instead of a graceful one.
+
+!!! tip "Interviewers like this one"
+    It's a good question because it separates people who've operated a network from
+    people who've only configured one. The BGP-convergence case in particular only
+    comes up if you've had to think about why a freshly rebooted router black-holed
+    traffic.
+
+---
+
 ## Metrics: mind the narrow default
 
 Original IS-IS allocated only **6 bits** to interface metrics — a maximum of 63,

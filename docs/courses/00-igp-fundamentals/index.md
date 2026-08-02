@@ -47,6 +47,13 @@ symptoms look nothing like a routing problem until you check.
     An honest comparison, dual-stack strategy for IPv4 + IPv6, and the design
     questions that actually come up in interviews.
 
+-   **[Interview questions](interview-questions.md)**
+
+    ---
+
+    The whole phase as a self-test bank — including the factual-recall questions
+    screening rounds lean on, not just the design ones.
+
 </div>
 
 ---

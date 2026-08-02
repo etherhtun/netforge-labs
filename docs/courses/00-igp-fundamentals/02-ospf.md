@@ -43,6 +43,123 @@ Here's a single-area fabric — note `Area 0.0.0.0` on each interface:
 
 ---
 
+## Area types: trading visibility for size
+
+Not every area needs the full picture. If an area has one way out, telling its
+routers about every external route in the world is wasted memory — they'd all
+resolve to the same exit anyway.
+
+So OSPF lets you **block LSA types at the ABR** and substitute a default route.
+Each area type blocks a bit more:
+
+| Area type | Blocks | Still gets | Use when |
+|---|---|---|---|
+| **Standard** | nothing | everything | the backbone, or areas needing full detail |
+| **Stub** | type 5 (external) | types 1–4 + default | branch with one exit and no external sources |
+| **Totally stubby** | types 3, 4, **5** | types 1–2 + default | same, but you also don't need inter-area detail |
+| **NSSA** | type 5 | types 1–4 + **type 7** | stub area that *does* have its own external source |
+| **Totally NSSA** | types 3, 4, 5 | types 1–2 + type 7 + default | NSSA that doesn't need inter-area detail either |
+
+**Why NSSA exists** is the part people miss. A stub area cannot carry external
+routes — that's the definition. But what if a stub-like area has a redistributing
+router of its own? You'd have to make it standard and lose the savings.
+
+NSSA solves it with **type 7**: functionally an external route, but permitted
+inside an NSSA. The ABR translates type 7 into type 5 as it leaves. Same
+information, different wrapper, because the area's rules forbid the type-5 wrapper.
+
+!!! warning "Two rules that catch people out"
+    **Every router in the area must agree on the area type.** It's negotiated in
+    the hello, so a mismatch means no adjacency — the symptom is a neighbour that
+    never forms, not a routing oddity.
+
+    **Area 0 can never be a stub of any kind.** It carries transit for everything;
+    blocking LSAs there would break inter-area routing by definition.
+
+---
+
+## Path preference: which route actually wins
+
+When OSPF learns the same prefix more than once, it doesn't compare costs first.
+It compares **route type** first, and only breaks ties within a type by cost:
+
+```
+intra-area  (O)      ← always wins, whatever the cost
+inter-area  (O IA)
+external E1 (O E1)
+external E2 (O E2)   ← always loses
+```
+
+A high-cost intra-area route beats a low-cost inter-area one. Cost is the
+tiebreaker *inside* a class, never across classes — a genuinely common exam trap.
+
+### E1 vs E2 — the one everybody gets asked
+
+Both are redistributed from outside OSPF. The difference is what happens to the
+metric as it travels:
+
+- **E2** — cost stays **fixed** at whatever the ASBR set, no matter how far you
+  are from it. **This is the default.**
+- **E1** — cost is the external metric **plus the internal cost** to reach the
+  ASBR, so it rises with distance.
+
+So with two exits to the same external destination, **E2 can't tell them apart** —
+every router sees the same cost and picks by tiebreaker rather than by proximity.
+**E1 can**, because each router adds its own distance to the ASBR.
+
+!!! tip "The rule of thumb"
+    **One exit — E2 is fine** and keeps the metric simple. **Multiple exits where
+    you want routers to use the nearest — use E1.** Sticking with the E2 default in
+    a multi-exit design is a classic cause of traffic crossing the network to reach
+    a further-away exit.
+
+---
+
+## Router ID: how it's chosen
+
+OSPF needs a unique 32-bit ID. It picks, in strict order:
+
+1. **Manually configured** `router-id` — always wins
+2. Highest IP on an **up loopback** interface
+3. Highest IP on any **up physical** interface
+
+**Always configure it explicitly.** Relying on the automatic choice means the ID
+can change when an interface goes down or a new one appears — and since the router
+ID is baked into every LSA that router originated, a change forces the entire area
+to re-flood and re-run SPF.
+
+A changed router ID also does *not* take effect until the OSPF process restarts,
+which surprises people who set it and see nothing happen.
+
+---
+
+## Timers and cost
+
+**Hello and dead intervals must match** between neighbours or the adjacency never
+forms. Defaults depend on network type:
+
+| Network type | Hello | Dead |
+|---|---|---|
+| Broadcast, point-to-point | **10s** | **40s** |
+| NBMA, point-to-multipoint | **30s** | **120s** |
+
+Dead is conventionally 4× hello. Lowering both speeds up failure detection, but for
+sub-second convergence use **BFD** instead — a lightweight dedicated hello that
+detects loss in milliseconds and tells OSPF to drop the neighbour, without the
+overhead of very aggressive OSPF timers.
+
+**Cost** is `reference bandwidth ÷ interface bandwidth`, default reference 100 Mbps.
+That default is why every link at 100 Mbps *and above* lands on cost 1 — a 1G and a
+100G link look identical to OSPF. Raise the reference bandwidth so modern speeds
+differentiate, and **set it identically on every router**, since mismatched
+reference bandwidths mean routers disagree about cost.
+
+**Passive interface** advertises a network into OSPF while refusing to send hellos
+on it. Correct for any interface with no OSPF neighbour — user-facing subnets,
+loopbacks — since it removes needless adjacency attempts and a small attack surface.
+
+---
+
 ## LSA types: who advertises what
 
 The LSDB isn't one kind of record. Different situations produce different **LSA
@@ -150,6 +267,49 @@ Notice `State P2P` and `Nbrs 1` in the interface output earlier — no DR involv
 
     The loopback still shows `DR` — that's normal and harmless. A loopback has no
     neighbours to elect anything with.
+
+---
+
+## Summarisation, and where it's allowed
+
+OSPF only summarises at **borders** — never arbitrarily, because routers inside an
+area must hold identical databases and summarising mid-area would break that.
+
+| Where | Command | Summarises |
+|---|---|---|
+| **ABR** | `area <id> range <prefix>` | inter-area (type 3) |
+| **ASBR** | `summary-address <prefix>` | external (type 5 / 7) |
+
+Mixing these up is a common interview stumble: `area range` on an ASBR does nothing
+to external routes, and `summary-address` on an ABR does nothing to inter-area ones.
+
+Summarisation is the main defence against a large OSPF domain becoming unstable: a
+link flapping behind a summary doesn't change the summary, so the flap stays local
+instead of forcing SPF runs network-wide. The cost is lost visibility, and
+potentially attracting traffic for addresses inside the range that aren't actually
+reachable.
+
+## Virtual links: the escape hatch
+
+Every area must touch area 0 — but occasionally one doesn't, usually after a merger
+or a backbone that got physically split. A **virtual link** tunnels through an
+intervening area to restore the connection:
+
+```
+interface Ethernet1
+ ...
+router ospf 1
+ area 0.0.0.1 virtual-link 4.4.4.4
+```
+
+The transit area must be standard (never stub, which can't carry the necessary
+LSAs) and cannot be area 0 itself.
+
+!!! warning "Treat a virtual link as a repair, not a design"
+    It works, and it's the right tool in an emergency. But it's fragile — it depends
+    on the transit area staying healthy — and it hides a structural problem in the
+    address plan. If a virtual link is load-bearing in your network, the real fix is
+    re-homing that area to the backbone.
 
 ---
 
