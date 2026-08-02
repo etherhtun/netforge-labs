@@ -31,3 +31,7 @@ scripts/_push.log
 
 # ── MkDocs build output ──
 site/
+
+# local python venv
+.venv/
+site/

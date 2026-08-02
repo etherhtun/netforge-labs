@@ -1,17 +1,15 @@
 # NetForge Labs — Project Guide
 
-Guidance for anyone (human or Claude) working in this repo. **If you change how
-the platform is built, update this file in the same change** (see
-[Keep this file updated](#-keep-this-file-updated)).
+Guidance for anyone (human or Claude) working in this repo. **If you change how the
+platform is built, update this file in the same change** (see [Keep this file
+updated](#-keep-this-file-updated)).
 
 ---
 
 ## What this is
 
-**NetForge Labs** — a hands-on network *learning platform*. Learners study the
-theory, build real fabrics in **containerlab**, verify them, and break them on
-purpose. **Course 1 = VXLAN-EVPN on Juniper** (vJunos-switch). The platform is
-built to hold more courses (Course 2 = Cisco, planned).
+**NetForge Labs** — a hands-on network *learning platform*. Learners study the theory,
+build real fabrics in **containerlab**, verify them, and break them on purpose.
 
 The **MkDocs portal is the product**; the git repo is just the delivery mechanism.
 **Learners learn entirely from the portal — git is hidden from them.**
@@ -19,137 +17,192 @@ The **MkDocs portal is the product**; the git repo is just the delivery mechanis
 - Portal (canonical): <https://netforge-labs.pages.dev> (Cloudflare Pages)
 - Portal (backup): <https://etherhtun.github.io/netforge-labs/> (GitHub Pages)
 
+**Curriculum = 7 phases** (IGP → BGP → Internet edge → MPLS/L3VPN → SR → EVPN →
+NetDevOps → Cloud → Telemetry). See [`docs/roadmap.md`](docs/roadmap.md) for the map
+and current status of each.
+
+---
+
+## Platforms (two NOSes, deliberately)
+
+| | **Arista cEOS** ⭐ primary | **Juniper vJunos-switch** (legacy) |
+|---|---|---|
+| Used by | Course 2 onward — all new work | Course 1 only (reference) |
+| Runs on | **Mac, locally** (OrbStack) | GCP VM |
+| Why | container, boots in minutes, Cisco-like CLI | — |
+| Status | ✅ active | ⚠️ **abandoned for hands-on** — 4 concurrent PFE boots are unstable; kept as a written reference course |
+
+**Do not build new courses on vJunos.** New work targets cEOS unless a capability
+probe proves cEOS can't do it (then consider **cRPD**, which we already have locally).
+
+### Local dev workflow (Mac)
+
+Lab work happens **inside the OrbStack VM** (`ssh orb` → `mylab`), *not* on the Mac.
+The Mac is for **git and authoring only**. Lab files live at `~/ceos-lab/` in the VM.
+
 ---
 
 ## Repo layout
 
 ```
-docs/                 ALL portal content (rendered by MkDocs). Everything a learner reads.
-  sessions/           the deep guided Course (session by session) — the primary path
-  study/              short concept primers + interview question bank
-  labs/               the lab GUIDES (what learners read to run a lab)
-  host-setup/         GCP + containerlab + vJunos setup
-  reference/          ipplan, cheatsheet
-  quickstart/         team quickstart
-labs/<NN-name>/       RUNNABLE files only: topology.clab.yml, apply/*.set, configs/*.conf
-                      README.md is a SHORT pointer to the portal guide (no full content)
+CLAUDE.md             ← this file (internal)
+meta/                 internal authoring standards (NOT in the portal)
+  course-authoring.md the per-course build checklist + skeleton
+docs/                 ALL portal content (rendered by MkDocs)
+  roadmap.md          the 7-phase curriculum map + status
+  courses/<nn>-<slug>/  ⭐ NEW course scheme (one dir per course)
+    index.md            course overview + prerequisites
+    sessions/           the deep guided path (7-part rhythm)
+    labs/               the lab GUIDES learners read
+  sessions/ labs/ study/ ceos/ …  ← LEGACY dirs (Course 1 & 2). Leave in place.
+  host-setup/ reference/ quickstart/
+labs/<NN-name>/       RUNNABLE files only: topology.clab.yml, apply/*.set, configs/
+                      README.md = SHORT pointer to the portal guide
 scripts/              deploy · apply · switch · clean · reset · destroy · capture
-                      (clean = wipe config to baseline, NO reboot — for iterating
-                       within a running lab; far cheaper than reset)
 common/ipplan.md      canonical addressing (mirrored to docs/reference/ipplan.md)
-deploy/               cloudflare-pages.md (hosting setup)
-mkdocs.yml · requirements.txt · .python-version
+mkdocs.yml · requirements.txt
 ```
+
+**New courses use `docs/courses/<nn>-<slug>/`.** Courses 1–2 predate this scheme and
+stay where they are — migrating them is optional tech debt, not a blocker.
 
 ---
 
 ## The teaching model (the "NetForge method")
 
-Three tiers, all in the portal:
+**Every session follows this exact 7-part rhythm:**
 
-- **Course / Sessions** (`docs/sessions/`) — the deep guided path. **Every session
-  follows this exact rhythm:**
-  1. **Mental model** — an analogy to anchor the idea
-  2. **Why before how** — the problem, before any config
-  3. **The mechanism** — technical depth: what actually happens on the wire / in
-     the control plane
-  4. **Build it** — the hands-on lab, config explained line by line
-  5. **Verify** — the `show` commands **and how to read the output**
-  6. **Break & observe** — deliberately break it to see the failure mode
-  7. **Lessons & interview** — gotchas + interview questions
-- **Study** (`docs/study/`) — 5-minute primers per concept + collapsible interview
-  Q&A (`??? question`).
-- **Labs** (`docs/labs/` guide + `labs/` runnable) — complete, self-contained
-  hands-on guides.
+1. **Mental model** — an analogy to anchor the idea
+2. **Why before how** — the problem, before any config
+3. **The mechanism** — what actually happens on the wire / in the control plane
+4. **Build it** — hands-on, config explained line by line
+5. **Verify** — the `show` commands **and how to read the output**
+6. **Break & observe** — deliberately break it to see the failure mode
+7. **Lessons & interview** — gotchas + interview questions
+
+Supporting tiers: **Study** (`docs/study/`) 5-minute primers + collapsible interview
+Q&A; **Labs** — complete, self-contained runnable guides.
 
 Build order always mirrors reality: **underlay → overlay → services → scale.**
-Never teach/configure a layer before the one beneath it is verified.
+Never teach or configure a layer before the one beneath it is verified.
+
+---
+
+## ⭐ The honesty rule (most important convention)
+
+A lab is **⚠️ DRAFT** until its config has actually been **run on a live fabric**.
+Only mark it **✅ validated** after a real run.
+
+- **Never claim a config works, or call it validated, without a live run.**
+- Flag unverified syntax explicitly and list likely fix-spots in the guide.
+- **Config acceptance ≠ working data plane.** A CLI that accepts `mpls ip` does not
+  prove labels forward. Prove forwarding before teaching it.
+- When a probe contradicts an earlier claim in this repo, **fix the claim** — don't
+  leave both versions standing.
 
 ---
 
 ## Content conventions
 
-- **Each lab is self-contained** (reads top-to-bottom in the portal) and has its
-  **own independent fabric**: a distinct topology `name:` → distinct container
-  prefix (lab01 `evpn-fullmesh`, lab02 `evpn-rr`, lab03 `evpn-l3vni`, lab04
-  `evpn-mt`, …). **Only ONE lab runs at a time** — a 2×2 vJunos fabric needs
-  ~16 GB RAM. `deploy.sh`/`reset.sh` refuse to start if another fabric is up.
-- **⭐ Draft vs validated — the honesty rule.** A lab is **⚠️ DRAFT** until its
-  config has actually been **run on a live vJunos fabric**. Only mark it **✅ /
-  "validated"** after a real run. **Never claim a config works or is validated
-  without a live run.** Flag unverified syntax and list likely fix-spots in the
-  guide. (All 9 session teachings are written. Only **Lab 01** is validated live; labs 02–05 are drafts pending validation; labs for sessions 7–9 built after core validation.)
-- Config in guides is Junos **`set`-format**. Each `apply/NN-node.set` is one step;
-  steps stack (`apply.sh <lab> <NN|all>`). `configs/<node>.conf` = the node's
-  snippets concatenated.
-- **Diagrams: Mermaid** (text-based, renders in the portal *and* on GitHub — never
-  commit binary SVGs). Consistent colour scheme: **spines blue** (`#1565c0`),
-  **leaves green** (`#2e7d32`), **hosts orange** (`#ef6c00`). Reuse it everywhere.
+- **Each lab is self-contained** and reads top-to-bottom in the portal.
+- **Fabric naming:** labs that share identical cabling share ONE topology `name:`
+  (e.g. Juniper labs 01–04 = `evpn-lab`) so you boot once and switch designs with
+  `clean.sh` + `apply.sh`. Labs with different cabling get their own name. Scripts
+  derive the container prefix from the topology `name:` — never hard-code it.
+  `FABRIC=<prefix>` overrides it.
+- **Only one fabric at a time** on a given host (RAM).
+- **Per-step Apply → Verify → DONE gates** in every lab guide.
+- **Diagrams: Mermaid only** (renders in the portal *and* on GitHub — never commit
+  binary SVGs). Colours: **spines blue** `#1565c0`, **leaves green** `#2e7d32`,
+  **hosts orange** `#ef6c00`. Reuse everywhere.
+- Config format: cEOS = EOS CLI blocks; Juniper = `set`-format.
 
 ---
 
 ## Web design / portal standards
 
-- **MkDocs Material**, **theme-aware** (light + dark palettes are configured — don't
-  hard-code colours that break one mode).
-- **Portal-first / hide git:** **no `repo_url`, `repo_name`, or `edit_uri`** in
-  `mkdocs.yml` (no GitHub chrome in the UI). All learning content lives in `docs/`;
-  lab guides are `docs/labs/*.md`; runnable files stay in `labs/`.
-- **Scannable:** tables, admonitions (`!!! tip`, `⚠️`), short paragraphs, **bold key
-  terms**, one idea per section.
-- Interview Q&A as **collapsible** `??? question "…"` blocks (pymdownx.details) so
-  learners self-test before revealing.
-- **Nav:** `Home → Course 1: VXLAN-EVPN (sessions) → Study → Host Setup → Labs →
-  Reference`. **Add every new session and lab as a nav entry** in `mkdocs.yml`.
+- **MkDocs Material**, **theme-aware** (light + dark are configured — never hard-code
+  colours that break one mode).
+- **Portal-first / hide git:** no `repo_url`, `repo_name`, or `edit_uri` in
+  `mkdocs.yml`. No GitHub chrome, no links to GitHub in learner content.
+- **Scannable:** tables, admonitions (`!!! tip`, `!!! warning`), short paragraphs,
+  **bold key terms**, one idea per section.
+- Interview Q&A as **collapsible** `??? question "…"` blocks so learners self-test
+  before revealing.
+- **Add every new session and lab as a nav entry** in `mkdocs.yml`. Don't nav a page
+  that has no real content yet — status lives in `docs/roadmap.md` instead.
 
 ---
 
 ## Workflow rules (do these every time)
 
-1. **ALWAYS run `mkdocs build --strict` locally before pushing.** It catches broken
-   links and nav errors. ("no git logs" warnings are benign for *uncommitted* files
-   — they clear after commit; re-check post-commit if unsure.)
-2. **Never link from `docs/` to files outside `docs/`** (`labs/`, `common/`,
-   `scripts/`) — `--strict` fails on it. Mirror what you need into `docs/` (e.g.
-   `docs/reference/ipplan.md`) and keep links **portal-relative**.
+1. **ALWAYS run `mkdocs build --strict` before pushing.** It catches broken links and
+   nav errors. ("no git logs" warnings are benign for *uncommitted* files.)
+2. **Never link from `docs/` to files outside `docs/`** (`labs/`, `scripts/`,
+   `meta/`) — `--strict` fails. Mirror what you need into `docs/`.
 3. **Commit messages end with** the `Co-Authored-By: Claude …` line.
-4. **Hosting:** every push → GitHub Actions deploys GitHub Pages **and** Cloudflare
-   Pages auto-builds. CF build = `pip install -r requirements.txt && mkdocs build`,
-   output dir `site`, env `PYTHON_VERSION=3.11`. CF purges cache on deploy.
-5. **Scripts derive the container prefix from the topology `name:` field** — keep
-   names distinct per lab. Don't hard-code container names in scripts.
-6. **Never commit** the vJunos image (`*.qcow2`), credentials, or licence keys
-   (`.gitignore` covers them).
+4. **Push = deploy.** GitHub Actions → GH Pages; Cloudflare Pages auto-builds
+   (`pip install -r requirements.txt && mkdocs build`, output `site`,
+   `PYTHON_VERSION=3.11`). CF takes **1–2 min** — a 404 right after push is usually
+   just the build, not a bug. Hard-refresh before debugging.
+5. **Never commit** NOS images (`*.qcow2`, `*.tar.xz`), credentials, or licence keys.
+6. **Don't copy third-party content.** Other people's courses are reference for
+   *structure and topic order* only — write original prose. No license = all rights
+   reserved.
+
+---
+
+## Validated facts — Arista cEOS 4.32.0F (live, Apple Silicon / OrbStack)
+
+**VXLAN-EVPN fabric validated end-to-end** (2 spine RR × 2 leaf VTEP + 2 hosts;
+host↔host ping over VXLAN, Type-2/3 routes reflected with far-leaf next-hop).
+
+Mandatory config that is easy to miss:
+
+- **`ip routing`** — EOS defaults to an L2 switch. Without this, nothing routed works.
+- **`service routing protocols model multi-agent`** — required for EVPN.
+- OSPF via **interface-level** `ip ospf area 0.0.0.0` + `ip ospf network
+  point-to-point`. The `network X/31 area …` form was flaky — don't use it.
+- Single `Loopback0` = router-id + BGP update-source + `vxlan source-interface`.
+- Spine RR: `neighbor <peer> route-reflector-client`; leaves peer both spines.
+
+**Gotchas:**
+
+- cEOS is **amd64-only** → runs under Rosetta on M-series. `docker import
+  --platform linux/amd64` is mandatory (else `exec format error`).
+- **Boot race:** with 4 nodes booting at once under emulation, a node can come up
+  degraded — `show int Et1 status` shows type **`Unknown`**. `reload` is unsupported
+  and **`docker restart` destroys the clab veths**. Fix = `containerlab destroy` +
+  `deploy`, then **health-check every node** before configuring.
+- Config entry: `docker exec -it clab-<fabric>-<node> Cli` → `enable` → `configure`.
+  EOS applies live; `write memory` to persist.
+- **Safe capability probing:** `configure session <name>` … `show session-config
+  diffs` … `abort` — tests syntax without touching the running config.
+
+### Capability probe — MPLS / SR / L3VPN (2026-08-02)
+
+Probed via abortable config sessions on cEOS 4.32.0F. Sanity check confirmed invalid
+commands *do* error, so "accepted" is meaningful.
+
+| Feature | Verdict |
+|---|---|
+| `mpls ip`, `mpls ldp` | ✅ accepted (LdpAgent needs starting) |
+| BGP `address-family vpn-ipv4` / `vpn-ipv6` | ✅ accepted (weak evidence — empty diff) |
+| `vrf instance` + `rd` + `route-target import vpn-ipv4` | ✅ accepted — full L3VPN syntax |
+| IS-IS / OSPF `segment-routing mpls` | ✅ accepted |
+| `mpls rsvp` | ✅ accepted (weak evidence) |
+| EVPN-VPWS `patch panel` / `connector` | ✅ accepted |
+| **SRv6** | ❌ rejected — plan around its absence (cRPD is the fallback) |
+
+⚠️ **Control plane only — the data plane is UNPROVEN.** cEOS forwards in software.
+Before building Phase 3/3.5, run a real forwarding test (LDP label allocation +
+labeled traceroute across 3 nodes). Do it on a **scratch topology**, not the
+validated EVPN fabric.
 
 ---
 
 ## ⭐ Keep this file updated
 
-**After ANY design change, new session/lab, nav change, or convention shift —
-update this file in the same commit.** It is the source of truth for how NetForge
-is built. Changed the session rhythm, the design system, the lab structure, or the
-workflow? Reflect it here.
-
----
-
-## Validated facts (live vJunos-switch 23.2R1.14)
-
-- Interfaces are **`ge-0/0/N`**; containerlab `ethN` → `ge-0/0/(N-1)` (+1 offset).
-- Login: **`admin` / `admin@123`** (containerlab default for `juniper_vjunosswitch`).
-- **Junos originates the Type-3 (IMET) route only once the VLAN has an
-  operationally-up member interface** — differs from Cisco NX-OS. Type-3/tunnel
-  appear at the access-port step, not when the VNI is defined.
-- `family inet` commits clean on `ge-` ports (no `ethernet-switching` to delete).
-- Management `fxp0` is on `10.0.0.0/24`, overlapping loopbacks but isolated in the
-  `mgmt_junos` instance.
-- Automating Junos config over SSH: send `set` lines directly in `configure` mode
-  (`configure; rollback 0; <set lines>; commit and-quit; exit`). **Do not** use
-  `load set terminal` + Ctrl-D — the `^D` doesn't survive the ssh pty and hangs.
-
-## Course scope
-
-- Sessions **1–9** = core curriculum (bare fabric → multi-site). Sessions **10+**
-  = **Production & Advanced track** (hardening, MAC mobility, CRB/ERB, DHCP,
-  troubleshooting). Base labs are **learning-simplified**; Session 10 holds the
-  **production delta** (jumbo **MTU 9216** + **BFD** are non-negotiable in prod and
-  are NOT in the base labs yet — apply them via the hardening session).
+**After ANY design change, new course/session/lab, nav change, capability finding, or
+convention shift — update this file in the same commit.** It is the source of truth
+for how NetForge is built.
