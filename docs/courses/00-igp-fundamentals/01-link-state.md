@@ -150,5 +150,44 @@ just differently enough to be worth understanding separately.
 
 ---
 
+## Interview questions
+
+??? question "Why is link-state better than distance-vector for large networks?"
+    Distance-vector routers learn *conclusions* (e.g. "network X costs 5") from
+    neighbours and relay them onward. Bad news propagates hop by hop, and a router
+    can believe a path that no longer exists while waiting to be told. Link-state
+    routers flood the *facts* they know directly (my links and their costs) to
+    everyone, so every router builds an identical map and computes independently.
+    That's fast convergence and loop-free operation without special tricks.
+
+??? question "What does SPF actually compute?"
+    Dijkstra's shortest-path-first algorithm takes a directed, weighted graph (the
+    LSDB) and a root node (the running router) and computes the lowest-cost path to
+    every reachable destination. The result is a shortest-path tree anchored at the
+    running router — every other router appears in it, ranked by cost.
+
+??? question "Why do routers in the same area have identical LSDBs?"
+    Flooding ensures every router in the area receives every LSA. Each LSA has a
+    sequence number (so newer replaces older) and an age (so stale entries
+    eventually timeout). Because flooding is reliable and sequenced, and every
+    router in the area runs SPF on the same data, their databases end up identical.
+
+??? question "What happens if two routers disagree about the topology?"
+    **That's a bug.** If two routers in the same area have different LSDBs, they
+    compute different shortest-path trees and can legitimately send traffic on
+    different paths between the same pair of nodes. In a loop-free protocol like
+    OSPF, a topology disagreement is how you get a loop. It's checked by comparing
+    LSDB checksums in `show` output — a mismatch is a genuine alarm.
+
+??? question "Why are areas necessary if link-state already handles large networks?"
+    Link-state doesn't magically scale. Larger LSDB = more memory + heavier SPF
+    computation. Areas divide the problem: full topology detail stays *inside* an
+    area, and routers exchange *summaries* between areas. The cost is loss of
+    visibility — you can't see the full topology across areas, only learned
+    reachability. But that buys stability: a link flapping in one area no longer
+    forces every router in the network to re-run SPF.
+
+---
+
 **Next:** [OSPF →](02-ospf.md) — the same ideas, with areas, LSA types and
 adjacency states made concrete.
