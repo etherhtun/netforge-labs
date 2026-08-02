@@ -86,10 +86,10 @@ where it stalls tells you the cause immediately.
 
 ```mermaid
 graph LR
-    D[Down] --> I[Init] --> T["2-Way"] --> E[ExStart] --> X[Exchange] --> L[Loading] --> F[Full]
-    classDef n fill:#e3f2fd,stroke:#1565c0,color:#0d47a1;
-    classDef g fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
-    class D,I,T,E,X,L n; class F g;
+    D["<b>Down</b>"] --> I["<b>Init</b>"] --> T["<b>2-Way</b>"] --> E["<b>ExStart</b>"] --> X["<b>Exchange</b>"] --> L["<b>Loading</b>"] --> F["<b>Full</b>"]
+    classDef progress fill:#ffffff,stroke:#333333,color:#000000,stroke-width:2px,font-size:13px;
+    classDef working fill:#e8f5e9,stroke:#2e7d32,color:#000000,stroke-width:2px,font-size:13px;
+    class D,I,T,E,X,L progress; class F working;
 ```
 
 - **Init** — I heard a hello, but didn't see myself in it yet.

@@ -85,13 +85,13 @@ the same map, so everyone's answers agree — no negotiation needed.
 
 ```mermaid
 graph LR
-    A["Hello<br/>find neighbours"] --> B["Flood<br/>exchange link facts"]
-    B --> C["LSDB<br/>identical map"]
-    C --> D["SPF<br/>compute my tree"]
-    D --> E["Routing table"]
-    classDef s fill:#e3f2fd,stroke:#1565c0,color:#0d47a1;
-    classDef r fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
-    class A,B,C,D s; class E r;
+    A["<b>Hello</b><br/>find neighbours"] --> B["<b>Flood</b><br/>exchange link facts"]
+    B --> C["<b>LSDB</b><br/>identical map"]
+    C --> D["<b>SPF</b><br/>compute my tree"]
+    D --> E["<b>Routing<br/>table</b>"]
+    classDef process fill:#ffffff,stroke:#333333,color:#000000,stroke-width:2px,font-size:14px;
+    classDef result fill:#f0f0f0,stroke:#333333,color:#000000,stroke-width:2px,font-size:14px;
+    class A,B,C,D process; class E result;
 ```
 
 ---
