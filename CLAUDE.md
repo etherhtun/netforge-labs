@@ -171,8 +171,19 @@ Only mark it **✅ validated** after a real run.
   exactly. The old Course 1/2/3 labels were historical accretion (Course 1 and 2
   were *both* VXLAN-EVPN, on different platforms) and contradicted the roadmap's
   numbering. If the menu and the roadmap ever disagree again, the roadmap wins.
-- **Nav order:** `Home → Roadmap → Get Started → Phase N… → Archive → Reference`.
-  Phases appear only once they have real content.
+- ⭐ **The top bar is FIXED at six tabs and must never grow:**
+  `Home · Roadmap · Get Started · Courses · Archive · Reference`.
+  **Never add a phase as a top-level nav item.** Phases live in the sidebar under
+  `Courses`, so the bar stays the same width whether there are three phases or
+  twenty. An earlier version put each phase in the bar; at seven tabs they already
+  overflowed and faded out, and nine phases would have made it unusable.
+- **Section landing pages are required.** Every top-level section starts with its
+  own `index.md` as the first nav entry (`navigation.indexes` is enabled), so
+  `/courses/`, `/getting-started/`, `/archive/` and `/reference/` all resolve
+  instead of 404ing.
+- **`docs/courses/index.md` is the catalogue** — a card per phase with a status
+  badge. Adding a phase means adding a card there and a sidebar block, nothing
+  else.
 - The **Juniper vJunos course is archived reading**, under `docs/archive/` — kept because the theory is platform-agnostic, but
   it is not the hands-on path.
 - **Landing page** (`docs/index.md`) uses Material **grid cards**

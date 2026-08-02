@@ -27,7 +27,8 @@ theme:
   features:
     - navigation.tracking
     - navigation.tabs
-    - navigation.sections
+    - navigation.tabs.sticky
+    - navigation.indexes
     - navigation.top
     - navigation.footer
     - toc.follow
@@ -41,36 +42,38 @@ nav:
   - Roadmap: roadmap.md
 
   - Get Started:
+    - getting-started/index.md
     - Lab setup on macOS: getting-started/lab-setup-macos.md
     - Docker & containerlab: getting-started/containerlab.md
     - Cloud VM (optional): getting-started/cloud-vm.md
     - Team quickstart: getting-started/team-quickstart.md
 
-  - "Phase 0 · IGP Fundamentals":
-    - Overview: courses/00-igp-fundamentals/index.md
-    - 1 · How link-state routing works: courses/00-igp-fundamentals/01-link-state.md
-    - 2 · OSPF: courses/00-igp-fundamentals/02-ospf.md
-    - 3 · IS-IS: courses/00-igp-fundamentals/03-isis.md
-    - 4 · Choosing between them: courses/00-igp-fundamentals/04-choosing.md
-
-  - "Phase 3 · MPLS & L3VPN":
-    - Overview: courses/03-mpls-l3vpn/index.md
-    - "🧪 Lab 01 · MPLS + LDP underlay": courses/03-mpls-l3vpn/lab-01-mpls-ldp.md
-
-  - "Phase 4 · EVPN Services":
-    - Overview: courses/04-evpn/index.md
-    - "🧪 Lab 01 · VXLAN-EVPN on cEOS": courses/04-evpn/lab-01-vxlan-evpn.md
-    - Concepts:
-      - Start here: courses/04-evpn/concepts/index.md
-      - 1 · Why VXLAN-EVPN?: courses/04-evpn/concepts/01-why-vxlan-evpn.md
-      - 2 · Underlay vs overlay: courses/04-evpn/concepts/02-underlay-overlay.md
-      - 3 · VXLAN data plane: courses/04-evpn/concepts/03-vxlan-dataplane.md
-      - 4 · EVPN control plane: courses/04-evpn/concepts/04-evpn-controlplane.md
-      - 5 · Route types: courses/04-evpn/concepts/05-route-types.md
-      - 6 · Packet walk: courses/04-evpn/concepts/06-packet-walk.md
-      - Interview questions: courses/04-evpn/concepts/interview-questions.md
+  - Courses:
+    - courses/index.md
+    - "Phase 0 · IGP Fundamentals":
+      - courses/00-igp-fundamentals/index.md
+      - 1 · How link-state routing works: courses/00-igp-fundamentals/01-link-state.md
+      - 2 · OSPF: courses/00-igp-fundamentals/02-ospf.md
+      - 3 · IS-IS: courses/00-igp-fundamentals/03-isis.md
+      - 4 · Choosing between them: courses/00-igp-fundamentals/04-choosing.md
+    - "Phase 3 · MPLS & L3VPN":
+      - courses/03-mpls-l3vpn/index.md
+      - "🧪 Lab 01 · MPLS + LDP underlay": courses/03-mpls-l3vpn/lab-01-mpls-ldp.md
+    - "Phase 4 · EVPN Services":
+      - courses/04-evpn/index.md
+      - "🧪 Lab 01 · VXLAN-EVPN on cEOS": courses/04-evpn/lab-01-vxlan-evpn.md
+      - Concepts:
+        - courses/04-evpn/concepts/index.md
+        - 1 · Why VXLAN-EVPN?: courses/04-evpn/concepts/01-why-vxlan-evpn.md
+        - 2 · Underlay vs overlay: courses/04-evpn/concepts/02-underlay-overlay.md
+        - 3 · VXLAN data plane: courses/04-evpn/concepts/03-vxlan-dataplane.md
+        - 4 · EVPN control plane: courses/04-evpn/concepts/04-evpn-controlplane.md
+        - 5 · Route types: courses/04-evpn/concepts/05-route-types.md
+        - 6 · Packet walk: courses/04-evpn/concepts/06-packet-walk.md
+        - Interview questions: courses/04-evpn/concepts/interview-questions.md
 
   - Archive:
+    - archive/index.md
     - "Juniper VXLAN-EVPN": archive/juniper-vxlan-evpn/index.md
     - 1 · Underlay (OSPF): archive/juniper-vxlan-evpn/01-underlay.md
     - 2 · Overlay (iBGP-EVPN + RR): archive/juniper-vxlan-evpn/02-overlay-rr.md
@@ -91,6 +94,7 @@ nav:
       - "🧪 Lab 05 · ESI multihoming": archive/juniper-vxlan-evpn/labs/lab-05-esi.md
 
   - Reference:
+    - reference/index.md
     - IP addressing plan: reference/ipplan.md
     - Verification cheatsheet: reference/verify-cheatsheet.md
     - Validation runbook (drafts): reference/validation-runbook.md
