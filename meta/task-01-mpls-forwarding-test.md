@@ -78,7 +78,7 @@ If you see `Unknown`: `containerlab destroy -t topology.clab.yml` + `deploy`, th
 ### P1 (core router)
 
 ```bash
-docker exec clab-ceos-mpls-scratch-p1 Cli -p 15 <<'EOF'
+docker exec -i clab-ceos-mpls-scratch-p1 Cli -p 15 <<'EOF'
 enable
 configure
 no ip routing
@@ -91,12 +91,14 @@ interface Loopback0
  ip address 1.1.1.1 255.255.255.255
 !
 interface Ethernet1
+ no switchport
  no shutdown
  ip address 10.1.1.1 255.255.255.0
  ip ospf area 0.0.0.0
  ip ospf network point-to-point
 !
 interface Ethernet2
+ no switchport
  no shutdown
  ip address 10.1.2.1 255.255.255.0
  ip ospf area 0.0.0.0
@@ -119,7 +121,7 @@ EOF
 ### PE1
 
 ```bash
-docker exec clab-ceos-mpls-scratch-pe1 Cli -p 15 <<'EOF'
+docker exec -i clab-ceos-mpls-scratch-pe1 Cli -p 15 <<'EOF'
 enable
 configure
 no ip routing
@@ -132,6 +134,7 @@ interface Loopback0
  ip address 2.2.2.2 255.255.255.255
 !
 interface Ethernet1
+ no switchport
  no shutdown
  ip address 10.1.1.2 255.255.255.0
  ip ospf area 0.0.0.0
@@ -154,7 +157,7 @@ EOF
 ### PE2
 
 ```bash
-docker exec clab-ceos-mpls-scratch-pe2 Cli -p 15 <<'EOF'
+docker exec -i clab-ceos-mpls-scratch-pe2 Cli -p 15 <<'EOF'
 enable
 configure
 no ip routing
@@ -167,6 +170,7 @@ interface Loopback0
  ip address 3.3.3.3 255.255.255.255
 !
 interface Ethernet1
+ no switchport
  no shutdown
  ip address 10.1.2.2 255.255.255.0
  ip ospf area 0.0.0.0

@@ -199,6 +199,14 @@ Mandatory config that is easy to miss:
   degraded — `show int Et1 status` shows type **`Unknown`**. `reload` is unsupported
   and **`docker restart` destroys the clab veths**. Fix = `containerlab destroy` +
   `deploy`, then **health-check every node** before configuring.
+- ⭐ **Piping config in needs `docker exec -i`.** Without `-i` stdin is not attached,
+  so a heredoc is silently discarded — the command exits 0, prints nothing, and
+  **applies no configuration**. Looks identical to success. Use
+  `docker exec -i <node> Cli -p 15 <<'EOF' … EOF`. (`-c "show …"` doesn't need it.)
+- **LDP needs an interface-derived identity:** a bare `router-id 1.1.1.1` under
+  `mpls ldp` is not enough — EOS reports *"TransportAddr interface not configured and
+  router-id not derived from an interface"* and LDP stays operationally down. Use
+  `router-id interface Loopback0` + `transport-address interface Loopback0`.
 - Config entry: `docker exec -it clab-<fabric>-<node> Cli` → `enable` → `configure`.
   EOS applies live; `write memory` to persist.
 - **Safe capability probing:** `configure session <name>` … `show session-config
