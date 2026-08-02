@@ -227,10 +227,31 @@ commands *do* error, so "accepted" is meaningful.
 | EVPN-VPWS `patch panel` / `connector` | ✅ accepted |
 | **SRv6** | ❌ rejected — plan around its absence (cRPD is the fallback) |
 
-⚠️ **Control plane only — the data plane is UNPROVEN.** cEOS forwards in software.
-Before building Phase 3/3.5, run a real forwarding test (LDP label allocation +
-labeled traceroute across 3 nodes). Do it on a **scratch topology**, not the
-validated EVPN fabric.
+### LDP live test — 3-node scratch fabric (2026-08-02)
+
+Ran `pe1 — p1 — pe2` with OSPF + LDP (see `meta/task-01-mpls-forwarding-test.md`).
+
+**Confirmed working:**
+
+- OSPF adjacencies `FULL`; loopbacks advertised and reachable.
+- **LDP sessions reach `oper`** on both peers (TCP/646), discovery on both links.
+- **Label bindings exchanged correctly** — pe1 learned label `100001` for
+  `3.3.3.3/32` from p1, with `imp-null` where PHP applies.
+- ⭐ **MPLS forwarding state IS programmed in the data plane.** p1's MPLS
+  forwarding table holds two entries with *resolved adjacencies* — next-hop MAC,
+  VLAN, egress interface, `EgressACL: apply`. That is real forwarding
+  programming, not control-plane bookkeeping.
+
+**Still unproven:** that labelled packets actually traverse. A loopback-to-loopback
+ping succeeded (0% loss) but `traceroute` showed **plain IP hops, no label stack** —
+expected, because nothing forces label imposition. LDP builds the LSP; only a
+*service* (L3VPN / pseudowire) steers traffic into it.
+
+**→ The remaining test is a minimal L3VPN** (VRF + VPNv4, CE-to-CE), where labels
+are mandatory. That is Phase 3's opening lab anyway, so it doubles as content.
+Risk of failure now looks **low** — the hard parts (LDP, label distribution, FIB
+programming) all work — but it is not zero, so build Phase 3 lab-first and confirm
+before writing sessions around it.
 
 ---
 

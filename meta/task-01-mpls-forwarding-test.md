@@ -256,12 +256,40 @@ Then confirm the forwarding table is actually programmed, rather than traffic
 falling back to plain IP:
 
 ```bash
-docker exec clab-ceos-mpls-scratch-p1 Cli -p 15 -c "show mpls lfib route"
+docker exec clab-ceos-mpls-scratch-pe1 Cli -p 15 -c "show mpls ldp bindings"
 ```
 
 ```bash
 docker exec clab-ceos-mpls-scratch-pe1 Cli -p 15 -c "traceroute 3.3.3.3 source 2.2.2.2"
 ```
+
+!!! warning "A successful ping here does NOT prove MPLS forwarding"
+    Loopback-to-loopback traffic follows the **IP route table**. LDP builds the LSP,
+    but only a *service* — L3VPN, pseudowire — steers packets into it. Expect the
+    traceroute to show **plain IP hops with no label stack**, and don't read that as
+    a failure.
+
+    What this test actually proves is that LDP sessions establish, labels are
+    distributed, and **MPLS forwarding entries get programmed with resolved
+    adjacencies** (next-hop MAC, VLAN, egress interface). Proving labelled
+    *transit* requires the L3VPN step below.
+
+    Note: `show mpls lfib status` is not valid syntax on cEOS — use
+    `show mpls route` and `show mpls ldp bindings`.
+
+---
+
+## 5b. The conclusive test — minimal L3VPN
+
+Only a service forces label imposition. This is also Phase 3's opening lab, so it
+doubles as course content.
+
+Add a VRF on each PE, put a CE-facing interface in it, and peer VPNv4 between the
+PE loopbacks. Then ping **CE-to-CE**: that traffic *must* be labelled, because the
+VRF route is only reachable via the VPN label.
+
+**✅ The real DONE gate:** CE-to-CE ping succeeds across the VRF **and**
+`show mpls route` shows the VPN label being used.
 
 ---
 
