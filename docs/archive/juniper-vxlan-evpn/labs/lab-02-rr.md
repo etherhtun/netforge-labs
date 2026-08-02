@@ -45,7 +45,7 @@ unchanged** (the originating leaf's loopback). So the **control plane** goes
 leaf → spine → leaf, but the **data plane** (the VXLAN tunnel) is still **leaf →
 leaf directly**. The spine never encapsulates a data packet.
 
-**Addresses** (full plan in [common/ipplan.md](../reference/ipplan.md)):
+**Addresses** (full plan in [common/ipplan.md](../../../reference/ipplan.md)):
 
 | Device | lo0 | to spine1 | to spine2 |
 |--------|-----|-----------|-----------|
@@ -60,7 +60,7 @@ leaf directly**. The spine never encapsulates a data packet.
 
 ## Before you start
 
-- Host set up — see [Host Setup](../host-setup/00-gcp-instance.md).
+- Host set up — see [Host Setup](../../../getting-started/cloud-vm.md).
 - This lab runs on its own fabric (`clab-evpn-lab-*`).
 
 **⚠️ Pre-flight.** Labs 01–04 share **one fabric** (`clab-evpn-lab-*`) — same topology,

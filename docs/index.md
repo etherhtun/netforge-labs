@@ -24,7 +24,7 @@ Everything runs in containers on your own laptop. No hardware, no cloud bill.
     OrbStack, Docker, containerlab and Arista cEOS on a Mac. Roughly 30 minutes,
     once.
 
-    [Lab setup on macOS →](ceos/00-mac-setup.md)
+    [Lab setup on macOS →](getting-started/lab-setup-macos.md)
 
 -   🗺️ **See the whole path**
 
@@ -50,7 +50,7 @@ Everything runs in containers on your own laptop. No hardware, no cloud bill.
     Build a data-centre fabric on Arista cEOS: OSPF underlay, iBGP-EVPN overlay
     with route reflectors, and a VLAN stretched across VXLAN tunnels.
 
-    [Start the lab →](ceos/vxlan-evpn.md) · [Concepts →](study/index.md)
+    [Start the lab →](courses/04-evpn/lab-01-vxlan-evpn.md) · [Concepts →](courses/04-evpn/concepts/index.md)
 
 -   **Phase 3 · MPLS & L3VPN** &nbsp; <span class="nf-badge wip">in progress</span>
 
@@ -101,10 +101,10 @@ condition, so you never build on top of something that silently didn't work.
 
 ## Reference material
 
-The **[Juniper track](sessions/index.md)** is a complete written course on
+The **[Juniper track](archive/juniper-vxlan-evpn/index.md)** is a complete written course on
 VXLAN-EVPN using vJunos-switch — ten sessions plus five lab guides. It's kept as
 reading material: the theory applies to any platform, but the labs need a cloud VM
 and the hands-on path has moved to Arista cEOS.
 
 Also here: the [IP addressing plan](reference/ipplan.md) and a
-[verification cheatsheet](concepts/verify-cheatsheet.md).
+[verification cheatsheet](reference/verify-cheatsheet.md).

@@ -113,7 +113,7 @@ Then the host-facing access port (Step 5) — **this is what makes Type-3 appear
 set interfaces ge-0/0/2 unit 0 family ethernet-switching interface-mode access
 set interfaces ge-0/0/2 unit 0 family ethernet-switching vlan members v100
 ```
-Full walkthrough incl. host IPs: **[Lab 01 guide](../labs/lab-01-fullmesh.md)**.
+Full walkthrough incl. host IPs: **[Lab 01 guide](labs/lab-01-fullmesh.md)**.
 
 ---
 

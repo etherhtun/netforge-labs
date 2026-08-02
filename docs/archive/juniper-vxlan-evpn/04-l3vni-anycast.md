@@ -97,7 +97,7 @@ the *other's* subnet as a local interface — only the shared L3VNI.
 
 ## 4. Build it
 
-New lab: **[Lab 03 — anycast gateway + L3VNI](../labs/lab-03-l3vni.md)** (built on
+New lab: **[Lab 03 — anycast gateway + L3VNI](labs/lab-03-l3vni.md)** (built on
 the route-reflector fabric). It adds a second subnet and inter-subnet routing.
 
 - VLAN 100 → L2VNI 10100, `10.100.10.0/24`, anycast GW `10.100.10.1`

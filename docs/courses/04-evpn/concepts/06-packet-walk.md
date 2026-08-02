@@ -81,5 +81,5 @@ sequenceDiagram
 2. At which step does a Type-2 route get generated, and by which leaf?
 3. If ARP suppression is active, what changes about step 2?
 
-→ You're ready. Go build it: **[the Lab](../labs.md)** — or test yourself with the
+→ You're ready. Go build it: **[the Lab](../../../archive/juniper-vxlan-evpn/labs/index.md)** — or test yourself with the
 **[interview questions](interview-questions.md)**.

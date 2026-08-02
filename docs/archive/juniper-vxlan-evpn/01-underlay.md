@@ -123,7 +123,7 @@ graph TB
 ```
 
 **Deploy the fabric and drive the lab:** this session builds the underlay portion
-of [Lab 01](../labs/lab-01-fullmesh.md).
+of [Lab 01](labs/lab-01-fullmesh.md).
 ```bash
 ./scripts/deploy.sh 01-ospf-ibgp
 ./scripts/apply.sh  01-ospf-ibgp 01     # Step 1: interfaces + loopbacks
@@ -149,7 +149,7 @@ particular point, apply a **range** (which includes the prerequisites):
 A single step (`apply.sh 01-ospf-ibgp 03`) only works if the earlier steps are
 already applied — step 3 (BGP) needs the loopbacks (1) and underlay (2) first.
 
-**Config, explained — leaf1** (every node in [Lab 01](../labs/lab-01-fullmesh.md)):
+**Config, explained — leaf1** (every node in [Lab 01](labs/lab-01-fullmesh.md)):
 ```
 set interfaces ge-0/0/0 unit 0 family inet address 10.10.1.1/31   # link to spine1
 set interfaces ge-0/0/1 unit 0 family inet address 10.10.3.1/31   # link to spine2

@@ -90,7 +90,7 @@ gcloud compute ssh clab-lab --zone=asia-southeast1-b
 ```
 First run generates an SSH key and pushes it to the instance automatically.
 You'll land at an Ubuntu shell on the VM — this is where you run the
-[containerlab setup](01-containerlab.md) and all `./scripts/*` commands.
+[containerlab setup](containerlab.md) and all `./scripts/*` commands.
 
 **Alternatives:**
 - **Browser SSH** — in the Console, VM instances list → click **SSH** next to
@@ -173,4 +173,4 @@ The Juniper OS travels with the disk — confirm on the new VM with
 
 ---
 
-Next: [Host setup 2 — Docker, containerlab, and the vJunos image](01-containerlab.md).
+Next: [Host setup 2 — Docker, containerlab, and the vJunos image](containerlab.md).

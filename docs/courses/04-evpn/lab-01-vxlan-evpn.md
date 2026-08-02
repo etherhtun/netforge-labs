@@ -2,7 +2,7 @@
 
 > **Complete, self-contained, and validated.** Build a production-style
 > spine/route-reflector VXLAN-EVPN fabric on **Arista cEOS**, running in
-> **containerlab** on your laptop. Same concepts as [Course 1 (Juniper)](../sessions/index.md)
+> **containerlab** on your laptop. Same concepts as [Course 1 (Juniper)](../../archive/juniper-vxlan-evpn/index.md)
 > — in the Cisco-like EOS CLI, on a platform light enough to run anywhere.
 >
 > ✅ **Validated end-to-end on cEOS 4.32.0F** (containerlab, OrbStack, Apple-Silicon
@@ -65,7 +65,7 @@ graph TB
 You need **Docker + containerlab + the cEOS image**. On a Mac, run everything inside
 a Linux VM (e.g. **OrbStack**) so containerlab has a real Linux host.
 
-> 📖 **Full walkthrough:** [Lab setup on macOS](00-mac-setup.md) covers OrbStack, the
+> 📖 **Full walkthrough:** [Lab setup on macOS](../../getting-started/lab-setup-macos.md) covers OrbStack, the
 > Linux machine, the cEOS import, and a single-node smoke test end to end. The quick
 > version is below.
 

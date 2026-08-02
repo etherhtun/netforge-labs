@@ -3,7 +3,7 @@
 > **Complete, self-contained guide.** Builds on the route-reflector fabric and
 > adds a **second subnet** plus **inter-subnet routing** — an anycast gateway on
 > every leaf and a Layer-3 VNI carrying routed traffic between VTEPs. Pairs with
-> **[Session 4](../sessions/04-l3vni-anycast.md)** (the theory).
+> **[Session 4](../04-l3vni-anycast.md)** (the theory).
 >
 > ⚠️ **DRAFT — pending live validation.** The anycast-IRB / L3VNI config here
 > follows the standard Junos symmetric-IRB pattern but has **not yet been run on a

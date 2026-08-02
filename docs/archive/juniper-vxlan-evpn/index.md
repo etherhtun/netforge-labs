@@ -1,7 +1,7 @@
 # Course 1: VXLAN-EVPN on Juniper
 
 A structured, zero-to-hero path to VXLAN-EVPN on Juniper, **session by session**.
-(A [Course 2 on Cisco](../index.md) is planned.) Each **session** follows the same
+(A [Course 2 on Cisco](../../index.md) is planned.) Each **session** follows the same
 teaching rhythm:
 
 1. **Mental model** — an analogy to anchor the idea.
@@ -20,7 +20,7 @@ teaching rhythm:
 
 | # | Session | You'll master | Status |
 |---|---------|---------------|--------|
-| 0 | [Lab platform](../host-setup/00-gcp-instance.md) | GCP + containerlab + vJunos | ✅ |
+| 0 | [Lab platform](../../getting-started/cloud-vm.md) | GCP + containerlab + vJunos | ✅ |
 | 1 | [The underlay (OSPF)](01-underlay.md) | loopback reachability, ECMP, SPF | ✅ |
 | 2 | [The overlay (iBGP-EVPN + route reflectors)](02-overlay-rr.md) | BGP-EVPN, RD/RT, RR | ✅ |
 | 3 | [L2VNI — stretching a VLAN](03-l2vni.md) | bridging, Type-2/Type-3, flood lists | ✅ |
@@ -43,15 +43,15 @@ teaching rhythm:
 
 ## How this relates to the other sections
 
-- **[Study track](../study/index.md)** — shorter concept primers. Read these if
+- **[Study track](../../courses/04-evpn/concepts/index.md)** — shorter concept primers. Read these if
   you want the 5-minute version of a topic before the full session.
-- **[Labs](../labs.md)** — the runnable fabrics (`clab-*`). Each session's
+- **[Labs](labs/index.md)** — the runnable fabrics (`clab-*`). Each session's
   "Build it" section drives one of these.
 - **Sessions (here)** — the deep, guided course. **Start here** if you're
   learning the whole thing properly.
 
 ## Prerequisites
 
-- A working lab host — [Session 0 / Host Setup](../host-setup/00-gcp-instance.md).
+- A working lab host — [Session 0 / Host Setup](../../getting-started/cloud-vm.md).
 - Comfort with basic IP (addresses, subnets, routing) and the CLI. No prior EVPN
   knowledge assumed — that's what this course builds.

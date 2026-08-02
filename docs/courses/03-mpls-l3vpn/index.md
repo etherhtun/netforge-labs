@@ -28,7 +28,7 @@ table, all sharing one provider backbone, none able to see the others.
 
 - **[BGP Fundamentals](../../roadmap.md)** — L3VPN is MP-BGP with extra headers. If
   route reflectors and address families are unfamiliar, start there.
-- A working lab environment — see **[macOS lab setup](../../ceos/00-mac-setup.md)**.
+- A working lab environment — see **[macOS lab setup](../../getting-started/lab-setup-macos.md)**.
 
 ---
 

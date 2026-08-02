@@ -118,7 +118,7 @@ Break & observe.
 
 ## 4. Build it
 
-This session builds the overlay of **[Lab 02 — route reflectors](../labs/lab-02-rr.md)**.
+This session builds the overlay of **[Lab 02 — route reflectors](labs/lab-02-rr.md)**.
 
 ```mermaid
 graph TB

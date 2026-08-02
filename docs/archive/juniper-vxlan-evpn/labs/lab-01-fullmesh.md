@@ -1,7 +1,7 @@
 # Lab 01 — OSPF underlay + iBGP-EVPN (full mesh)
 
 > **Complete, self-contained guide.** Build a working VXLAN-EVPN fabric from bare
-> vJunos switches, one layer at a time. Read [the Study track](../study/index.md)
+> vJunos switches, one layer at a time. Read [the Study track](../../../courses/04-evpn/concepts/index.md)
 > first for the theory; this lab is the hands-on part.
 >
 > ✅ Validated end-to-end on vJunos-switch 23.2R1.14.
@@ -41,7 +41,7 @@ graph TB
     class S1,S2 spine; class L1,L2 leaf; class H1,H2 host;
 ```
 
-**Addresses** (full plan in [common/ipplan.md](../reference/ipplan.md)):
+**Addresses** (full plan in [common/ipplan.md](../../../reference/ipplan.md)):
 
 | Device | lo0 (router-id / VTEP) | to spine1 | to spine2 |
 |--------|------------------------|-----------|-----------|
@@ -58,7 +58,7 @@ graph TB
 ## Before you start
 
 - Host set up (GCP + containerlab + vJunos image) — see
-  [Host Setup](../host-setup/00-gcp-instance.md).
+  [Host Setup](../../../getting-started/cloud-vm.md).
 - This lab runs on its own fabric (`clab-evpn-lab-*`).
 
 **⚠️ Pre-flight — only ONE lab at a time.** A 2×2 vJunos fabric needs ~16 GB RAM;

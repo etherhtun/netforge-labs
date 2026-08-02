@@ -92,7 +92,7 @@ surviving leaf. Sub-second, no flooding.
 
 ## 4. Build it
 
-New lab: **[Lab 05 — ESI multihoming](../labs/lab-05-esi.md)**. host1 is dual-homed
+New lab: **[Lab 05 — ESI multihoming](labs/lab-05-esi.md)**. host1 is dual-homed
 to leaf1 **and** leaf2 as an LACP bond; host2 (single-homed) tests reachability.
 
 **Config sketch — the Ethernet Segment (identical on leaf1 and leaf2):**

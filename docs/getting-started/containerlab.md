@@ -1,7 +1,7 @@
 # Host setup 2 — Docker, containerlab, and the vJunos image
 
 Run everything here **on the GCP VM** (after SSHing in from
-[host setup 1](00-gcp-instance.md)). By the end you'll have containerlab
+[host setup 1](cloud-vm.md)). By the end you'll have containerlab
 installed and a bootable `vJunos-switch` image that `topology.clab.yml`
 references.
 
@@ -178,5 +178,5 @@ Make this a habit — an idle running fabric is the main way lab costs sneak up.
 
 ---
 
-Next: back to [lab 01](../labs/lab-01-fullmesh.md)
+Next: back to [lab 01](../archive/juniper-vxlan-evpn/labs/lab-01-fullmesh.md)
 — deploy the bare fabric and work through the complete guide.

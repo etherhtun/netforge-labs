@@ -17,7 +17,7 @@ The **MkDocs portal is the product**; the git repo is just the delivery mechanis
 - Portal (canonical): <https://netforge-labs.pages.dev> (Cloudflare Pages)
 - Portal (backup): <https://etherhtun.github.io/netforge-labs/> (GitHub Pages)
 
-**Curriculum = 7 phases** (IGP → BGP → Internet edge → MPLS/L3VPN → SR → EVPN →
+**Curriculum = 9 phases** (IGP → BGP → Internet edge → MPLS/L3VPN → SR → EVPN →
 NetDevOps → Cloud → Telemetry). See [`docs/roadmap.md`](docs/roadmap.md) for the map
 and current status of each.
 
@@ -27,10 +27,14 @@ and current status of each.
 
 | | **Arista cEOS** ⭐ primary | **Juniper vJunos-switch** (legacy) |
 |---|---|---|
-| Used by | Course 2 onward — all new work | Course 1 only (reference) |
+| Used by | every phase — all new work | archive track only (reading) |
 | Runs on | **Mac, locally** (OrbStack) | GCP VM |
 | Why | container, boots in minutes, Cisco-like CLI | — |
 | Status | ✅ active | ⚠️ **abandoned for hands-on** — 4 concurrent PFE boots are unstable; kept as a written reference course |
+
+📌 **Platform facts, gotchas and the capability matrix live in
+[`meta/ceos-platform-notes.md`](meta/ceos-platform-notes.md)** — read it before
+writing any cEOS config.
 
 **Do not build new courses on vJunos.** New work targets cEOS unless a capability
 probe proves cEOS can't do it (then consider **cRPD**, which we already have locally).
@@ -45,26 +49,35 @@ The Mac is for **git and authoring only**. Lab files live at `~/ceos-lab/` in th
 ## Repo layout
 
 ```
-CLAUDE.md             ← this file (internal)
-meta/                 internal authoring standards (NOT in the portal)
-  course-authoring.md the per-course build checklist + skeleton
-docs/                 ALL portal content (rendered by MkDocs)
-  roadmap.md          the 7-phase curriculum map + status
-  courses/<nn>-<slug>/  ⭐ NEW course scheme (one dir per course)
-    index.md            course overview + prerequisites
-    sessions/           the deep guided path (7-part rhythm)
-    labs/               the lab GUIDES learners read
-  sessions/ labs/ study/ ceos/ …  ← LEGACY dirs (Course 1 & 2). Leave in place.
-  host-setup/ reference/ quickstart/
-labs/<NN-name>/       RUNNABLE files only: topology.clab.yml, apply/*.set, configs/
-                      README.md = SHORT pointer to the portal guide
-scripts/              deploy · apply · switch · clean · reset · destroy · capture
-common/ipplan.md      canonical addressing (mirrored to docs/reference/ipplan.md)
-mkdocs.yml · requirements.txt
+CLAUDE.md               ← this file: conventions (internal)
+meta/                   internal only, NOT in the portal
+  course-authoring.md   per-course build checklist + templates
+  ceos-platform-notes.md  cEOS validated facts, gotchas, capability matrix
+docs/                   ALL portal content (rendered by MkDocs)
+  index.md  roadmap.md
+  getting-started/      lab-setup-macos · containerlab · cloud-vm · team-quickstart
+  courses/<nn>-<slug>/  ⭐ ONE scheme for every phase
+    index.md            phase overview + prerequisites + status
+    NN-*.md             sessions / lab guides
+    concepts/           optional primers (e.g. 04-evpn/concepts/)
+  archive/              retired tracks, kept as reading
+    juniper-vxlan-evpn/ 10 sessions + labs/
+  reference/            ipplan · verify-cheatsheet · validation-runbook
+  stylesheets/extra.css the design system
+labs/<name>/            RUNNABLE files only: topology.clab.yml, apply/*.set, configs/
+scripts/                deploy · apply · switch · clean · reset · destroy · capture
+common/ipplan.md        canonical addressing (mirrored to docs/reference/ipplan.md)
+mkdocs.yml · requirements.txt · .vscode/
 ```
 
-**New courses use `docs/courses/<nn>-<slug>/`.** Courses 1–2 predate this scheme and
-stay where they are — migrating them is optional tech debt, not a blocker.
+⭐ **There is exactly ONE content scheme: `docs/courses/<nn>-<slug>/`.** Everything
+was consolidated into it — there are no legacy directories left, and adding a new
+one is how the mess started last time. If content doesn't fit the scheme, change
+the scheme deliberately and migrate everything, rather than adding a parallel path.
+
+**Runnable files never duplicate a published guide.** `labs/` holds topologies and
+config snippets only. A shell script that re-implements a guide's steps *will* drift
+from it and become a trap — one did, and it silently reproduced five fixed bugs.
 
 ---
 
@@ -80,8 +93,8 @@ stay where they are — migrating them is optional tech debt, not a blocker.
 6. **Break & observe** — deliberately break it to see the failure mode
 7. **Lessons & interview** — gotchas + interview questions
 
-Supporting tiers: **Study** (`docs/study/`) 5-minute primers + collapsible interview
-Q&A; **Labs** — complete, self-contained runnable guides.
+Supporting tiers: **concepts** (`docs/courses/<phase>/concepts/`) 5-minute primers +
+collapsible interview Q&A; **lab guides** — complete and self-contained.
 
 Build order always mirrors reality: **underlay → overlay → services → scale.**
 Never teach or configure a layer before the one beneath it is verified.
@@ -158,10 +171,9 @@ Only mark it **✅ validated** after a real run.
   exactly. The old Course 1/2/3 labels were historical accretion (Course 1 and 2
   were *both* VXLAN-EVPN, on different platforms) and contradicted the roadmap's
   numbering. If the menu and the roadmap ever disagree again, the roadmap wins.
-- **Nav order:** `Home → Roadmap → Get Started → Phase N… → Juniper track
-  (reference) → Reference`. Phases appear only once they have real content.
-- The **Juniper vJunos course is a reading track**, labelled
-  `Juniper track (reference)` — kept because the theory is platform-agnostic, but
+- **Nav order:** `Home → Roadmap → Get Started → Phase N… → Archive → Reference`.
+  Phases appear only once they have real content.
+- The **Juniper vJunos course is archived reading**, under `docs/archive/` — kept because the theory is platform-agnostic, but
   it is not the hands-on path.
 - **Landing page** (`docs/index.md`) uses Material **grid cards**
   (`<div class="grid cards" markdown>`), which need the `attr_list` and
@@ -203,91 +215,6 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 6. **Don't copy third-party content.** Other people's courses are reference for
    *structure and topic order* only — write original prose. No license = all rights
    reserved.
-
----
-
-## Validated facts — Arista cEOS 4.32.0F (live, Apple Silicon / OrbStack)
-
-**VXLAN-EVPN fabric validated end-to-end** (2 spine RR × 2 leaf VTEP + 2 hosts;
-host↔host ping over VXLAN, Type-2/3 routes reflected with far-leaf next-hop).
-
-Mandatory config that is easy to miss:
-
-- **`ip routing`** — EOS defaults to an L2 switch. Without this, nothing routed works.
-- **`service routing protocols model multi-agent`** — required for EVPN.
-- OSPF via **interface-level** `ip ospf area 0.0.0.0` + `ip ospf network
-  point-to-point`. The `network X/31 area …` form was flaky — don't use it.
-- Single `Loopback0` = router-id + BGP update-source + `vxlan source-interface`.
-- Spine RR: `neighbor <peer> route-reflector-client`; leaves peer both spines.
-
-**Gotchas:**
-
-- cEOS is **amd64-only** → runs under Rosetta on M-series. `docker import
-  --platform linux/amd64` is mandatory (else `exec format error`).
-- ⭐ **Link endpoints MUST be lowercase `ethN`** in `.clab.yml` — `["p1:eth1",
-  "pe1:eth1"]`, never `Ethernet1`. cEOS's entrypoint counts `eth*` interfaces to know
-  when wiring is done; a literal `Ethernet1` veth never matches, so it hangs on
-  `Connected 0 interfaces out of N` forever and **EOS never boots** — which also
-  makes `docker exec … Cli` fail with *"executable file not found"*. That error means
-  **EOS hasn't started**, not that the image is broken. Inside EOS, `eth1` is
-  `Ethernet1`.
-- **Boot race:** with 4 nodes booting at once under emulation, a node can come up
-  degraded — `show int Et1 status` shows type **`Unknown`**. `reload` is unsupported
-  and **`docker restart` destroys the clab veths**. Fix = `containerlab destroy` +
-  `deploy`, then **health-check every node** before configuring.
-- ⭐ **Piping config in needs `docker exec -i`.** Without `-i` stdin is not attached,
-  so a heredoc is silently discarded — the command exits 0, prints nothing, and
-  **applies no configuration**. Looks identical to success. Use
-  `docker exec -i <node> Cli -p 15 <<'EOF' … EOF`. (`-c "show …"` doesn't need it.)
-- **LDP needs an interface-derived identity:** a bare `router-id 1.1.1.1` under
-  `mpls ldp` is not enough — EOS reports *"TransportAddr interface not configured and
-  router-id not derived from an interface"* and LDP stays operationally down. Use
-  `router-id interface Loopback0` + `transport-address interface Loopback0`.
-- Config entry: `docker exec -it clab-<fabric>-<node> Cli` → `enable` → `configure`.
-  EOS applies live; `write memory` to persist.
-- **Safe capability probing:** `configure session <name>` … `show session-config
-  diffs` … `abort` — tests syntax without touching the running config.
-
-### Capability probe — MPLS / SR / L3VPN (2026-08-02)
-
-Probed via abortable config sessions on cEOS 4.32.0F. Sanity check confirmed invalid
-commands *do* error, so "accepted" is meaningful.
-
-| Feature | Verdict |
-|---|---|
-| `mpls ip`, `mpls ldp` | ✅ accepted (LdpAgent needs starting) |
-| BGP `address-family vpn-ipv4` / `vpn-ipv6` | ✅ accepted (weak evidence — empty diff) |
-| `vrf instance` + `rd` + `route-target import vpn-ipv4` | ✅ accepted — full L3VPN syntax |
-| IS-IS / OSPF `segment-routing mpls` | ✅ accepted |
-| `mpls rsvp` | ✅ accepted (weak evidence) |
-| EVPN-VPWS `patch panel` / `connector` | ✅ accepted |
-| **SRv6** | ❌ rejected — plan around its absence (cRPD is the fallback) |
-
-### LDP live test — 3-node scratch fabric (2026-08-02)
-
-Ran `pe1 — p1 — pe2` with OSPF + LDP (see `docs/courses/03-mpls-l3vpn/lab-01-mpls-ldp.md`).
-
-**Confirmed working:**
-
-- OSPF adjacencies `FULL`; loopbacks advertised and reachable.
-- **LDP sessions reach `oper`** on both peers (TCP/646), discovery on both links.
-- **Label bindings exchanged correctly** — pe1 learned label `100001` for
-  `3.3.3.3/32` from p1, with `imp-null` where PHP applies.
-- ⭐ **MPLS forwarding state IS programmed in the data plane.** p1's MPLS
-  forwarding table holds two entries with *resolved adjacencies* — next-hop MAC,
-  VLAN, egress interface, `EgressACL: apply`. That is real forwarding
-  programming, not control-plane bookkeeping.
-
-**Still unproven:** that labelled packets actually traverse. A loopback-to-loopback
-ping succeeded (0% loss) but `traceroute` showed **plain IP hops, no label stack** —
-expected, because nothing forces label imposition. LDP builds the LSP; only a
-*service* (L3VPN / pseudowire) steers traffic into it.
-
-**→ The remaining test is a minimal L3VPN** (VRF + VPNv4, CE-to-CE), where labels
-are mandatory. That is Phase 3's opening lab anyway, so it doubles as content.
-Risk of failure now looks **low** — the hard parts (LDP, label distribution, FIB
-programming) all work — but it is not zero, so build Phase 3 lab-first and confirm
-before writing sessions around it.
 
 ---
 

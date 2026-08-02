@@ -2,7 +2,7 @@
 
 > **Complete, self-contained guide.** Two tenants share one fabric, fully isolated
 > — then you leak routes between them on purpose. Pairs with
-> **[Session 5](../sessions/05-multitenancy.md)**.
+> **[Session 5](../05-multitenancy.md)**.
 >
 > ⚠️ **DRAFT — pending live validation** (builds on the L3VNI pattern; not yet run
 > on vJunos).

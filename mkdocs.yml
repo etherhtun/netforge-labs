@@ -41,10 +41,10 @@ nav:
   - Roadmap: roadmap.md
 
   - Get Started:
-    - Lab setup on macOS: ceos/00-mac-setup.md
-    - Docker & containerlab: host-setup/01-containerlab.md
-    - Cloud VM (optional): host-setup/00-gcp-instance.md
-    - Team quickstart: quickstart/intro.md
+    - Lab setup on macOS: getting-started/lab-setup-macos.md
+    - Docker & containerlab: getting-started/containerlab.md
+    - Cloud VM (optional): getting-started/cloud-vm.md
+    - Team quickstart: getting-started/team-quickstart.md
 
   - "Phase 0 · IGP Fundamentals":
     - Overview: courses/00-igp-fundamentals/index.md
@@ -58,40 +58,41 @@ nav:
     - "🧪 Lab 01 · MPLS + LDP underlay": courses/03-mpls-l3vpn/lab-01-mpls-ldp.md
 
   - "Phase 4 · EVPN Services":
-    - "🧪 VXLAN-EVPN on Arista cEOS": ceos/vxlan-evpn.md
+    - Overview: courses/04-evpn/index.md
+    - "🧪 Lab 01 · VXLAN-EVPN on cEOS": courses/04-evpn/lab-01-vxlan-evpn.md
     - Concepts:
-      - Start here: study/index.md
-      - 1 · Why VXLAN-EVPN?: study/01-why-vxlan-evpn.md
-      - 2 · Underlay vs overlay: study/02-underlay-overlay.md
-      - 3 · VXLAN data plane: study/03-vxlan-dataplane.md
-      - 4 · EVPN control plane: study/04-evpn-controlplane.md
-      - 5 · Route types: study/05-route-types.md
-      - 6 · Packet walk: study/06-packet-walk.md
-      - Interview questions: study/interview-questions.md
+      - Start here: courses/04-evpn/concepts/index.md
+      - 1 · Why VXLAN-EVPN?: courses/04-evpn/concepts/01-why-vxlan-evpn.md
+      - 2 · Underlay vs overlay: courses/04-evpn/concepts/02-underlay-overlay.md
+      - 3 · VXLAN data plane: courses/04-evpn/concepts/03-vxlan-dataplane.md
+      - 4 · EVPN control plane: courses/04-evpn/concepts/04-evpn-controlplane.md
+      - 5 · Route types: courses/04-evpn/concepts/05-route-types.md
+      - 6 · Packet walk: courses/04-evpn/concepts/06-packet-walk.md
+      - Interview questions: courses/04-evpn/concepts/interview-questions.md
 
-  - "Juniper track (reference)":
-    - About this track: sessions/index.md
-    - 1 · Underlay (OSPF): sessions/01-underlay.md
-    - 2 · Overlay (iBGP-EVPN + RR): sessions/02-overlay-rr.md
-    - 3 · L2VNI (stretch a VLAN): sessions/03-l2vni.md
-    - 4 · L3VNI & anycast gateway: sessions/04-l3vni-anycast.md
-    - 5 · Multi-tenancy: sessions/05-multitenancy.md
-    - 6 · ESI multihoming: sessions/06-esi-multihoming.md
-    - 7 · eBGP designs: sessions/07-ebgp.md
-    - 8 · External connectivity (L3 out): sessions/08-l3out.md
-    - 9 · Multi-site / DCI: sessions/09-multisite.md
-    - 10 · Production hardening: sessions/10-production-hardening.md
+  - Archive:
+    - "Juniper VXLAN-EVPN": archive/juniper-vxlan-evpn/index.md
+    - 1 · Underlay (OSPF): archive/juniper-vxlan-evpn/01-underlay.md
+    - 2 · Overlay (iBGP-EVPN + RR): archive/juniper-vxlan-evpn/02-overlay-rr.md
+    - 3 · L2VNI (stretch a VLAN): archive/juniper-vxlan-evpn/03-l2vni.md
+    - 4 · L3VNI & anycast gateway: archive/juniper-vxlan-evpn/04-l3vni-anycast.md
+    - 5 · Multi-tenancy: archive/juniper-vxlan-evpn/05-multitenancy.md
+    - 6 · ESI multihoming: archive/juniper-vxlan-evpn/06-esi-multihoming.md
+    - 7 · eBGP designs: archive/juniper-vxlan-evpn/07-ebgp.md
+    - 8 · External connectivity (L3 out): archive/juniper-vxlan-evpn/08-l3out.md
+    - 9 · Multi-site / DCI: archive/juniper-vxlan-evpn/09-multisite.md
+    - 10 · Production hardening: archive/juniper-vxlan-evpn/10-production-hardening.md
     - Labs:
-      - All labs (overview): labs.md
-      - "🧪 Lab 01 · Full mesh": labs/lab-01-fullmesh.md
-      - "🧪 Lab 02 · Route reflectors": labs/lab-02-rr.md
-      - "🧪 Lab 03 · L3VNI + anycast GW": labs/lab-03-l3vni.md
-      - "🧪 Lab 04 · Multi-tenancy": labs/lab-04-multitenancy.md
-      - "🧪 Lab 05 · ESI multihoming": labs/lab-05-esi.md
+      - All labs (overview): archive/juniper-vxlan-evpn/labs/index.md
+      - "🧪 Lab 01 · Full mesh": archive/juniper-vxlan-evpn/labs/lab-01-fullmesh.md
+      - "🧪 Lab 02 · Route reflectors": archive/juniper-vxlan-evpn/labs/lab-02-rr.md
+      - "🧪 Lab 03 · L3VNI + anycast GW": archive/juniper-vxlan-evpn/labs/lab-03-l3vni.md
+      - "🧪 Lab 04 · Multi-tenancy": archive/juniper-vxlan-evpn/labs/lab-04-multitenancy.md
+      - "🧪 Lab 05 · ESI multihoming": archive/juniper-vxlan-evpn/labs/lab-05-esi.md
 
   - Reference:
     - IP addressing plan: reference/ipplan.md
-    - Verification cheatsheet: concepts/verify-cheatsheet.md
+    - Verification cheatsheet: reference/verify-cheatsheet.md
     - Validation runbook (drafts): reference/validation-runbook.md
 
 extra_css:

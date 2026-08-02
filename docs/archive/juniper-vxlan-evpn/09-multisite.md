@@ -139,5 +139,5 @@ not multiplied.
 
 **🎓 That completes Course 1.** You've gone from a bare fabric to a multi-site,
 multi-tenant, resilient VXLAN-EVPN data center — and you can explain and
-troubleshoot every layer. Revisit the [Study primers](../study/index.md) and
-[interview questions](../study/interview-questions.md) to lock it in.
+troubleshoot every layer. Revisit the [Study primers](../../courses/04-evpn/concepts/index.md) and
+[interview questions](../../courses/04-evpn/concepts/interview-questions.md) to lock it in.

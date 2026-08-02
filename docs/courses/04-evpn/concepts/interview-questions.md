@@ -191,4 +191,4 @@ interview.
 - **Second pass:** only the ⭐ questions — these are the ones interviewers dig
   into.
 - **Tie it to the lab:** every answer here has a matching `show` command you ran
-  in [lab 01](../labs.md). Seeing it live cements the theory.
+  in [lab 01](../../../archive/juniper-vxlan-evpn/labs/index.md). Seeing it live cements the theory.

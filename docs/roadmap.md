@@ -45,8 +45,8 @@ graph TD
 
 **Available now:** [IGP Fundamentals](courses/00-igp-fundamentals/index.md) (Phase 0,
 reading track) · [MPLS + LDP](courses/03-mpls-l3vpn/lab-01-mpls-ldp.md) (Phase 3,
-Lab 01) · [VXLAN-EVPN on Arista cEOS](ceos/vxlan-evpn.md) — the validated core of
-Phase 4 — plus [VXLAN-EVPN on Juniper](sessions/index.md) as a written reference
+Lab 01) · [VXLAN-EVPN on Arista cEOS](courses/04-evpn/lab-01-vxlan-evpn.md) — the validated core of
+Phase 4 — plus [VXLAN-EVPN on Juniper](archive/juniper-vxlan-evpn/index.md) as a written reference
 course.
 
 ---
@@ -55,7 +55,7 @@ course.
 
 - **New to routing?** Phase 0 → 1 → 2. That's the enterprise path.
 - **Data-centre focus?** Phase 1, then jump to
-  [Phase 4 (VXLAN-EVPN)](ceos/vxlan-evpn.md) — it's live today.
+  [Phase 4 (VXLAN-EVPN)](courses/04-evpn/lab-01-vxlan-evpn.md) — it's live today.
 - **Service-provider focus?** Phase 1 → 3 → 3.5.
 - **Already know the protocols?** Phase 5 and 7 are where the job actually is.
 
@@ -67,7 +67,7 @@ what you need for the labs and move on to the parts that are harder to find.
 ## Platform
 
 Everything is built on **Arista cEOS** — a container, so a full fabric boots on a
-laptop in minutes. Start with the [macOS lab setup](ceos/00-mac-setup.md).
+laptop in minutes. Start with the [macOS lab setup](getting-started/lab-setup-macos.md).
 
 We verify what the platform can actually do *before* writing a course. Current
 findings for the MPLS and Segment Routing phases:

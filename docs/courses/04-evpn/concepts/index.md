@@ -18,7 +18,7 @@ When you can answer those, move on.
 | 5 | [EVPN route types](05-route-types.md) | Type-2 / Type-3 / Type-5 and when each appears |
 | 6 | [Packet walk](06-packet-walk.md) | Exactly what happens when host A pings host B |
 
-Then → **[the Lab](../labs.md)**, where you build all of this by hand and watch
+Then → **[the Lab](../../../archive/juniper-vxlan-evpn/labs/index.md)**, where you build all of this by hand and watch
 each concept appear in real `show` output.
 
 ## Also here
@@ -26,7 +26,7 @@ each concept appear in real `show` output.
 - **[Interview questions](interview-questions.md)** — a self-test bank organised
   by topic, from fundamentals to design and troubleshooting. Answers are
   collapsed so you can quiz yourself first.
-- **[Verification cheatsheet](../concepts/verify-cheatsheet.md)** — the `show`
+- **[Verification cheatsheet](../../../reference/verify-cheatsheet.md)** — the `show`
   commands, grouped by layer.
 
 ## One mental model to carry through everything

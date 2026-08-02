@@ -49,7 +49,7 @@ docker logs -f clab-evpn-lab-spine1
 ### Path 1: Learn by hand (recommended)
 Follow the lab guide and type the config yourself. This is how you actually learn.
 
-1. Open the complete guide: [Lab 01 README](../labs/lab-01-fullmesh.md)
+1. Open the complete guide: [Lab 01 README](../archive/juniper-vxlan-evpn/labs/lab-01-fullmesh.md)
 2. SSH into a node and apply each step's config:
    ```bash
    ssh admin@clab-evpn-lab-leaf1     # password admin@123
@@ -102,6 +102,6 @@ gcloud compute instances start clab-lab --zone=asia-southeast1-b
 
 ## Questions?
 
-- **Lab concepts:** See the [Study track](../study/index.md)
-- **Show command reference:** [Verification Cheatsheet](../concepts/verify-cheatsheet.md)
+- **Lab concepts:** See the [Study track](../courses/04-evpn/concepts/index.md)
+- **Show command reference:** [Verification Cheatsheet](../reference/verify-cheatsheet.md)
 - **Troubleshooting:** Check the break-it exercises in each lab for failure modes

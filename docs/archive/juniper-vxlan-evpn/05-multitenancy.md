@@ -90,7 +90,7 @@ One fabric, many sealed tenants — the essence of multi-tenancy.
 
 ## 4. Build it
 
-New lab: **[Lab 04 — multi-tenancy](../labs/lab-04-multitenancy.md)** (built on the
+New lab: **[Lab 04 — multi-tenancy](labs/lab-04-multitenancy.md)** (built on the
 L3VNI fabric). Two tenants, prove isolation, then leak.
 
 - **Tenant-A:** VRF `TENANT-A`, VLAN 100 `10.100.10.0/24`, L3VNI 50000, RT `:5000`

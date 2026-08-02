@@ -72,7 +72,7 @@ sufficient; "we are deploying SR next quarter" is.
     a single area with point-to-point links and no hierarchy at all.
 
     Both protocols do that perfectly. Pick whichever your team knows —
-    [Phase 4](../../ceos/vxlan-evpn.md) uses OSPF for exactly this reason. Some
+    [Phase 4](../04-evpn/lab-01-vxlan-evpn.md) uses OSPF for exactly this reason. Some
     fabrics use eBGP instead, which [Phase 1](../../roadmap.md) covers.
 
 ---
@@ -142,7 +142,7 @@ You now have what every later phase assumes.
 |---|---|
 | **[Phase 1 · BGP](../../roadmap.md)** | iBGP peers over loopbacks the IGP makes reachable |
 | **[Phase 3 · MPLS](../03-mpls-l3vpn/index.md)** | LDP binds labels to IGP-learned prefixes — no route, no label |
-| **[Phase 4 · EVPN](../../ceos/vxlan-evpn.md)** | VTEPs source tunnels from IGP-advertised loopbacks |
+| **[Phase 4 · EVPN](../04-evpn/lab-01-vxlan-evpn.md)** | VTEPs source tunnels from IGP-advertised loopbacks |
 
 And the rule worth carrying into all of them: **prove the underlay before debugging
 the overlay.** Almost every "the overlay is broken" report turns out to be a

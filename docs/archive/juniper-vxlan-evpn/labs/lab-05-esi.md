@@ -2,7 +2,7 @@
 
 > **Complete, self-contained guide.** host1 is dual-homed to **both** leaves as an
 > LACP bond / Ethernet Segment — all-active, survives a leaf failure. Pairs with
-> **[Session 6](../sessions/06-esi-multihoming.md)**.
+> **[Session 6](../06-esi-multihoming.md)**.
 >
 > ⚠️ **DRAFT — pending live validation.** LACP bonds + ESI have many moving parts;
 > treat the config as a strong draft until run on vJunos.
