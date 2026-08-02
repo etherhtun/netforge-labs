@@ -134,6 +134,24 @@ Only mark it **✅ validated** after a real run.
 
 ---
 
+## Local authoring setup
+
+MkDocs runs from a **local venv** (`.venv/`, gitignored). On a fresh clone:
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+```
+
+- **Preview:** `.venv/bin/mkdocs serve` → <http://127.0.0.1:8000>, live-reloads on save.
+- **In VS Code / Cursor:** `.vscode/` is committed — `Cmd+Shift+B` runs the preview
+  task, and the test task runs the strict build. Recommended extensions are listed
+  in `.vscode/extensions.json`.
+- ⚠️ **VS Code's built-in markdown preview does NOT render Material syntax** —
+  admonitions, `??? question` collapsibles and mermaid all show as raw text. Judge
+  pages in `mkdocs serve`, never in the built-in preview.
+
+---
+
 ## Workflow rules (do these every time)
 
 1. **ALWAYS run `mkdocs build --strict` before pushing.** It catches broken links and
