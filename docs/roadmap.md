@@ -36,7 +36,7 @@ graph TD
 | **0** | IGP Fundamentals | OSPFv2/v3, IS-IS (dual-stack IPv4/IPv6) | 📋 Planned |
 | **1** | BGP Fundamentals & Policies | eBGP, iBGP, route reflectors, advanced path selection | 📋 Planned |
 | **2** | BGP-DIA & Internet Edge | Multi-homing, RPKI, peering, NAT / CGNAT | 📋 Planned |
-| **3** | MPLS & L3VPN | LDP, RSVP-TE, L3VPN (Options A, B, C) | 🔬 Platform probe done |
+| **3** | MPLS & L3VPN | LDP, RSVP-TE, L3VPN (Options A, B, C) | 🔬 LDP validated live |
 | **3.5** | Segment Routing | SR-MPLS, SR-PCE, Ti-LFA, SRv6 basics | 🔬 Platform probe done |
 | **4** | EVPN Unified Services | EVPN-VPWS, EVPN-ELAN, VXLAN-EVPN DCI | 🟢 **Partly live** |
 | **5** | Network Automation & NetDevOps | NetBox, Ansible, Python, gNMI, CI/CD | 📋 Planned |
@@ -78,11 +78,25 @@ findings for the MPLS and Segment Routing phases:
 | EVPN-VPWS | ✅ supported |
 | SRv6 | ❌ not available — will use a second NOS |
 
-!!! note "What this table does and doesn't say"
-    It confirms the **control plane** exists — the CLI accepts the configuration and
-    builds the state. It does **not** yet prove labelled packets forward end to end.
-    That test comes before any Phase 3 content is written, and this page will be
-    updated with the result either way.
+### Live LDP test — result
+
+We built a 3-node fabric (`pe1 — p1 — pe2`) and ran OSPF + LDP for real. What we
+found:
+
+- **LDP sessions reach `oper`** on both peers, with label bindings exchanged
+  correctly in both directions.
+- **MPLS forwarding entries are programmed with resolved adjacencies** — next-hop
+  MAC, VLAN, egress interface. That's genuine forwarding state, not just the CLI
+  accepting a command.
+
+!!! note "What is still open"
+    A loopback-to-loopback ping passed, but `traceroute` showed **plain IP hops with
+    no label stack** — which is expected, not a fault. LDP *builds* the path; only a
+    service (L3VPN, pseudowire) steers traffic onto it.
+
+    So labelled **transit** is not yet proven. The conclusive test is a minimal
+    L3VPN, where the label is mandatory — and that's Phase 3's opening lab anyway.
+    Phase 3 will be built lab-first and this page updated with the outcome.
 
 ---
 
