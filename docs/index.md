@@ -1,9 +1,15 @@
+<div class="nf-hero" markdown>
+
 # NetForge Labs
 
 **Learn networking by building it.** Stand up real fabrics, break them on purpose,
 and understand *why* every line of config is there — not just what to paste.
 
 Everything runs in containers on your own laptop. No hardware, no cloud bill.
+
+<p class="nf-hero-meta">Arista cEOS · containerlab · validated on Apple Silicon</p>
+
+</div>
 
 ---
 
@@ -37,7 +43,7 @@ Everything runs in containers on your own laptop. No hardware, no cloud bill.
 
 <div class="grid cards" markdown>
 
--   **Phase 4 · VXLAN-EVPN** &nbsp; ✅ validated
+-   **Phase 4 · VXLAN-EVPN** &nbsp; <span class="nf-badge ok">validated</span>
 
     ---
 
@@ -46,7 +52,7 @@ Everything runs in containers on your own laptop. No hardware, no cloud bill.
 
     [Start the lab →](ceos/vxlan-evpn.md) · [Concepts →](study/index.md)
 
--   **Phase 3 · MPLS & L3VPN** &nbsp; 🔬 in progress
+-   **Phase 3 · MPLS & L3VPN** &nbsp; <span class="nf-badge wip">in progress</span>
 
     ---
 
