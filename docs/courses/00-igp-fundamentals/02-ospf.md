@@ -87,8 +87,8 @@ where it stalls tells you the cause immediately.
 ```mermaid
 graph LR
     D["Down"] --> I["Init"] --> T["2-Way"] --> E["ExStart"] --> X["Exchange"] --> L["Loading"] --> F["Full"]
-    classDef progress fill:#1a202c,stroke:#ffffff,color:#ffffff,stroke-width:3px,font-size:16px;
-    classDef working fill:#22863a,stroke:#ffffff,color:#ffffff,stroke-width:3px,font-size:16px;
+    classDef progress fill:#1565c0,stroke:#90caf9,color:#ffffff,stroke-width:2px,font-size:15px;
+    classDef working fill:#2e7d32,stroke:#a5d6a7,color:#ffffff,stroke-width:2px,font-size:15px;
     class D,I,T,E,X,L progress; class F working;
 ```
 
