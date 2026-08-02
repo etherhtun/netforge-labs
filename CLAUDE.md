@@ -131,6 +131,20 @@ Only mark it **✅ validated** after a real run.
   before revealing.
 - **Add every new session and lab as a nav entry** in `mkdocs.yml`. Don't nav a page
   that has no real content yet — status lives in `docs/roadmap.md` instead.
+- ⭐ **Nav is named by ROADMAP PHASE, never "Course N".** Sections read
+  `Phase 3 · MPLS & L3VPN`, `Phase 4 · EVPN Services` — matching `docs/roadmap.md`
+  exactly. The old Course 1/2/3 labels were historical accretion (Course 1 and 2
+  were *both* VXLAN-EVPN, on different platforms) and contradicted the roadmap's
+  numbering. If the menu and the roadmap ever disagree again, the roadmap wins.
+- **Nav order:** `Home → Roadmap → Get Started → Phase N… → Juniper track
+  (reference) → Reference`. Phases appear only once they have real content.
+- The **Juniper vJunos course is a reading track**, labelled
+  `Juniper track (reference)` — kept because the theory is platform-agnostic, but
+  it is not the hands-on path.
+- **Landing page** (`docs/index.md`) uses Material **grid cards**
+  (`<div class="grid cards" markdown>`), which need the `attr_list` and
+  `md_in_html` extensions — both enabled. Keep it to *what's available now* plus a
+  pointer to the roadmap; don't list unbuilt phases there.
 
 ---
 

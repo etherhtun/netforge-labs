@@ -23,52 +23,64 @@ theme:
     - navigation.tracking
     - navigation.tabs
     - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
     - content.code.copy
+    - content.tabs.link
 
 nav:
   - Home: index.md
   - Roadmap: roadmap.md
-  - "Course 1: VXLAN-EVPN":
-    - Overview: sessions/index.md
+
+  - Get Started:
+    - Lab setup on macOS: ceos/00-mac-setup.md
+    - Docker & containerlab: host-setup/01-containerlab.md
+    - Cloud VM (optional): host-setup/00-gcp-instance.md
+    - Team quickstart: quickstart/intro.md
+
+  - "Phase 3 · MPLS & L3VPN":
+    - Overview: courses/03-mpls-l3vpn/index.md
+    - "🧪 Lab 01 · MPLS + LDP underlay": courses/03-mpls-l3vpn/lab-01-mpls-ldp.md
+
+  - "Phase 4 · EVPN Services":
+    - "🧪 VXLAN-EVPN on Arista cEOS": ceos/vxlan-evpn.md
+    - Concepts:
+      - Start here: study/index.md
+      - 1 · Why VXLAN-EVPN?: study/01-why-vxlan-evpn.md
+      - 2 · Underlay vs overlay: study/02-underlay-overlay.md
+      - 3 · VXLAN data plane: study/03-vxlan-dataplane.md
+      - 4 · EVPN control plane: study/04-evpn-controlplane.md
+      - 5 · Route types: study/05-route-types.md
+      - 6 · Packet walk: study/06-packet-walk.md
+      - Interview questions: study/interview-questions.md
+
+  - "Juniper track (reference)":
+    - About this track: sessions/index.md
     - 1 · Underlay (OSPF): sessions/01-underlay.md
     - 2 · Overlay (iBGP-EVPN + RR): sessions/02-overlay-rr.md
     - 3 · L2VNI (stretch a VLAN): sessions/03-l2vni.md
-    - "🧪 Lab 01 · Full mesh (sessions 1–3)": labs/lab-01-fullmesh.md
-    - "🧪 Lab 02 · Route reflectors (session 2)": labs/lab-02-rr.md
     - 4 · L3VNI & anycast gateway: sessions/04-l3vni-anycast.md
-    - "🧪 Lab 03 · L3VNI + anycast GW": labs/lab-03-l3vni.md
     - 5 · Multi-tenancy: sessions/05-multitenancy.md
-    - "🧪 Lab 04 · Multi-tenancy": labs/lab-04-multitenancy.md
     - 6 · ESI multihoming: sessions/06-esi-multihoming.md
-    - "🧪 Lab 05 · ESI multihoming": labs/lab-05-esi.md
     - 7 · eBGP designs: sessions/07-ebgp.md
     - 8 · External connectivity (L3 out): sessions/08-l3out.md
     - 9 · Multi-site / DCI: sessions/09-multisite.md
     - 10 · Production hardening: sessions/10-production-hardening.md
-    - All labs (overview): labs.md
-  - "Course 2: VXLAN-EVPN (Arista cEOS)":
-    - Lab setup (macOS): ceos/00-mac-setup.md
-    - VXLAN-EVPN on cEOS: ceos/vxlan-evpn.md
-  - "Course 3: MPLS & L3VPN":
-    - Overview: courses/03-mpls-l3vpn/index.md
-    - "🧪 Lab 01 · MPLS + LDP underlay": courses/03-mpls-l3vpn/lab-01-mpls-ldp.md
-  - Study (quick concepts):
-    - Start here: study/index.md
-    - 1 · Why VXLAN-EVPN?: study/01-why-vxlan-evpn.md
-    - 2 · Underlay vs overlay: study/02-underlay-overlay.md
-    - 3 · VXLAN data plane: study/03-vxlan-dataplane.md
-    - 4 · EVPN control plane: study/04-evpn-controlplane.md
-    - 5 · Route types: study/05-route-types.md
-    - 6 · Packet walk: study/06-packet-walk.md
-    - Interview questions: study/interview-questions.md
-  - Host Setup:
-    - GCP Instance: host-setup/00-gcp-instance.md
-    - Docker & containerlab: host-setup/01-containerlab.md
+    - Labs:
+      - All labs (overview): labs.md
+      - "🧪 Lab 01 · Full mesh": labs/lab-01-fullmesh.md
+      - "🧪 Lab 02 · Route reflectors": labs/lab-02-rr.md
+      - "🧪 Lab 03 · L3VNI + anycast GW": labs/lab-03-l3vni.md
+      - "🧪 Lab 04 · Multi-tenancy": labs/lab-04-multitenancy.md
+      - "🧪 Lab 05 · ESI multihoming": labs/lab-05-esi.md
+
   - Reference:
     - IP addressing plan: reference/ipplan.md
+    - Verification cheatsheet: concepts/verify-cheatsheet.md
     - Validation runbook (drafts): reference/validation-runbook.md
-    - Verification Cheatsheet: concepts/verify-cheatsheet.md
-    - Team Quickstart: quickstart/intro.md
 
 plugins:
   - search
@@ -77,6 +89,8 @@ plugins:
 
 markdown_extensions:
   - admonition
+  - attr_list
+  - md_in_html
   - codehilite
   - pymdownx.arithmatex
   - pymdownx.betterem
