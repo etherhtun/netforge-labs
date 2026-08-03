@@ -32,19 +32,24 @@ it hold.
 ## Topology
 
 ```mermaid
-graph TD
-    H2["host2<br/>172.16.30.10"] --- R3["r3 · AS 65002<br/>provider"]
-    R3 ---|"10.0.13.0/24<br/>eBGP A"| R1["r1 · 1.1.1.1<br/>VRRP 110"]
-    R3 ---|"10.0.23.0/24<br/>eBGP B"| R2["r2 · 2.2.2.2<br/>VRRP 100"]
-    R1 ---|"10.0.12.0/24<br/>OSPF + iBGP"| R2
-    R1 --- SW["sw1<br/>VLAN 10"]
-    R2 --- SW
-    SW --- H1["host1<br/>192.168.10.10<br/>gw .1"]
+graph LR
+    H1["host1<br/>192.168.10.10"] --- SW["sw1<br/>VLAN 10"]
+    SW --- R1["r1<br/>VRRP 110"]
+    SW --- R2["r2<br/>VRRP 100"]
+    R1 ---|iBGP| R2
+    R1 ---|"eBGP A"| R3["r3<br/>AS 65002"]
+    R2 ---|"eBGP B"| R3
+    R3 --- H2["host2<br/>172.16.30.10"]
+
     classDef edge fill:#1565c0,stroke:#90caf9,color:#ffffff,stroke-width:2px,font-size:14px;
     classDef prov fill:#2e7d32,stroke:#a5d6a7,color:#ffffff,stroke-width:2px,font-size:14px;
     classDef host fill:#ef6c00,stroke:#ffcc80,color:#ffffff,stroke-width:2px,font-size:14px;
     class R1,R2,SW edge; class R3 prov; class H1,H2 host;
 ```
+
+Reads left to right in traffic order: **user → access switch → edge routers →
+provider → remote host**. Link addressing is in the table below rather than on the
+diagram, which keeps it legible.
 
 | Device | Role | Key addresses |
 |---|---|---|
