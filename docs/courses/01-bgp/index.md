@@ -23,6 +23,16 @@ and lets you express business relationships in configuration.
 
 ---
 
+## The concepts
+
+Short primers on what labs alone don't teach — the state machine, attributes, the
+best-path algorithm, policy tooling, and route reflection.
+
+[Start with the concepts →](concepts/index.md) ·
+[Interview questions →](concepts/interview-questions.md)
+
+---
+
 ## Prerequisites
 
 - **[Phase 0 · IGP Fundamentals](../00-igp-fundamentals/index.md)** — iBGP peers

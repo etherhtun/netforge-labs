@@ -43,7 +43,7 @@ Nothing is marked finished until it has actually been run. See the
     eBGP and iBGP, route reflectors, path selection, and the policy tooling that
     decides which route actually wins.
 
-    [Overview →](01-bgp/index.md) · [Lab 01 →](01-bgp/lab-01-ebgp-ibgp.md)
+    [Overview →](01-bgp/index.md) · [Lab 01 →](01-bgp/lab-01-ebgp-ibgp.md) · [Concepts →](01-bgp/concepts/index.md)
 
 -   **Phase 2 · BGP-DIA & Internet Edge** &nbsp; <span class="nf-badge plan">planned</span>
 
