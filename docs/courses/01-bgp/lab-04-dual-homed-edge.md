@@ -1,13 +1,23 @@
-# 🧪 Lab 04 · Dual-homed edge, end to end
+# 🧪 Lab 04 · Multihomed edge, end to end
 
 > ✅ **Validated** on Arista cEOS 4.32.0F, 2026-08-03. All output captured live.
 
-**Time:** ~60 minutes · **Nodes:** 6 (4 switches/routers + 2 hosts)
+**Time:** ~75 minutes · **Nodes:** 8 (5 switches/routers + 3 hosts)
+
+!!! warning "Needs a 16 GB lab VM"
+    Five cEOS containers saturate a 16 GB host — the first build attempt killed
+    the VM outright. Deploy with `--max-workers 1`, and if your VM is smaller,
+    drop `sw1` and connect `host1` straight to `r1`. You lose the VRRP
+    demonstration but the multihoming still works.
 
 The first three labs used loopbacks as stand-ins for networks. This one is the real
 shape of a small site: **real hosts, an access switch, a redundant default gateway,
-and two uplinks to a provider** — then we break each layer of redundancy and watch
-it hold.
+and two separate upstream providers** — then we break each layer and watch it hold.
+
+**Multihoming means two different providers, not two links to one.** Two links to a
+single provider protects against a cable fault. Two providers protects against that
+provider having a bad day — and it's the case that actually forces you to think
+about path selection and policy.
 
 !!! tip "Run it instead of typing it"
     ```bash
@@ -37,15 +47,21 @@ graph LR
     SW --- R1["r1<br/>VRRP 110"]
     SW --- R2["r2<br/>VRRP 100"]
     R1 ---|iBGP| R2
-    R1 ---|"eBGP A"| R3["r3<br/>AS 65002"]
-    R2 ---|"eBGP B"| R3
+    R1 ---|"eBGP"| R3["r3<br/>AS 65002<br/>provider A"]
+    R2 ---|"eBGP"| R4["r4<br/>AS 65003<br/>provider B"]
+    R3 ---|"peering"| R4
     R3 --- H2["host2<br/>172.16.30.10"]
+    R4 --- H3["host3<br/>172.16.40.10"]
 
     classDef edge fill:#1565c0,stroke:#90caf9,color:#ffffff,stroke-width:2px,font-size:14px;
     classDef prov fill:#2e7d32,stroke:#a5d6a7,color:#ffffff,stroke-width:2px,font-size:14px;
     classDef host fill:#ef6c00,stroke:#ffcc80,color:#ffffff,stroke-width:2px,font-size:14px;
-    class R1,R2,SW edge; class R3 prov; class H1,H2 host;
+    class R1,R2,SW edge; class R3,R4 prov; class H1,H2,H3 host;
 ```
+
+Your network is **AS 65001**. It buys transit from two unrelated providers, and
+those providers also peer with each other — which is what gives every destination
+two possible paths of different lengths.
 
 Reads left to right in traffic order: **user → access switch → edge routers →
 provider → remote host**. Link addressing is in the table below rather than on the
@@ -55,17 +71,18 @@ diagram, which keeps it legible.
 |---|---|---|
 | **host1** | user endpoint | `192.168.10.10/24`, gateway `192.168.10.1` |
 | **sw1** | L2 access | VLAN 10, no IP |
-| **r1** | edge, VRRP **master** | `192.168.10.2`, uplink `10.0.13.1` |
-| **r2** | edge, VRRP **backup** | `192.168.10.3`, uplink `10.0.23.2` |
-| **r3** | provider, AS 65002 | advertises `172.16.30.0/24` |
-| **host2** | remote endpoint | `172.16.30.10/24` |
+| **r1** | edge, VRRP **master** | `192.168.10.2`, uplink `10.0.13.1` → provider A |
+| **r2** | edge, VRRP **backup** | `192.168.10.3`, uplink `10.0.24.2` → provider B |
+| **r3** | **provider A**, AS 65002 | advertises `172.16.30.0/24` |
+| **r4** | **provider B**, AS 65003 | advertises `172.16.40.0/24` |
+| **host2 / host3** | remote endpoints | behind provider A / provider B |
 
 **Three independent layers of redundancy**, which is the point of the lab:
 
-1. Two eBGP uplinks to the provider (r1 and r2 both peer with r3)
+1. Two **separate upstream providers** (r1 → AS 65002, r2 → AS 65003)
 2. A redundant default gateway for the host (VRRP)
-3. An internal path between the edge routers (OSPF + iBGP), so either can borrow the
-   other's uplink
+3. An internal path between the edge routers (OSPF + iBGP), so either can reach the
+   other's provider
 
 ---
 
@@ -154,13 +171,13 @@ its gateway.
 === "r1 (VRRP master)"
 
     ```
-    --8<-- "labs/edge-lab/steps/03-r1-underlay.cfg"
+    --8<-- "labs/edge-lab/steps/03-r1-edge.cfg"
     ```
 
 === "r2 (VRRP backup)"
 
     ```
-    --8<-- "labs/edge-lab/steps/03-r2-underlay.cfg"
+    --8<-- "labs/edge-lab/steps/03-r2-edge.cfg"
     ```
 
 Three details worth pausing on:
@@ -204,14 +221,22 @@ docker exec clab-edge-lab-r1 Cli -p 15 -c "show vrrp"
 
 ---
 
-## Step 4 · The provider
+## Step 4 · Two upstream providers
 
-`r3` represents everything outside your control. It has a link to *each* of your
-edge routers and a network behind it.
+Two unrelated networks, each with its own AS number and its own customer. They also
+**peer with each other**, which is what creates a second path to every destination.
 
-```
---8<-- "labs/edge-lab/steps/04-r3-provider.cfg"
-```
+=== "Provider A — AS 65002"
+
+    ```
+    --8<-- "labs/edge-lab/steps/04-r3-provider-a.cfg"
+    ```
+
+=== "Provider B — AS 65003"
+
+    ```
+    --8<-- "labs/edge-lab/steps/04-r4-provider-b.cfg"
+    ```
 
 **Verify:**
 
@@ -219,28 +244,50 @@ edge routers and a network behind it.
 ./run.sh 04
 ```
 
-✅ **DONE when** r3 advertises `172.16.30.0/24` and can reach `host2`.
+```
+  provider A (r3): peering=1  host=0% packet loss
+  provider B (r4): peering=1  host=0% packet loss
+  ✅ DONE
+```
+
+✅ **DONE when** both providers are peered with each other and reach their own host.
 
 ---
 
-## Step 5 · Dual-homed BGP
+## Step 5 · Multihomed BGP — and not becoming transit
 
-Each edge router peers eBGP with the provider **and** iBGP with its partner.
+Each edge router peers eBGP with **its own** provider, and iBGP with its partner.
 
-=== "r1"
+=== "r1 → provider A"
 
     ```
     --8<-- "labs/edge-lab/steps/05-r1-bgp.cfg"
     ```
 
-=== "r2"
+=== "r2 → provider B"
 
     ```
     --8<-- "labs/edge-lab/steps/05-r2-bgp.cfg"
     ```
 
-`next-hop-self` is applied from the start here — [Lab 01](lab-01-ebgp-ibgp.md)
-covers why in detail.
+!!! danger "The outbound filter is not optional"
+    ```
+    ip as-path access-list OWN-ROUTES permit ^$ any
+    route-map TO-UPSTREAM permit 10
+     match as-path OWN-ROUTES
+    ```
+
+    `^$` matches an **empty AS path** — routes you originated yourself.
+
+    Without it, AS 65001 happily re-advertises provider A's routes to provider B
+    and vice versa. You have just told the internet you will carry traffic between
+    two large networks, over your small links, for free. Your circuits saturate and
+    the outage is self-inflicted.
+
+    This is not hypothetical: accidental transit from a missing outbound filter is
+    behind a good number of internet-scale incidents. **Every eBGP session needs an
+    outbound policy**, and for a multihomed customer that policy is "my prefixes
+    only".
 
 **Verify:**
 
@@ -249,52 +296,56 @@ covers why in detail.
 ```
 
 ```
-  r1  2 BGP sessions established
-  r2  2 BGP sessions established
-  r3 -> 192.168.10.0/24: Paths: 2
-  host1 -> host2:
-    3 packets transmitted, 3 packets received, 0% packet loss
+  r1  2 BGP sessions
+  r2  2 BGP sessions
+  r1 -> 172.16.40.0/24 (behind provider B): Paths: 2
+  transit filter: provider A receives only our own prefix ✓
+  host1 -> provider A   0% packet loss
+  host1 -> provider B   0% packet loss
   ✅ DONE
 ```
 
-**`Paths: 2`** is the whole point — the provider has two independent ways to reach
-your network:
+**Two paths to the same destination, via different upstreams:**
 
 ```bash
-docker exec clab-edge-lab-r3 Cli -p 15 -c "show ip bgp 192.168.10.0/24"
+docker exec clab-edge-lab-r1 Cli -p 15 -c "show ip bgp"
 ```
 
 ```
- Paths: 2 available
-    10.0.13.1 from 10.0.13.1 (1.1.1.1)
-      Received 00:00:56 ago, valid, external, best
-    10.0.23.2 from 10.0.23.2 (2.2.2.2)
+ * >      172.16.30.0/24    10.0.13.3    100   0   65002 i
+ * >      172.16.40.0/24    2.2.2.2      100   0   65003 i
+ *        172.16.40.0/24    10.0.13.3    100   0   65002 65003 i
 ```
 
-And real traffic, host to host across two autonomous systems:
+Read the last two lines. To reach `172.16.40.0/24` (behind provider B) r1 has:
+
+- **`65003`** — via r2, straight to provider B. One AS hop. **Best.**
+- `65002 65003` — via its own provider A, who transits to provider B. Two hops.
+
+**Shortest AS path wins** — best-path step 4. That's multihoming choosing a route
+with no policy applied at all.
+
+And the filter holding:
 
 ```bash
-docker exec clab-edge-lab-host1 traceroute -n 172.16.30.10
+docker exec clab-edge-lab-r3 Cli -p 15 -c "show ip bgp neighbors 10.0.13.1 received-routes"
 ```
 
 ```
-traceroute to 172.16.30.10 (172.16.30.10), 30 hops max, 46 byte packets
- 1  *  *  *
- 2  10.0.13.3  5.438 ms  2.791 ms  1.760 ms
- 3  172.16.30.10  2.409 ms  1.924 ms  1.988 ms
+ * >      192.168.10.0/24    10.0.13.1    65001 i
 ```
 
-✅ **DONE.** (Hop 1 shows `*` because the VRRP virtual address doesn't originate
-ICMP time-exceeded — normal, not a fault.)
+Provider A receives **only our own prefix** — not provider B's. We are a customer,
+not transit.
 
 ---
 
-## Step 6 · Break the uplink
+## Step 6 · Lose an entire provider
 
-Everything above is just setup. This is the lab.
+Not a cable — a whole upstream.
 
 ```bash
-docker exec -i clab-edge-lab-r1 Cli -p 15 <<'EOF'
+docker exec -i clab-edge-lab-r2 Cli -p 15 <<'EOF'
 configure
 interface Ethernet2
  shutdown
@@ -302,55 +353,104 @@ end
 EOF
 ```
 
-r1 has just lost its provider link. **Before**, r1 reached the provider network
-directly:
-
-```
- B E      172.16.30.0/24 [200/0]
-           via 10.0.13.3, Ethernet2
-```
-
-**After**, roughly 20 seconds later:
+Provider B is now unreachable. Before, r1 had two paths to `172.16.40.0/24` and
+preferred the direct one. After:
 
 ```bash
-docker exec clab-edge-lab-r1 Cli -p 15 -c "show ip route 172.16.30.0/24"
+docker exec clab-edge-lab-r1 Cli -p 15 -c "show ip bgp 172.16.40.0/24"
 ```
 
 ```
- B I      172.16.30.0/24 [200/0]
-           via 10.0.12.2, Ethernet1
+ Paths: 1 available
+  65002 65003
+      Received 00:01:43 ago, valid, external, best
 ```
 
-`B E` became `B I` — r1 lost its own eBGP path and is now using the one r2 learned,
-via the internal link. **This is what iBGP is for.**
+One path left — **`65002 65003`**. Traffic to provider B's customer now goes out
+through provider A, who transits it across the peering link.
 
 ```bash
-docker exec clab-edge-lab-host1 ping -c3 172.16.30.10
-docker exec clab-edge-lab-host1 traceroute -n 172.16.30.10
+docker exec clab-edge-lab-host1 ping -c3 172.16.40.10
 ```
 
 ```
 3 packets transmitted, 3 packets received, 0% packet loss
-
- 1  *  *  *
- 2  10.0.12.2   12.599 ms  5.044 ms  2.530 ms
- 3  10.0.23.3   3.850 ms  2.502 ms  2.310 ms
- 4  172.16.30.10  4.020 ms  2.882 ms  1.705 ms
 ```
 
-**Zero packet loss**, and the path is now four hops instead of three — traffic
-detours through r2. The host noticed nothing.
+**Zero loss while losing an entire transit provider.** That is what multihoming
+buys, and it's a materially stronger guarantee than two links to one provider —
+which protects you from a fibre cut but not from that provider's outage,
+maintenance, or bankruptcy.
 
-Restore it:
+Restore:
 
 ```bash
-docker exec -i clab-edge-lab-r1 Cli -p 15 <<'EOF'
+docker exec -i clab-edge-lab-r2 Cli -p 15 <<'EOF'
 configure
 interface Ethernet2
  no shutdown
 end
 EOF
 ```
+
+---
+
+## Step 7 · Override the path with policy
+
+AS path chose provider B for `172.16.40.0/24`. Suppose provider A is cheaper, or
+faster, or you're draining B for maintenance — you want that traffic on A anyway.
+
+```bash
+docker exec -i clab-edge-lab-r1 Cli -p 15 <<'EOF'
+configure
+route-map FROM-PROV-A permit 10
+ set local-preference 200
+router bgp 65001
+ address-family ipv4
+  neighbor 10.0.13.3 route-map FROM-PROV-A in
+end
+EOF
+```
+
+**Before** — the one-hop path wins:
+
+```
+  65003
+      Origin IGP, metric 0, localpref 100, IGP metric 20, weight 0
+      Received 00:00:40 ago, valid, internal, best
+  65002 65003
+      Origin IGP, metric 0, localpref 100, IGP metric 0, weight 0
+```
+
+**After:**
+
+```
+  65002 65003
+      Origin IGP, metric 0, localpref 200, IGP metric 0, weight 0
+      Received 00:02:53 ago, valid, external, best
+```
+
+The **two-hop** path is now best. Local preference is compared at step 2 and AS path
+at step 4, so **policy beats topology** — nothing below step 2 was even evaluated.
+
+```bash
+docker exec clab-edge-lab-host1 ping -c3 172.16.40.10
+```
+
+```
+3 packets transmitted, 3 packets received, 0% packet loss
+```
+
+Traffic follows the new choice, still working.
+
+!!! tip "Local-pref controls outbound only"
+    You have just changed which provider **you** send traffic through. You have not
+    changed how the internet reaches **you** — that still follows whatever your
+    providers advertise.
+
+    Influencing inbound traffic means AS-path prepending or provider communities,
+    and both are requests rather than instructions. See
+    [attributes](concepts/02-attributes.md).
 
 ---
 
@@ -404,10 +504,11 @@ EOF
 !!! tip "Why both mechanisms are needed"
     They protect different things and neither substitutes for the other.
 
-    **Without VRRP**, dual uplinks are close to useless for the host: lose r1 and
+    **Without VRRP**, two providers are close to useless for the host: lose r1 and
     the host is pointing at a dead gateway, no matter how healthy r2's BGP is.
 
-    **Without dual eBGP**, VRRP just fails over to a router with no path out.
+    **Without two upstreams**, VRRP just fails over to a router whose provider is
+    also down.
 
     Redundancy has to be continuous end to end. A chain with one unprotected link is
     protected exactly as well as that link — which is why "we have two routers"
@@ -431,8 +532,11 @@ EOF
 
 ## Interview questions
 
-??? question "You have two uplinks to a provider. Is the site redundant?"
-    Not necessarily. Dual uplinks protect the *routing* path, but if hosts point at
+??? question "You have two uplinks to one provider. Is that multihoming?"
+    Not really — that is dual-attachment. It protects against a cable or card
+    fault, but not against that provider having an outage, a maintenance window,
+    or a routing mistake. **Multihoming means two independent upstream ASes.**
+    Separately, dual uplinks protect the *routing* path, but if hosts point at
     a single gateway address on one router, losing that router isolates them
     regardless. You need first-hop redundancy — VRRP, HSRP or an anycast gateway —
     as well. Redundancy has to be continuous end to end.
@@ -443,11 +547,24 @@ EOF
     Priority decides who is master. The host's configuration never changes — the
     address stays the same and a different router answers for it.
 
-??? question "One edge router loses its provider link. What happens?"
-    It loses its eBGP path and starts using the one its partner learned via iBGP —
-    the route changes from `B E` to `B I` and points at the internal link. Traffic
-    takes an extra hop but keeps flowing, provided the two edge routers have an
-    internal path and are exchanging routes.
+??? question "One upstream provider goes down entirely. What happens?"
+    Its routes are withdrawn and the surviving provider's paths take over — in this
+    lab the best path to provider B's customer changes from `65003` to
+    `65002 65003`, transiting the peering link between them. Traffic keeps flowing
+    with zero loss, provided the edge routers exchange routes internally over iBGP.
+
+??? question "Why must a multihomed customer filter its outbound advertisements?"
+    Without a filter you re-advertise each provider's routes to the other and become
+    unpaid transit between two large networks, over links sized for your own
+    traffic. The standard filter is an AS-path regex `^$`, matching only locally
+    originated routes. Missing outbound filters are behind a good number of
+    internet-scale incidents.
+
+??? question "Your provider's path is two AS hops and the other is one. How do you prefer the longer one?"
+    Set **local preference** higher on routes from the provider you want, applied
+    inbound. Local-pref is best-path step 2 and AS-path length is step 4, so it wins
+    outright — nothing below step 2 is evaluated. Note this only controls traffic
+    *leaving* your network.
 
 ??? question "Why is the access switch layer 2 with no IP?"
     Its job is a broadcast domain, not routing. Keeping it L2 preserves a clean

@@ -22,9 +22,9 @@ STEPS=(01 02 03 04 05)
 declare -A TITLE=(
   [01]="Health check — nodes and hosts ready"
   [02]="Access layer — sw1 VLAN 10"
-  [03]="Edge underlay — OSPF + VRRP gateway"
-  [04]="Provider — r3 and its network"
-  [05]="Dual-homed BGP + end-to-end test"
+  [03]="Edge routers — OSPF + VRRP gateway"
+  [04]="Two upstream providers (AS 65002, AS 65003)"
+  [05]="Multihomed BGP + transit filter + end-to-end"
 )
 
 c_ok=$'\033[32m'; c_bad=$'\033[31m'; c_dim=$'\033[2m'; c_off=$'\033[0m'

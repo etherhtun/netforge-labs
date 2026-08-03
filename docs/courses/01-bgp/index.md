@@ -19,7 +19,7 @@ and lets you express business relationships in configuration.
 | **[01](lab-01-ebgp-ibgp.md)** | Two ASes, eBGP + iBGP, and the next-hop trap | ✅ Validated |
 | **[02](lab-02-isis-underlay.md)** | Swap the IGP to IS-IS under a live BGP deployment | ✅ Validated |
 | **[03](lab-03-route-reflectors.md)** | Route reflectors — breaking the iBGP full mesh | ✅ Validated |
-| **[04](lab-04-dual-homed-edge.md)** | Dual-homed edge — hosts, switch, VRRP, uplink failover | ✅ Validated |
+| **[04](lab-04-dual-homed-edge.md)** | Multihomed edge — two upstreams, hosts, switch, VRRP, policy | ✅ Validated |
 | 05 | Path selection and policy — local-pref, MED, communities | 📋 Planned |
 
 ---
