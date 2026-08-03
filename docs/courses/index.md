@@ -36,12 +36,14 @@ Nothing is marked finished until it has actually been run. See the
 
     [Start reading →](00-igp-fundamentals/index.md)
 
--   **Phase 1 · BGP Fundamentals & Policies** &nbsp; <span class="nf-badge plan">planned</span>
+-   **Phase 1 · BGP Fundamentals & Policies** &nbsp; <span class="nf-badge ok">lab 01 validated</span>
 
     ---
 
     eBGP and iBGP, route reflectors, path selection, and the policy tooling that
     decides which route actually wins.
+
+    [Overview →](01-bgp/index.md) · [Lab 01 →](01-bgp/lab-01-ebgp-ibgp.md)
 
 -   **Phase 2 · BGP-DIA & Internet Edge** &nbsp; <span class="nf-badge plan">planned</span>
 

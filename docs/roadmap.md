@@ -24,7 +24,7 @@ graph TD
     classDef done fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:2px;
     classDef next fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:2px;
     classDef plan fill:#f5f5f5,stroke:#9e9e9e,color:#424242;
-    class P4 done; class P1,P2 next; class P0,P3,P35,P5,P6,P7 plan;
+    class P0,P1,P4 done; class P2,P3 next; class P35,P5,P6,P7 plan;
 ```
 
 ---
@@ -35,7 +35,7 @@ graph TD
 |---|---|---|---|
 | **–** | [Foundations · Linux](courses/linux-foundations/index.md) | Namespaces, veth, `ip`/tcpdump, containers | 🟢 **Available** — prerequisite |
 | **0** | [IGP Fundamentals](courses/00-igp-fundamentals/index.md) | OSPFv2/v3, IS-IS (dual-stack IPv4/IPv6) | 🟢 **Available** — reading track |
-| **1** | BGP Fundamentals & Policies | eBGP, iBGP, route reflectors, advanced path selection | 📋 Planned |
+| **1** | [BGP Fundamentals & Policies](courses/01-bgp/index.md) | eBGP, iBGP, route reflectors, advanced path selection | 🟢 **Lab 01 live** |
 | **2** | BGP-DIA & Internet Edge | Multi-homing, RPKI, peering, NAT / CGNAT | 📋 Planned |
 | **3** | MPLS & L3VPN | LDP, RSVP-TE, L3VPN (Options A, B, C) | 🔬 LDP validated live |
 | **3.5** | Segment Routing | SR-MPLS, SR-PCE, Ti-LFA, SRv6 basics | 🔬 Platform probe done |
@@ -45,9 +45,9 @@ graph TD
 | **7** | Telemetry & Observability | Prometheus, Grafana, OpenConfig, TRex | 📋 Planned |
 
 **Available now:** [Linux Foundations](courses/linux-foundations/index.md) (prerequisite) ·
-[IGP Fundamentals](courses/00-igp-fundamentals/index.md) (Phase 0,
-reading track) · [MPLS + LDP](courses/03-mpls-l3vpn/lab-01-mpls-ldp.md) (Phase 3,
-Lab 01) · [VXLAN-EVPN on Arista cEOS](courses/04-evpn/lab-01-vxlan-evpn.md) — the validated core of
+[IGP Fundamentals](courses/00-igp-fundamentals/index.md) (Phase 0, reading track) ·
+[eBGP + iBGP](courses/01-bgp/lab-01-ebgp-ibgp.md) (Phase 1, Lab 01) ·
+[MPLS + LDP](courses/03-mpls-l3vpn/lab-01-mpls-ldp.md) (Phase 3, Lab 01) · [VXLAN-EVPN on Arista cEOS](courses/04-evpn/lab-01-vxlan-evpn.md) — the validated core of
 Phase 4 — plus [VXLAN-EVPN on Juniper](archive/juniper-vxlan-evpn/index.md) as a written reference
 course.
 

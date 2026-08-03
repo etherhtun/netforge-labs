@@ -1,0 +1,12 @@
+name: bgp-lab
+
+topology:
+  nodes:
+    r1: { kind: arista_ceos, image: ceos:4.32.0F }
+    r2: { kind: arista_ceos, image: ceos:4.32.0F }
+    r3: { kind: arista_ceos, image: ceos:4.32.0F }
+
+  # endpoints MUST be lowercase ethN — cEOS entrypoint counts eth* interfaces
+  links:
+    - endpoints: ["r1:eth1", "r2:eth1"]   # 10.0.12.0/24  internal AS 65001
+    - endpoints: ["r1:eth2", "r3:eth1"]   # 10.0.13.0/24  eBGP to AS 65002
