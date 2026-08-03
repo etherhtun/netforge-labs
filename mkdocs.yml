@@ -70,6 +70,8 @@ nav:
     - "Phase 1 · BGP Fundamentals":
       - courses/01-bgp/index.md
       - "🧪 Lab 01 · eBGP, iBGP & next-hop-self": courses/01-bgp/lab-01-ebgp-ibgp.md
+      - "🧪 Lab 02 · iBGP over IS-IS": courses/01-bgp/lab-02-isis-underlay.md
+      - "🧪 Lab 03 · Route reflectors": courses/01-bgp/lab-03-route-reflectors.md
       - Concepts:
         - courses/01-bgp/concepts/index.md
         - 1 · How BGP works: courses/01-bgp/concepts/01-how-bgp-works.md

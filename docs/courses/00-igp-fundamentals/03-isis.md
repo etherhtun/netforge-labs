@@ -4,11 +4,13 @@ IS-IS does the same job as OSPF and does it with the same algorithm. What differ
 is the design philosophy — and those differences are exactly why large service
 providers keep choosing it.
 
-!!! note "No live output on this page"
-    The OSPF page shows real captured output because a fabric was running it.
-    Nothing here has been run on live equipment yet, so this page shows **syntax and
-    concepts only** — no invented command output. Sample output will be added when
-    an IS-IS lab is built.
+!!! note "Syntax here, live output in the lab"
+    This page shows **syntax and concepts only** — no invented command output.
+
+    IS-IS has since been run on live equipment: see
+    **[Phase 1 · Lab 02](../01-bgp/lab-02-isis-underlay.md)**, which swaps a working
+    BGP deployment from OSPF to IS-IS and captures real adjacency, database and
+    route output.
 
 ---
 

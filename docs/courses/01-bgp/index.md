@@ -17,9 +17,9 @@ and lets you express business relationships in configuration.
 | Lab | You build | Status |
 |---|---|---|
 | **[01](lab-01-ebgp-ibgp.md)** | Two ASes, eBGP + iBGP, and the next-hop trap | ✅ Validated |
-| 02 | Route reflectors — breaking the iBGP full mesh | 📋 Planned |
-| 03 | Path selection and policy — local-pref, MED, AS-path | 📋 Planned |
-| 04 | Communities and route filtering | 📋 Planned |
+| **[02](lab-02-isis-underlay.md)** | Swap the IGP to IS-IS under a live BGP deployment | ✅ Validated |
+| **[03](lab-03-route-reflectors.md)** | Route reflectors — breaking the iBGP full mesh | ✅ Validated |
+| 04 | Path selection and policy — local-pref, MED, communities | 📋 Planned |
 
 ---
 

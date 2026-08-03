@@ -36,7 +36,7 @@ Nothing is marked finished until it has actually been run. See the
 
     [Start reading →](00-igp-fundamentals/index.md)
 
--   **Phase 1 · BGP Fundamentals & Policies** &nbsp; <span class="nf-badge ok">lab 01 validated</span>
+-   **Phase 1 · BGP Fundamentals & Policies** &nbsp; <span class="nf-badge ok">3 labs validated</span>
 
     ---
 
@@ -79,7 +79,7 @@ Nothing is marked finished until it has actually been run. See the
 
 <div class="grid cards" markdown>
 
--   **Phase 4 · EVPN Services** &nbsp; <span class="nf-badge ok">lab 01 validated</span>
+-   **Phase 4 · EVPN Services** &nbsp; <span class="nf-badge ok">3 labs validated</span>
 
     ---
 
