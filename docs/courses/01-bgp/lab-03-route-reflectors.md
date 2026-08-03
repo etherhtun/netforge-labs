@@ -2,7 +2,7 @@
 
 > ✅ **Validated** on Arista cEOS 4.32.0F, 2026-08-03. All output captured live.
 
-**Time:** ~45 minutes · **Nodes:** 4
+**Time:** ~45 minutes · **Nodes:** 3 (the same topology as Labs 01 and 02)
 
 Build an iBGP network that **silently fails to distribute routes**, understand
 exactly why, then fix it with one command per neighbour.
@@ -20,42 +20,51 @@ exactly why, then fix it with one command per neighbour.
 
 ## Topology
 
+The **same three nodes as [Lab 01](lab-01-ebgp-ibgp.md)**, wired identically — but
+this time all three are in one AS, and `r1`'s position in the middle makes it the
+natural hub.
+
 ```mermaid
-graph TD
-    RR["rr1<br/>10.10.10.10<br/>route reflector"]
-    R1["r1 · 1.1.1.1<br/>172.16.1.0/24"]
-    R2["r2 · 2.2.2.2<br/>172.16.2.0/24"]
-    R3["r3 · 3.3.3.3<br/>172.16.3.0/24"]
-    R1 ---|10.0.1.0/24| RR
-    R2 ---|10.0.2.0/24| RR
-    R3 ---|10.0.3.0/24| RR
+graph LR
+    R2["r2 · 2.2.2.2<br/>172.16.20.0/24<br/><i>client</i>"] ---|iBGP| R1["r1 · 1.1.1.1<br/><i>route reflector</i>"]
+    R1 ---|iBGP| R3["r3 · 3.3.3.3<br/>172.16.30.0/24<br/><i>client</i>"]
+
     classDef rr fill:#2e7d32,stroke:#a5d6a7,color:#ffffff,stroke-width:2px,font-size:14px;
     classDef cl fill:#1565c0,stroke:#90caf9,color:#ffffff,stroke-width:2px,font-size:14px;
-    class RR rr; class R1,R2,R3 cl;
+    class R1 rr; class R2,R3 cl;
 ```
 
-All four routers are in **AS 65001**. Each client advertises one prefix. Every client
-peers **only with rr1** — no client-to-client sessions.
+| Device | Role | Loopback | Advertises |
+|---|---|---|---|
+| **r1** | route reflector | 1.1.1.1 | — |
+| **r2** | client | 2.2.2.2 | 172.16.20.0/24 |
+| **r3** | client | 3.3.3.3 | 172.16.30.0/24 |
+
+Everything is **AS 65001**. Each client peers only with r1 — there is no
+client-to-client session, which is the whole point.
+
+!!! note "Same fabric, different design"
+    Labs 01, 02 and 03 all run on `labs/bgp-lab`. Lab 01 splits it across two ASes
+    to teach eBGP and iBGP; Lab 02 swaps its IGP; this lab puts everything in one AS
+    to teach reflection.
+
+    Redeploy for a clean start rather than un-picking Lab 01's config:
+
+    ```bash
+    cd netforge-labs/labs/bgp-lab
+    sudo containerlab destroy -t topology.clab.yml
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ```
+
+    Note `Ethernet2` **is** in OSPF here. In Lab 01 it faced another AS and was
+    deliberately excluded; now it's an internal link like any other.
 
 ---
 
 ## Step 1 · Deploy
 
 ```yaml title="topology.clab.yml"
-name: rr-lab
-
-topology:
-  nodes:
-    rr1: { kind: arista_ceos, image: ceos:4.32.0F }
-    r1:  { kind: arista_ceos, image: ceos:4.32.0F }
-    r2:  { kind: arista_ceos, image: ceos:4.32.0F }
-    r3:  { kind: arista_ceos, image: ceos:4.32.0F }
-
-  # endpoints MUST be lowercase ethN — cEOS entrypoint counts eth* interfaces
-  links:
-    - endpoints: ["rr1:eth1", "r1:eth1"]   # 10.0.1.0/24
-    - endpoints: ["rr1:eth2", "r2:eth1"]   # 10.0.2.0/24
-    - endpoints: ["rr1:eth3", "r3:eth1"]   # 10.0.3.0/24
+--8<-- "labs/bgp-lab/topology.clab.yml"
 ```
 
 ```bash
@@ -65,319 +74,200 @@ sudo containerlab deploy -t topology.clab.yml --max-workers 1
 **Verify:**
 
 ```bash
-for n in rr1 r1 r2 r3; do
-  printf "%-4s " "$n"
-  docker exec clab-rr-lab-$n Cli -p 15 -c "show interfaces status" \
-    | grep -cE "^Et[0-9].*EbraTestPhyPort"
-done
+./run.sh 01
 ```
 
 ```
-rr1  3
-r1   1
-r2   1
-r3   1
+  r1   2 ready, 0 unknown
+  r2   1 ready, 0 unknown
+  r3   1 ready, 0 unknown
+  ✅ DONE
 ```
 
-✅ **DONE when** rr1 shows 3 ports and each client shows 1.
+✅ **DONE when** every port reports a real type, not `Unknown`.
 
 ---
 
-## Step 2 · OSPF underlay
+## Step 2 · Underlay and plain iBGP
 
-iBGP peers over loopbacks, so those must be reachable first.
+Everything is one AS, so both links go in OSPF and every router peers with r1.
+Configure this **exactly as written** — it is deliberately incomplete.
 
-=== "rr1"
-
-    ```
-    configure
-    ip routing
-    service routing protocols model multi-agent
-    !
-    interface Loopback0
-     ip address 10.10.10.10/32
-     ip ospf area 0.0.0.0
-    !
-    interface Ethernet1
-     no switchport
-     ip address 10.0.1.1/24
-     ip ospf area 0.0.0.0
-     ip ospf network point-to-point
-    !
-    interface Ethernet2
-     no switchport
-     ip address 10.0.2.1/24
-     ip ospf area 0.0.0.0
-     ip ospf network point-to-point
-    !
-    interface Ethernet3
-     no switchport
-     ip address 10.0.3.1/24
-     ip ospf area 0.0.0.0
-     ip ospf network point-to-point
-    !
-    router ospf 1
-     router-id 10.10.10.10
-    ```
-
-=== "r1 (r2, r3 by analogy)"
+=== "r1 — the hub"
 
     ```
-    configure
-    ip routing
-    service routing protocols model multi-agent
-    !
-    interface Loopback0
-     ip address 1.1.1.1/32
-     ip ospf area 0.0.0.0
-    !
-    interface Loopback100
-     ip address 172.16.1.1/24
-    !
-    interface Ethernet1
-     no switchport
-     ip address 10.0.1.2/24
-     ip ospf area 0.0.0.0
-     ip ospf network point-to-point
-    !
-    router ospf 1
-     router-id 1.1.1.1
+    --8<-- "labs/bgp-lab/steps/lab03-r1-hub.cfg"
     ```
 
-    For **r2**: loopback `2.2.2.2`, prefix `172.16.2.0/24`, link `10.0.2.2/24`.
-    For **r3**: loopback `3.3.3.3`, prefix `172.16.3.0/24`, link `10.0.3.2/24`.
+=== "r2 — client"
 
-**Verify:**
+    ```
+    --8<-- "labs/bgp-lab/steps/lab03-r2-client.cfg"
+    ```
+
+=== "r3 — client"
+
+    ```
+    --8<-- "labs/bgp-lab/steps/lab03-r3-client.cfg"
+    ```
+
+**Verify the underlay:**
 
 ```bash
-docker exec clab-rr-lab-rr1 Cli -p 15 -c "show ip ospf neighbor"
+docker exec clab-bgp-lab-r1 Cli -p 15 -c "show ip ospf neighbor"
 ```
 
 ```
-Neighbor ID     Instance VRF      Pri State   Dead Time   Address     Interface
-2.2.2.2         1        default  0   FULL    00:00:37    10.0.2.2    Ethernet2
-1.1.1.1         1        default  0   FULL    00:00:32    10.0.1.2    Ethernet1
-3.3.3.3         1        default  0   FULL    00:00:30    10.0.3.2    Ethernet3
+Neighbor ID     Instance VRF      Pri State    Dead Time   Address      Interface
+3.3.3.3         1        default  0   FULL     00:00:35    10.0.13.3    Ethernet2
+2.2.2.2         1        default  0   FULL     00:00:35    10.0.12.2    Ethernet1
 ```
-
-✅ **DONE when** all three neighbours are `FULL`.
-
----
-
-## Step 3 · Plain iBGP — no reflection yet
-
-Configure this **exactly as written**. It's deliberately incomplete.
-
-=== "rr1"
-
-    ```
-    router bgp 65001
-     router-id 10.10.10.10
-     no bgp default ipv4-unicast
-     neighbor 1.1.1.1 remote-as 65001
-     neighbor 1.1.1.1 update-source Loopback0
-     neighbor 2.2.2.2 remote-as 65001
-     neighbor 2.2.2.2 update-source Loopback0
-     neighbor 3.3.3.3 remote-as 65001
-     neighbor 3.3.3.3 update-source Loopback0
-     address-family ipv4
-      neighbor 1.1.1.1 activate
-      neighbor 2.2.2.2 activate
-      neighbor 3.3.3.3 activate
-    ```
-
-=== "r1 (r2, r3 by analogy)"
-
-    ```
-    router bgp 65001
-     router-id 1.1.1.1
-     no bgp default ipv4-unicast
-     neighbor 10.10.10.10 remote-as 65001
-     neighbor 10.10.10.10 update-source Loopback0
-     address-family ipv4
-      neighbor 10.10.10.10 activate
-      network 172.16.1.0/24
-    ```
 
 **Verify the sessions:**
 
 ```bash
-docker exec clab-rr-lab-rr1 Cli -p 15 -c "show ip bgp summary" | tail -4
+docker exec clab-bgp-lab-r1 Cli -p 15 -c "show ip bgp summary" | tail -3
 ```
 
 ```
   Neighbor V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
-  1.1.1.1  4 65001              5         4    0    0 00:00:24 Estab   1      1
-  2.2.2.2  4 65001              5         4    0    0 00:00:20 Estab   1      1
-  3.3.3.3  4 65001              5         4    0    0 00:00:20 Estab   1      1
+  2.2.2.2  4 65001              5         4    0    0 00:00:13 Estab   1      1
+  3.3.3.3  4 65001              5         4    0    0 00:00:12 Estab   1      1
 ```
 
-Three sessions, all `Estab`, one prefix received from each. Everything looks correct.
+Both `Estab`, one prefix received from each. Everything looks correct.
 
-✅ **DONE when** all three are `Estab`.
+✅ **DONE when** OSPF is `FULL` on both links and both BGP peers are `Estab`.
 
 ---
 
-## Step 4 · Find the silent failure
+## Step 3 · Find the silent failure
 
-The reflector has everything:
-
-```bash
-docker exec clab-rr-lab-rr1 Cli -p 15 -c "show ip bgp" | tail -4
-```
-
-```
-          Network                Next Hop              Metric  LocPref Weight  Path
- * >      172.16.1.0/24          1.1.1.1               0       100     0       i
- * >      172.16.2.0/24          2.2.2.2               0       100     0       i
- * >      172.16.3.0/24          3.3.3.3               0       100     0       i
-```
-
-All three prefixes, all valid and best. Now ask a **client**:
+The hub has everything:
 
 ```bash
-docker exec clab-rr-lab-r1 Cli -p 15 -c "show ip bgp" | tail -2
+docker exec clab-bgp-lab-r1 Cli -p 15 -c "show ip bgp" | tail -3
 ```
 
 ```
-          Network                Next Hop              Metric  LocPref Weight  Path
- * >      172.16.1.0/24          -                     -       -       0       i
+          Network                Next Hop        Metric  LocPref Weight  Path
+ * >      172.16.20.0/24         2.2.2.2         0       100     0       i
+ * >      172.16.30.0/24         3.3.3.3         0       100     0       i
 ```
 
-**One prefix — its own.** r1 has no idea r2 and r3 exist.
+Both prefixes, both valid and best. Now ask a **client**:
+
+```bash
+docker exec clab-bgp-lab-r2 Cli -p 15 -c "show ip bgp" | tail -2
+```
+
+```
+          Network                Next Hop        Metric  LocPref Weight  Path
+ * >      172.16.20.0/24         -               -       -       0       i
+```
+
+**One prefix — its own.** r2 has no idea r3 exists.
 
 !!! danger "Nothing is broken, and nothing works"
     Every session is Established. Every prefix was received. No errors, no logs, no
     failed check anywhere. And the network does not distribute routes.
 
-    This is the iBGP rule doing exactly what it's specified to do: **a route learned
-    from an iBGP peer is never re-advertised to another iBGP peer.** rr1 learned all
-    three prefixes from iBGP peers, so it passes none of them on.
+    This is the iBGP rule working exactly as specified: **a route learned from an
+    iBGP peer is never re-advertised to another iBGP peer.** r1 learned both
+    prefixes from iBGP peers, so it passes neither on.
 
-    The rule exists because iBGP doesn't prepend the AS path and therefore can't
-    detect loops that way. Without the rule, a route could circulate forever.
+    The rule exists because iBGP doesn't prepend the AS path and so can't detect
+    loops that way. Without it, a route could circulate indefinitely.
 
-The textbook fix is a **full mesh** — every router peering with every other. That's
-6 sessions for 4 routers, and 1,225 for 50. It doesn't scale, and every new router
-means touching every existing one.
+The textbook fix is a **full mesh** — every router peering with every other. Three
+routers is 3 sessions; fifty is 1,225, and every new router means touching every
+existing one. It doesn't scale.
 
 ---
 
-## Step 5 · Reflect
+## Step 4 · Reflect
 
-One line per neighbour, **on the reflector only**:
+One line per neighbour, **on the hub only**:
 
-```bash
-docker exec -i clab-rr-lab-rr1 Cli -p 15 <<'EOF'
-configure
-router bgp 65001
- address-family ipv4
-  neighbor 1.1.1.1 route-reflector-client
-  neighbor 2.2.2.2 route-reflector-client
-  neighbor 3.3.3.3 route-reflector-client
-end
-EOF
+```
+--8<-- "labs/bgp-lab/steps/lab03-r1-reflector.cfg"
 ```
 
-**The clients are not reconfigured.** They don't know they're clients — they're
+**The clients are never reconfigured.** They don't know they're clients — they're
 ordinary iBGP speakers. That's what makes route reflection deployable on a live
-network.
+network, and why it beat confederations.
 
 **Verify:**
 
 ```bash
-docker exec clab-rr-lab-r1 Cli -p 15 -c "show ip bgp" | tail -4
+docker exec clab-bgp-lab-r2 Cli -p 15 -c "show ip bgp" | tail -3
 ```
 
 ```
-          Network            Next Hop      Metric  LocPref Weight  Path
- * >      172.16.1.0/24      -             -       -       0       i
- * >      172.16.2.0/24      2.2.2.2       0       100     0       i Or-ID: 2.2.2.2 C-LST: 10.10.10.10
- * >      172.16.3.0/24      3.3.3.3       0       100     0       i Or-ID: 3.3.3.3 C-LST: 10.10.10.10
+          Network            Next Hop    Metric  LocPref Weight  Path
+ * >      172.16.20.0/24     -           -       -       0       i
+ * >      172.16.30.0/24     3.3.3.3     0       100     0       i Or-ID: 3.3.3.3 C-LST: 1.1.1.1
 ```
 
-All three prefixes. And two new attributes are visible: **`Or-ID`** and **`C-LST`**.
+r3's prefix has arrived, carrying two new attributes. The view from r3 is the
+mirror image:
 
-✅ **DONE when** each client sees all three prefixes.
+```
+ * >      172.16.20.0/24     2.2.2.2     0       100     0       i Or-ID: 2.2.2.2 C-LST: 1.1.1.1
+ * >      172.16.30.0/24     -           -       -       0       i
+```
+
+✅ **DONE when** each client sees both prefixes.
 
 ---
 
-## Step 6 · The loop-prevention attributes
+## Step 5 · The loop-prevention attributes
 
 ```bash
-docker exec clab-rr-lab-r1 Cli -p 15 -c "show ip bgp 172.16.2.0/24"
+docker exec clab-bgp-lab-r2 Cli -p 15 -c "show ip bgp 172.16.30.0/24"
 ```
 
 ```
-BGP routing table entry for 172.16.2.0/24
+BGP routing table entry for 172.16.30.0/24
  Paths: 1 available
   Local
-    2.2.2.2 from 10.10.10.10 (10.10.10.10)
+    3.3.3.3 from 1.1.1.1 (1.1.1.1)
       Origin IGP, metric 0, localpref 100, IGP metric 30, weight 0, tag 0
-      Received 00:00:15 ago, valid, internal, best
-      Originator: 2.2.2.2, Cluster list: 10.10.10.10
+      Received 00:00:17 ago, valid, internal, best
+      Originator: 3.3.3.3, Cluster list: 1.1.1.1
 ```
 
 Read the key line carefully:
 
-**`2.2.2.2 from 10.10.10.10 (10.10.10.10)`** — the next hop is **r2**, but the route
-was received **from rr1**. The reflector passed it on without inserting itself into
-the data path. Traffic goes to r2's address; only the *advertisement* went via the
-reflector.
+**`3.3.3.3 from 1.1.1.1 (1.1.1.1)`** — the next hop is **r3**, but the route was
+received **from r1**. The reflector passed it on without inserting itself into the
+data path. Traffic goes to r3's address; only the *advertisement* went via r1.
 
 | Attribute | Value | Job |
 |---|---|---|
-| **Originator** | `2.2.2.2` | router ID of the original advertiser. **A router seeing its own ID here discards the route** — that's how r2 won't re-accept its own prefix. |
-| **Cluster list** | `10.10.10.10` | reflectors traversed. **A reflector seeing its own cluster ID discards it** — preventing loops between reflectors. |
+| **Originator** | `3.3.3.3` | router ID of the original advertiser. **A router seeing its own ID here discards the route** — so r3 won't re-accept its own prefix. |
+| **Cluster list** | `1.1.1.1` | reflectors traversed. **A reflector seeing its own cluster ID discards it** — preventing loops between reflectors. |
 
 Together these replace the AS-path loop detection iBGP doesn't have. Both are
-**optional non-transitive**, so they exist only inside the AS and never leak out via
-eBGP.
+**optional non-transitive**, so they exist only inside the AS and never leak out
+via eBGP.
 
 ---
 
-## Step 7 · Prove it forwards
+## Step 6 · Prove it forwards
 
 ```bash
-docker exec clab-rr-lab-r1 Cli -p 15 -c "ping 172.16.3.1 source 172.16.1.1 repeat 3"
+docker exec clab-bgp-lab-r2 Cli -p 15 -c "ping 172.16.30.1 source 172.16.20.1 repeat 3"
 ```
 
 ```
---- 172.16.3.1 ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 34ms
+3 packets transmitted, 3 received, 0% packet loss
 ```
+
+Each client still has exactly **one** BGP session:
 
 ```bash
-docker exec clab-rr-lab-r1 Cli -p 15 -c "traceroute 172.16.3.1 source 172.16.1.1"
-```
-
-```
-traceroute to 172.16.3.1 (172.16.3.1), 30 hops max, 60 byte packets
- 1  10.0.1.1 (10.0.1.1)  0.297 ms  0.051 ms  0.032 ms
- 2  172.16.3.1 (172.16.3.1)  3.743 ms  3.929 ms  4.097 ms
-```
-
-r1 → rr1 → r3. ✅ **DONE.**
-
-!!! note "Control plane and data plane are separate concerns"
-    Here the reflector also happens to sit in the data path, because the physical
-    topology is a hub and spoke. **That's incidental.**
-
-    A route reflector does *not* have to carry traffic. It's a control-plane
-    function, and in large networks reflectors are often dedicated devices — or
-    virtual machines — off the forwarding path entirely.
-
-    The `from 10.10.10.10` versus next-hop `2.2.2.2` distinction in step 6 is what
-    makes that possible: the advertisement and the traffic take different routes.
-
----
-
-## Step 8 · Count the saving
-
-Each client has exactly one session:
-
-```bash
-docker exec clab-rr-lab-r1 Cli -p 15 -c "show ip bgp summary" | grep -c Estab
+docker exec clab-bgp-lab-r2 Cli -p 15 -c "show ip bgp summary" | grep -c Estab
 ```
 
 ```
@@ -386,22 +276,30 @@ docker exec clab-rr-lab-r1 Cli -p 15 -c "show ip bgp summary" | grep -c Estab
 
 | Routers | Full mesh | With one RR |
 |---|---|---|
-| 4 | 6 | **3** |
+| 3 | 3 | **2** |
 | 10 | 45 | **9** |
 | 50 | 1,225 | **49** |
 | 100 | 4,950 | **99** |
 
-Adding a router to a full mesh means configuring it **and every existing router**.
-With a reflector it's one session on the new router and one line on the reflector.
+✅ **DONE.**
+
+!!! note "Control plane and data plane are separate concerns"
+    Here the reflector also sits in the data path, because the topology is a chain
+    with r1 in the middle. **That's incidental.**
+
+    A route reflector does *not* have to carry traffic. It's a control-plane
+    function, and in large networks reflectors are often dedicated devices — or
+    virtual machines — off the forwarding path entirely. The `from 1.1.1.1` versus
+    next-hop `3.3.3.3` distinction above is what makes that possible.
 
 ---
 
 ## Break & observe
 
-Remove client status from r2 and watch reflection stop for that peer:
+Remove client status from r2 and watch reflection stop:
 
 ```bash
-docker exec -i clab-rr-lab-rr1 Cli -p 15 <<'EOF'
+docker exec -i clab-bgp-lab-r1 Cli -p 15 <<'EOF'
 configure
 router bgp 65001
  address-family ipv4
@@ -410,11 +308,11 @@ end
 EOF
 ```
 
-r2 loses `172.16.1.0/24` and `172.16.3.0/24` — it's now an ordinary iBGP peer, so
-rr1 won't reflect to it. r1 and r3 also lose `172.16.2.0/24`, because a route from a
-**non-client** is only reflected to clients.
+r2 loses `172.16.30.0/24` — it's an ordinary iBGP peer again, so r1 won't reflect to
+it. **r3 also loses `172.16.20.0/24`**, because a route from a **non-client** is
+only reflected to clients.
 
-That's the reflection rule table made concrete:
+That second effect is the reflection rule table made concrete:
 
 | Learned from | Reflected to |
 |---|---|
@@ -422,10 +320,10 @@ That's the reflection rule table made concrete:
 | **Non-client** | clients only |
 | **eBGP** | everyone |
 
-Restore it:
+Restore:
 
 ```bash
-docker exec -i clab-rr-lab-rr1 Cli -p 15 <<'EOF'
+docker exec -i clab-bgp-lab-r1 Cli -p 15 <<'EOF'
 configure
 router bgp 65001
  address-family ipv4
@@ -459,11 +357,11 @@ their own — which can be sub-optimal. `add-path` lets it advertise several.
 
 | Symptom | Cause |
 |---|---|
-| Clients see only their own prefix | `route-reflector-client` missing — this lab's step 4 |
+| Clients see only their own prefix | `route-reflector-client` missing — this lab's step 3 |
 | Some clients see routes, others don't | client configured on only some neighbours |
 | Route present but unusable | next hop unreachable — check the IGP |
 | Routes loop or churn | cluster IDs misconfigured between multiple reflectors |
-| Client sees fewer paths than expected | expected — reflectors advertise only best path; consider `add-path` |
+| Client sees fewer paths than expected | expected — reflectors advertise only best path |
 
 ---
 

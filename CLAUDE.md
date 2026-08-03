@@ -105,6 +105,15 @@ labs/<lab>/
   present (see `04-nexthop-broken.sh`).
 - **Test on a freshly deployed fabric before publishing** — destroy, deploy,
   `./run.sh --all`. Reference: `labs/bgp-lab/`.
+- ⭐ **One topology can serve several labs.** `labs/bgp-lab/` runs Labs 01, 02 and
+  03 — 01 splits it across two ASes, 02 swaps the IGP, 03 puts it in one AS with a
+  reflector. Prefer reconfiguring a small fabric over deploying a second one; the
+  lab VM only fits one at a time. Name extra step files `lab<NN>-<node>-<desc>.cfg`
+  so the `steps/<NN>-*.cfg` glob in `run.sh` doesn't pick them up.
+- ⭐ **Captured `show` output is NOT drift-proof.** Configs are (the page includes
+  the same file the runner executes) but pasted output is not. **When a topology
+  changes, re-run every gate and diff its output against the guide** — a stale
+  step-1 block survived the Lab 04 multihoming rewrite and shipped.
 - The guide must still read standalone; copy-paste has to work for someone without
   the repo.
 
