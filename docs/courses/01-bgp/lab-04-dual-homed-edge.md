@@ -118,14 +118,16 @@ sudo containerlab deploy -t topology.clab.yml --max-workers 1
   r1   3 ready, 0 unknown
   r2   3 ready, 0 unknown
   r3   3 ready, 0 unknown
+  r4   3 ready, 0 unknown
   sw1  3 ready, 0 unknown
   host1  192.168.10.10
   host2  172.16.30.10
+  host3  172.16.40.10
   ✅ DONE
 ```
 
-✅ **DONE when** all four network devices show ready ports and both hosts have
-addresses.
+✅ **DONE when** all five network devices show ready ports and all three hosts
+have addresses.
 
 ---
 
