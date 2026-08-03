@@ -7,6 +7,7 @@
 #   ./run.sh 02          apply + verify step 02
 #   ./run.sh --verify 02 verify only, change nothing
 #   ./run.sh --all       run every step in order, stopping at the first failure
+#   ./run.sh --reset     destroy + redeploy the fabric, then run every step
 #   ./run.sh --list      show the steps
 #
 # The .cfg files here are the SAME files the published guide displays.
@@ -85,6 +86,14 @@ run_step() {
 }
 
 case "${1:---all}" in
+  --reset)
+    command -v containerlab >/dev/null || die "containerlab not found"
+    echo "Destroying and redeploying the fabric..."
+    sudo containerlab destroy -t topology.clab.yml >/dev/null 2>&1
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1 >/dev/null \
+      || die "deploy failed"
+    echo "Fabric redeployed."
+    exec "$0" --all ;;
   --list)
     for s in "${STEPS[@]}"; do printf "  %s  %s\n" "$s" "${TITLE[$s]}"; done ;;
   --verify)

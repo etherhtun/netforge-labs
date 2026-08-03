@@ -14,6 +14,7 @@
     cd netforge-labs/labs/bgp-lab
     sudo containerlab deploy -t topology.clab.yml --max-workers 1
     ./run.sh --all          # or ./run.sh 02 to take one step at a time
+    ./run.sh --reset        # destroy, redeploy, and run the whole lab fresh
     ```
 
     `run.sh` applies each step, runs its verification gate, and **stops at the
