@@ -47,14 +47,18 @@ nav:
     - Docker & containerlab: getting-started/containerlab.md
     - Cloud VM (optional): getting-started/cloud-vm.md
     - Team quickstart: getting-started/team-quickstart.md
+    - How the lab works: getting-started/how-the-lab-works.md
+    - Lab troubleshooting: getting-started/lab-troubleshooting.md
 
   - Courses:
     - courses/index.md
     - "Foundations · Linux":
       - courses/linux-foundations/index.md
-      - 1 · Namespaces and veth pairs: courses/linux-foundations/01-namespaces-veth.md
-      - 2 · Reading the Linux network stack: courses/linux-foundations/02-inspecting.md
-      - 3 · Containers and cEOS behaviour: courses/linux-foundations/03-containers.md
+      - 1 · Shell fluency: courses/linux-foundations/01-shell.md
+      - 2 · Parsing device output: courses/linux-foundations/02-text-processing.md
+      - 3 · SSH properly: courses/linux-foundations/03-ssh.md
+      - 4 · Processes, services and logs: courses/linux-foundations/04-services.md
+      - 5 · Git for network engineers: courses/linux-foundations/05-git.md
       - Interview questions: courses/linux-foundations/interview-questions.md
     - "Phase 0 · IGP Fundamentals":
       - courses/00-igp-fundamentals/index.md

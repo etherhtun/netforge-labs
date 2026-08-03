@@ -1,4 +1,4 @@
-# 1 · Namespaces and veth pairs
+# How the lab works — namespaces and veth pairs
 
 How does one laptop run a twelve-router fabric with real, separate routing tables?
 Two Linux features do almost all the work.
@@ -199,9 +199,9 @@ naming and lifecycle, but the wiring is these commands.
     why.
 
     Destroy and redeploy the topology instead. This is covered further in
-    [containers](03-containers.md).
+    [lab troubleshooting](lab-troubleshooting.md).
 
 ---
 
-**Next:** [Reading the Linux network stack →](02-inspecting.md) — the `ip` tooling
-and `tcpdump`, in more depth.
+**Next:** [Lab troubleshooting →](lab-troubleshooting.md) — the container
+behaviours that cause the most confusing failures.

@@ -1,4 +1,4 @@
-# 3 · Containers, and why cEOS behaves as it does
+# Lab troubleshooting — why cEOS behaves as it does
 
 Three bugs cost real hours while building this curriculum. None were networking
 problems. All three become obvious once you know what a container actually is.
@@ -16,7 +16,7 @@ surroundings, using two features:
 - **cgroups** — control what it can *use*: CPU, memory, I/O.
 
 That's it. `docker inspect -f '{{.State.Pid}}'` returned `30498` in
-[namespaces](01-namespaces-veth.md) — a PID on your host's process table, visible
+[how the lab works](how-the-lab-works.md) — a PID on your host's process table, visible
 to `ps`, killable with `kill`. Nothing is virtualised.
 
 This is why a cEOS fabric boots in seconds while vJunos takes minutes: there's no
@@ -183,5 +183,5 @@ the NOS gives you an answer that makes no sense, you'll know where to look.
 
 ---
 
-**Next:** [Interview questions →](interview-questions.md) — self-test on the whole
-track.
+For transferable Linux skills — shell, ssh, git, parsing device output — see
+**[Foundations · Linux](../courses/linux-foundations/index.md)**.

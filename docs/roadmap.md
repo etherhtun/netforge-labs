@@ -33,7 +33,7 @@ graph TD
 
 | Phase | Course | Focus | Status |
 |---|---|---|---|
-| **–** | [Foundations · Linux](courses/linux-foundations/index.md) | Namespaces, veth, `ip`/tcpdump, containers | 🟢 **Available** — prerequisite |
+| **–** | [Foundations · Linux](courses/linux-foundations/index.md) | Shell, text processing, SSH, systemd/logs, git | 🟢 **Available** — prerequisite |
 | **0** | [IGP Fundamentals](courses/00-igp-fundamentals/index.md) | OSPFv2/v3, IS-IS (dual-stack IPv4/IPv6) | 🟢 **Available** — reading track |
 | **1** | [BGP Fundamentals & Policies](courses/01-bgp/index.md) | eBGP, iBGP, route reflectors, advanced path selection | 🟢 **Lab 01 live** |
 | **2** | BGP-DIA & Internet Edge | Multi-homing, RPKI, peering, NAT / CGNAT | 📋 Planned |

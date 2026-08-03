@@ -16,8 +16,8 @@ Nothing is marked finished until it has actually been run. See the
 
     ---
 
-    Network namespaces, veth pairs, `ip` and `tcpdump`, and what containerlab is
-    actually doing. Explains the layer every lab already runs on.
+    Shell scripting, parsing device output, SSH keys and jump hosts, systemd and
+    logs, and git for config management. The Linux a network engineer actually uses.
 
     [Start reading →](linux-foundations/index.md)
 
