@@ -5,6 +5,21 @@
 
 **Time:** ~45 minutes · **Nodes:** 3
 
+!!! tip "Run it instead of typing it"
+    Every config block below is read from a file in the repo — the page and the
+    script show the same bytes, so they cannot drift apart.
+
+    ```bash
+    git clone https://github.com/etherhtun/netforge-labs
+    cd netforge-labs/labs/bgp-lab
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ./run.sh --all          # or ./run.sh 02 to take one step at a time
+    ```
+
+    `run.sh` applies each step, runs its verification gate, and **stops at the
+    first failure** rather than building on something that silently didn't work.
+    Reading along and pasting by hand works exactly as before.
+
 Build two autonomous systems, peer them, and hit the single most common iBGP
 mistake on purpose — then fix it and prove traffic flows.
 
@@ -94,50 +109,13 @@ underneath it.
 === "r1"
 
     ```
-    configure
-    ip routing
-    service routing protocols model multi-agent
-    !
-    interface Loopback0
-     ip address 1.1.1.1/32
-     ip ospf area 0.0.0.0
-    !
-    interface Ethernet1
-     no switchport
-     ip address 10.0.12.1/24
-     ip ospf area 0.0.0.0
-     ip ospf network point-to-point
-    !
-    interface Ethernet2
-     no switchport
-     ip address 10.0.13.1/24
-    !
-    router ospf 1
-     router-id 1.1.1.1
+    --8<-- "labs/bgp-lab/steps/02-r1-underlay.cfg"
     ```
 
 === "r2"
 
     ```
-    configure
-    ip routing
-    service routing protocols model multi-agent
-    !
-    interface Loopback0
-     ip address 2.2.2.2/32
-     ip ospf area 0.0.0.0
-    !
-    interface Ethernet1
-     no switchport
-     ip address 10.0.12.2/24
-     ip ospf area 0.0.0.0
-     ip ospf network point-to-point
-    !
-    interface Loopback100
-     ip address 172.16.20.1/24
-    !
-    router ospf 1
-     router-id 2.2.2.2
+    --8<-- "labs/bgp-lab/steps/02-r2-underlay.cfg"
     ```
 
 Apply with a heredoc — **`-i` is mandatory**:
@@ -186,40 +164,19 @@ Two sessions, configured differently for reasons worth understanding.
 === "r1 — both session types"
 
     ```
-    router bgp 65001
-     router-id 1.1.1.1
-     no bgp default ipv4-unicast
-     neighbor 2.2.2.2 remote-as 65001          ! iBGP — same AS
-     neighbor 2.2.2.2 update-source Loopback0  ! ...so peer from the loopback
-     neighbor 10.0.13.3 remote-as 65002        ! eBGP — different AS
-     address-family ipv4
-      neighbor 2.2.2.2 activate
-      neighbor 10.0.13.3 activate
+    --8<-- "labs/bgp-lab/steps/03-r1-bgp.cfg"
     ```
 
 === "r2 — iBGP only"
 
     ```
-    router bgp 65001
-     router-id 2.2.2.2
-     no bgp default ipv4-unicast
-     neighbor 1.1.1.1 remote-as 65001
-     neighbor 1.1.1.1 update-source Loopback0
-     address-family ipv4
-      neighbor 1.1.1.1 activate
-      network 172.16.20.0/24
+    --8<-- "labs/bgp-lab/steps/03-r2-bgp.cfg"
     ```
 
 === "r3 — eBGP only"
 
     ```
-    router bgp 65002
-     router-id 3.3.3.3
-     no bgp default ipv4-unicast
-     neighbor 10.0.13.1 remote-as 65001
-     address-family ipv4
-      neighbor 10.0.13.1 activate
-      network 172.16.30.0/24
+    --8<-- "labs/bgp-lab/steps/03-r3-bgp.cfg"
     ```
 
 **Why iBGP uses loopbacks and eBGP uses interface addresses:**
@@ -327,15 +284,11 @@ in a different AS, which it has no route to.
 Tell r1 to overwrite the next hop with its own address when advertising to iBGP
 peers:
 
-```bash
-docker exec -i clab-bgp-lab-r1 Cli -p 15 <<'EOF'
-configure
-router bgp 65001
- address-family ipv4
-  neighbor 2.2.2.2 next-hop-self
-end
-EOF
 ```
+--8<-- "labs/bgp-lab/steps/05-r1-next-hop-self.cfg"
+```
+
+Or run the step: `./run.sh 05`
 
 **Verify:**
 

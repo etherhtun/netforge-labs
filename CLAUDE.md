@@ -79,9 +79,34 @@ was consolidated into it — there are no legacy directories left, and adding a 
 one is how the mess started last time. If content doesn't fit the scheme, change
 the scheme deliberately and migrate everything, rather than adding a parallel path.
 
-**Runnable files never duplicate a published guide.** `labs/` holds topologies and
-config snippets only. A shell script that re-implements a guide's steps *will* drift
-from it and become a trap — one did, and it silently reproduced five fixed bugs.
+⭐ **Runnable files never DUPLICATE a guide — the guide INCLUDES them.**
+
+A script that re-implements a guide's steps will drift and become a trap: one did,
+and silently reproduced five already-fixed bugs. The fix is structural, not
+disciplinary — there is exactly one copy of each config, and both the page and the
+runner read it.
+
+```
+labs/<lab>/
+  topology.clab.yml
+  steps/<NN>-<node>-<description>.cfg   ← the single source of truth
+  verify/<NN>-<name>.sh                 ← the DONE gate, as an exit code
+  run.sh                                ← apply → verify → DONE/FAIL
+```
+
+- The guide embeds configs with `--8<-- "labs/<lab>/steps/..."`
+  (`pymdownx.snippets`, `base_path: ['.']`). Page and script are the same bytes.
+- **Node comes BEFORE the description** in step filenames. `run.sh` parses the node
+  as field 2 — `05-next-hop-self.cfg` parses as node `self`, which cost a debugging
+  cycle. Use `05-r1-next-hop-self.cfg`.
+- `run.sh --all` **stops at the first failed gate**; never let a learner build on a
+  step that silently didn't work.
+- A verify script for a step that *demonstrates a fault* passes when the fault is
+  present (see `04-nexthop-broken.sh`).
+- **Test on a freshly deployed fabric before publishing** — destroy, deploy,
+  `./run.sh --all`. Reference: `labs/bgp-lab/`.
+- The guide must still read standalone; copy-paste has to work for someone without
+  the repo.
 
 ---
 
