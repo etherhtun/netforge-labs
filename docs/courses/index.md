@@ -70,8 +70,7 @@ Nothing is marked finished until it has actually been run. See the
 
     ---
 
-    SR-MPLS, SR-PCE, Ti-LFA and the basics of SRv6 — the modern alternative to
-    LDP-signalled MPLS.
+    SR-MPLS, SR-PCE, Ti-LFA and the basics of SRv6. How hyper-scalers (FAANG) steer traffic without building state in the core, and how SDN controllers integrate with IGPs.
 
 </div>
 
@@ -94,12 +93,11 @@ Nothing is marked finished until it has actually been run. See the
 
 <div class="grid cards" markdown>
 
--   **Phase 5 · NetDevOps** &nbsp; <span class="nf-badge plan">planned</span>
+-   **Phase 5 · NetDevOps (Network Automation)** &nbsp; <span class="nf-badge plan">planned</span>
 
     ---
 
-    NetBox, Ansible, Python and gNMI — treating network configuration as code, with
-    CI/CD behind it.
+    NetBox (Source of Truth), Python (Nornir/Netmiko), and Ansible. Treating infrastructure as code with CI/CD pipelines to validate ECMP paths and deploy fabrics programmatically.
 
 -   **Phase 6 · Hybrid Cloud & Edge** &nbsp; <span class="nf-badge plan">planned</span>
 
@@ -111,8 +109,7 @@ Nothing is marked finished until it has actually been run. See the
 
     ---
 
-    Prometheus, Grafana, OpenConfig streaming telemetry, and traffic generation
-    with TRex.
+    Replacing legacy SNMP with gNMI and OpenConfig streaming telemetry. Building a modern SRE monitoring stack with Prometheus, Grafana, and TRex traffic generation.
 
 </div>
 
