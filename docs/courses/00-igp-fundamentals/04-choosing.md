@@ -72,8 +72,10 @@ sufficient; "we are deploying SR next quarter" is.
     a single area with point-to-point links and no hierarchy at all.
 
     Both protocols do that perfectly. Pick whichever your team knows —
-    [Phase 4](../04-evpn/lab-01-vxlan-evpn.md) uses OSPF for exactly this reason. Some
-    fabrics use eBGP instead, which [Phase 1](../../roadmap.md) covers.
+    [Phase 4](../04-evpn/lab-01-vxlan-evpn.md) uses OSPF for exactly this reason.
+
+!!! tip "The Hyper-Scale Exception (eBGP)"
+    If you are building a **massive** data center (tens of thousands of nodes, like Google or Meta), you actually **abandon IGPs entirely** in the fabric. Link-state protocols flood updates to every router, creating a massive blast radius when links flap. Hyper-scalers use **eBGP** as the underlay instead because distance-vector protocols hide topology churn and limit the blast radius. (See [5 · IGPs at Hyper-Scale](05-at-scale.md)).
 
 ---
 

@@ -47,6 +47,12 @@ symptoms look nothing like a routing problem until you check.
     An honest comparison, dual-stack strategy for IPv4 + IPv6, and the design
     questions that actually come up in interviews.
 
+-   **[5 · IGPs at Hyper-Scale](05-at-scale.md)**
+
+    ---
+
+    Blast radius, SPF limits, and SDN. How FAANG networks (like Google's B4 and Jupiter) approach IGPs, and why they sometimes abandon them entirely.
+
 -   **[Interview questions](interview-questions.md)**
 
     ---

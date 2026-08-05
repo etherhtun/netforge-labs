@@ -276,3 +276,16 @@ the reasoning matters more than the fact.
 
     Prove loopback-to-loopback reachability before touching any overlay. It costs
     thirty seconds and it is, empirically, where the fault usually is.
+
+---
+
+## The FAANG / Hyper-Scale Perspective
+
+??? question "If you have 50,000 servers in a data center, why might you use eBGP everywhere instead of OSPF?"
+    At massive scale, link-state protocols break down because of the **blast radius**. Every link flap generates an LSA/LSP that must be flooded to every router in the area, forcing every router to re-run SPF. In a 1,000-switch Clos fabric, links flap constantly. eBGP, as a distance-vector protocol, only sends updates to direct neighbors and only advertises its *best* path, acting as a firewall for topology churn. BGP also offers vastly superior policy control (route maps, communities) for traffic engineering compared to OSPF metrics.
+
+??? question "Explain the trade-off between a centralized SDN controller and a distributed protocol like IS-IS."
+    A **distributed protocol** (IS-IS) allows every router to make autonomous decisions. It's resilient to controller failure but suffers from localized blind spots and micro-loops during convergence, and it struggles to globally optimize traffic across all paths. A **centralized controller** (SDN, like Google's B4) has a global view of all demands and capacities, allowing for perfect traffic engineering and bin-packing. However, it introduces a single point of failure (the controller/control network) and latency in programming forwarding tables.
+
+??? question "How do hyper-scalers use IS-IS for Segment Routing (SR) without building state in the core?"
+    IS-IS is used strictly to distribute node labels (SIDs) using its extensible TLVs. The routers simply map a label to an IS-IS next-hop. The ingress router, often instructed by an SDN controller, pushes a stack of these labels onto the packet. The core routers then just forward the packet based on the top label without needing to keep state for the specific flow, RSVP tunnels, or LDP bindings.
