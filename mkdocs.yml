@@ -66,6 +66,7 @@ nav:
       - 2 · OSPF: courses/00-igp-fundamentals/02-ospf.md
       - 3 · IS-IS: courses/00-igp-fundamentals/03-isis.md
       - 4 · Choosing between them: courses/00-igp-fundamentals/04-choosing.md
+      - 5 · IGPs at Hyper-Scale: courses/00-igp-fundamentals/05-at-scale.md
       - Interview questions: courses/00-igp-fundamentals/interview-questions.md
     - "Phase 1 · BGP Fundamentals":
       - courses/01-bgp/index.md
