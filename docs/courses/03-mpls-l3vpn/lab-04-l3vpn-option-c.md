@@ -1,10 +1,27 @@
 # 🧪 Lab 04 · Inter-AS L3VPN Option C (BGP-LU RFC 3107 & Multi-Hop MP-eBGP)
 
-> ✅ **Validated** on Arista cEOS 4.32.0F. All outputs captured live from fabric.
+> ✅ **Validated** on Arista cEOS 4.32.0F. All outputs captured live from fabric in OrbStack.
 
 **Time:** ~60 minutes · **Nodes:** 6 (2 PE Routers, 2 ASBR Routers, 2 P Core Routers across AS 65001 & AS 65002)
 
-**Inter-AS L3VPN Option C** is the most scalable hyperscale architecture for interconnecting massive global networks. ASBRs do **not** process, store, or rewrite customer VPNv4 routes. Instead, ASBRs exchange PE Loopback reachability with labels via **BGP Labeled Unicast (BGP-LU RFC 3107 / RFC 8277)**, while PE routers establish end-to-end **multi-hop MP-eBGP** sessions directly with each other!
+!!! tip "Hybrid Approach — Script Push or Manual Typing"
+    Every lab supports both automated execution and manual line-by-line configuration:
+
+    - **Option A · Automated Script Push (Fast & Error-Free)**:
+      ```bash
+      cd netforge-labs/labs/mpls-l3vpn-lab
+      ./run.sh 04          # apply + verify step 04 automatically
+      ./run.sh --all       # run all steps in order
+      ```
+    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
+      Interactive CLI shell on any container node:
+      ```bash
+      docker exec -it clab-mpls-l3vpn-lab-asbr1 Cli
+      asbr1> enable
+      asbr1# configure
+      ```
+      Or push individual step snippets using stdin:
+      `docker exec -i clab-mpls-l3vpn-lab-asbr1 Cli -p 15 < steps/04-asbr1-optionc.cfg`
 
 ---
 
@@ -50,7 +67,7 @@ router bgp 65001
 **Verification:**
 
 ```bash
-docker exec -i clab-ceos-mpls-scratch-asbr1 Cli -p 15 <<'EOF'
+docker exec -i clab-mpls-l3vpn-lab-asbr1 Cli -p 15 <<'EOF'
 enable
 show ip bgp labeled-unicast
 EOF

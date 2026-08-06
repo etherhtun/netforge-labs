@@ -1,0 +1,24 @@
+name: mpls-l3vpn-lab
+topology:
+  nodes:
+    p1:
+      kind: arista_ceos
+      image: ceos:4.32.0F
+    pe1:
+      kind: arista_ceos
+      image: ceos:4.32.0F
+    pe2:
+      kind: arista_ceos
+      image: ceos:4.32.0F
+    ce1:
+      kind: arista_ceos
+      image: ceos:4.32.0F
+    ce2:
+      kind: arista_ceos
+      image: ceos:4.32.0F
+
+  links:
+    - endpoints: ["pe1:eth1", "p1:eth1"]
+    - endpoints: ["pe2:eth1", "p1:eth2"]
+    - endpoints: ["ce1:eth1", "pe1:eth2"]
+    - endpoints: ["ce2:eth1", "pe2:eth2"]

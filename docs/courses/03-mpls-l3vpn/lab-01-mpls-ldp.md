@@ -10,6 +10,25 @@ underlay, and LDP handing out labels on top.
 **What you'll end up with:** two edge routers (`pe1`, `pe2`) that can reach each
 other through a core router (`p1`), with a label-switched path built between them.
 
+!!! tip "Hybrid Approach — Script Push or Manual Typing"
+    Every lab supports both automated execution and manual line-by-line configuration:
+
+    - **Option A · Automated Script Push (Fast & Error-Free)**:
+      ```bash
+      cd netforge-labs/labs/mpls-l3vpn-lab
+      ./run.sh 01          # apply + verify step 01 automatically
+      ./run.sh --all       # run all steps in order
+      ```
+    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
+      Interactive CLI shell on any container node:
+      ```bash
+      docker exec -it clab-mpls-l3vpn-lab-pe1 Cli
+      pe1> enable
+      pe1# configure
+      ```
+      Or push individual step snippets using stdin:
+      `docker exec -i clab-mpls-l3vpn-lab-pe1 Cli -p 15 < steps/01-pe1-underlay.cfg`
+
 ```mermaid
 graph LR
     PE1["pe1<br/>2.2.2.2/32"] ---|10.1.1.0/24| P1["p1<br/>1.1.1.1/32"]

@@ -1,10 +1,27 @@
 # 🧪 Lab 03 · Inter-AS L3VPN Option B (ASBR MP-eBGP VPNv4 Exchange)
 
-> ✅ **Validated** on Arista cEOS 4.32.0F. All outputs captured live from fabric.
+> ✅ **Validated** on Arista cEOS 4.32.0F. All outputs captured live from fabric in OrbStack.
 
 **Time:** ~55 minutes · **Nodes:** 6 (2 PE Routers, 2 ASBR Routers, 2 P Core Routers across AS 65001 & AS 65002)
 
-When an enterprise VPN spans multiple service provider backbones (different Autonomous Systems), **Inter-AS L3VPN Option B** allows Autonomous System Border Routers (ASBRs) to exchange labeled VPNv4 routes directly over an MP-eBGP peering session without maintaining per-VRF sub-interfaces.
+!!! tip "Hybrid Approach — Script Push or Manual Typing"
+    Every lab supports both automated execution and manual line-by-line configuration:
+
+    - **Option A · Automated Script Push (Fast & Error-Free)**:
+      ```bash
+      cd netforge-labs/labs/mpls-l3vpn-lab
+      ./run.sh 03          # apply + verify step 03 automatically
+      ./run.sh --all       # run all steps in order
+      ```
+    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
+      Interactive CLI shell on any container node:
+      ```bash
+      docker exec -it clab-mpls-l3vpn-lab-asbr1 Cli
+      asbr1> enable
+      asbr1# configure
+      ```
+      Or push individual step snippets using stdin:
+      `docker exec -i clab-mpls-l3vpn-lab-asbr1 Cli -p 15 < steps/03-asbr1-optionb.cfg`
 
 ---
 
@@ -72,7 +89,7 @@ router bgp 65001
 **Verification:**
 
 ```bash
-docker exec -i clab-ceos-mpls-scratch-asbr1 Cli -p 15 <<'EOF'
+docker exec -i clab-mpls-l3vpn-lab-asbr1 Cli -p 15 <<'EOF'
 enable
 show bgp vpn-ipv4 detail
 EOF

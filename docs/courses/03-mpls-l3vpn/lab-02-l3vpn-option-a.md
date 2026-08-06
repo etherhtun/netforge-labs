@@ -1,10 +1,27 @@
 # 🧪 Lab 02 · Single-AS L3VPN & Multi-Tenant VRF Isolation
 
-> ✅ **Validated** on Arista cEOS 4.32.0F. All outputs captured live from fabric.
+> ✅ **Validated** on Arista cEOS 4.32.0F. All outputs captured live from fabric in OrbStack.
 
-**Time:** ~50 minutes · **Nodes:** 5 (2 PE Routers, 1 P Core Router, 2 Customer CE Routers / Test Hosts)
+**Time:** ~50 minutes · **Nodes:** 5 (2 PE Routers, 1 P Core Router, 2 Customer CE Routers)
 
-In this lab, you build an **RFC 4364 BGP/MPLS IP Virtual Private Network (L3VPN)** inside a single Autonomous System (AS 65000). You will configure VRFs (Virtual Routing and Forwarding), Route Distinguishers (RD), Route Targets (RT), MP-iBGP (Multiprotocol BGP), and PE-CE routing.
+!!! tip "Hybrid Approach — Script Push or Manual Typing"
+    Every lab supports both automated execution and manual line-by-line configuration:
+
+    - **Option A · Automated Script Push (Fast & Error-Free)**:
+      ```bash
+      cd netforge-labs/labs/mpls-l3vpn-lab
+      ./run.sh 02          # apply + verify step 02 automatically
+      ./run.sh --all       # run all steps in order
+      ```
+    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
+      Interactive CLI shell on any container node:
+      ```bash
+      docker exec -it clab-mpls-l3vpn-lab-pe1 Cli
+      pe1> enable
+      pe1# configure
+      ```
+      Or push individual step snippets using stdin:
+      `docker exec -i clab-mpls-l3vpn-lab-pe1 Cli -p 15 < steps/02-pe1-vrf.cfg`
 
 ---
 
@@ -49,42 +66,28 @@ graph LR
 
 Create VRF `RED` on `pe1` and `pe2`. Assign Route Distinguishers (RD) to ensure uniqueness of customer IPv4 prefixes in the VPNv4 address space (`RD + IPv4 Prefix = 96-bit VPNv4 Prefix`). Assign Extended BGP Route Targets (`import` / `export`) to control route distribution.
 
-```eos
-! Applied on pe1
-vrf instance RED
-   rd 65000:100
-!
-ip routing vrf RED
-!
-router bgp 65000
-   vrf RED
-      rd 65000:100
-      route-target import evpn 65000:100
-      route-target export evpn 65000:100
-      route-target import vpn4 65000:100
-      route-target export vpn4 65000:100
-```
+=== "pe1"
+    --8<-- "labs/mpls-l3vpn-lab/steps/02-pe1-vrf.cfg"
+
+=== "pe2"
+    --8<-- "labs/mpls-l3vpn-lab/steps/02-pe2-vrf.cfg"
 
 ---
 
-## Step 2 · MP-iBGP VPNv4 Peer Session
+## Step 2 · MP-iBGP VPNv4 Peer Session Setup
 
 Configure MP-iBGP between PE loopbacks (`2.2.2.2` $\leftrightarrow$ `3.3.3.3`) in address-family `vpn-ipv4`.
 
-```eos
-! Applied on pe1 (Primary PE)
-router bgp 65000
-   neighbor 3.3.3.3 remote-as 65000
-   neighbor 3.3.3.3 update-source Loopback0
-   !
-   address-family vpn-ipv4
-      neighbor 3.3.3.3 activate
-```
+=== "pe1"
+    --8<-- "labs/mpls-l3vpn-lab/steps/03-pe1-vpn4.cfg"
+
+=== "pe2"
+    --8<-- "labs/mpls-l3vpn-lab/steps/03-pe2-vpn4.cfg"
 
 **Verification:**
 
 ```bash
-docker exec -i clab-ceos-mpls-scratch-pe1 Cli -p 15 <<'EOF'
+docker exec -i clab-mpls-l3vpn-lab-pe1 Cli -p 15 <<'EOF'
 enable
 show bgp vpn-ipv4 summary
 EOF
@@ -105,24 +108,24 @@ Neighbor    V AS     MsgRcvd MsgSent OutQ Up/Down State  NRcvd
 
 Bind PE interfaces connecting to customer devices to VRF `RED`, and configure PE-CE eBGP routing.
 
-```eos
-! Interface binding on pe1
-interface Ethernet2
-   vrf RED
-   ip address 10.0.11.1/24
-!
-router bgp 65000
-   vrf RED
-      neighbor 10.0.11.10 remote-as 65100
-      neighbor 10.0.11.10 activate
-```
+=== "ce1"
+    --8<-- "labs/mpls-l3vpn-lab/steps/04-ce1-bgp.cfg"
+
+=== "ce2"
+    --8<-- "labs/mpls-l3vpn-lab/steps/04-ce2-bgp.cfg"
+
+=== "pe1 (VRF RED)"
+    --8<-- "labs/mpls-l3vpn-lab/steps/04-pe1-ce-bgp.cfg"
+
+=== "pe2 (VRF RED)"
+    --8<-- "labs/mpls-l3vpn-lab/steps/04-pe2-ce-bgp.cfg"
 
 **Data Plane Verification:**
 
 Test ping from `ce1` across the MPLS core to `ce2` (`10.100.2.2`):
 
 ```bash
-docker exec -i clab-ceos-mpls-scratch-ce1 Cli -p 15 <<'EOF'
+docker exec -i clab-mpls-l3vpn-lab-ce1 Cli -p 15 <<'EOF'
 enable
 ping 10.100.2.2 repeat 5
 EOF
