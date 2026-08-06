@@ -341,6 +341,24 @@ For which to choose, see
 
 ---
 
+## 🧠 Google Network Infra Knowledge Sharing
+
+> [!NOTE]
+> ### Production Deep Dive & Hyperscale Architecture
+>
+> 1. **Why Hyperscalers Prefer IS-IS Over OSPF**:
+>    - **Transport Layer**: IS-IS runs directly on Layer 2 Ethernet frames (`802.3` / LLC `0xFEFE`), whereas OSPF runs over IP (Protocol 89). An IP stack failure or misconfigured IP interface cannot crash IS-IS adjacencies.
+>    - **Dual-Stack Simplicity**: A single IS-IS process and TLV extensions support IPv4 and IPv6 concurrently (`multi-topology` or `single-topology`). OSPF requires two separate protocol instances (OSPFv2 for IPv4, OSPFv3 for IPv6).
+>
+> 2. **Hitless Underlay Cutover Strategy**:
+>    - In production, IGP migrations (e.g., OSPF → IS-IS) leverage BGP's default 180-second hold timer and TCP's resilience.
+>    - As long as loopback reachability transitions from OSPF to IS-IS within 180 seconds, the iBGP TCP sessions remain established without dropping control plane routes or clearing forwarding tables.
+>
+> 3. **Wide Metrics & Traffic Engineering**:
+>    - Narrow IS-IS metrics (default 6-bit link cost, max 63) limit path engineering across large fabrics. Hyperscale deployment standards enforce `metric-style wide` (24-bit link metrics, 32-bit path metrics) to enable granular traffic engineering and Segment Routing (SR-MPLS).
+
+---
+
 ## Clean up
 
 ```bash

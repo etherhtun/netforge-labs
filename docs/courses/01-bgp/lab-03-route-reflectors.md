@@ -415,6 +415,26 @@ This is not a niche technique — it's how modern fabrics are built:
 
 ---
 
+## 🧠 Google Network Infra Knowledge Sharing
+
+> [!NOTE]
+> ### Production Deep Dive & Hyperscale Architecture
+>
+> 1. **iBGP Scaling Math & Full-Mesh Limits**:
+>    - A full mesh requires \(\frac{N(N-1)}{2}\) TCP sessions. At Google scale (1,000+ switches in a single cluster fabric), a full mesh requires ~500,000 BGP sessions, which would exhaust memory and CPU resources.
+>    - Route Reflectors reduce session count to \(2 \times N\) (dual redundant RRs per cluster), reducing BGP control plane overhead by 99%+.
+>
+> 2. **Loop Prevention: `ORIGINATOR_ID` & `CLUSTER_LIST`**:
+>    - Since `AS_PATH` is not modified across iBGP sessions, Route Reflectors introduce two optional non-transitive attributes:
+>      - **`ORIGINATOR_ID`**: Set to the Router ID of the originating iBGP speaker. If a router receives a route with its own `ORIGINATOR_ID`, it drops the update.
+>      - **`CLUSTER_LIST`**: Sequence of Cluster IDs traversed. If an RR receives a route containing its own Cluster ID, it drops the update.
+>
+> 3. **Leaf-Spine Fabrics (cEOS EVPN / IP Core)**:
+>    - Spines act as Control-Plane Route Reflectors for all Leaf VTEPs.
+>    - Leaf switches only peer with the Spine RRs, eliminating the need for Leaf-to-Leaf iBGP sessions. The Spines remain out of tenant VRF data-plane encapsulation while reflecting EVPN Type-2/Type-3/Type-5 routes.
+
+---
+
 ## Clean up
 
 ```bash

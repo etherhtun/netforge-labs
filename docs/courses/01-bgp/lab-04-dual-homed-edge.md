@@ -586,6 +586,25 @@ EOF
 
 ---
 
+## 🧠 Google Network Infra Knowledge Sharing
+
+> [!NOTE]
+> ### Production Deep Dive & Hyperscale Architecture
+>
+> 1. **Controlling Inbound vs Outbound Traffic Engineering**:
+>    - **Outbound Traffic (Egress)**: Controlled internally via `LOCAL_PREF` (Step 2 of BGP best-path algorithm). Higher `LOCAL_PREF` overrides `AS_PATH` length.
+>    - **Inbound Traffic (Ingress)**: Controlled externally using **AS-Path Prepending** (artificially lengthening `AS_PATH` advertised to secondary ISPs) or **MED** (Multi-Exit Discriminator) across identical upstreams.
+>
+> 2. **Preventing Unintended Transit Leaks (BGP Hijack Mitigation)**:
+>    - Multihomed enterprise and edge nodes must filter outbound advertisements (`route-map` with AS-path filter `^$` or `no-advertise` community) so they never reflect routes between transit ISPs.
+>    - Failing to filter turns an edge network into an unintended, uncompensated transit AS between global providers.
+>
+> 3. **Border Security: RPKI & Bogon Filtering**:
+>    - Hyperscale edge routers enforce **RPKI Route Origin Validation (ROV)** to discard invalid ROA prefix announcements.
+>    - Ingress filters discard bogon prefixes (RFC 1918, RFC 6598 carrier-grade NAT, RFC 5735) on public eBGP peer sessions.
+
+---
+
 ## Clean up
 
 ```bash

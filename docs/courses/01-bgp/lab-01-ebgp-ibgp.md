@@ -466,6 +466,25 @@ than assuming.
 
 ---
 
+## 🧠 Google Network Infra Knowledge Sharing
+
+> [!NOTE]
+> ### Production Deep Dive & Hyperscale Architecture
+>
+> 1. **BGP Recursive Next-Hop Lookup Mechanics**:
+>    - In hyperscale networks (Google B4/Jupiter), BGP routes are decoupled from physical interface topology. When a border router receives an eBGP prefix, it preserves the peer's next-hop IP.
+>    - Internal routers perform a **recursive table lookup**: RIB checks BGP Next-Hop → RIB checks IGP table for Next-Hop reachability → FIB programs the hardware forwarding ASIC.
+>    - Without `next-hop-self` (or explicit IGP propagation), the recursive lookup defaults to 0.0.0.0/0 (management/out-of-band interface) or fails completely, resulting in silent packet drops.
+>
+> 2. **Loopback Peering & Path Resilience**:
+>    - Hyperscale fabrics use `Loopback0` interfaces for iBGP peering because loopbacks are independent of physical link status.
+>    - If link `eth1` fails, IGP (OSPF/IS-IS) instantly updates the path to `Loopback0` via an alternate ECMP link. The iBGP TCP session remains **Established** without dropping a single BGP prefix state.
+>
+> 3. **`no bgp default ipv4-unicast` Production Hygiene**:
+>    - Google production fabrics run multi-family BGP (IPv4 Unicast, IPv6 Unicast, EVPN, VPNv4). Defaulting IPv4 unicast session activation causes unexpected route leaking when adding new BGP neighbors. Disabling default activation forces explicit policy declaration per address family.
+
+---
+
 ## Clean up
 
 ```bash
