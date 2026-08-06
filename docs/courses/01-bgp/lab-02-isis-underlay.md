@@ -28,6 +28,24 @@ the IGP underneath.
 
 Concepts: **[Phase 0 · IS-IS](../00-igp-fundamentals/03-isis.md)**.
 
+!!! tip "Hybrid Approach — Script Push or Manual Typing"
+    Every lab supports both automated execution and manual line-by-line configuration:
+
+    - **Option A · Automated Script Push (Fast & Error-Free)**:
+      ```bash
+      ./run.sh 02          # apply + verify step 02 automatically
+      ./run.sh --all       # run all steps in order
+      ```
+    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
+      Interactive CLI shell on any container node:
+      ```bash
+      docker exec -it clab-bgp-lab-r1 Cli
+      r1> enable
+      r1# configure
+      ```
+      Or push individual step snippets using stdin:
+      `docker exec -i clab-bgp-lab-r1 Cli -p 15 < steps/02-r1-underlay.cfg`
+
 ---
 
 ## Step 1 · Confirm the starting state

@@ -5,21 +5,23 @@
 
 **Time:** ~45 minutes · **Nodes:** 3
 
-!!! tip "Run it instead of typing it"
-    Every config block below is read from a file in the repo — the page and the
-    script show the same bytes, so they cannot drift apart.
+!!! tip "Hybrid Approach — Script Push or Manual Typing"
+    Every lab supports both automated execution and manual line-by-line configuration:
 
-    ```bash
-    git clone https://github.com/etherhtun/netforge-labs
-    cd netforge-labs/labs/bgp-lab
-    sudo containerlab deploy -t topology.clab.yml --max-workers 1
-    ./run.sh --all          # or ./run.sh 02 to take one step at a time
-    ./run.sh --reset        # destroy, redeploy, and run the whole lab fresh
-    ```
-
-    `run.sh` applies each step, runs its verification gate, and **stops at the
-    first failure** rather than building on something that silently didn't work.
-    Reading along and pasting by hand works exactly as before.
+    - **Option A · Automated Script Push (Fast & Error-Free)**:
+      ```bash
+      ./run.sh 02          # apply + verify step 02 automatically
+      ./run.sh --all       # run all steps in order
+      ```
+    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
+      Interactive CLI shell on any container node:
+      ```bash
+      docker exec -it clab-bgp-lab-r1 Cli
+      r1> enable
+      r1# configure
+      ```
+      Or push individual step snippets using stdin:
+      `docker exec -i clab-bgp-lab-r1 Cli -p 15 < steps/02-r1-underlay.cfg`
 
 Build two autonomous systems, peer them, and hit the single most common iBGP
 mistake on purpose — then fix it and prove traffic flows.

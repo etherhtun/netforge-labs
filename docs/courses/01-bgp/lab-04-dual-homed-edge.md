@@ -19,14 +19,23 @@ single provider protects against a cable fault. Two providers protects against t
 provider having a bad day — and it's the case that actually forces you to think
 about path selection and policy.
 
-!!! tip "Run it instead of typing it"
-    ```bash
-    git clone https://github.com/etherhtun/netforge-labs
-    cd netforge-labs/labs/edge-lab
-    sudo containerlab deploy -t topology.clab.yml --max-workers 1
-    ./run.sh --all          # or ./run.sh 03 for one step
-    ./run.sh --reset        # destroy, redeploy, run everything fresh
-    ```
+!!! tip "Hybrid Approach — Script Push or Manual Typing"
+    Every lab supports both automated execution and manual line-by-line configuration:
+
+    - **Option A · Automated Script Push (Fast & Error-Free)**:
+      ```bash
+      ./run.sh 02          # apply + verify step 02 automatically
+      ./run.sh --all       # run all steps in order
+      ```
+    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
+      Interactive CLI shell on any container node:
+      ```bash
+      docker exec -it clab-edge-lab-r1 Cli
+      r1> enable
+      r1# configure
+      ```
+      Or push individual step snippets using stdin:
+      `docker exec -i clab-edge-lab-r1 Cli -p 15 < steps/02-r1-underlay.cfg`
 
 ---
 
