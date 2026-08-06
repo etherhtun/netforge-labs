@@ -31,10 +31,11 @@ other through a core router (`p1`), with a label-switched path built between the
 
 ```mermaid
 graph LR
-    PE1["pe1<br/>2.2.2.2/32"] ---|10.1.1.0/24| P1["p1<br/>1.1.1.1/32"]
-    P1 ---|10.1.2.0/24| PE2["pe2<br/>3.3.3.3/32"]
-    classDef edge fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:2px;
-    classDef core fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:2px;
+    PE1["pe1 (PE Edge)<br/>2.2.2.2/32"] <===>|OSPF + LDP<br/>10.1.1.0/24| P1["p1 (P Core)<br/>1.1.1.1/32"]
+    P1 <===>|OSPF + LDP<br/>10.1.2.0/24| PE2["pe2 (PE Edge)<br/>3.3.3.3/32"]
+    
+    classDef edge fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef core fill:#0d47a1,stroke:#64b5f6,color:#ffffff,stroke-width:2px,font-weight:bold;
     class PE1,PE2 edge; class P1 core;
 ```
 

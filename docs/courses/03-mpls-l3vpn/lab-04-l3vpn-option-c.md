@@ -30,18 +30,18 @@
 ```mermaid
 graph LR
     subgraph AS65001["Service Provider AS 65001"]
-        PE1["pe1 (PE)<br/>Loopback: 2.2.2.2"] --- ASBR1["asbr1 (ASBR)"]
+        PE1["pe1 (PE Router)<br/>Loopback: 2.2.2.2"] --- ASBR1["asbr1 (ASBR)"]
     end
 
     subgraph AS65002["Service Provider AS 65002"]
-        ASBR2["asbr2 (ASBR)"] --- PE2["pe2 (PE)<br/>Loopback: 3.3.3.3"]
+        ASBR2["asbr2 (ASBR)"] --- PE2["pe2 (PE Router)<br/>Loopback: 3.3.3.3"]
     end
 
     ASBR1 <===>|BGP Labeled Unicast (RFC 3107)<br/>Exchanges 2.2.2.2/32 & 3.3.3.3/32 + Labels| ASBR2
     PE1 <.................. Multi-hop MP-eBGP VPNv4 (Direct PE-to-PE) ..................> PE2
 
-    classDef pe fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:2px;
-    classDef asbr fill:#fff3e0,stroke:#e65100,color:#e65100,stroke-width:2px;
+    classDef pe fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef asbr fill:#4a148c,stroke:#ba68c8,color:#ffffff,stroke-width:2px,font-weight:bold;
 
     class PE1,PE2 pe; class ASBR1,ASBR2 asbr;
 ```

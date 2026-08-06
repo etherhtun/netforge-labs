@@ -30,17 +30,17 @@
 ```mermaid
 graph LR
     subgraph AS65001["Service Provider AS 65001"]
-        PE1["pe1 (PE)"] ---|MP-iBGP VPNv4| ASBR1["asbr1 (ASBR)"]
+        PE1["pe1 (PE Router)"] <.................. MP-iBGP VPNv4 ..................> ASBR1["asbr1 (ASBR)"]
     end
 
     subgraph AS65002["Service Provider AS 65002"]
-        ASBR2["asbr2 (ASBR)"] ---|MP-iBGP VPNv4| PE2["pe2 (PE)"]
+        ASBR2["asbr2 (ASBR)"] <.................. MP-iBGP VPNv4 ..................> PE2["pe2 (PE Router)"]
     end
 
-    ASBR1 <===>|Inter-AS MP-eBGP VPNv4<br/>(Label Rewrite at ASBR)| ASBR2
+    ASBR1 <===>|Inter-AS MP-eBGP VPNv4<br/>(Label Swapped at ASBR)| ASBR2
 
-    classDef pe fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:2px;
-    classDef asbr fill:#fff3e0,stroke:#e65100,color:#e65100,stroke-width:2px;
+    classDef pe fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef asbr fill:#4a148c,stroke:#ba68c8,color:#ffffff,stroke-width:2px,font-weight:bold;
 
     class PE1,PE2 pe; class ASBR1,ASBR2 asbr;
 ```

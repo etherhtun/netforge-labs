@@ -19,14 +19,49 @@ MPLS is how service providers move traffic without every router in the middle ne
 
 ---
 
+---
+
+## 🏛️ Phase 3 Architecture & Network Topology Overview
+
+```mermaid
+graph LR
+    subgraph CustSiteA["Customer Site A (VRF RED)"]
+        CE1["ce1 (Customer A)<br/>10.100.1.1/24"]
+    end
+
+    subgraph ServiceProviderBackbone["Service Provider MPLS Backbone (AS 65000)"]
+        PE1["pe1 (PE Router)<br/>Loopback: 2.2.2.2"] <===>|OSPF + LDP| P1["p1 (P Core Router)<br/>Loopback: 1.1.1.1"]
+        P1 <===>|OSPF + LDP| PE2["pe2 (PE Router)<br/>Loopback: 3.3.3.3"]
+        PE1 <.................. MP-iBGP VPNv4 Peer Session ..................> PE2
+    end
+
+    subgraph CustSiteB["Customer Site B (VRF RED)"]
+        CE2["ce2 (Customer A)<br/>10.100.2.2/24"]
+    end
+
+    CE1 <===>|eBGP / Static| PE1
+    PE2 <===>|eBGP / Static| CE2
+
+    classDef ce fill:#e65100,stroke:#ffb74d,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef pe fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef p fill:#0d47a1,stroke:#64b5f6,color:#ffffff,stroke-width:2px,font-weight:bold;
+
+    class CE1,CE2 ce;
+    class PE1,PE2 pe;
+    class P1 p;
+```
+
+---
+
 ## Google Network Infrastructure Target Competencies
 
 ```mermaid
 graph TD
-    A["MPLS + LDP Underlay"] --> B["Single-AS L3VPN & VRFs<br/>(RD 64-bit & RT Extended Communities)"]
+    A["MPLS + LDP Underlay<br/>(OSPF, LDP Distribution, LFIB)"] --> B["Single-AS L3VPN & VRFs<br/>(64-bit RD & Extended RTs)"]
     B --> C["Inter-AS L3VPN Option B<br/>(ASBR Label Swapping & MP-eBGP)"]
-    C --> D["Hyperscale Inter-AS Option C<br/>(BGP Labeled Unicast RFC 3107 & Multi-hop MP-eBGP)"]
-    classDef s fill:#1565c0,stroke:#90caf9,color:#ffffff,stroke-width:2px,font-size:14px;
+    C --> D["Hyperscale Inter-AS Option C<br/>(BGP-LU RFC 3107 & Multi-hop MP-eBGP)"]
+    
+    classDef s fill:#1565c0,stroke:#90caf9,color:#ffffff,stroke-width:2px,font-size:14px,font-weight:bold;
     class A,B,C,D s;
 ```
 
