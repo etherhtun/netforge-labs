@@ -137,18 +137,53 @@ Large Community: 65001:1000:70
 
 ---
 
-## 🧠 Google Network Infra Knowledge Sharing
+## 🧠 Google Network Infra Knowledge Sharing & Protocol Mechanics
 
 > [!NOTE]
-> ### Production Deep Dive & Hyperscale Architecture
+> ### 1. BGP Path Selection Decision Algorithm (Step-by-Step Hierarchy)
+> When multiple routes exist for a destination prefix, Arista EOS / Cisco NX-OS evaluates the BGP Decision Process in strict sequence. The first tie-breaker that matches wins:
 >
-> 1. **Hot-Potato vs Cold-Potato Routing**:
->    - **Hot-Potato Routing**: Passing egress traffic to the nearest ISP handoff point immediately to minimize internal network resource consumption.
->    - **Cold-Potato Routing**: Carrying traffic over private internal backbones (Google B4 network) as far as possible before handing off to external transit providers for maximum SLA and latency control.
+> | Step | Criteria | Default Value | Scope | Description |
+> |:---:|---|:---:|:---:|---|
+> | **1** | **Weight** (Cisco/Arista Proprietary) | `0` (Local: `32768`) | Local Router | Highest weight wins. Evaluated before anything sent to peers. |
+> | **2** | **`LOCAL_PREF`** | `100` | iBGP Domain | **Highest `LOCAL_PREF` wins.** Used for Outbound Egress Traffic Engineering. |
+> | **3** | **Self-Originated** | - | Local Router | Prefer routes locally originated via `network` or `redistribute` over received. |
+> | **4** | **`AS_PATH` Length** | - | Global BGP | **Shortest `AS_PATH` length wins.** (Ignored if `bgp bestpath as-path ignore` is set). |
+> | **5** | **Origin Code** | `IGP` | Global BGP | Prefer `IGP` (`i`) > `EGP` (`e`) > `Incomplete` (`?`). |
+> | **6** | **`MED` (Multi-Exit Discriminator)**| `0` | Neighbor AS | **Lowest `MED` wins.** Only compared between paths from the *same* neighbor AS. |
+> | **7** | **Peer Type** | - | Session | Prefer **eBGP** paths over **iBGP** paths. |
+> | **8** | **IGP Metric to Next-Hop** | - | Underlay IGP | Prefer path with lowest IGP cost (OSPF/IS-IS) to reaching BGP `NEXT_HOP`. |
+> | **9** | **Multipath / ECMP** | - | FIB | If equal up to Step 8 and `maximum-paths` configured, install parallel ECMP routes. |
+> | **10** | **BGP Router ID** | - | Session | Prefer path from peer with lowest numerical BGP Router ID. |
+
+> [!IMPORTANT]
+> ### 2. Standard vs Large BGP Communities Wire Format (RFC 1997 vs RFC 8092)
 >
-> 2. **Large BGP Communities (RFC 8092)**:
->    - Standard communities use 32 bits (`16-bit ASN : 16-bit Value`). For 4-byte ASNs (e.g., Google `AS15169`), standard communities cannot fit the ASN.
->    - **Large Communities (`32-bit Global Admin : 32-bit Action : 32-bit Target`)** provide 96 bits of structured signaling across global transit providers and IXP route servers.
+> - **Standard Communities (RFC 1997)**:
+>   - Size: **32 bits (4 bytes)** formatted as `16-bit ASN : 16-bit Action Value`.
+>   - Limitation: Because modern Autonomous Systems use 32-bit 4-byte ASNs (e.g. Google `AS15169`, Cloudflare `AS13335`), a 4-byte ASN cannot fit into the 16-bit ASN field of a standard community!
+>   - Example: `65002:70` (AS 65002, Action 70).
+>
+> - **Large BGP Communities (RFC 8092)**:
+>   - Size: **96 bits (12 bytes)** formatted as three distinct 32-bit fields:
+>     $$\text{Large Community} = [\text{32-bit Global Administrator}] : [\text{32-bit Action}] : [\text{32-bit Parameter / Target}]$$
+>   - Example: `65001:1000:70` (`Global Admin: AS 65001`, `Action: Depress LocalPref`, `Target: Transit AS 70`).
+>   - Advantage: Allows 4-byte ASN holders (like Google AS15169) to cleanly encode global intent, specific action codes, and target peer AS numbers without truncation or collision.
+
+> [!TIP]
+> ### 3. Asymmetric Routing & Stateful Security Engineering
+>
+> In multi-homed DIA environments, outbound packets often take Path A (via Provider A) while returning inbound packets take Path B (via Provider B).
+>
+> ```
+> [Enterprise LAN] ──> Egress (r1 / Provider A) ──> [Target Web Server]
+> [Enterprise LAN] <── Ingress (r2 / Provider B) <── [Target Web Server]  (Asymmetric!)
+> ```
+>
+> - **Stateful Firewall Failure**: If stateful firewalls are placed behind edge routers without session synchronization, inbound packets taking Provider B will be dropped because Firewall B has no record of the TCP SYN handshake processed by Firewall A.
+> - **Mitigation Strategies**:
+>   1. **Asymmetric Routing Groups (ARG) / Stateful Session Sync**: Link firewalls in active-active HA clusters with dedicated sync links.
+>   2. **Strict Symmetrical Ingress Steering**: Use BGP Large Communities and AS-Path Prepending to force remote ASes to send ingress traffic through the exact same edge router handling egress traffic.
 
 ---
 
@@ -157,3 +192,4 @@ Large Community: 65001:1000:70
 ```bash
 sudo containerlab destroy -t topology.clab.yml
 ```
+

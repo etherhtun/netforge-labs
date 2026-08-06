@@ -87,17 +87,43 @@ router bgp 65001
 
 ---
 
-## 🧠 Google Network Infra Knowledge Sharing
+## 🧠 Google Network Infra Knowledge Sharing & Peering Mechanics
 
 > [!NOTE]
-> ### Production Deep Dive & Hyperscale Architecture
+> ### 1. IXP Route Server Mechanics & Transparent BGP Forwarding
 >
-> 1. **Google Edge PoP & Peering Architecture**:
->    - Google operates thousands of Edge Points of Presence (Edge PoPs) globally, connecting to ISPs via Public Peering at IXPs and Private Network Interconnects (PNIs).
->    - BFD is mandatory on all PNI and IXP links to trigger sub-second rerouting to backup egress links during fiber cuts.
+> At major Internet Exchange Points (e.g. DE-CIX, LINX, Equinix IX, Equinix Ashburn), hundreds of networks exchange routes. Setting up individual eBGP sessions with every participant ($N \times (N-1) / 2$ sessions) is unscalable.
 >
-> 2. **GTSM vs `ebgp-multihop`**:
->    - `ebgp-multihop` decreases TTL starting from 1 (susceptible to spoofing). GTSM starts at TTL 255 and verifies `TTL >= 255 - max_hops`, providing deterministic hardware-level filtering against off-path TCP attacks.
+> - **Route Server (RS) Solution**: Each network peers once with a central IXP Route Server running BIRD or OpenBGPD.
+> - **Transparent AS_PATH & Next-Hop**:
+>   - By default, eBGP prepends the local ASN and overwrites `NEXT_HOP`.
+>   - Route Servers override standard eBGP behavior: they **strip the RS ASN** from the `AS_PATH` and preserve the **original participant's `NEXT_HOP` IP address** (`no-next-hop-change`).
+>   - Consequence: Control-plane traffic passes through the Route Server, but data-plane IP packets flow directly peer-to-peer across the IXP switching fabric!
+
+> [!IMPORTANT]
+> ### 2. GTSM Packet Byte Math & Hardware ASIC TCAM Filtering (RFC 3682)
+>
+> Off-path attackers anywhere on the Internet can spoof TCP packets targeting an edge router's BGP daemon on TCP port 179.
+>
+> ```
+> [Attacker across Internet (15 hops away)] ──> Transits (TTL decrements 15 times) ──> Packet arrives with TTL = 240
+> [Legitimate Direct eBGP Peer (1 hop away)] ──> Direct Cable ─────────────────────────> Packet arrives with TTL = 254 (or 255)
+> ```
+>
+> - **GTSM TTL Check**:
+>   - Egress router sends BGP packets initialized with **IP TTL = 255**.
+>   - Receiving router enforces `neighbor <IP> ttl-security hops 1` (verifying incoming $\text{TTL} \ge 255 - 1 = 254$).
+>   - If an attacker's packet traverses even a single intermediate router, its TTL drops below 254. The edge switch hardware ASIC drops the packet at wire-speed before it ever reaches the control-plane CPU!
+
+> [!TIP]
+> ### 3. BFD Sub-Second Hardware Linecard Offload
+>
+> Standard software-based keepalives can flap under heavy CPU load (e.g., during full BGP table convergence or control-plane spikes).
+>
+> - **Hardware Offload**: Modern datacenter switches (Arista 7050X3 / 7280R3) offload BFD echo probing directly to hardware linecard ASICs or FPGAs.
+> - **Timer Math**:
+>   $$\text{Detection Time} = \text{Rx Interval} \times \text{Multiplier} = 300\,\text{ms} \times 3 = 900\,\text{ms}$$
+>   If 3 consecutive BFD control packets (at 300 ms intervals) are missed, the linecard instantly tears down the BGP session in under 1 second, rerouting traffic before application TCP connections time out!
 
 ---
 
@@ -106,3 +132,4 @@ router bgp 65001
 ```bash
 sudo containerlab destroy -t topology.clab.yml
 ```
+

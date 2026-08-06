@@ -95,16 +95,49 @@ ip prefix-list PL-BOGON-DENY seq 50 permit 0.0.0.0/0 le 24
 
 ---
 
-## 🧠 Google Network Infra Knowledge Sharing
+## 🧠 Google Network Infra Knowledge Sharing & Defensive Security Mechanics
 
 > [!NOTE]
-> ### Production Deep Dive & Hyperscale Architecture
+> ### 1. End-to-End RPKI ROV Architecture & RTR Protocol (RFC 8210)
 >
-> 1. **RPKI Cache Validators (Routinator / StayRtr)**:
->    - Hyperscale edge routers do not query RPKI Trust Anchors directly over HTTP. Instead, local **RPKI Cache Validators** (Routinator, StayRtr, Fort) query ARIN/RIPE/APNIC RIR repositories and stream validated ROA tables to edge routers via the RTR (RPKI-to-Router) protocol over TCP port 3323.
+> RPKI Origin Validation uses an out-of-band cryptographic trust hierarchy to verify IP prefix ownership:
 >
-> 2. **BGP Route Leak Prevention (RFC 9234)**:
->    - Major ISPs and cloud providers enforce **BGP Open Policy Roles** (Provider, Customer, Peer, RS, RS-Client) and OTC (Only to Customer) attribute tags to automatically prevent route leak incidents.
+> ```mermaid
+> graph LR
+>     RIR["RIR Repositories<br/>(ARIN, RIPE, APNIC)<br/>X.509 TAL Certificates"] --->|Sync via RRDP / Rsync| Validator["RPKI Cache Validator<br/>(Routinator / StayRtr / Fort)"]
+>     Validator --->|RTR Protocol<br/>TCP Port 3323| EdgeRouter["Arista EOS Edge Router<br/>(BGP Origin-AS Validation Engine)"]
+>     EdgeRouter --->|Evaluate Inbound BGP UPDATE| Decision{"ROA Table Lookup<br/>(Prefix + Length + Origin ASN)"}
+>     Decision --->|Match| Valid["Valid<br/>(Permit, Set LP=120)"]
+>     Decision --->|Length / ASN Mismatch| Invalid["Invalid<br/>(DROP Route!)"]
+>     Decision --->|No ROA Found| NotFound["NotFound<br/>(Permit, Set LP=100)"]
+>     
+>     classDef rir fill:#1565c0,stroke:#90caf9,color:#ffffff;
+>     classDef val fill:#f57c00,stroke:#ffe0b2,color:#ffffff;
+>     classDef edge fill:#2e7d32,stroke:#a5d6a7,color:#ffffff;
+>     class RIR rir; class Validator val; class EdgeRouter edge;
+> ```
+>
+> - **Why Routers Don't Query RIRs Directly**: Validating cryptographic X.509 signatures on millions of ROA objects requires high CPU and RAM overhead. Dedicated validator servers (Routinator, StayRtr) parse cryptographically signed ROAs and push a flattened table of `(IPv4/IPv6 Prefix, MaxLength, Origin ASN)` tuples to edge routers using lightweight binary RTR PDUs (RFC 8210).
+
+> [!IMPORTANT]
+> ### 2. Preventing Prefix De-aggregation Hijacks with `maxLength`
+>
+> A common BGP hijacking technique involves advertising a more-specific subnet (e.g. `1.1.1.0/24`) for a target that only advertises a aggregate `/16` (`1.1.0.0/16`). BGP longest-prefix matching forces global traffic toward the attacker's `/24`.
+>
+> - **ROA Protection**: A signed ROA specifies both the authorized `Origin ASN` and the `maxLength`.
+>   - Example ROA: `Prefix: 203.0.113.0/20`, `maxLength: 24`, `ASN: 65001`.
+>   - If an attacker advertises `203.0.113.0/25` (exceeding `maxLength 24`), RPKI ROV flags the announcement as **`Invalid`**, and edge routers drop it immediately!
+
+> [!TIP]
+> ### 3. BGP Route Leak Prevention (RFC 9234) vs Remotely Triggered Blackhole (RTBH) & Flowspec
+>
+> - **BGP Open Policy Roles & OTC (RFC 9234)**:
+>   - Route leaks occur when a multi-homed customer receives routes from Transit ISP A and re-advertises them to Transit ISP B, turning the customer into an unintended transit network.
+>   - RFC 9234 introduces the **Only to Customer (OTC)** BGP attribute. When a route is advertised to a Customer or Peer, the router sets the OTC attribute to its own ASN. If a customer attempts to re-advertise that route to another Provider or Peer, the receiving router drops the route.
+>
+> - **RTBH (RFC 7999 `65535:666`) vs BGP Flowspec (RFC 8955)**:
+>   - **RTBH**: Drops **100% of traffic** targeting a specific `/32` IP address at the ISP edge. While it stops WAN link saturation, it completes the Denial-of-Service for legitimate users accessing that host.
+>   - **BGP Flowspec (RFC 8955)**: Advertises granular 5-tuple filtering rules (Source IP, Destination IP, L4 Protocol, TCP Flags, Port Range) directly into the provider's hardware ACLs, dropping only attack traffic while keeping legitimate host services online!
 
 ---
 
@@ -113,3 +146,4 @@ ip prefix-list PL-BOGON-DENY seq 50 permit 0.0.0.0/0 le 24
 ```bash
 sudo containerlab destroy -t topology.clab.yml
 ```
+
