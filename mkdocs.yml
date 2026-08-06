@@ -52,7 +52,7 @@ nav:
 
   - Courses:
     - courses/index.md
-    - "Foundations · Linux":
+    - "Foundations · Linux & Physical Infrastructure":
       - courses/linux-foundations/index.md
       - 1 · Shell fluency: courses/linux-foundations/01-shell.md
       - 2 · Parsing device output: courses/linux-foundations/02-text-processing.md

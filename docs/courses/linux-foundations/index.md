@@ -1,4 +1,4 @@
-# Foundations — Linux for Network Engineers
+# Foundations — Linux & Physical Infrastructure
 
 > 📖 **Reading track.** Every command runs on the lab host you already have.
 
