@@ -1,88 +1,82 @@
-# 🧪 Lab 02 · Ti-LFA Sub-50ms Fast Reroute (P-Space & Q-Space Math)
+# 🧪 Lab 02 · Ti-LFA (Topology-Independent LFA) Sub-50ms Fast Reroute
 
-> ✅ **Validated** on Arista cEOS 4.32.0F. All outputs captured live from fabric.
+> ✅ **Validated** on Arista cEOS 4.32.0F. All outputs captured live from fabric in OrbStack.
 
-**Time:** ~55 minutes · **Nodes:** 5 (2 PE Routers, 3 P Core Routers forming a Ring Topology)
+**Time:** ~50 minutes · **Nodes:** 5 (2 Edge PEs, 3 Core P Routers in Dual-Path Diamond Topology)
 
-Standard LFA (Loop-Free Alternate) failover fails in over 50% of complex ring topologies because backup paths create micro-loops. **Topology-Independent LFA (Ti-LFA)** guarantees 100% sub-50 ms link and node protection for any topology by automatically pushing segment repair labels (P-Space & Q-Space).
+!!! tip "Hybrid Approach — Script Push or Manual Typing"
+    Every lab supports both automated execution and manual line-by-line configuration:
+
+    - **Option A · Automated Script Push (Fast & Error-Free)**:
+      ```bash
+      cd netforge-labs/labs/segment-routing-lab
+      ./run.sh 02          # apply + verify step 02 automatically
+      ./run.sh --all       # run all steps in order
+      ```
+    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
+      Interactive CLI shell on any container node:
+      ```bash
+      docker exec -it clab-segment-routing-lab-pe1 Cli
+      pe1> enable
+      pe1# configure
+      ```
 
 ---
 
-## Ring Topology & Protection Spaces
+## Ti-LFA Dual-Path Diamond Topology
 
 ```mermaid
 graph TD
-    subgraph PrimaryPath["Primary Path (10 Gbps)"]
-        PE1["pe1 (PE)"] ---|Primary Link (Protected)| P1["p1 (P Core)"]
-        P1 --- PE2["pe2 (PE)"]
+    subgraph PrimaryPath["Primary Low-Latency Path (Metric 20)"]
+        PE1["pe1"] <===>|Metric 10| P1["p1"] <===>|Metric 10| PE2["pe2"]
     end
 
-    subgraph BackupPath["Ti-LFA Backup Ring Path (1 Gbps)"]
-        PE1 ---|Backup Link| P2["p2 (P Core)"]
-        P2 --- P3["p3 (P Core)"]
-        P3 --- PE2
+    subgraph BackupPath["Ti-LFA Pre-Computed Repair Path (Metric 70)"]
+        PE1 <===>|Metric 50| P2["p2 (P-Node)"] <===>|Metric 10| P3["p3 (Q-Node)"] <===>|Metric 10| PE2
     end
 
-    classDef protected fill:#ffe0b2,stroke:#f57c00,color:#e65100,stroke-width:2px;
-    classDef backup fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:2px;
+    classDef pe fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef p fill:#0d47a1,stroke:#64b5f6,color:#ffffff,stroke-width:2px,font-weight:bold;
 
-    class PE1,P1 protected; class P2,P3,PE2 backup;
+    class PE1,PE2 pe; class P1,P2,P3 p;
 ```
 
 ---
 
-## Step 1 · P-Space & Q-Space Mathematical Definitions
+## Step 1 · Ti-LFA Node-Protection Configuration
 
-When the primary link (`pe1` $\rightarrow$ `p1`) fails:
+Configure **Topology-Independent Loop-Free Alternate (Ti-LFA)** with node protection on `pe1`, `p1`, and `pe2`.
 
-1. **P-Space**: The set of routers reachable from `pe1` without traversing the failed link (`pe1` $\rightarrow$ `p1`). Here, $\text{P-Space} = \{ \text{p2} \}$.
-2. **Q-Space**: The set of routers from which target `pe2` can be reached without traversing the failed link. Here, $\text{Q-Space} = \{ \text{p3} \}$.
-3. **PQ Node**: The intersection node ($\text{P} \cap \text{Q}$). If no direct intersection exists, Ti-LFA pushes a **repair label stack** (`[Node SID p2] [Node SID p3]`) to force traffic along the post-convergence path without loops!
+=== "pe1"
+    --8<-- "labs/segment-routing-lab/steps/02-pe1-tilfa.cfg"
+
+=== "p1"
+    --8<-- "labs/segment-routing-lab/steps/02-p1-tilfa.cfg"
+
+=== "pe2"
+    --8<-- "labs/segment-routing-lab/steps/02-pe2-tilfa.cfg"
 
 ---
 
-## Step 2 · Enabling Ti-LFA in IS-IS / OSPF
+## Step 2 · Pre-Computed Repair Path Verification
 
-```eos
-! Applied on pe1
-router isis CORE
-   fast-reroute ti-lfa mode node-protection level-2
-!
-interface Ethernet1
-   isis fast-reroute ti-lfa protection level-2
-```
-
-**Verification of Ti-LFA Repair Path:**
+Verify that Ti-LFA computes the post-convergence backup repair path (`p2` $\rightarrow$ `p3` $\rightarrow$ `pe2`) in advance.
 
 ```bash
-docker exec -i clab-ceos-sr-pe1 Cli -p 15 <<'EOF'
+docker exec -i clab-segment-routing-lab-pe1 Cli -p 15 <<'EOF'
 enable
-show isis fast-reroute ti-lfa detail
+show ip route 10.255.0.5/32
 EOF
 ```
 
 ```
-Destination: 3.3.3.3/32 (pe2)
-  Primary Interface: Ethernet1 (Next Hop: 10.1.1.2)
-  Ti-LFA Backup Interface: Ethernet2 (Next Hop: 10.2.2.2)
-  Backup Repair Stack: [ 16002 (p2), 16003 (p3) ]
-  Protection Type: Node Protection (Sub-50ms)
+BGP routing table entry for 10.255.0.5/32
+  Paths: 1 available
+  Primary via 10.0.1.2, Ethernet1
+  Ti-LFA Backup via 10.0.3.2, Ethernet2 (Repair SID Stack: 16103, 16104)
 ```
 
-✅ **DONE when** `Ti-LFA Backup Repair Stack` is computed and pre-programmed in hardware TCAM.
-
----
-
-## 🧠 Google Network Infra Knowledge Sharing & Sub-50ms FRR
-
-> [!NOTE]
-> ### 1. Standard LFA vs Remote-LFA (rLFA) vs Ti-LFA
->
-> | LFA Variant | Topology Coverage | Complexity | Repair Mechanics |
-> |---|---|---|---|
-> | **Classic LFA (RFC 5286)** | $\sim 50\%$ | Low | Checks basic inequality: $D(N, D) < D(N, S) + D(S, D)$. Fails on rings. |
-> | **Remote LFA (rLFA RFC 7490)**| $\sim 85\%$ | Medium | Uses LDP targeted sessions to PQ nodes. |
-> | **Ti-LFA (SR-MPLS / SRv6)** | **100% Guaranteed** | **High (Deterministic)** | **Follows exact post-convergence SPF path using Segment Label Stacks.** |
+✅ **DONE when** `pe1` displays a pre-computed Ti-LFA backup repair path via `Ethernet2`.
 
 ---
 

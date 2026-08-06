@@ -1,0 +1,37 @@
+name: segment-routing-lab
+
+mgmt:
+  network: clab
+  ipv4-subnet: 172.20.20.0/24
+
+topology:
+  kinds:
+    arista_ceos:
+      image: ceos:4.32.0F
+      exec:
+        - /sbin/sysctl -w net.ipv4.ip_forward=1
+  nodes:
+    pe1:
+      kind: arista_ceos
+      mgmt-ipv4: 172.20.20.20
+    p1:
+      kind: arista_ceos
+      mgmt-ipv4: 172.20.20.21
+    p2:
+      kind: arista_ceos
+      mgmt-ipv4: 172.20.20.22
+    p3:
+      kind: arista_ceos
+      mgmt-ipv4: 172.20.20.23
+    pe2:
+      kind: arista_ceos
+      mgmt-ipv4: 172.20.20.24
+
+  links:
+    # Primary Direct Core Path (pe1 <-> p1 <-> pe2)
+    - endpoints: ["pe1:eth1", "p1:eth1"]
+    - endpoints: ["p1:eth2", "pe2:eth1"]
+    # Backup Core Path for Ti-LFA FRR (pe1 <-> p2 <-> p3 <-> pe2)
+    - endpoints: ["pe1:eth2", "p2:eth1"]
+    - endpoints: ["p2:eth2", "p3:eth1"]
+    - endpoints: ["p3:eth2", "pe2:eth2"]

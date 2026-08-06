@@ -1,10 +1,27 @@
 # 🧪 Lab 01 · SR-MPLS Node & Prefix SIDs (IS-IS / OSPF Extensions)
 
-> ✅ **Validated** on Arista cEOS 4.32.0F. All outputs captured live from fabric.
+> ✅ **Validated** on Arista cEOS 4.32.0F. All outputs captured live from fabric in OrbStack.
 
-**Time:** ~50 minutes · **Nodes:** 4 (3 Core P/PE Routers, 1 Service Router)
+**Time:** ~50 minutes · **Nodes:** 5 (2 Edge PEs, 3 Core P Routers)
 
-Segment Routing over MPLS (**SR-MPLS**) removes the need for LDP or RSVP-TE in the network core. Instead of signaling labels hop-by-hop via LDP, the IGP (IS-IS or OSPF) directly advertises **Segment Identifiers (SIDs)** using simple TLV extensions.
+!!! tip "Hybrid Approach — Script Push or Manual Typing"
+    Every lab supports both automated execution and manual line-by-line configuration:
+
+    - **Option A · Automated Script Push (Fast & Error-Free)**:
+      ```bash
+      cd netforge-labs/labs/segment-routing-lab
+      ./run.sh 01          # apply + verify step 01 automatically
+      ./run.sh --all       # run all steps in order
+      ```
+    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
+      Interactive CLI shell on any container node:
+      ```bash
+      docker exec -it clab-segment-routing-lab-pe1 Cli
+      pe1> enable
+      pe1# configure
+      ```
+      Or push individual step snippets using stdin:
+      `docker exec -i clab-segment-routing-lab-pe1 Cli -p 15 < steps/01-pe1-sr.cfg`
 
 ---
 
@@ -12,11 +29,11 @@ Segment Routing over MPLS (**SR-MPLS**) removes the need for LDP or RSVP-TE in t
 
 ```mermaid
 graph LR
-    PE1["pe1 (PE)<br/>Loopback: 1.1.1.1/32<br/>Node SID: 16001"] ---|IS-IS + SR-MPLS| P1["p1 (P Core)<br/>Loopback: 2.2.2.2/32<br/>Node SID: 16002"]
-    P1 ---|IS-IS + SR-MPLS| PE2["pe2 (PE)<br/>Loopback: 3.3.3.3/32<br/>Node SID: 16003"]
+    PE1["pe1 (PE)<br/>Loopback: 10.255.0.1/32<br/>Node SID Index 101"] <===>|IS-IS + SR-MPLS| P1["p1 (P Core)<br/>Loopback: 10.255.0.2/32<br/>Node SID Index 102"]
+    P1 <===>|IS-IS + SR-MPLS| PE2["pe2 (PE)<br/>Loopback: 10.255.0.5/32<br/>Node SID Index 105"]
 
-    classDef pe fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:2px;
-    classDef p fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:2px;
+    classDef pe fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef p fill:#0d47a1,stroke:#64b5f6,color:#ffffff,stroke-width:2px,font-weight:bold;
 
     class PE1,PE2 pe; class P1 p;
 ```
@@ -26,87 +43,44 @@ graph LR
 | Parameter | Value | Description |
 |---|---|---|
 | **SRGB Range** | `16000 – 23999` | Reserved global MPLS label space for Segment Routing Node SIDs across the domain. |
-| **`pe1` Node SID** | Index `1` (`Label 16001`) | Uniquely identifies router `pe1` loopback `1.1.1.1/32`. |
-| **`p1` Node SID** | Index `2` (`Label 16002`) | Uniquely identifies router `p1` loopback `2.2.2.2/32`. |
-| **`pe2` Node SID** | Index `3` (`Label 16003`) | Uniquely identifies router `pe2` loopback `3.3.3.3/32`. |
+| **`pe1` Node SID** | Index `101` (`Label 16101`) | Uniquely identifies router `pe1` loopback `10.255.0.1/32`. |
+| **`pe2` Node SID** | Index `105` (`Label 16105`) | Uniquely identifies router `pe2` loopback `10.255.0.5/32`. |
 
 ---
 
-## Step 1 · Configure SRGB & IS-IS Segment Routing Extensions
+## Step 1 · IS-IS Segment Routing Underlay Configuration
 
-Configure the Segment Routing Global Block (SRGB) and enable IS-IS Segment Routing on `pe1`.
+Enable Segment Routing underlay on `pe1`, `p1`, and `pe2` with wide metrics and prefix-segment SIDs.
 
-```eos
-! Applied on pe1 (Arista cEOS)
-router isis CORE
-   net 49.0001.0000.0000.0001.00
-   is-type level-2
-   metric-style wide
-   !
-   segment-routing mpls
-      no shutdown
-!
-router general
-   hardware speed-group1 10g
-!
-segment-routing
-   mpls
-      srgb 16000 23999
-!
-interface Loopback0
-   ip address 1.1.1.1/32
-   node-segment ipv4 index 1
-```
+=== "pe1"
+    --8<-- "labs/segment-routing-lab/steps/01-pe1-sr.cfg"
+
+=== "p1"
+    --8<-- "labs/segment-routing-lab/steps/01-p1-sr.cfg"
+
+=== "pe2"
+    --8<-- "labs/segment-routing-lab/steps/01-pe2-sr.cfg"
 
 ---
 
-## Step 2 · Verification of SR-MPLS Forwarding Table (LFIB)
+## Step 2 · Data Plane Label Verification
 
-Verify that IS-IS has distributed Prefix SIDs and programmed the hardware LFIB without LDP.
+Verify the IS-IS Segment Routing Prefix SIDs in the LFIB.
 
 ```bash
-docker exec -i clab-ceos-sr-pe1 Cli -p 15 <<'EOF'
+docker exec -i clab-segment-routing-lab-pe1 Cli -p 15 <<'EOF'
 enable
-show segment-routing mpls routing-table
+show isis segment-routing prefix-segments
 EOF
 ```
 
 ```
-Segment Routing MPLS IPv4 Routing Table:
-Prefix            SID Index    Label      Next Hop        Interface
-3.3.3.3/32        3            16003      10.1.1.2        Ethernet1
+Segment Routing Prefix Segments:
+Prefix            Index    Origin        Flags
+10.255.0.5/32     105      10.255.0.5    R:0 N:1 P:0 E:0 V:0 L:0
 ```
 
-```bash
-docker exec -i clab-ceos-sr-pe1 Cli -p 15 <<'EOF'
-enable
-show mpls route
-EOF
-```
-
-```
-MPLS Switching Table:
-In Label    Action     Out Label    Next Hop        Interface
-16003       Swap       16003        10.1.2.2        Ethernet1
-```
-
-✅ **DONE when** `3.3.3.3/32` is reachable via Node SID `16003` in the LFIB without LDP running.
-
----
-
-## 🧠 Google Network Infra Knowledge Sharing & SR Mechanics
-
-> [!NOTE]
-> ### 1. Node SIDs vs Adjacency SIDs
->
-> - **Prefix / Node SID**: A global segment identifying a router's Loopback IP. Allocated out of the SRGB (`16000–23999`). Advertised domain-wide by IS-IS/OSPF.
-> - **Adjacency SID**: A local segment identifying a specific physical link. Dynamically allocated out of the local dynamic label space (`24000+`). Only locally significant to the originating router.
-
-> [!IMPORTANT]
-> ### 2. Why Hyperscalers Replaced LDP/RSVP-TE with Segment Routing
->
-> 1. **Zero Soft-State in the Core**: Core P routers carry **zero RSVP-TE soft state** (no RSVP Refresh messages or signaling timers). The entire source-routed path is encoded into the MPLS label stack at the ingress PE!
-> 2. **Elimination of LDP-IGP Synchronization Issues**: Because the IGP itself advertises the labels, a path can never suffer from "IGP up but LDP down" blackholing.
+✅ **DONE when** `pe1` receives Prefix SID `105` for `pe2` (`10.255.0.5/32`).
 
 ---
 
