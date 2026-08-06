@@ -60,6 +60,7 @@ nav:
       - 4 · Processes, services and logs: courses/linux-foundations/04-services.md
       - 5 · Git for network engineers: courses/linux-foundations/05-git.md
       - 6 · Kernel networking & packet diagnostics: courses/linux-foundations/06-kernel-networking.md
+      - 7 · Layer 1 optics & physical infrastructure: courses/linux-foundations/07-physical-layer.md
       - Interview questions: courses/linux-foundations/interview-questions.md
     - "Phase 0 · IGP Fundamentals":
       - courses/00-igp-fundamentals/index.md

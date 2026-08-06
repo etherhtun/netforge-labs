@@ -71,6 +71,13 @@ the job that expects them.
     `iproute2`, policy routing, network namespaces, `tcpdump` flag filters, kernel
     packet processing, and TCP socket troubleshooting.
 
+-   **[7 · Layer 1 optics & physical infrastructure](07-physical-layer.md)**
+
+    ---
+
+    Transceivers (SFP+ to OSFP), MMF/SMF fiber physics, Digital Optical Monitoring (DOM),
+    RS-FEC error correction, and port breakouts.
+
 -   **[Interview questions](interview-questions.md)**
 
     ---

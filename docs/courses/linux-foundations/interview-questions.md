@@ -204,3 +204,20 @@ network-engineer ones.
 ??? question "Where in `/proc` do you check for kernel-level TCP drops or retransmissions?"
     `/proc/net/snmp` contains protocol counters (including TCP retransmissions and failed connection attempts), while `/proc/net/dev` tracks interface-level drops and errors.
 
+---
+
+## Layer 1 & Physical Infrastructure
+
+??? question "What is DOM/DDM and why is it monitored on optical interfaces?"
+    Digital Optical Monitoring (DOM) measures Tx/Rx optical power (dBm), laser bias current, and temperature in real time. Monitoring Rx power catches optical attenuation or fiber damage before complete link failure.
+
+??? question "What is the difference between Single-Mode Fiber (SMF) and Multi-Mode Fiber (MMF)?"
+    MMF uses a wider core (50 µm) with 850nm lasers for short distances (up to 100m). SMF uses a narrow 9 µm core with 1310nm/1550nm lasers for long distances (up to 10km+). Mixing them causes severe optical signal loss.
+
+??? question "Difference between Correctable and Uncorrectable FEC errors?"
+    Correctable FEC errors are bit flips successfully repaired by Forward Error Correction algorithms with zero packet loss. Uncorrectable FEC errors exceed the error-correction threshold, resulting in physical layer packet drops.
+
+??? question "How do you convert optical power from mW to dBm?"
+    \(P_{\text{dBm}} = 10 \cdot \log_{10}(P_{\text{mW}})\). For example, \(1.0\text{ mW} = 0\text{ dBm}\), and \(0.5\text{ mW} = -3\text{ dBm}\) (3 dB loss equals a 50% power reduction).
+
+
