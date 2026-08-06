@@ -34,7 +34,7 @@ graph LR
     subgraph CoreProvider["Service Provider MPLS Backbone (AS 65000)"]
         PE1["pe1 (PE Router)<br/>2.2.2.2/32"] <===>|OSPF + LDP| P1["p1 (P Core)<br/>1.1.1.1/32"]
         P1 <===>|OSPF + LDP| PE2["pe2 (PE Router)<br/>3.3.3.3/32"]
-        PE1 -.-|Targeted LDP Pseudowire (VC ID 100)|-.- PE2
+        PE1 -.-|Targeted LDP Pseudowire (VC ID 100)| PE2
     end
 
     subgraph SiteB["Customer Site B (L2 Domain)"]

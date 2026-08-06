@@ -11,7 +11,7 @@ Layer 2 Virtual Private Networks (L2VPN) transport customer Layer 2 Ethernet fra
 ```mermaid
 graph LR
     CE1["ce1 (Customer L2 Switch)<br/>Port Et1"] ===>|Untagged / 802.1Q Frame| PE1["pe1 (PE Router)"]
-    PE1 -.-|Targeted LDP (tLDP) Pseudowire VC ID 100|-.- PE2["pe2 (PE Router)"]
+    PE1 -.-|Targeted LDP (tLDP) Pseudowire VC ID 100| PE2["pe2 (PE Router)"]
     PE2 ===>|Untagged / 802.1Q Frame| CE2["ce2 (Customer L2 Switch)<br/>Port Et1"]
 
     classDef ce fill:#e65100,stroke:#ffb74d,color:#ffffff,stroke-width:2px,font-weight:bold;
@@ -39,9 +39,9 @@ To preserve packet ordering across ECMP paths in an IP/MPLS underlay network, a 
 
 ```mermaid
 graph TD
-    PE1["pe1 (PE)"] -.-|Targeted LDP Pseudowire Mesh|-.- PE2["pe2 (PE)"]
-    PE2 -.-|Targeted LDP Pseudowire Mesh|-.- PE3["pe3 (PE)"]
-    PE3 -.-|Targeted LDP Pseudowire Mesh|-.- PE1
+    PE1["pe1 (PE)"] -.-|Targeted LDP Pseudowire Mesh| PE2["pe2 (PE)"]
+    PE2 -.-|Targeted LDP Pseudowire Mesh| PE3["pe3 (PE)"]
+    PE3 -.-|Targeted LDP Pseudowire Mesh| PE1
 
     classDef pe fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
     class PE1,PE2,PE3 pe;

@@ -38,7 +38,7 @@ graph LR
     end
 
     ASBR1 <===>|BGP Labeled Unicast (RFC 3107)<br/>Exchanges 2.2.2.2/32 & 3.3.3.3/32 + Labels| ASBR2
-    PE1 -.-|Multi-hop MP-eBGP VPNv4 (Direct PE-to-PE)|-.- PE2
+    PE1 -.-|Multi-hop MP-eBGP VPNv4 (Direct PE-to-PE)| PE2
 
     classDef pe fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
     classDef asbr fill:#4a148c,stroke:#ba68c8,color:#ffffff,stroke-width:2px,font-weight:bold;

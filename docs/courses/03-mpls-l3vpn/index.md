@@ -33,7 +33,7 @@ graph LR
     subgraph ServiceProviderBackbone["Service Provider MPLS Backbone (AS 65000)"]
         PE1["pe1 (PE Router)<br/>Loopback: 2.2.2.2"] <===>|OSPF + LDP| P1["p1 (P Core Router)<br/>Loopback: 1.1.1.1"]
         P1 <===>|OSPF + LDP| PE2["pe2 (PE Router)<br/>Loopback: 3.3.3.3"]
-        PE1 -.-|MP-iBGP VPNv4 Peer Session|-.- PE2
+        PE1 -.-|MP-iBGP VPNv4 Peer Session| PE2
     end
 
     subgraph CustSiteB["Customer Site B (VRF RED)"]

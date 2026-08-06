@@ -37,11 +37,11 @@ In **Option B**, ASBRs maintain a single **MP-eBGP VPNv4** session. ASBRs carry 
 ```mermaid
 graph LR
     subgraph AS65001["AS 65001"]
-        PE1["pe1 (PE)"] -.-|MP-iBGP VPNv4|-.- ASBR1["asbr1 (ASBR)"]
+        PE1["pe1 (PE)"] -.-|MP-iBGP VPNv4| ASBR1["asbr1 (ASBR)"]
     end
 
     subgraph AS65002["AS 65002"]
-        ASBR2["asbr2 (ASBR)"] -.-|MP-iBGP VPNv4|-.- PE2["pe2 (PE)"]
+        ASBR2["asbr2 (ASBR)"] -.-|MP-iBGP VPNv4| PE2["pe2 (PE)"]
     end
 
     ASBR1 <===>|Inter-AS MP-eBGP VPNv4<br/>(ASBR Label Swapping)| ASBR2
@@ -70,7 +70,7 @@ graph LR
     end
 
     ASBR1 <===>|BGP-LU (RFC 3107)<br/>Exchanges 2.2.2.2 & 3.3.3.3 + Transport Labels| ASBR2
-    PE1 -.-|Multi-Hop MP-eBGP VPNv4 (Direct PE-to-PE)|-.- PE2
+    PE1 -.-|Multi-Hop MP-eBGP VPNv4 (Direct PE-to-PE)| PE2
 
     classDef pe fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
     classDef asbr fill:#4a148c,stroke:#ba68c8,color:#ffffff,stroke-width:2px,font-weight:bold;

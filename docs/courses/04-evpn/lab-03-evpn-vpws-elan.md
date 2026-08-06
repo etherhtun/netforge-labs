@@ -15,7 +15,7 @@ graph LR
     end
 
     subgraph VXLANFabric["VXLAN-EVPN Overlay Fabric (AFI 25 / SAFI 70)"]
-        PE1["leaf1 (VTEP 1)"] -.-|EVPN-VPWS VPWS ID 100| -.- PE2["leaf2 (VTEP 2)"]
+        PE1["leaf1 (VTEP 1)"] -.-|EVPN-VPWS VPWS ID 100| PE2["leaf2 (VTEP 2)"]
     end
 
     subgraph SiteB["Customer Site B"]
