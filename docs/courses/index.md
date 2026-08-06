@@ -45,11 +45,13 @@ Nothing is marked finished until it has actually been run. See the
 
     [Overview →](01-bgp/index.md) · [Lab 01 →](01-bgp/lab-01-ebgp-ibgp.md) · [Concepts →](01-bgp/concepts/index.md)
 
--   **Phase 2 · BGP-DIA & Internet Edge** &nbsp; <span class="nf-badge plan">planned</span>
+-   **Phase 2 · BGP-DIA & Internet Edge** &nbsp; <span class="nf-badge ok">4 labs validated</span>
 
     ---
 
     Multi-homing to providers, RPKI, peering, and NAT / CGNAT at the edge.
+
+    [Overview →](02-bgp-dia/index.md) · [Lab 01 →](02-bgp-dia/lab-01-dia-multihoming.md) · [Interview Qs →](02-bgp-dia/interview-questions.md)
 
 </div>
 

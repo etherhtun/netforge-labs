@@ -24,7 +24,7 @@ graph TD
     classDef done fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:2px;
     classDef next fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:2px;
     classDef plan fill:#f5f5f5,stroke:#9e9e9e,color:#424242;
-    class P0,P1,P4 done; class P2,P3 next; class P35,P5,P6,P7 plan;
+    class P0,P1,P2,P4 done; class P3 next; class P35,P5,P6,P7 plan;
 ```
 
 ---
