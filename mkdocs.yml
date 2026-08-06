@@ -59,6 +59,7 @@ nav:
       - 3 · SSH properly: courses/linux-foundations/03-ssh.md
       - 4 · Processes, services and logs: courses/linux-foundations/04-services.md
       - 5 · Git for network engineers: courses/linux-foundations/05-git.md
+      - 6 · Kernel networking & packet diagnostics: courses/linux-foundations/06-kernel-networking.md
       - Interview questions: courses/linux-foundations/interview-questions.md
     - "Phase 0 · IGP Fundamentals":
       - courses/00-igp-fundamentals/index.md
@@ -142,6 +143,7 @@ plugins:
   - search
   - git-revision-date-localized:
       enable_creation_date: true
+      fallback_to_build_date: true
 
 markdown_extensions:
   - admonition

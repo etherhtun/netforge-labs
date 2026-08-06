@@ -179,3 +179,28 @@ network-engineer ones.
     Changes go on a branch and get reviewed as a diff before reaching the network.
     History shows who changed what and why, `blame` explains why a line exists years
     later, and rollback is a single command rather than an archaeology exercise.
+
+---
+
+## Kernel Networking & Packet Diagnostics
+
+??? question "What is the difference between TCP TIME_WAIT and CLOSE_WAIT?"
+    `TIME_WAIT` is on the active closer side waiting 2MSL to ensure final ACK delivery
+    and drain old in-flight packets. `CLOSE_WAIT` is on the passive closer side waiting
+    for the local process to invoke `close()`. A accumulation of `CLOSE_WAIT` sockets indicates an application socket leak bug.
+
+??? question "How do you capture only TCP SYN packets with tcpdump using bitwise filtering?"
+    `tcpdump -i eth0 'tcp[tcpflags] & tcp-syn != 0 and tcp[tcpflags] & tcp-ack == 0'`
+    `tcp-syn` checks bit position 1 (value 2), masking out ACKs to isolate initial handshake requests.
+
+??? question "Explain Policy-Based Routing (PBR) in Linux and how to view rules."
+    Linux PBR routes traffic based on factors beyond destination IP (such as source IP or TOS).
+    Rules are managed with `ip rule list` and route lookups are directed to custom routing tables (`ip route add ... table 100`).
+
+??? question "How do network namespaces (`netns`) isolate network stacks?"
+    Each `netns` has its own isolated routing table, iptables rules, network interfaces, and socket bindings.
+    Virtual ethernet pairs (`veth`) connect namespaces to host bridges or other namespaces.
+
+??? question "Where in `/proc` do you check for kernel-level TCP drops or retransmissions?"
+    `/proc/net/snmp` contains protocol counters (including TCP retransmissions and failed connection attempts), while `/proc/net/dev` tracks interface-level drops and errors.
+

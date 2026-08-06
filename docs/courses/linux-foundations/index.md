@@ -64,6 +64,13 @@ the job that expects them.
     Config in version control, meaningful diffs, branches and rollback. Required
     before any automation work.
 
+-   **[6 · Linux kernel networking](06-kernel-networking.md)**
+
+    ---
+
+    `iproute2`, policy routing, network namespaces, `tcpdump` flag filters, kernel
+    packet processing, and TCP socket troubleshooting.
+
 -   **[Interview questions](interview-questions.md)**
 
     ---
