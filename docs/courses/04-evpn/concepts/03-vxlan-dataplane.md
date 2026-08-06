@@ -1,78 +1,67 @@
-# 3 — VXLAN data plane
+# 3 · VXLAN Data Plane & Header Framing Deep Dive
 
-This lesson is about the **packet on the wire** — how a tenant frame physically
-crosses the fabric. (The next lesson is the *control plane* — how VTEPs know
-where to send it.)
+Virtual Extensible LAN (VXLAN, RFC 7348) is an **MAC-in-UDP encapsulation protocol** that bridges Layer 2 Ethernet frames across an arbitrary Layer 3 IP underlay network.
 
-## Three terms
+---
 
-| Term | Meaning |
-|------|---------|
-| **VTEP** | VXLAN Tunnel EndPoint — the leaf that wraps/unwraps VXLAN (see lesson 2) |
-| **VNI** | VXLAN Network Identifier — the 24-bit segment ID (~16M values) |
-| **VXLAN tunnel** | The logical VTEP-to-VTEP path a wrapped frame travels |
+## 1. 50-Byte VXLAN Packet Header Stack Breakdown
 
-### L2VNI vs L3VNI
-- **L2VNI** — maps to a VLAN; used for **bridging** (same subnet across leaves).
-  Lab 01 uses one L2VNI: VLAN 100 → VNI 10100.
-- **L3VNI** — associated with a VRF; used for **routing** between subnets
-  (inter-VNI / to the outside). Comes in later labs.
-
-## Encapsulation — the "shipping box"
-
-When host1's frame reaches leaf1, leaf1 wraps it in four new headers:
+When a local leaf switch (VTEP) receives a frame from a host, it encapsulates the entire Ethernet frame inside a VXLAN UDP packet:
 
 ```
-┌────────────────────────────────────────────────────────────┐
-│ Outer Ethernet │ Outer IP │ UDP │ VXLAN │  ORIGINAL FRAME   │
-│  leaf→leaf MAC  │ VTEP→VTEP│ 4789│  VNI  │ (host1→host2 eth) │
-└────────────────────────────────────────────────────────────┘
-        14 B          20 B     8 B    8 B      the tenant's frame
++-------------------------------------------------------------------------+
+| Outer Ethernet Header (14 bytes)                                        |
+|   Dst MAC: Next-Hop IP Gateway / Router MAC                             |
+|   Src MAC: Ingress VTEP Interface MAC                                   |
+|   EtherType: 0x0800 (IPv4)                                              |
++-------------------------------------------------------------------------+
+| Outer IPv4 Header (20 bytes)                                            |
+|   Src IP: Ingress VTEP Loopback IP (e.g., 10.255.1.11)                   |
+|   Dst IP: Egress VTEP Loopback IP (e.g., 10.255.1.12)                    |
+|   Protocol: 17 (UDP)                                                    |
++-------------------------------------------------------------------------+
+| Outer UDP Header (8 bytes)                                              |
+|   Src Port: Hash of Inner Frame L2/L3/L4 (for Underlay ECMP Load-Balancing) |
+|   Dst Port: 4789 (IANA Standard VXLAN UDP Port)                         |
++-------------------------------------------------------------------------+
+| VXLAN Header (8 bytes)                                                  |
+|   Flags: 0x08 (I bit = 1, indicating valid 24-bit VNI)                 |
+|   VXLAN Network Identifier (VNI): 24-bit VNI (Range: 1 – 16,777,215)    |
++-------------------------------------------------------------------------+
+| Original Inner Ethernet Frame (14+ bytes)                               |
+|   Dst MAC: Destination Host MAC                                         |
+|   Src MAC: Source Host MAC                                              |
+|   EtherType / Payload: Original IPv4/IPv6 Packet                        |
++-------------------------------------------------------------------------+
 ```
 
-- **Outer IP** = source leaf1's loopback → dest leaf2's loopback. This is what the
-  underlay routes on. The spines only ever look at *this*.
-- **UDP, destination port 4789** = the IANA VXLAN port. It's how a receiver knows
-  "this is VXLAN, decapsulate it."
-- **VXLAN header** = carries the **VNI** (which segment this frame belongs to).
-- **Original frame** = the tenant's untouched Ethernet frame (host1 → host2).
+### Key Protocol Mechanics
 
-This is called **MAC-in-UDP**: a whole L2 frame carried as the payload of a UDP
-packet.
+1. **Outer UDP Source Port ECMP Hashing**:
+   - The ingress VTEP computes a hash of the *inner frame* (Src MAC, Dst MAC, Src IP, Dst IP, Ports) and sets the **Outer UDP Source Port** to a dynamic value between `49152 – 65535`.
+   - **Why this is genius**: Underlay routers perform standard 5-tuple ECMP hashing on the outer IP/UDP header, achieving perfectly balanced traffic distribution across Spine switches without looking inside the VXLAN tunnel!
 
-## Why UDP? (a favourite interview question)
+2. **24-Bit VXLAN Network Identifier (VNI)**:
+   - Expands the legacy 12-bit 802.1Q VLAN limit ($4,096$ VLANs) to a **24-bit VNI space** ($16,777,215$ VNIs), eliminating VLAN scale exhaustion in multi-tenant cloud datacenters.
 
-The outer **UDP source port is not a real port** — the VTEP computes it as a
-*hash of the inner flow*. That gives the underlay per-flow **entropy** so ECMP
-can spread different flows across all the spine links. The destination port is
-fixed (4789); the source port is where the load-balancing magic lives.
+---
 
-## BUM traffic — broadcast, unknown-unicast, multicast
+## 2. Ingress Replication (Headend Replication) vs Multicast
 
-Unicast is easy (send to the one VTEP that owns the MAC). But what about a
-broadcast (like ARP) when the VTEP doesn't yet know the destination?
+```mermaid
+graph TD
+    subgraph IngressVTEP["Ingress VTEP (leaf1)"]
+        BUM["BUM Frame (Broadcast / Unknown Unicast)"]
+    end
 
-Two ways to flood BUM across the fabric:
+    subgraph ReplicationEngine["Headend Unicast Replication Engine"]
+        BUM ==>|Unicast Tunnel 1| VTEP2["Egress VTEP 2 (leaf2)<br/>Dst IP: 10.255.1.12"]
+        BUM ==>|Unicast Tunnel 2| VTEP3["Egress VTEP 3 (leaf3)<br/>Dst IP: 10.255.1.13"]
+    end
 
-1. **Ingress replication (head-end replication)** — the ingress VTEP makes a
-   copy for **each** remote VTEP that has that VNI, and unicasts each. No
-   multicast needed in the underlay. **This is what EVPN uses by default**, and
-   the list of "who has this VNI" comes from **Type-3 routes** (next lesson).
-2. **Underlay multicast** — map the VNI to a multicast group. Scales better for
-   huge fabrics but needs multicast in the underlay. Less common in labs.
+    classDef vtep fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
+    class IngressVTEP,VTEP2,VTEP3 vtep;
+```
 
-## MTU — the gotcha
-
-Those extra headers add **50 bytes** (54 with a VLAN tag). If the tenant sends a
-1500-byte frame, the wrapped packet is 1550 — which a standard 1500-MTU underlay
-would drop or fragment. So **fabric links run jumbo MTU (9000/9216)**. Forgetting
-this is a classic "it works for ping but breaks for real traffic" bug.
-
-## Check yourself
-
-1. Name the four headers VXLAN adds, and which one the spines route on.
-2. What's special about the outer UDP **source** port, and why does it matter?
-3. What are the two ways to handle BUM traffic, and which does EVPN use by default?
-4. Why must fabric links use jumbo MTU?
-
-→ Next: [EVPN control plane](04-evpn-controlplane.md)
+- **Ingress (Headend) Replication**: The ingress VTEP inspects the EVPN Route Type 3 (IMET) flood list for that VNI, creates individual unicast copies of the BUM frame, and sends a unicast VXLAN packet to each remote VTEP.
+- **Underlay IP Multicast**: Alternatively, BUM traffic is mapped to an underlay PIM multicast group (`239.1.1.1`). VTEPs join the multicast group via IGMP.

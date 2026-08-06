@@ -1,76 +1,82 @@
-# 5 — EVPN route types
+# 5 · EVPN Route Types 1, 2, 3, 4, & 5 Deep Dive
 
-EVPN carries several **route types**, each a different kind of announcement. You
-don't need all of them for lab 01, but knowing what each does is core knowledge
-(and classic interview fodder).
+BGP EVPN (RFC 7432 / RFC 8214 / RFC 9135) uses **MP-BGP Address Family AFI 25 (L2VPN) / SAFI 70 (EVPN)**. The EVPN NLRI encodes five standardized **Route Types**.
 
-## The five you should know
+---
 
-| Type | Name | Carries | Used for |
-|------|------|---------|----------|
-| **1** | Ethernet Auto-Discovery (A-D) | per-ES / per-EVI info | multihoming (ESI) — fast failover, aliasing |
-| **2** | **MAC/IP Advertisement** | a host's MAC (+ optional IP) behind a VTEP | the workhorse — host reachability, ARP suppression |
-| **3** | **Inclusive Multicast (IMET)** | "I have this VNI" | VTEP discovery + building the BUM flood list |
-| **4** | Ethernet Segment | which VTEPs share an ES | multihoming — Designated Forwarder election |
-| **5** | **IP Prefix** | an IP prefix (not tied to a MAC) | inter-subnet routing, L3VNI, external/summary routes |
+## EVPN Route Types Summary Matrix
 
-For the labs, focus on **2, 3, 5**. Types 1 and 4 appear once you add multihoming.
+| Type | Name | Primary Purpose | Key NLRI Fields | Key Extended Communities |
+|---|---|---|---|---|
+| **Route Type 1** | Ethernet Auto-Discovery (A-D) | Fast Failover (Mass Withdraw), Aliasing, ESI Split Horizon | ESI (10B), Ethernet Tag ID, MPLS/VNI Label | ESI Label, Redundancy Mode |
+| **Route Type 2** | **MAC / IP Advertisement** | Host reachability (MAC + IP), ARP Proxy | ESI, MAC Address (6B), IP Address (4B/16B), VNI | Router MAC, Default Gateway |
+| **Route Type 3** | **Inclusive Multicast (IMET)** | VTEP Discovery & BUM Flood List | Ethernet Tag ID, Origin VTEP IP | Layer 2 VNI |
+| **Route Type 4** | Ethernet Segment Route | PE Discovery & Designated Forwarder (DF) Election | ESI (10B), Origin VTEP IP | ES Import Route Target |
+| **Route Type 5** | **IP Prefix Route** | Inter-Subnet VRF Routing (L3VNI), Summary / Default Routes | IP Prefix / Length, Gateway IP | Router MAC, Layer 3 VNI |
 
-## Type-3 (IMET) — the first thing you see
+---
 
-When a VTEP has a VNI with an active member, it advertises a **Type-3** route:
-*"I participate in VNI 10100 — add me to the flood list for it."* Every VTEP
-collects these to know **who to replicate BUM traffic to** (ingress replication,
-lesson 3).
+## 1. Route Type 2 · MAC/IP Advertisement (Host Reachability)
 
-> **Order matters:** Type-3 is what appears *first*, before any host talks. In
-> the lab, `bgp.evpn.0` showed the two Type-3 routes
-> (`3:10.0.0.21:1::10100...` and `3:10.0.0.22:1::10100...`) as soon as the access
-> port came up. A tunnel can't form until VTEPs discover each other via Type-3.
-
-## Type-2 (MAC/IP) — the workhorse
-
-When a VTEP learns a local host (from a frame, ARP, or DHCP), it advertises a
-**Type-2** route: *"MAC aa:bb:cc — and IP 10.100.10.11 — is behind me (VTEP
-10.0.0.22) in VNI 10100."*
-
-This one route does a lot:
-- Remote VTEPs install the MAC pointing at the tunnel to the origin VTEP.
-- The IP portion feeds **ARP suppression** — a leaf can answer ARP locally.
-- On a host move, a fresh Type-2 reconverges everything fast.
-
-> In the lab, `show evpn database` showed the Type-2 entries once the hosts
-> pinged, and `show ethernet-switching table` flagged the remote MAC **`DR`**
-> (Dynamic Remote) via the VXLAN tunnel.
-
-## Type-5 (IP Prefix) — routing, not bridging
-
-Type-2 is about **MACs** (bridging within a subnet). **Type-5** advertises an
-**IP prefix** with no MAC — used to route *between* subnets or to external
-destinations, via an **L3VNI**. You reach for Type-5 when you need inter-VNI
-routing, a default route to the internet, or route summarisation. (Later labs.)
-
-## A quick way to remember them
-
-> **Type-3 = presence** ("I'm here, I have this VNI").
-> **Type-2 = endpoints** ("this exact host is behind me").
-> **Type-5 = routing** ("reach this prefix through me").
-
-## Reading a route in `show route table bgp.evpn.0`
+Route Type 2 is the core workhorse of BGP EVPN. When a local leaf switch discovers a host MAC or IP via ARP / DHCP / Data-Plane frame arrival, it advertises a Type 2 route into MP-BGP:
 
 ```
-3:10.0.0.21:1::10100::10.0.0.21/248
-│  └ RD      └ VNI  └ originator VTEP
-└ route type (3 = IMET)
+Route Type 2 NLRI Structure:
++------------------------------------------+
+| Route Distinguisher (8 bytes)            |
+| Ethernet Segment Identifier (10 bytes)   |
+| Ethernet Tag ID (4 bytes)                |
+| MAC Address Length (1 byte)              |
+| MAC Address (6 bytes)                    |
+| IP Address Length (1 byte - 0, 32, 128)  |
+| IP Address (0, 4, or 16 bytes)           |
+| MPLS/VNI Label 1 (3 bytes - L2VNI)       |
+| MPLS/VNI Label 2 (3 bytes - L3VNI)       |
++------------------------------------------+
 ```
-The leading number is the **type**. Learn to read that first digit — it tells you
-instantly what kind of announcement you're looking at.
 
-## Check yourself
+### Key Functions
+- **Control-Plane MAC Learning**: Replaces data-plane flood-and-learn over WAN/Backbone.
+- **ARP Suppression**: Allows remote leafs to answer host ARP requests locally out of their BGP EVPN host table without flooding ARP Broadcasts across the fabric!
+- **MAC Mobility**: Tracks host movement between VTEPs using a **Sequence Number** Extended Community.
 
-1. Which route type appears *first*, before any host sends traffic, and why?
-2. What two things does a single Type-2 route enable?
-3. When would you need a Type-5 route instead of a Type-2?
-4. In `2:10.0.0.22:1::10100::aa:c1:...`, what does the leading `2` tell you?
+---
 
-→ Next: [Packet walk](06-packet-walk.md)
+## 2. Route Type 3 · Inclusive Multicast Ethernet Tag (IMET)
+
+When a VTEP brings up a Layer 2 VNI, it immediately advertises a Type 3 route:
+
+```
+Route Type 3 NLRI Structure:
++------------------------------------------+
+| Route Distinguisher (8 bytes)            |
+| Ethernet Tag ID (4 bytes)                |
+| Originating Router IP Length (1 byte)    |
+| Originating Router IP (4 bytes)          |
++------------------------------------------+
+```
+
+- **Purpose**: Discovers remote VTEPs participating in the same VNI and builds the **Headend Unicast Replication List** for BUM traffic.
+
+---
+
+## 3. Route Type 5 · IP Prefix Route (Inter-Subnet Routing)
+
+Type 5 routes advertise IP subnets (`10.100.0.0/16`) or default routes (`0.0.0.0/0`) attached to an **L3VNI VRF**, independent of MAC addresses.
+
+```mermaid
+graph LR
+    Leaf1["leaf1 (VTEP 1)<br/>Advertises Subnet 10.100.1.0/24"] ===>|Type 5 Route + L3VNI 50001| SpineRR["Spine Route Reflector"]
+    SpineRR ===>|Reflects Type 5| Leaf2["leaf2 (VTEP 2)<br/>Installs 10.100.1.0/24 in VRF TENANT-A"]
+
+    classDef leaf fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef spine fill:#0d47a1,stroke:#64b5f6,color:#ffffff,stroke-width:2px,font-weight:bold;
+    class Leaf1,Leaf2 leaf; class SpineRR spine;
+```
+
+---
+
+## 4. Route Types 1 & 4 · ESI All-Active Multihoming
+
+- **Route Type 4 (Ethernet Segment)**: VTEPs connected to the same multi-homed server exchange Type 4 routes to discover each other and elect a **Designated Forwarder (DF)** for BUM traffic.
+- **Route Type 1 (Ethernet Auto-Discovery)**: Advertises ESI Split Horizon labels and enables **Fast Failover (Mass Withdraw)**. If a link to a multi-homed server fails, the leaf sends a single Type 1 withdraw, instantly diverting traffic to the redundant leaf in $< 50\,\text{ms}$!
