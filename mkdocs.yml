@@ -86,6 +86,11 @@ nav:
         - Interview questions: courses/01-bgp/concepts/interview-questions.md
     - "Phase 2 · BGP-DIA & Internet Edge":
       - courses/02-bgp-dia/index.md
+      - "🧪 Lab 01 · Multi-Provider DIA & Traffic Engineering": courses/02-bgp-dia/lab-01-dia-multihoming.md
+      - "🧪 Lab 02 · RPKI ROV & Bogon Security": courses/02-bgp-dia/lab-02-rpki-security.md
+      - "🧪 Lab 03 · IXP Peering & Sub-Second BFD": courses/02-bgp-dia/lab-03-ixp-peering.md
+      - "🧪 Lab 04 · CGNAT & Provider Edge Services": courses/02-bgp-dia/lab-04-cgnat-services.md
+      - Interview questions: courses/02-bgp-dia/interview-questions.md
     - "Phase 3 · MPLS & L3VPN":
       - courses/03-mpls-l3vpn/index.md
       - "🧪 Lab 01 · MPLS + LDP underlay": courses/03-mpls-l3vpn/lab-01-mpls-ldp.md
