@@ -16,6 +16,7 @@ MPLS is how service providers move traffic without every router in the middle ne
 | **[02](lab-02-l3vpn-option-a.md)** | Single-AS L3VPN & VRF Isolation | VRFs, Route Distinguishers (RD), Route Targets (RT), MP-iBGP VPNv4 | 🟢 **Validated** |
 | **[03](lab-03-l3vpn-option-b.md)** | Inter-AS L3VPN Option B | Inter-AS MP-eBGP VPNv4, ASBR Label Rewriting, Next-Hop Self | 🟢 **Validated** |
 | **[04](lab-04-l3vpn-option-c.md)** | Inter-AS L3VPN Option C | BGP Labeled Unicast (BGP-LU RFC 3107/8277), Multi-hop MP-eBGP | 🟢 **Validated** |
+| **[05](lab-05-l2vpn-vpws-vpls.md)** | MPLS L2VPN (VPWS & VPLS) | Point-to-Point Pseudowire (EoMPLS RFC 4664), Targeted LDP, VPLS Split-Horizon | 🟢 **Validated** |
 
 ---
 
