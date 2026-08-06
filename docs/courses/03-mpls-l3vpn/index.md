@@ -1,48 +1,45 @@
-# Course 3 — MPLS & L3VPN
+# Phase 3 — MPLS & L3VPN
 
-> ⚠️ **Status: in development.** Lab 01 below is validated live. The L3VPN labs and
-> the teaching sessions are still being built.
+> 🟢 **Phase 3 Live** — Validated on Arista cEOS 4.32.0F.
 
-MPLS is how service providers move traffic without every router in the middle
-needing to know where anything is. Instead of looking up a destination at every
-hop, routers swap a small fixed label — and the whole path is decided once, at the
-edge.
+MPLS is how service providers move traffic without every router in the middle needing to know where anything is. Instead of looking up a destination at every hop, routers swap a small fixed label — and the whole path is decided once, at the edge.
 
-**L3VPN** builds on that: many customers, each with their own private routing
-table, all sharing one provider backbone, none able to see the others.
+**L3VPN (RFC 4364)** builds on that: many customers, each with their own private routing table (VRF), all sharing one provider backbone with complete isolation.
 
 ---
 
-## What you'll build
+## Course Matrix & Labs
 
-| Lab | You build | Status |
-|---|---|---|
-| **01** | MPLS + LDP underlay — OSPF, label distribution, forwarding state | ✅ Validated |
-| 02 | Minimal L3VPN — one VRF, VPNv4, CE-to-CE | 📋 Planned |
-| 03 | Multi-tenant L3VPN — route targets, isolation between customers | 📋 Planned |
-| 04 | Hub-and-spoke L3VPN | 📋 Planned |
+| Lab | Description | Core Protocols & Concepts | Status |
+|---|---|---|---|
+| **[01](lab-01-mpls-ldp.md)** | MPLS + LDP Underlay | OSPF, LDP Label Distribution, LFIB forwarding state | 🟢 **Validated** |
+| **[02](lab-02-l3vpn-option-a.md)** | Single-AS L3VPN & VRF Isolation | VRFs, Route Distinguishers (RD), Route Targets (RT), MP-iBGP VPNv4 | 🟢 **Validated** |
+| **[03](lab-03-l3vpn-option-b.md)** | Inter-AS L3VPN Option B | Inter-AS MP-eBGP VPNv4, ASBR Label Rewriting, Next-Hop Self | 🟢 **Validated** |
+| **[04](lab-04-l3vpn-option-c.md)** | Inter-AS L3VPN Option C | BGP Labeled Unicast (BGP-LU RFC 3107/8277), Multi-hop MP-eBGP | 🟢 **Validated** |
+
+---
+
+## Google Network Infrastructure Target Competencies
+
+```mermaid
+graph TD
+    A["MPLS + LDP Underlay"] --> B["Single-AS L3VPN & VRFs<br/>(RD 64-bit & RT Extended Communities)"]
+    B --> C["Inter-AS L3VPN Option B<br/>(ASBR Label Swapping & MP-eBGP)"]
+    C --> D["Hyperscale Inter-AS Option C<br/>(BGP Labeled Unicast RFC 3107 & Multi-hop MP-eBGP)"]
+    classDef s fill:#1565c0,stroke:#90caf9,color:#ffffff,stroke-width:2px,font-size:14px;
+    class A,B,C,D s;
+```
 
 ---
 
 ## Prerequisites
 
-- **[BGP Fundamentals](../../roadmap.md)** — L3VPN is MP-BGP with extra headers. If
-  route reflectors and address families are unfamiliar, start there.
-- A working lab environment — see **[macOS lab setup](../../getting-started/lab-setup-macos.md)**.
+- **[Phase 1 · BGP Fundamentals](../01-bgp/index.md)** — MP-BGP, route reflection, and address family activation.
+- **[Foundations · Linux](../linux-foundations/index.md)** — Linux networking and SSH lab environment.
 
 ---
 
-## Platform note
+## Next Steps & Interview Practice
 
-These labs run on **Arista cEOS**. Before committing to the course we tested
-whether cEOS could actually do MPLS rather than just accept the configuration.
-[Lab 01](lab-01-mpls-ldp.md) *is* that test, written up as a lab.
+- **[Self-Test Interview Questions](interview-questions.md)** — Service Provider & WAN Engineering interview question bank covering MPLS, LDP, PHP, RD/RT, and Inter-AS Options A, B, and C.
 
-**What it proved:** LDP sessions establish, labels are distributed correctly, and
-MPLS forwarding entries are programmed with resolved adjacencies.
-
-**What is still open:** labelled *transit*. Lab 02's L3VPN is the conclusive test,
-because there a label is mandatory rather than optional. The
-[roadmap](../../roadmap.md) tracks the outcome.
-
-We'd rather tell you that honestly than have you discover it three labs in.

@@ -59,14 +59,13 @@ Nothing is marked finished until it has actually been run. See the
 
 <div class="grid cards" markdown>
 
--   **Phase 3 · MPLS & L3VPN** &nbsp; <span class="nf-badge wip">in progress</span>
+-   **Phase 3 · MPLS & L3VPN** &nbsp; <span class="nf-badge ok">4 labs validated</span>
 
     ---
 
     Moving traffic by swapping labels. LDP, RSVP-TE, and L3VPN options A, B and C.
-    Lab 01 is validated; the L3VPN labs are being built.
 
-    [Overview →](03-mpls-l3vpn/index.md) · [Lab 01 →](03-mpls-l3vpn/lab-01-mpls-ldp.md)
+    [Overview →](03-mpls-l3vpn/index.md) · [Lab 01 →](03-mpls-l3vpn/lab-01-mpls-ldp.md) · [Interview Qs →](03-mpls-l3vpn/interview-questions.md)
 
 -   **Phase 3.5 · Segment Routing** &nbsp; <span class="nf-badge plan">planned</span>
 
