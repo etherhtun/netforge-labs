@@ -93,7 +93,11 @@ nav:
       - Interview questions: courses/02-bgp-dia/interview-questions.md
     - "Phase 3 · MPLS & L3VPN":
       - courses/03-mpls-l3vpn/index.md
-      - "🧪 Lab 01 · MPLS + LDP underlay": courses/03-mpls-l3vpn/lab-01-mpls-ldp.md
+      - "🧪 Lab 01 · MPLS + LDP Underlay": courses/03-mpls-l3vpn/lab-01-mpls-ldp.md
+      - "🧪 Lab 02 · Single-AS L3VPN & VRF Isolation": courses/03-mpls-l3vpn/lab-02-l3vpn-option-a.md
+      - "🧪 Lab 03 · Inter-AS L3VPN Option B": courses/03-mpls-l3vpn/lab-03-l3vpn-option-b.md
+      - "🧪 Lab 04 · Inter-AS L3VPN Option C": courses/03-mpls-l3vpn/lab-04-l3vpn-option-c.md
+      - Interview questions: courses/03-mpls-l3vpn/interview-questions.md
     - "Phase 3.5 · Segment Routing":
       - courses/035-segment-routing/index.md
     - "Phase 4 · EVPN Services":
