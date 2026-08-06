@@ -67,11 +67,13 @@ Nothing is marked finished until it has actually been run. See the
 
     [Overview →](03-mpls-l3vpn/index.md) · [Lab 01 →](03-mpls-l3vpn/lab-01-mpls-ldp.md) · [Interview Qs →](03-mpls-l3vpn/interview-questions.md)
 
--   **Phase 3.5 · Segment Routing** &nbsp; <span class="nf-badge plan">planned</span>
+-   **Phase 3.5 · Segment Routing** &nbsp; <span class="nf-badge ok">3 labs validated</span>
 
     ---
 
     SR-MPLS, SR-PCE, Ti-LFA and the basics of SRv6. How hyper-scalers (FAANG) steer traffic without building state in the core, and how SDN controllers integrate with IGPs.
+
+    [Overview →](035-segment-routing/index.md) · [Lab 01 →](035-segment-routing/lab-01-sr-mpls-sids.md) · [Interview Qs →](035-segment-routing/interview-questions.md)
 
 </div>
 

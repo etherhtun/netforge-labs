@@ -24,7 +24,7 @@ graph TD
     classDef done fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:2px;
     classDef next fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:2px;
     classDef plan fill:#f5f5f5,stroke:#9e9e9e,color:#424242;
-    class P0,P1,P2,P3,P4 done; class P35 next; class P5,P6,P7 plan;
+    class P0,P1,P2,P3,P35,P4 done; class P5,P6,P7 plan;
 ```
 
 ---
@@ -38,7 +38,7 @@ graph TD
 | **1** | [BGP Fundamentals & Policies](courses/01-bgp/index.md) | eBGP, iBGP, route reflectors, advanced path selection | 🟢 **4 labs live** |
 | **2** | [BGP-DIA & Internet Edge](courses/02-bgp-dia/index.md) | Multi-homing, BGP Communities, RPKI, IXP Peering, BFD, CGNAT | 🟢 **4 labs live** |
 | **3** | [MPLS & L3VPN](courses/03-mpls-l3vpn/index.md) | LDP, RSVP-TE, L3VPN (Options A, B, C) | 🟢 **4 labs live** |
-| **3.5** | Segment Routing | SR-MPLS, SR-PCE, Ti-LFA. Steering FAANG traffic without core state | 🔬 Platform probe done |
+| **3.5** | [Segment Routing](courses/035-segment-routing/index.md) | SR-MPLS, SR-PCE, Ti-LFA. Steering FAANG traffic without core state | 🟢 **3 labs live** |
 | **4** | EVPN Unified Services | EVPN-VPWS, EVPN-ELAN, VXLAN-EVPN DCI | 🟢 **Partly live** |
 | **5** | Network Automation & NetDevOps | Infrastructure as Code: Python, NetBox, Ansible, CI/CD pipelines | 📋 Planned |
 | **6** | Hybrid Cloud & Edge | AWS TGW, BGP over DirectConnect, IPSec / SD-WAN | 📋 Planned |

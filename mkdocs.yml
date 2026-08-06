@@ -100,6 +100,10 @@ nav:
       - Interview questions: courses/03-mpls-l3vpn/interview-questions.md
     - "Phase 3.5 · Segment Routing":
       - courses/035-segment-routing/index.md
+      - "🧪 Lab 01 · SR-MPLS Node & Prefix SIDs": courses/035-segment-routing/lab-01-sr-mpls-sids.md
+      - "🧪 Lab 02 · Ti-LFA Sub-50ms Fast Reroute": courses/035-segment-routing/lab-02-ti-lfa-frr.md
+      - "🧪 Lab 03 · SR-PCE & BGP Color Steering": courses/035-segment-routing/lab-03-sr-pce-te.md
+      - Interview questions: courses/035-segment-routing/interview-questions.md
     - "Phase 4 · EVPN Services":
       - courses/04-evpn/index.md
       - "🧪 Lab 01 · VXLAN-EVPN on cEOS": courses/04-evpn/lab-01-vxlan-evpn.md
