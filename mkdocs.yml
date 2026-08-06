@@ -93,6 +93,13 @@ nav:
       - Interview questions: courses/02-bgp-dia/interview-questions.md
     - "Phase 3 · MPLS & L3VPN":
       - courses/03-mpls-l3vpn/index.md
+      - "Concepts & Deep Dive":
+        - Overview: courses/03-mpls-l3vpn/concepts/index.md
+        - "1 · MPLS Architecture & Header": courses/03-mpls-l3vpn/concepts/01-mpls-architecture.md
+        - "2 · LDP & Label Distribution": courses/03-mpls-l3vpn/concepts/02-ldp-signaling.md
+        - "3 · L3VPN Control & Data Plane": courses/03-mpls-l3vpn/concepts/03-l3vpn-architecture.md
+        - "4 · Inter-AS Options A, B, & C": courses/03-mpls-l3vpn/concepts/04-inter-as-options.md
+        - "5 · L2VPN & Pseudowires": courses/03-mpls-l3vpn/concepts/05-l2vpn-pseudowire.md
       - "🧪 Lab 01 · MPLS + LDP Underlay": courses/03-mpls-l3vpn/lab-01-mpls-ldp.md
       - "🧪 Lab 02 · Single-AS L3VPN & VRF Isolation": courses/03-mpls-l3vpn/lab-02-l3vpn-option-a.md
       - "🧪 Lab 03 · Inter-AS L3VPN Option B": courses/03-mpls-l3vpn/lab-03-l3vpn-option-b.md
