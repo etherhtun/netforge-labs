@@ -114,7 +114,11 @@ nav:
       - Interview questions: courses/035-segment-routing/interview-questions.md
     - "Phase 4 · EVPN Services":
       - courses/04-evpn/index.md
-      - "🧪 Lab 01 · VXLAN-EVPN on cEOS": courses/04-evpn/lab-01-vxlan-evpn.md
+      - "🧪 Lab 01 · VXLAN-EVPN Datacenter Fabric": courses/04-evpn/lab-01-vxlan-evpn.md
+      - "🧪 Lab 02 · EVPN ESI All-Active Multihoming": courses/04-evpn/lab-02-esi-multihoming.md
+      - "🧪 Lab 03 · EVPN-VPWS & EVPN-ELAN": courses/04-evpn/lab-03-evpn-vpws-elan.md
+      - "🧪 Lab 04 · VXLAN-EVPN DCI & Multi-Site": courses/04-evpn/lab-04-evpn-dci-multisite.md
+      - Interview questions: courses/04-evpn/interview-questions.md
       - Concepts:
         - courses/04-evpn/concepts/index.md
         - 1 · Why VXLAN-EVPN?: courses/04-evpn/concepts/01-why-vxlan-evpn.md

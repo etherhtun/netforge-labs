@@ -13,14 +13,14 @@ flooding to discover them.
 
 ---
 
-## What you'll build
+## Course Matrix & Labs
 
-| Lab | You build | Status |
-|---|---|---|
-| **01** | VXLAN-EVPN fabric — OSPF underlay, iBGP-EVPN with route reflectors, L2VNI | ✅ Validated |
-| 02 | EVPN-ELAN — multipoint layer 2, the modern replacement for VPLS | 📋 Planned |
-| 03 | EVPN-VPWS — point-to-point pseudowire | 📋 Planned |
-| 04 | VXLAN-EVPN DCI — stretching EVPN between two fabrics | 📋 Planned |
+| Lab | Description | Core Protocols & Concepts | Status |
+|---|---|---|---|
+| **[01](lab-01-vxlan-evpn.md)** | VXLAN-EVPN Datacenter Fabric & Symmetric IRB | OSPF underlay, iBGP EVPN RRs, Symmetric IRB, Anycast Gateway | 🟢 **Validated** |
+| **[02](lab-02-esi-multihoming.md)** | EVPN ESI All-Active Multihoming | ESI `0001:0001:0001...`, Route Types 1 & 4, DF Election, Split Horizon | 🟢 **Validated** |
+| **[03](lab-03-evpn-vpws-elan.md)** | EVPN-VPWS (E-LINE) & EVPN-ELAN | Point-to-Point Pseudowire, E-LAN Headend Replication, Route Types 2 & 3 | 🟢 **Validated** |
+| **[04](lab-04-evpn-dci-multisite.md)** | VXLAN-EVPN DCI & Multi-Site | Border Gateways, Multi-Site EVPN, Inter-Site VXLAN Re-encapsulation | 🟢 **Validated** |
 
 ---
 
