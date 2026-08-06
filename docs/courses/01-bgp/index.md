@@ -1,6 +1,6 @@
 # Phase 1 — BGP Fundamentals & Policies
 
-> ✅ **Lab 01 validated** on Arista cEOS 4.32.0F. Later labs are being built.
+> ✅ **Labs 01–04 validated** on Arista cEOS 4.32.0F.
 
 Every other protocol in this curriculum decides *what the shortest path is*. BGP
 decides *what you're willing to accept and advertise* — a policy protocol wearing a

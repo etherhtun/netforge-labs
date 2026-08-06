@@ -2,7 +2,7 @@
 # This step DEMONSTRATES a fault, so it passes when the fault is PRESENT.
 # DONE when: r2 has the prefix but resolves it via Management0.
 set -uo pipefail
-route=$(docker exec clab-bgp-lab-r2 Cli -p 15 -c "show ip route 172.16.30.0/24" 2>/dev/null)
+route=$(printf 'enable\nshow ip route 172.16.30.0/24\n' | docker exec -i clab-bgp-lab-r2 Cli -p 15 2>/dev/null)
 echo "$route" | grep -A1 "B I" || true
 if echo "$route" | grep -A1 "B I" | grep -q "Management0"; then
   echo "  ✓ fault reproduced: route resolves via the MANAGEMENT interface."
