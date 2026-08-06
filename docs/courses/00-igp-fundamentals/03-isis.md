@@ -182,16 +182,25 @@ abrupt reconvergence instead of a graceful one.
 
 ---
 
-## Metrics: mind the narrow default
+## Metrics: Mind the Narrow Default & The Metric 10 Trap
 
-Original IS-IS allocated only **6 bits** to interface metrics — a maximum of 63,
-with total path cost capped at 1023. That was generous in 1990 and is unusable now.
+IS-IS metric handling is **one of the most critical topics in Service Provider and Hyperscale network engineering interviews**:
 
-**Wide metrics** (32 bits, via a TLV) fixed it:
+### 1. The Default Metric 10 Trap
+Unlike OSPF (which calculates cost dynamically using `auto-cost reference-bandwidth`), **IS-IS assigns a default metric of 10 to EVERY interface regardless of bandwidth!**
+- A **10 Mbps link**, a **10 Gbps link**, and a **400 Gbps link** all get metric `10` by default!
+- Without explicit metric tuning or wide metric scaling, IS-IS will load-balance traffic equally (ECMP) across a 1G link and a 400G link, causing severe congestion!
 
-```
+### 2. Narrow Metrics vs. Wide Metrics (RFC 5305)
+
+| Metric Style | RFC Standard | Interface Metric Bits | Max Link Metric | Path Metric Bits | Max Path Metric | Applications & Capabilities |
+|---|---|---|---|---|---|---|
+| **Narrow Metrics** | RFC 1195 | 6 bits | **63** | 10 bits | **1,023** | Legacy networks; no room for TE/SR sub-TLVs |
+| **Wide Metrics** | RFC 5305 | 24 bits | **16,777,215** | 32 bits | **4,294,967,295** | **Modern standard; required for Segment Routing & SR-TE** |
+
+```eos
 router isis CORE
- metric-style wide
+   metric-style wide
 ```
 
 !!! warning "Set wide metrics before you need them"
@@ -199,9 +208,7 @@ router isis CORE
     path cost — and routers that disagree about cost compute different trees, which
     is how a link-state protocol ends up with a loop.
 
-    Wide metrics are also a **prerequisite for segment routing and traffic
-    engineering**, since those extensions carry information narrow metrics have no
-    room for. Configure it on day one.
+    Wide metrics are also a **prerequisite for segment routing (SR-MPLS / SR-TE)**, since those extensions carry sub-TLVs (Sub-TLV 22) that narrow metrics have no room for. Configure it on day one.
 
 ---
 
