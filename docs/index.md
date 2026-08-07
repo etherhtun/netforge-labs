@@ -4,7 +4,7 @@
 
 **Learn networking by building it.** Stand up real fabrics on Arista cEOS, break them on purpose, and understand *why* every line of config is there — not just what to paste.
 
-Everything runs in 100% local, lightweight containers on your own laptop with zero idle overhead.
+Choose your specialized career path in **Network Engineering**, **Cybersecurity**, **NetDevOps**, or **Technical Program Management (TPM)**.
 
 <p class="nf-hero-meta">Arista cEOS · containerlab · OrbStack on macOS & Linux</p>
 
@@ -12,31 +12,47 @@ Everything runs in 100% local, lightweight containers on your own laptop with ze
 
 ---
 
-## ⚡ Quick Start & System Design
+## 🎯 Career Specialization Tracks
 
 <div class="grid cards" markdown>
 
--   🛠️ **Set up your lab**
+-   🌐 **Network Infrastructure & Hyperscale Track**
 
     ---
 
-    OrbStack, Docker, containerlab, and Arista cEOS on Apple Silicon & Mac. Roughly 15 minutes, once.
+    Master core IGP, BGP path selection, MPLS L3VPNs, Segment Routing, VXLAN-EVPN CLOS fabrics, and IPv6 unnumbered underlays.
 
-    [Lab setup guide →](getting-started/lab-setup-macos.md)
+    [Explore Network Track →](tracks/index.md#1-network-infrastructure-hyperscale-track)
 
--   🎯 **Google System Design Drill**
+-   🔒 **Cybersecurity & Microsegmentation Track**
 
     ---
 
-    Scenario-based interview drills for Senior & Staff Network Infrastructure Engineers at Google, Meta, and Apple.
+    Control Plane Policing (CoPP), VRF microsegmentation, Infrastructure ACLs (iACLs), 802.1AE MACsec, and RPKI Route Origin Validation.
 
-    [Interview Drills →](interview-prep/google-system-design.md)
+    [Explore Security Track →](tracks/index.md#2-cybersecurity-network-microsegmentation-track)
+
+-   🤖 **NetDevOps & Automation Track**
+
+    ---
+
+    Jinja2/YAML data modeling, PyATS parsing, Batfish AST pre-flight static analysis, gNMI telemetry, and GitHub Actions CI/CD pipelines.
+
+    [Explore NetDevOps Track →](tracks/index.md#3-netdevops-infrastructure-automation-track)
+
+-   📋 **Hyperscale System Design & TPM Track**
+
+    ---
+
+    System design drills for Technical Program Managers & Architects: 5-Stage Clos scaling, eBGP vs iBGP, and sub-50ms Ti-LFA FRR.
+
+    [Explore TPM & Design Track →](tracks/index.md#4-hyperscale-system-design-program-management-track-tpm)
 
 </div>
 
 ---
 
-## 🚀 Validated Courses & Executable Fabrics
+## 🚀 All Validated Courses & Lab Matrix
 
 <div class="grid cards" markdown>
 
@@ -56,10 +72,6 @@ Everything runs in 100% local, lightweight containers on your own laptop with ze
 
     [Start Phase 5 →](courses/05-netdevops/index.md)
 
-</div>
-
-<div class="grid cards" markdown>
-
 -   **Phase 7 · Streaming Telemetry & Observability** &nbsp; <span class="nf-badge ok">5 labs live</span>
 
     ---
@@ -67,6 +79,10 @@ Everything runs in 100% local, lightweight containers on your own laptop with ze
     gNMI gRPC protobuf streams, OpenConfig YANG models, Prometheus metrics, and real-time Grafana visual dashboards.
 
     [Start Phase 7 →](courses/07-telemetry/index.md)
+
+</div>
+
+<div class="grid cards" markdown>
 
 -   **Phase 8 · Network Security & Microsegmentation** &nbsp; <span class="nf-badge ok">4 labs live</span>
 
@@ -84,10 +100,6 @@ Everything runs in 100% local, lightweight containers on your own laptop with ze
 
     [Start Phase 9 →](courses/09-ipv6/index.md)
 
-</div>
-
-<div class="grid cards" markdown>
-
 -   **Phase 3.5 · Segment Routing (SR-MPLS)** &nbsp; <span class="nf-badge ok">3 labs live</span>
 
     ---
@@ -95,22 +107,6 @@ Everything runs in 100% local, lightweight containers on your own laptop with ze
     SRGB range (`16000–23999`), Node/Prefix SIDs, Ti-LFA Sub-50ms Fast Reroute, and SR-PCE BGP Color steering.
 
     [Start Phase 3.5 →](courses/035-segment-routing/index.md)
-
--   **Phase 3 · MPLS Backbone & L3VPNs** &nbsp; <span class="nf-badge ok">5 labs live</span>
-
-    ---
-
-    LDP signaling, PHP (Label 3), VRF RDs & RTs, MP-iBGP VPNv4, Inter-AS Options A/B/C, and Pseudowires.
-
-    [Start Phase 3 →](courses/03-mpls-l3vpn/index.md)
-
--   **Phase 6 · Enterprise WAN Edge Multihoming** &nbsp; <span class="nf-badge ok">4 labs live</span>
-
-    ---
-
-    Dual-ISP eBGP Multihoming (Primary/Backup), AS-PATH Prepending, BGP Communities, BFD sub-second failover, and local RPKI ROV.
-
-    [Start Phase 6 →](courses/06-hybrid-cloud/index.md)
 
 </div>
 

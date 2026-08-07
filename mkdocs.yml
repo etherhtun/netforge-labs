@@ -39,6 +39,7 @@ theme:
 
 nav:
   - Home: index.md
+  - "🎯 Career Tracks": tracks/index.md
   - Roadmap: roadmap.md
 
   - Get Started:
