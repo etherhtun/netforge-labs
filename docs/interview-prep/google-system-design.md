@@ -22,14 +22,14 @@ graph TD
       SS2["SuperSpine-2"]
     end
 
-    subgraph POD1["Pod 1 (Stage 1 & 2)"]
+    subgraph POD1["Pod 1"]
       FS11["FabricSpine-11"]
       FS12["FabricSpine-12"]
       L101["Leaf-101"]
       L102["Leaf-102"]
     end
 
-    subgraph POD2["Pod 2 (Stage 1 & 2)"]
+    subgraph POD2["Pod 2"]
       FS21["FabricSpine-21"]
       FS22["FabricSpine-22"]
       L201["Leaf-201"]
@@ -87,20 +87,20 @@ graph TD
 ```mermaid
 graph LR
     subgraph INGRESS["Ingress PE1"]
-      L_OUT["Transport Label: 16020"]
-      L_IN["Service Label: 24001 (VRF-A)"]
+      L_OUT["Transport Label 16020"]
+      L_IN["Service Label 24001 VRF-A"]
     end
 
     subgraph CORE["P-Router Core"]
-      SWAP["Label Swap: 16020 -> 16030"]
+      SWAP["Label Swap 16020 to 16030"]
     end
 
     subgraph EGRESS["Egress PE2"]
       PHP["PHP POP Transport Label"]
-      VRF["Lookup Inner Label 24001 -> VRF-A"]
+      VRF["Lookup Inner Label 24001"]
     end
 
-    INGRESS ==> CORE ==> EGRESS
+    INGRESS --> CORE --> EGRESS
 
     classDef pe fill:#1b5e20,stroke:#81c784,color:#ffffff,font-weight:bold;
     classDef p fill:#0d47a1,stroke:#64b5f6,color:#ffffff,font-weight:bold;
@@ -124,9 +124,9 @@ graph LR
 
 ```mermaid
 graph LR
-    PE1["PE1 Ingress"] ==>|Primary Link Down!| P1["P1 Router"]
-    P1 -.->|Ti-LFA Pre-computed SID Stack: Node SID 16004| P2["P2 (Q-Node)"]
-    P2 ==> PE2["PE2 Egress"]
+    PE1["PE1 Ingress"] -->|Primary Link Down| P1["P1 Router"]
+    P1 -.->|Node SID 16004| P2["P2 Q-Node"]
+    P2 --> PE2["PE2 Egress"]
 
     classDef node fill:#1b5e20,stroke:#81c784,color:#ffffff,font-weight:bold;
     class PE1,P1,P2,PE2 node;
@@ -146,15 +146,15 @@ graph LR
 ```mermaid
 graph TD
     subgraph FABRIC["VXLAN Fabric Overlay"]
-      L1["Leaf1 (ESI 00:11:22:33)"]
-      L2["Leaf2 (ESI 00:11:22:33)"]
+      L1["Leaf1 ESI 00:11:22:33"]
+      L2["Leaf2 ESI 00:11:22:33"]
     end
 
     HOST["Multihomed Host A"]
     L1 --- HOST
     L2 --- HOST
 
-    L1 ==>|Local Bias Drop Rule| L2
+    L1 -->|Local Bias Drop Rule| L2
 
     classDef leaf fill:#1b5e20,stroke:#81c784,color:#ffffff,font-weight:bold;
     class L1,L2 leaf;
@@ -193,8 +193,8 @@ Pushing a syntax-valid configuration can still cause a major outage if an ACL bl
 
 ```mermaid
 graph TD
-    ISP_A["Primary ISP A (AS 65100)"] <-->|eBGP | EDGE1["wan-edge1 (LOCAL_PREF 200)"]
-    ISP_B["Backup ISP B (AS 65200)"] <-->|eBGP (AS-PATH Prepend 65000 65000)| EDGE2["wan-edge2 (LOCAL_PREF 100)"]
+    ISP_A["Primary ISP A AS 65100"] <-->|eBGP| EDGE1["wan-edge1 LOCAL_PREF 200"]
+    ISP_B["Backup ISP B AS 65200"] <-->|eBGP Prepend 65000| EDGE2["wan-edge2 LOCAL_PREF 100"]
     EDGE1 <-->|iBGP| EDGE2
 
     classDef isp fill:#0d47a1,stroke:#64b5f6,color:#ffffff,font-weight:bold;
