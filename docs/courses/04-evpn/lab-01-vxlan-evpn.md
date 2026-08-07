@@ -73,16 +73,28 @@ graph TD
 Configure point-to-point `/30` subnets and OSPF Area 0 across all Spine-Leaf links to establish IP reachability between Loopback0 and VTEP Loopback1 interfaces.
 
 === "spine1"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/01-spine1-underlay.cfg"
+    ```
 
 === "spine2"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/01-spine2-underlay.cfg"
+    ```
 
 === "leaf1"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/01-leaf1-underlay.cfg"
+    ```
 
 === "leaf2"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/01-leaf2-underlay.cfg"
+    ```
 
 ---
 
@@ -91,16 +103,28 @@ Configure point-to-point `/30` subnets and OSPF Area 0 across all Spine-Leaf lin
 Configure MP-iBGP EVPN sessions between Spines and Leafs. Spines act as EVPN Route Reflectors (`route-reflector-client`), reflecting EVPN Route Types 2, 3, and 5.
 
 === "spine1"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/02-spine1-evpn.cfg"
+    ```
 
 === "spine2"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/02-spine2-evpn.cfg"
+    ```
 
 === "leaf1"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/02-leaf1-evpn.cfg"
+    ```
 
 === "leaf2"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/02-leaf2-evpn.cfg"
+    ```
 
 ---
 
@@ -109,10 +133,16 @@ Configure MP-iBGP EVPN sessions between Spines and Leafs. Spines act as EVPN Rou
 Configure Layer 2 VNI 10100, Layer 3 VNI 50001 (VRF `TENANT-A`), Anycast Gateway IP (`10.10.10.1/24`), and Virtual Router MAC (`00:1c:73:00:00:01`).
 
 === "leaf1"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/03-leaf1-vxlan-irb.cfg"
+    ```
 
 === "leaf2"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/03-leaf2-vxlan-irb.cfg"
+    ```
 
 ---
 
@@ -121,16 +151,28 @@ Configure Layer 2 VNI 10100, Layer 3 VNI 50001 (VRF `TENANT-A`), Anycast Gateway
 Configure customer workloads (`host1` & `host2`) and verify end-to-end Layer 2 / Layer 3 connectivity across the VXLAN-EVPN fabric.
 
 === "host1"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/04-host1-ip.cfg"
+    ```
 
 === "host2"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/04-host2-ip.cfg"
+    ```
 
 === "leaf1 (Access)"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/04-leaf1-access.cfg"
+    ```
 
 === "leaf2 (Access)"
+
+    ```eos
     --8<-- "labs/evpn-datacenter-lab/steps/04-leaf2-access.cfg"
+    ```
 
 **Data Plane Verification:**
 

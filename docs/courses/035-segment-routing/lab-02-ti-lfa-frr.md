@@ -48,13 +48,22 @@ graph TD
 Configure **Topology-Independent Loop-Free Alternate (Ti-LFA)** with node protection on `pe1`, `p1`, and `pe2`.
 
 === "pe1"
+
+    ```eos
     --8<-- "labs/segment-routing-lab/steps/02-pe1-tilfa.cfg"
+    ```
 
 === "p1"
+
+    ```eos
     --8<-- "labs/segment-routing-lab/steps/02-p1-tilfa.cfg"
+    ```
 
 === "pe2"
+
+    ```eos
     --8<-- "labs/segment-routing-lab/steps/02-pe2-tilfa.cfg"
+    ```
 
 ---
 

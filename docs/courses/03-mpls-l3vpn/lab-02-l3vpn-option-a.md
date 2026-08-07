@@ -67,10 +67,16 @@ graph LR
 Create VRF `RED` on `pe1` and `pe2`. Assign Route Distinguishers (RD) to ensure uniqueness of customer IPv4 prefixes in the VPNv4 address space (`RD + IPv4 Prefix = 96-bit VPNv4 Prefix`). Assign Extended BGP Route Targets (`import` / `export`) to control route distribution.
 
 === "pe1"
+
+    ```eos
     --8<-- "labs/mpls-l3vpn-lab/steps/02-pe1-vrf.cfg"
+    ```
 
 === "pe2"
+
+    ```eos
     --8<-- "labs/mpls-l3vpn-lab/steps/02-pe2-vrf.cfg"
+    ```
 
 ---
 
@@ -79,10 +85,16 @@ Create VRF `RED` on `pe1` and `pe2`. Assign Route Distinguishers (RD) to ensure 
 Configure MP-iBGP between PE loopbacks (`2.2.2.2` $\leftrightarrow$ `3.3.3.3`) in address-family `vpn-ipv4`.
 
 === "pe1"
+
+    ```eos
     --8<-- "labs/mpls-l3vpn-lab/steps/03-pe1-vpn4.cfg"
+    ```
 
 === "pe2"
+
+    ```eos
     --8<-- "labs/mpls-l3vpn-lab/steps/03-pe2-vpn4.cfg"
+    ```
 
 **Verification:**
 
@@ -109,16 +121,28 @@ Neighbor    V AS     MsgRcvd MsgSent OutQ Up/Down State  NRcvd
 Bind PE interfaces connecting to customer devices to VRF `RED`, and configure PE-CE eBGP routing.
 
 === "ce1"
+
+    ```eos
     --8<-- "labs/mpls-l3vpn-lab/steps/04-ce1-bgp.cfg"
+    ```
 
 === "ce2"
+
+    ```eos
     --8<-- "labs/mpls-l3vpn-lab/steps/04-ce2-bgp.cfg"
+    ```
 
 === "pe1 (VRF RED)"
+
+    ```eos
     --8<-- "labs/mpls-l3vpn-lab/steps/04-pe1-ce-bgp.cfg"
+    ```
 
 === "pe2 (VRF RED)"
+
+    ```eos
     --8<-- "labs/mpls-l3vpn-lab/steps/04-pe2-ce-bgp.cfg"
+    ```
 
 **Data Plane Verification:**
 

@@ -53,13 +53,22 @@ graph LR
 Enable Segment Routing underlay on `pe1`, `p1`, and `pe2` with wide metrics and prefix-segment SIDs.
 
 === "pe1"
+
+    ```eos
     --8<-- "labs/segment-routing-lab/steps/01-pe1-sr.cfg"
+    ```
 
 === "p1"
+
+    ```eos
     --8<-- "labs/segment-routing-lab/steps/01-p1-sr.cfg"
+    ```
 
 === "pe2"
+
+    ```eos
     --8<-- "labs/segment-routing-lab/steps/01-pe2-sr.cfg"
+    ```
 
 ---
 

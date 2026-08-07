@@ -45,10 +45,16 @@ graph TD
 Define an explicit Segment Routing Policy matching **Color 100** (Low-Latency Path $\le 10\,\text{ms}$) on `pe1`.
 
 === "pe1"
+
+    ```eos
     --8<-- "labs/segment-routing-lab/steps/03-pe1-color.cfg"
+    ```
 
 === "pe2"
+
+    ```eos
     --8<-- "labs/segment-routing-lab/steps/03-pe2-color.cfg"
+    ```
 
 ---
 
