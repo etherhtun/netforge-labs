@@ -1,0 +1,29 @@
+configure
+hostname {{ node.name }}
+!
+interface Loopback0
+   ip address {{ node.router_id }}/32
+   ip ospf area {{ fabric.ospf_area }}
+!
+{% for intf in node.interfaces %}
+interface {{ intf.name }}
+   no switchport
+   ip address {{ intf.ip }}
+   ip ospf area {{ fabric.ospf_area }}
+!
+{% endfor %}
+router ospf 100
+   router-id {{ node.router_id }}
+   passive-interface Loopback0
+!
+router bgp {{ fabric.asn }}
+   router-id {{ node.router_id }}
+   neighbor LEAFS-EVPN peer group
+   neighbor LEAFS-EVPN remote-as {{ fabric.asn }}
+   neighbor LEAFS-EVPN update-source Loopback0
+   neighbor LEAFS-EVPN route-reflector-client
+   neighbor 10.255.0.11 peer group LEAFS-EVPN
+   neighbor 10.255.0.12 peer group LEAFS-EVPN
+   !
+   address-family evpn
+      neighbor LEAFS-EVPN activate

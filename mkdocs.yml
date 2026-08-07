@@ -129,8 +129,13 @@ nav:
         - 5 · Route types: courses/04-evpn/concepts/05-route-types.md
         - 6 · Packet walk: courses/04-evpn/concepts/06-packet-walk.md
         - Interview questions: courses/04-evpn/concepts/interview-questions.md
-    - "Phase 5 · NetDevOps":
+    - "Phase 5 · Network Automation & CI/CD Pipelines":
       - courses/05-netdevops/index.md
+      - "🧪 Lab 01 · Data-Driven Config Generation (Jinja2 & YAML)": courses/05-netdevops/lab-01-jinja2-yaml.md
+      - "🧪 Lab 02 · Automated Network Verification (PyATS / Genie)": courses/05-netdevops/lab-02-pyats-verification.md
+      - "🧪 Lab 03 · Pre-Deployment Policy Verification (Batfish)": courses/05-netdevops/lab-03-batfish-simulation.md
+      - "🧪 Lab 04 · Programmatic Telemetry & State Parsing (gNMI)": courses/05-netdevops/lab-04-gnmi-telemetry.md
+      - "🧪 Lab 05 · Containerlab CI/CD Pipelines in GitHub Actions": courses/05-netdevops/lab-05-github-actions-cicd.md
     - "Phase 6 · Hybrid Cloud & Edge":
       - courses/06-hybrid-cloud/index.md
     - "Phase 7 · Telemetry & Observability":

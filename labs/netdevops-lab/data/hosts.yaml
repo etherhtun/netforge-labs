@@ -1,0 +1,50 @@
+fabric:
+  name: NetForge-DC1
+  asn: 65000
+  ospf_area: 0.0.0.0
+
+spines:
+  - name: spine1
+    mgmt_ip: 172.20.20.31
+    router_id: 10.255.0.1
+    interfaces:
+      - name: Ethernet1
+        ip: 10.0.1.1/30
+        neighbor: leaf1
+      - name: Ethernet2
+        ip: 10.0.1.5/30
+        neighbor: leaf2
+  - name: spine2
+    mgmt_ip: 172.20.20.32
+    router_id: 10.255.0.2
+    interfaces:
+      - name: Ethernet1
+        ip: 10.0.2.1/30
+        neighbor: leaf1
+      - name: Ethernet2
+        ip: 10.0.2.5/30
+        neighbor: leaf2
+
+leafs:
+  - name: leaf1
+    mgmt_ip: 172.20.20.33
+    router_id: 10.255.0.11
+    vtep_ip: 10.255.1.11
+    interfaces:
+      - name: Ethernet1
+        ip: 10.0.1.2/30
+        neighbor: spine1
+      - name: Ethernet2
+        ip: 10.0.2.2/30
+        neighbor: spine2
+  - name: leaf2
+    mgmt_ip: 172.20.20.34
+    router_id: 10.255.0.12
+    vtep_ip: 10.255.1.12
+    interfaces:
+      - name: Ethernet1
+        ip: 10.0.1.6/30
+        neighbor: spine1
+      - name: Ethernet2
+        ip: 10.0.2.6/30
+        neighbor: spine2

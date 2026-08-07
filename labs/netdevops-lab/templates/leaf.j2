@@ -1,0 +1,35 @@
+configure
+hostname {{ node.name }}
+!
+service routing protocols model multi-agent
+!
+interface Loopback0
+   ip address {{ node.router_id }}/32
+   ip ospf area {{ fabric.ospf_area }}
+!
+interface Loopback1
+   ip address {{ node.vtep_ip }}/32
+   ip ospf area {{ fabric.ospf_area }}
+!
+{% for intf in node.interfaces %}
+interface {{ intf.name }}
+   no switchport
+   ip address {{ intf.ip }}
+   ip ospf area {{ fabric.ospf_area }}
+!
+{% endfor %}
+router ospf 100
+   router-id {{ node.router_id }}
+   passive-interface Loopback0
+   passive-interface Loopback1
+!
+router bgp {{ fabric.asn }}
+   router-id {{ node.router_id }}
+   neighbor SPINES-EVPN peer group
+   neighbor SPINES-EVPN remote-as {{ fabric.asn }}
+   neighbor SPINES-EVPN update-source Loopback0
+   neighbor 10.255.0.1 peer group SPINES-EVPN
+   neighbor 10.255.0.2 peer group SPINES-EVPN
+   !
+   address-family evpn
+      neighbor SPINES-EVPN activate
