@@ -4,7 +4,7 @@ FABRIC="clab-security-lab"
 echo "  verify Control Plane Policing (CoPP) policy on spine1..."
 out=$(docker exec -i ${FABRIC}-spine1 Cli -p 15 <<'EOF'
 enable
-show policy-map type copp
+show policy-map
 EOF
 )
 if echo "$out" | grep -iq "POLICY-COPP"; then
