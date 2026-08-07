@@ -59,5 +59,5 @@ Set this up once and every lab in every phase will run.
     [Courses](../courses/index.md) and pick a phase.
 
 Once you're set up, the fastest thing to actually build is
-**[Phase 4 · VXLAN-EVPN](../courses/04-evpn/lab-01-vxlan-evpn.md)** — it's fully
+**[Phase 4 · VXLAN-EVPN](../courses/04-evpn/lab-01-pure-l2vni.md)** — it's fully
 validated and gets you a working fabric end to end.

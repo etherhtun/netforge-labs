@@ -1,6 +1,6 @@
 # Lab setup on macOS (OrbStack + containerlab + cEOS)
 
-> Everything you need to run the [Course 2 cEOS lab](../courses/04-evpn/lab-01-vxlan-evpn.md) on a Mac —
+> Everything you need to run the [Course 2 cEOS lab](../courses/04-evpn/lab-01-pure-l2vni.md) on a Mac —
 > **no cloud, no nested virtualization.** cEOS is a *container*, so a full 4-node
 > VXLAN-EVPN fabric boots on your laptop in minutes.
 >
@@ -115,7 +115,7 @@ sudo containerlab destroy -t smoke.clab.yml
 
 ## 7. Deploy the fabric
 
-You're ready for the [Course 2 lab](../courses/04-evpn/lab-01-vxlan-evpn.md). Drop in its `ceos-evpn.clab.yml`
+You're ready for the [Course 2 lab](../courses/04-evpn/lab-01-pure-l2vni.md). Drop in its `ceos-evpn.clab.yml`
 and:
 ```bash
 cd ~/ceos-lab
@@ -158,4 +158,4 @@ docker exec -it clab-ceos-evpn-leaf1 Cli             # jump into any node's CLI
 ```
 
 Your Mac stays clean — the lab lives entirely inside the `mylab` machine, and you can
-`destroy`/`deploy` as often as you like. Next: the [VXLAN-EVPN lab →](../courses/04-evpn/lab-01-vxlan-evpn.md).
+`destroy`/`deploy` as often as you like. Next: the [VXLAN-EVPN lab →](../courses/04-evpn/lab-01-pure-l2vni.md).

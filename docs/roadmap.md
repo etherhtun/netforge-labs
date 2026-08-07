@@ -47,7 +47,7 @@ graph TD
 **Available now:** [Linux Foundations](courses/linux-foundations/index.md) (prerequisite) ·
 [IGP Fundamentals](courses/00-igp-fundamentals/index.md) (Phase 0, reading track) ·
 [eBGP + iBGP](courses/01-bgp/lab-01-ebgp-ibgp.md) (Phase 1, Lab 01) ·
-[MPLS + LDP](courses/03-mpls-l3vpn/lab-01-mpls-ldp.md) (Phase 3, Lab 01) · [VXLAN-EVPN on Arista cEOS](courses/04-evpn/lab-01-vxlan-evpn.md) — the validated core of
+[MPLS + LDP](courses/03-mpls-l3vpn/lab-01-mpls-ldp.md) (Phase 3, Lab 01) · [VXLAN-EVPN on Arista cEOS](courses/04-evpn/lab-01-pure-l2vni.md) — the validated core of
 Phase 4 — plus [VXLAN-EVPN on Juniper](archive/juniper-vxlan-evpn/index.md) as a written reference
 course.
 
@@ -57,7 +57,7 @@ course.
 
 - **New to routing?** Phase 0 → 1 → 2. That's the enterprise path.
 - **Data-centre focus?** Phase 1, then jump to
-  [Phase 4 (VXLAN-EVPN)](courses/04-evpn/lab-01-vxlan-evpn.md) — it's live today.
+  [Phase 4 (VXLAN-EVPN)](courses/04-evpn/lab-01-pure-l2vni.md) — it's live today.
 - **Service-provider focus?** Phase 1 → 3 → 3.5.
 - **Already know the protocols?** Phase 5 and 7 are where the job actually is.
 

@@ -88,7 +88,7 @@ Nothing is marked finished until it has actually been run. See the
     VXLAN-EVPN fabrics, EVPN-ELAN and EVPN-VPWS, and stretching EVPN between sites
     with DCI.
 
-    [Overview →](04-evpn/index.md) · [Lab 01 →](04-evpn/lab-01-vxlan-evpn.md) · [Concepts →](04-evpn/concepts/index.md)
+    [Overview →](04-evpn/index.md) · [Lab 01 →](04-evpn/lab-01-pure-l2vni.md) · [Concepts →](04-evpn/concepts/index.md)
 
 </div>
 

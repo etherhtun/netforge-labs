@@ -50,7 +50,7 @@ Everything runs in containers on your own laptop. No hardware, no cloud bill.
     Build a data-centre fabric on Arista cEOS: OSPF underlay, iBGP-EVPN overlay
     with route reflectors, and a VLAN stretched across VXLAN tunnels.
 
-    [Start the lab →](courses/04-evpn/lab-01-vxlan-evpn.md) · [Concepts →](courses/04-evpn/concepts/index.md)
+    [Start the lab →](courses/04-evpn/lab-01-pure-l2vni.md) · [Concepts →](courses/04-evpn/concepts/index.md)
 
 -   **Phase 3 · MPLS & L3VPN** &nbsp; <span class="nf-badge wip">in progress</span>
 

@@ -1,55 +1,39 @@
-# Phase 4 — EVPN Services
+# 🌐 Phase 4 · VXLAN-EVPN Datacenter Fabrics
 
-> ✅ **Lab 01 validated** on Arista cEOS 4.32.0F. The remaining services are being
-> built.
-
-Traditional data-centre networks stretched VLANs by physically extending layer 2 —
-which meant spanning tree, broadcast domains that spanned buildings, and a single
-misbehaving host taking out a floor.
-
-**VXLAN-EVPN** replaces that with an overlay: layer 2 rides inside UDP over a
-perfectly ordinary routed network, and BGP distributes MAC addresses instead of
-flooding to discover them.
+> 🚀 **Zero-to-Hero Production Engineering Masterclass**: From first-principles overlay concepts to enterprise-grade CLOS fabrics, Symmetric IRB, ESI All-Active Multihoming, and Multi-Site DCI.
 
 ---
 
-## Course Matrix & Labs
+## 🏛️ Course Architecture & Zero-to-Hero Roadmap
 
-| Lab | Description | Core Protocols & Concepts | Status |
-|---|---|---|---|
-| **[01](lab-01-vxlan-evpn.md)** | VXLAN-EVPN Datacenter Fabric & Symmetric IRB | OSPF underlay, iBGP EVPN RRs, Symmetric IRB, Anycast Gateway | 🟢 **Validated** |
-| **[02](lab-02-esi-multihoming.md)** | EVPN ESI All-Active Multihoming | ESI `0001:0001:0001...`, Route Types 1 & 4, DF Election, Split Horizon | 🟢 **Validated** |
-| **[03](lab-03-evpn-vpws-elan.md)** | EVPN-VPWS (E-LINE) & EVPN-ELAN | Point-to-Point Pseudowire, E-LAN Headend Replication, Route Types 2 & 3 | 🟢 **Validated** |
-| **[04](lab-04-evpn-dci-multisite.md)** | VXLAN-EVPN DCI & Multi-Site | Border Gateways, Multi-Site EVPN, Inter-Site VXLAN Re-encapsulation | 🟢 **Validated** |
+Phase 4 guides you through **5 progressive hands-on lab modules**. Each lab builds upon the previous, moving from pure Layer 2 VXLAN extension up to multi-site datacenter interconnects:
 
----
-
-## Prerequisites
-
-- **[Phase 0 · IGP Fundamentals](../00-igp-fundamentals/index.md)** — the underlay
-  has to work before any overlay can. This is not optional advice.
-- **BGP familiarity** — EVPN is a BGP address family. Route reflectors and address
-  families should not be new.
-- A working lab environment — see
-  **[lab setup](../../getting-started/lab-setup-macos.md)**.
+```
+Phase 4 · VXLAN-EVPN Datacenter Fabrics
+├── 🧪 Lab 01 · Pure L2VNI (Bridging, BUM Head-End Replication & EVPN RT2/3)
+├── 🧪 Lab 02 · Integrated Routing & Bridging (Symmetric IRB & Anycast Gateway)
+├── 🧪 Lab 03 · ESI All-Active Multihoming (DF Election & Split-Horizon)
+├── 🧪 Lab 04 · EVPN-VPWS & EVPN-ELAN (Point-to-Point VPWS & Multipoint ELAN)
+└── 🧪 Lab 05 · VXLAN-EVPN DCI & Multi-Site (Border Gateway VTEPs)
+```
 
 ---
 
-## The concepts
+## 📚 What You Will Master
 
-Short primers, readable in about five minutes each, plus an interview bank:
+### 1. Zero-Knowledge Foundations
+- **Why VXLAN-EVPN?**: Replacing legacy Spanning Tree (STP) and proprietary MLAG/vPC with open-standard 5-stage CLOS Spine-Leaf fabrics.
+- **50-Byte Header Encapsulation**: Outer Ethernet + Outer IP + UDP 4789 + 24-bit VNI + Inner Payload.
+- **MTU 9214 Jumbo Frame Standard**: Preventing fragmentation across transport links.
 
-[Start with the concepts →](concepts/index.md)
+### 2. Deep Control Plane Mechanics (BGP EVPN AFI 25 / SAFI 70)
+- **Route Type 1 (Auto-Discovery)**: ESI multihoming, mass withdraw, and Split-Horizon loop filtering.
+- **Route Type 2 (MAC/IP Advertisement)**: Control-plane MAC learning and L2/L3 host prefix advertising.
+- **Route Type 3 (Inclusive Multicast / IMET)**: Dynamic VTEP discovery for Head-End Replication (HER) of BUM traffic.
+- **Route Type 4 (Ethernet Segment)**: Automatic Designated Forwarder (DF) election on ESI segments.
+- **Route Type 5 (IP Prefix Route)**: Inter-subnet VRF prefix routing.
 
-They stand alone, so you can read them before the lab or use them as a reference
-while working through it.
-
----
-
-## Also available: the Juniper track
-
-The same subject built on Juniper vJunos-switch — ten sessions and five lab guides
-— is kept as a
-**[reading archive](../../archive/juniper-vxlan-evpn/index.md)**. The theory is
-platform-agnostic and worth reading; the labs need a cloud VM, which is why the
-hands-on path moved to cEOS.
+### 3. Production Deployment Best Practices
+- **Anycast Virtual Gateway Standard**: Identical Virtual IP (`10.10.10.1/24`) and Virtual MAC (`00:1c:73:00:00:01`) across all Leafs.
+- **Symmetric IRB Architecture**: Dual-routing on ingress and egress Leafs via L3 VNI (`50001`) for clean multi-tenancy.
+- **ESI All-Active Multihoming**: Active-Active server connectivity without MLAG peer-links.

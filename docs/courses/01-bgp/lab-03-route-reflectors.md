@@ -425,7 +425,7 @@ their own — which can be sub-optimal. `add-path` lets it advertise several.
 
 This is not a niche technique — it's how modern fabrics are built:
 
-- **[Phase 4 · EVPN](../04-evpn/lab-01-vxlan-evpn.md)** uses spines as route
+- **[Phase 4 · EVPN](../04-evpn/lab-01-pure-l2vni.md)** uses spines as route
   reflectors for the iBGP-EVPN overlay. Leaves peer only with spines. Re-read that
   overlay config now — it's this lab with a different address family.
 - **[Phase 3 · MPLS L3VPN](../03-mpls-l3vpn/index.md)** reflects VPNv4 routes
