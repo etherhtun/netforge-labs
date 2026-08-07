@@ -155,6 +155,12 @@ nav:
       - "🧪 Lab 02 · VRF Microsegmentation & Inter-VRF Route Leaking": courses/08-security/lab-02-vrf-route-leaking-acls.md
       - "🧪 Lab 03 · Infrastructure ACLs (iACLs) & Core Protection": courses/08-security/lab-03-infrastructure-acls.md
       - "🧪 Lab 04 · MACsec Line-Rate Encryption & Port Security": courses/08-security/lab-04-macsec-line-rate-security.md
+    - "Phase 9 · IPv6 Transition & Dual-Stack Infrastructure":
+      - courses/09-ipv6/index.md
+      - "🧪 Lab 01 · IPv6 Neighbor Discovery (ND) & SLAAC / DHCPv6": courses/09-ipv6/lab-01-ipv6-nd-slaac.md
+      - "🧪 Lab 02 · BGP Unnumbered (BGP over IPv6 Link-Local RFC 5549)": courses/09-ipv6/lab-02-bgp-unnumbered-rfc5549.md
+      - "🧪 Lab 03 · 6PE & 6VPE (IPv6 Provider Edge over MPLS)": courses/09-ipv6/lab-03-6pe-6vpe-mpls.md
+      - "🧪 Lab 04 · Stateful NAT64 & DNS64 Translation Mechanics": courses/09-ipv6/lab-04-nat64-dns64.md
 
   - Archive:
     - archive/index.md
