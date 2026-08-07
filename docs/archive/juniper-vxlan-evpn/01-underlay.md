@@ -117,8 +117,8 @@ graph TB
     S1 ---|"10.10.2.0/31"| L2
     S2 ---|"10.10.3.0/31"| L1
     S2 ---|"10.10.4.0/31"| L2
-    classDef s fill:#e3f2fd,stroke:#1565c0,color:#0d47a1;
-    classDef l fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+    classDef s fill:#1565c0,stroke:#90caf9,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef l fill:#2e7d32,stroke:#a5d6a7,color:#ffffff,stroke-width:2px,font-weight:bold;
     class S1,S2 s; class L1,L2 l;
 ```
 

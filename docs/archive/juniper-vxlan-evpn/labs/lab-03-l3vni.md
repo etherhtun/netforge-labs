@@ -41,9 +41,9 @@ graph TB
     H1 --- L1
     H2 --- L2
     L1 -. "L3VNI 50000 (routed) — leaf-to-leaf" .- L2
-    classDef s fill:#e3f2fd,stroke:#1565c0,color:#0d47a1;
-    classDef l fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
-    classDef h fill:#fff3e0,stroke:#ef6c00,color:#e65100;
+    classDef s fill:#1565c0,stroke:#90caf9,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef l fill:#2e7d32,stroke:#a5d6a7,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef h fill:#e65100,stroke:#ffb74d,color:#ffffff,stroke-width:2px,font-weight:bold;
 ```
 
 ## Before you start

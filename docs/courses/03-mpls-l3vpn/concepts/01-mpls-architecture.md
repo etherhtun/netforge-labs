@@ -66,8 +66,8 @@ graph TD
     LIB --->|Installs Best Label| LFIB["LFIB (Label Forwarding Information Base)<br/>Hardware ASIC TCAM Table"]
     FIB ---> LFIB
 
-    classDef control fill:#fff3e0,stroke:#e65100,color:#e65100,stroke-width:2px;
-    classDef data fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:2px;
+    classDef control fill:#e65100,stroke:#ffb74d,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef data fill:#2e7d32,stroke:#a5d6a7,color:#ffffff,stroke-width:2px,font-weight:bold;
     class ControlPlane,LIB control; class RIB,FIB,LFIB data;
 ```
 

@@ -35,8 +35,8 @@ graph TB
     L2 ---|iBGP-EVPN| S1
     L2 ---|iBGP-EVPN| S2
     L1 -. "VXLAN tunnel (data) — still leaf-to-leaf" .- L2
-    classDef spine fill:#e3f2fd,stroke:#1565c0,color:#0d47a1;
-    classDef leaf  fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+    classDef spine fill:#1565c0,stroke:#90caf9,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef leaf  fill:#2e7d32,stroke:#a5d6a7,color:#ffffff,stroke-width:2px,font-weight:bold;
     class S1,S2 spine; class L1,L2 leaf;
 ```
 

@@ -26,8 +26,8 @@ graph TB
     H1 ---|ae0 / ESI| L1
     H1 ---|ae0 / ESI| L2
     H2 --- L1
-    classDef l fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
-    classDef h fill:#fff3e0,stroke:#ef6c00,color:#e65100;
+    classDef l fill:#2e7d32,stroke:#a5d6a7,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef h fill:#e65100,stroke:#ffb74d,color:#ffffff,stroke-width:2px,font-weight:bold;
 ```
 
 ## Run it

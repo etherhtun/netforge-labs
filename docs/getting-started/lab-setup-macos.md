@@ -15,8 +15,8 @@ graph LR
     MAC["macOS<br/>(your laptop)"] --> ORB["OrbStack<br/>Linux VM 'mylab'"]
     ORB --> DKR["Docker + containerlab"]
     DKR --> LAB["cEOS fabric<br/>clab-ceos-evpn-*"]
-    classDef a fill:#e3f2fd,stroke:#1565c0,color:#0d47a1;
-    classDef b fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20;
+    classDef a fill:#1565c0,stroke:#90caf9,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef b fill:#2e7d32,stroke:#a5d6a7,color:#ffffff,stroke-width:2px,font-weight:bold;
     class MAC,ORB a; class DKR,LAB b;
 ```
 
