@@ -32,21 +32,18 @@ the IGP underneath.
 
 Concepts: **[Phase 0 · IS-IS](../00-igp-fundamentals/03-isis.md)**.
 
-!!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/bgp-lab/`)"
-    **Prerequisite · Ensure Lab 01 is deployed and established first**
+!!! tip "Quick Start — Standalone Execution Guide (Location: `labs/bgp-lab/`)"
+    **Step 1 · Deploy the Lab Fabric (if not already running)**
     ```bash
     cd labs/bgp-lab
     sudo containerlab deploy -t topology.clab.yml --max-workers 1
-    ./run.sh --all        # (or ./run.sh --guided) to build the starting BGP+OSPF fabric
     ```
 
-    **Step 1 · Confirm starting BGP state (should be `Estab`)**
+    **Step 2 · Launch Standalone Lab 02 Walkthrough**
     ```bash
-    docker exec clab-bgp-lab-r1 Cli -p 15 -c "show ip bgp summary"
+    ./run.sh --lab02
     ```
-
-    **Step 2 · Apply IS-IS Swap & Verify**
-    Follow Step 2 below to replace OSPF with IS-IS on `r1` and `r2`.
+    *(Note: `./run.sh --lab02` automatically checks if starting BGP sessions are established; if not, it bootstraps the prerequisite state automatically before launching the IS-IS migration!)*
 
 ---
 

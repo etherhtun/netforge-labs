@@ -18,7 +18,7 @@ set -uo pipefail
 cd "$(dirname "$0")"
 
 FABRIC="clab-bgp-lab"
-STEPS=(01 02 03 04 05)
+STEPS=(01 02 03 04 05 06)
 
 declare -A TITLE=(
   [01]="Health check — interfaces ready"
@@ -26,6 +26,7 @@ declare -A TITLE=(
   [03]="BGP sessions (r1, r2, r3)"
   [04]="Observe the next-hop trap"
   [05]="Fix with next-hop-self"
+  [06]="Lab 02 — IS-IS underlay swap (r1, r2)"
 )
 
 c_ok=$'\033[32m'; c_bad=$'\033[31m'; c_dim=$'\033[2m'; c_off=$'\033[0m'
@@ -120,6 +121,7 @@ run_guided_step() {
     03) echo "    docker exec -it clab-bgp-lab-r1 Cli -p 15 -c \"show ip bgp summary\"" ;;
     04) echo "    docker exec -it clab-bgp-lab-r1 Cli -p 15 -c \"show ip route bgp\"" ;;
     05) echo "    docker exec -it clab-bgp-lab-r1 Cli -p 15 -c \"show ip bgp\"" ;;
+    06) echo "    docker exec -it clab-bgp-lab-r1 Cli -p 15 -c \"show isis neighbors\"" ;;
   esac
   echo
 
@@ -151,6 +153,17 @@ case "${1:---all}" in
   --verify)
     preflight; step="${2:?usage: ./run.sh --verify <step>}"
     verify_step "$step" && echo "  ${c_ok}✅ DONE${c_off}" || { echo "  ${c_bad}❌ FAILED${c_off}"; exit 1; } ;;
+  --lab02)
+    preflight
+    echo "Starting Independent Walkthrough for Lab 02 (IS-IS Underlay Migration)..."
+    if ! docker exec clab-bgp-lab-r1 Cli -p 15 -c "show ip bgp summary" 2>/dev/null | grep -q "2.2.2.2.*Estab"; then
+      echo "  ↪ Starting BGP fabric not detected. Automatically bootstrapping Lab 01 prerequisite state..."
+      for s in 01 02 03 04 05; do
+        run_step "$s" >/dev/null 2>&1 || die "Prerequisite bootstrap failed at step ${s}"
+      done
+      echo "${c_ok}  ✅ Prerequisite BGP fabric bootstrapped successfully.${c_off}"
+    fi
+    run_guided_step 06 ;;
   --guided|-g)
     preflight
     echo "Starting Fully Guided Interactive Walkthrough across all steps..."
@@ -172,5 +185,5 @@ would only produce confusing failures further along."
   [0-9]*)
     preflight; run_step "$1" || exit 1 ;;
   *)
-    die "usage: ./run.sh [--all | --guided | --list | --verify <step> | <step>]" ;;
+    die "usage: ./run.sh [--all | --guided | --lab02 | --list | --verify <step> | <step>]" ;;
 esac
