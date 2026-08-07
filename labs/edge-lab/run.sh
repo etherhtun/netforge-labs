@@ -85,6 +85,57 @@ run_step() {
   fi
 }
 
+run_guided_step() {
+  local step=$1
+  echo
+  echo "=========================================================================="
+  echo "  📖 FULLY GUIDED WALKTHROUGH: Step ${step} · ${TITLE[$step]:-}"
+  echo "=========================================================================="
+  
+  echo
+  echo "  [1/3] Configuration Snippets to Apply:"
+  for cfg in steps/${step}-*.cfg; do
+    [ -e "$cfg" ] || continue
+    local node; node=$(basename "$cfg" | cut -d- -f2)
+    echo "  ------------------------------------------------------------------------"
+    echo "  📄 Target Node: ${node} (${cfg})"
+    echo "  ------------------------------------------------------------------------"
+    cat "$cfg" | sed 's/^/    /'
+    echo
+  done
+
+  printf "  ${c_dim}👉 Press [ENTER] to apply configuration to target router nodes...${c_off}"
+  read -r _ < /dev/tty || true
+
+  echo
+  echo "  Applying configuration..."
+  apply_step "$step"
+
+  echo
+  echo "  [2/3] Suggested CLI Commands for Manual Verification:"
+  case "$step" in
+    01) echo "    docker exec -it clab-edge-lab-r1 Cli -p 15 -c \"show interfaces status\"" ;;
+    02) echo "    docker exec -it clab-edge-lab-sw1 Cli -p 15 -c \"show vlan\"" ;;
+    03) echo "    docker exec -it clab-edge-lab-r1 Cli -p 15 -c \"show vrrp\"" ;;
+    04) echo "    docker exec -it clab-edge-lab-r1 Cli -p 15 -c \"show ip bgp summary\"" ;;
+    05) echo "    docker exec -it clab-edge-lab-r1 Cli -p 15 -c \"show ip route bgp\"" ;;
+  esac
+  echo
+
+  printf "  ${c_dim}👉 Press [ENTER] to run automated verification gate...${c_off}"
+  read -r _ < /dev/tty || true
+
+  echo
+  echo "  [3/3] Running Automated Verification Gate:"
+  if verify_step "$step"; then
+    echo "  ${c_ok}✅ STEP ${step} PASSED!${c_off}"
+    return 0
+  else
+    echo "  ${c_bad}❌ STEP ${step} FAILED — fix configuration before proceeding${c_off}"
+    return 1
+  fi
+}
+
 case "${1:---all}" in
   --reset)
     command -v containerlab >/dev/null || die "containerlab not found"
@@ -99,6 +150,15 @@ case "${1:---all}" in
   --verify)
     preflight; step="${2:?usage: ./run.sh --verify <step>}"
     verify_step "$step" && echo "  ${c_ok}✅ DONE${c_off}" || { echo "  ${c_bad}❌ FAILED${c_off}"; exit 1; } ;;
+  --guided|-g)
+    preflight
+    echo "Starting Fully Guided Interactive Walkthrough across all steps..."
+    for s in "${STEPS[@]}"; do
+      run_guided_step "$s" || die "
+Stopped at step ${s}. Fix issue before continuing."
+    done
+    echo
+    echo "${c_ok}🎉 All guided steps completed successfully!${c_off}" ;;
   --all)
     preflight
     for s in "${STEPS[@]}"; do
@@ -111,5 +171,5 @@ would only produce confusing failures further along."
   [0-9]*)
     preflight; run_step "$1" || exit 1 ;;
   *)
-    die "usage: ./run.sh [--all | --list | --verify <step> | <step>]" ;;
+    die "usage: ./run.sh [--all | --guided | --list | --verify <step> | <step>]" ;;
 esac

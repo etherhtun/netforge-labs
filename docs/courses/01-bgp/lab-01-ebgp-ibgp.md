@@ -5,15 +5,17 @@
 
 **Time:** ~45 minutes · **Nodes:** 3
 
-!!! tip "Guided Learning Approaches"
+!!! tip "Guided Learning Approaches (Location: `labs/bgp-lab/`)"
     Every lab supports fully guided interactive walkthroughs, automated script execution, and manual CLI configuration:
 
     - **Option A · Fully Guided Walkthrough (Recommended)**:
       ```bash
+      cd labs/bgp-lab
       ./run.sh --guided    # (or -g) interactive step-by-step execution with config previews & CLI prompts
       ```
     - **Option B · Fast Automated Script Push**:
       ```bash
+      cd labs/bgp-lab
       ./run.sh 02          # apply + verify step 02 automatically
       ./run.sh --all       # run all steps in order
       ```
