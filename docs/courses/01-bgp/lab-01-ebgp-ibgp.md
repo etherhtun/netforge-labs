@@ -5,15 +5,19 @@
 
 **Time:** ~45 minutes · **Nodes:** 3
 
-!!! tip "Hybrid Approach — Script Push or Manual Typing"
-    Every lab supports both automated execution and manual line-by-line configuration:
+!!! tip "Guided Learning Approaches"
+    Every lab supports fully guided interactive walkthroughs, automated script execution, and manual CLI configuration:
 
-    - **Option A · Automated Script Push (Fast & Error-Free)**:
+    - **Option A · Fully Guided Walkthrough (Recommended)**:
+      ```bash
+      ./run.sh --guided    # (or -g) interactive step-by-step execution with config previews & CLI prompts
+      ```
+    - **Option B · Fast Automated Script Push**:
       ```bash
       ./run.sh 02          # apply + verify step 02 automatically
       ./run.sh --all       # run all steps in order
       ```
-    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
+    - **Option C · Manual Line-by-Line CLI Execution**:
       Interactive CLI shell on any container node:
       ```bash
       docker exec -it clab-bgp-lab-r1 Cli

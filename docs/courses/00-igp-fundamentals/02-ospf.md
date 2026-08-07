@@ -330,11 +330,71 @@ In an IPv6-only network there's no address to derive one from, so **you must set
 it manually** — a genuinely common cause of OSPFv3 refusing to start.
 
 **Addressing moved out of the topology LSAs.** Router and network LSAs describe
-topology only; prefixes travel in separate LSAs. This is what makes OSPFv3 able to
+topology only; prefixes travel in separate LSAs (Link LSAs and Intra-Area-Prefix LSAs). This is what makes OSPFv3 able to
 carry address families other than the one it was designed around.
 
 **Authentication was removed** from the protocol and delegated to IPsec — a cleaner
 design in theory, more operationally awkward in practice.
+
+---
+
+### Arista cEOS OSPFv3 Configuration
+
+Configuring OSPFv3 on Arista cEOS requires enabling IPv6 routing, assigning a manual 32-bit router-ID, and binding interfaces to the OSPFv3 process ID:
+
+```eos
+! Enable IPv6 unicast routing globally
+ipv6 unicast-routing
+
+! Define the OSPFv3 process (Process ID 100) and explicit Router ID
+router ospf3 100
+   router-id 1.1.1.1
+   exit
+
+! Loopback interface configuration
+interface Loopback0
+   ipv6 address 2001:db8:1::1/128
+   ipv6 ospf 100 area 0.0.0.0
+
+! Point-to-point inter-router link
+interface Ethernet1
+   no switchport
+   ipv6 address 2001:db8:12::1/64
+   ipv6 ospf 100 area 0.0.0.0
+   ipv6 ospf network point-to-point
+```
+
+!!! note "Process ID requirement in interface syntax"
+    Unlike OSPFv2 (`ip ospf area 0.0.0.0`), OSPFv3 interface configuration requires the process ID explicitly: `ipv6 ospf <process-id> area <area-id>`.
+
+---
+
+### OSPFv3 Operational Verification
+
+Verify adjacency, link states, and IPv6 routes using dedicated `ipv6` CLI commands:
+
+```bash
+# Check OSPFv3 adjacencies (note neighbour IP is link-local fe80::)
+docker exec clab-ceos-r1 Cli -p 15 -c "show ipv6 ospf neighbor"
+
+# Verify IPv6 routes installed by OSPFv3
+docker exec clab-ceos-r1 Cli -p 15 -c "show ipv6 route ospf"
+```
+
+Sample output of `show ipv6 ospf neighbor`:
+```
+Neighbor ID     Instance VRF      Pri State                  Dead Time   Address       Interface
+2.2.2.2         100      default  1   FULL/P2P               00:00:34    fe80::2       Ethernet1
+```
+
+Sample output of `show ipv6 route ospf`:
+```
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2
+
+O        2001:db8:2::2/128 [110/20] via fe80::2, Ethernet1
+```
 
 !!! warning "v2 and v3 are separate protocols, not one protocol with two modes"
     Running dual-stack means running **two independent OSPF instances** with two

@@ -21,26 +21,50 @@ Modern data centers use standardized pluggable optical transceivers.
 
 ---
 
-## Fiber Media & Wavelengths
+## Transceiver Optical Specifications & Designations
 
-Light travels down fiber optic cables via total internal reflection. Choosing the correct
-media depends on reach and transceiver optical wavelength.
+Selecting the proper transceiver requires matching optical reach, fiber type, modulation, connector type, and multiplexing standard.
 
-```
-Multi-Mode Fiber (MMF)    ── 850nm (Short Reach, SR / SR4) ──≤ 100m
-Single-Mode Fiber (SMF)   ── 1310nm / 1550nm (Longer Reach, LR4 / FR4 / DR4) ──≤ 10km+
-```
+| Designation | Reach | Wavelength (\(\lambda\)) | Fiber Type | Connector | Optical Mux / Modulation | Typical Application |
+|---|---|---|---|---|---|---|
+| **SR / SR4 / SR8** | Short Reach (70m–100m) | 850 nm | MMF (OM3/OM4) | MPO-12 / MPO-16 / LC | Parallel VCSEL lasers | Host-to-Leaf, intra-rack patching |
+| **DR / DR4** | Data Center Reach (500m) | 1310 nm | SMF (OS2) | MPO-12 / SN / CS | Parallel PAM4 (1 lane/fiber pair) | Leaf-to-Spine intra-datacenter |
+| **FR / FR4** | Fiber Reach (2 km) | 1271–1331 nm | SMF (OS2) | LC Duplex | CWDM4 (4 wavelengths on 1 pair) | Campus & inter-building fabric |
+| **LR / LR4 / LR8** | Long Reach (10 km) | 1295–1309 nm | SMF (OS2) | LC Duplex | LAN-WDM (Tight 800GHz grid) | Metro & inter-facility link |
+| **ER / ER4** | Extended Reach (40 km) | 1550 nm / LAN-WDM | SMF (OS2) | LC Duplex | EML Laser + APD Receiver | Regional DCI backbone links |
+| **ZR / ZR4** | Zephyr Reach (80 km) | 1550 nm | SMF (OS2) | LC Duplex | Amplified SMF / High Sensitivity | Long-haul regional transit |
+| **400G ZR / OpenZR+** | Coherent (80km–120km+) | C-Band (1550 nm) | SMF (OS2) | LC Duplex | Coherent DSP / QPSK & 16-QAM | IP-over-DWDM direct router-to-router DCI |
+| **BiDi (Bidirectional)** | Single-Strand (100m–10km) | 1270nm / 1330nm | MMF / SMF | Simplex LC | WDM Tx/Rx split on single strand | Doubling fiber density on legacy cable runs |
+| **CWDM / DWDM** | Multi-Channel (10km–80km+) | 1270–1610nm (CWDM)<br>1528–1565nm (DWDM) | SMF (OS2) | LC Duplex | 20nm spacing (CWDM) / 50-100GHz grid (DWDM) | Passive optical multiplexing |
 
-| Type | Core Diameter | Wavelength | Standard | Max Distance |
-|---|---|---|---|---|
-| **MMF (OM3 / OM4)** | 50 µm | 850 nm | 100GBASE-SR4 | 70m - 100m |
-| **SMF (Single-Mode)** | 9 µm | 1310 nm | 100GBASE-CWDM4 / LR4 | 2km - 10km |
-| **SMF (Single-Mode)** | 9 µm | 1310 nm | 400GBASE-DR4 / FR4 | 500m - 2km |
+---
+
+### Optical Technology & Wavelength Multiplexing Mechanics
+
+Understanding how light is multiplexed and modulated dictates cost and optic compatibility:
+
+1. **Multi-Mode VCSEL (SR / SR4)**:
+   - Uses vertical-cavity surface-emitting lasers operating at **850nm**.
+   - Requires wider 50µm core Multi-Mode Fiber (OM3/OM4).
+   - High speed (100G/400G) uses **parallel ribbon fibers** via MPO connectors (e.g., 4 Tx + 4 Rx fibers for 100GBASE-SR4).
+
+2. **Uncooled CWDM4 (FR4 / CWDM)**:
+   - Coarse Wavelength Division Multiplexing uses 4 distinct wavelengths spaced 20nm apart (**1271nm, 1291nm, 1311nm, 1331nm**).
+   - Combines 4 optical channels inside the transceiver onto a **single duplex LC Single-Mode Fiber pair**, saving structured cabling.
+   - Uncooled lasers reduce power consumption and module cost.
+
+3. **Precision LAN-WDM (LR4 / ER4)**:
+   - Uses tighter 800GHz (~4.5nm) channel spacing around the zero-dispersion 1310nm window (**1295.56nm, 1300.05nm, 1304.58nm, 1309.14nm**).
+   - Requires TEC (Thermoelectric Cooler) inside the optic to maintain exact laser temperature and prevent channel overlap across 10km+ distances.
+
+4. **Coherent IP-over-DWDM (400G ZR / OpenZR+)**:
+   - Replaces intensity modulation with **Coherent Phase Modulation** (QPSK or 16-QAM) driven by an onboard Digital Signal Processor (DSP).
+   - Allows 400Gbps interfaces to plug directly into switch/router QSFP-DD ports and bridge 120km+ over DWDM line systems **without external transponder boxes**.
 
 !!! warning "Never mix MMF and SMF"
-    Multi-mode fiber uses a wider core for LED/VCSEL transmitters; Single-mode uses a
+    Multi-mode fiber uses a wider 50 µm core for LED/VCSEL transmitters; Single-mode uses a
     narrow 9 µm core for precision lasers. Connecting an MMF patch cable to an SMF optic
-    causes severe insertion loss and link failure.
+    causes severe insertion loss, optical reflection, and complete link failure.
 
 ---
 
