@@ -6,7 +6,7 @@
 
 ---
 
-## 🧠 Zero-to-Hero Technology Deep Dive: EVPN Service Modes
+## 🧠 Technology Deep Dive: EVPN Service Modes
 
 While standard EVPN-VXLAN handles Ethernet bridging and routing, EVPN also defines specialized Carrier Ethernet service architectures (RFC 8214 & RFC 7432):
 

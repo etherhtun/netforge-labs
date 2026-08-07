@@ -23,7 +23,7 @@
 
 ---
 
-## 🧠 Zero-to-Hero Technology Deep Dive: Symmetric IRB vs. Asymmetric IRB
+## 🧠 Technology Deep Dive: Symmetric IRB vs. Asymmetric IRB
 
 ### 1. The Inter-Subnet Routing Challenge
 Pure L2VNI (Lab 01) extends Layer 2 bridging, but when host workloads in different IP subnets (e.g. `10.10.10.0/24` in VLAN 10 and `10.20.20.0/24` in VLAN 20) need to communicate, traffic MUST be routed at Layer 3. 

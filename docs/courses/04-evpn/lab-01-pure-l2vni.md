@@ -23,7 +23,7 @@
 
 ---
 
-## 🧠 Zero-to-Hero Technology Deep Dive: Pure L2VNI Bridging
+## 🧠 Technology Deep Dive: Pure L2VNI Bridging
 
 ### 1. Why Legacy Spanning Tree (STP) & MLAG Failed
 In legacy data centers, stretching Layer 2 VLANs across switches required **Spanning Tree Protocol (STP)** or **Multi-Chassis Link Aggregation (MLAG / vPC)**:

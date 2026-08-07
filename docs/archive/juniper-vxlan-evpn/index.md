@@ -1,6 +1,6 @@
 # Course 1: VXLAN-EVPN on Juniper
 
-A structured, zero-to-hero path to VXLAN-EVPN on Juniper, **session by session**.
+A structured, comprehensive path to VXLAN-EVPN on Juniper, **session by session**.
 (A [Course 2 on Cisco](../../index.md) is planned.) Each **session** follows the same
 teaching rhythm:
 

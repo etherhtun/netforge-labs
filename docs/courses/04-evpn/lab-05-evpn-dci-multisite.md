@@ -6,7 +6,7 @@
 
 ---
 
-## 🧠 Zero-to-Hero Technology Deep Dive: EVPN Multi-Site DCI Architecture
+## 🧠 Technology Deep Dive: EVPN Multi-Site DCI Architecture
 
 Connecting multiple geographically dispersed data centers (Data Center Interconnect / DCI) requires scaling EVPN beyond a single IP underlay domain:
 

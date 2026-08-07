@@ -1,10 +1,10 @@
 # 🌐 Phase 4 · VXLAN-EVPN Datacenter Fabrics
 
-> 🚀 **Zero-to-Hero Production Engineering Masterclass**: From first-principles overlay concepts to enterprise-grade CLOS fabrics, Symmetric IRB, ESI All-Active Multihoming, and Multi-Site DCI.
+> 🚀 **Production Engineering Masterclass**: From first-principles overlay concepts to enterprise-grade CLOS fabrics, Symmetric IRB, ESI All-Active Multihoming, and Multi-Site DCI.
 
 ---
 
-## 🏛️ Course Architecture & Zero-to-Hero Roadmap
+## 🏛️ Course Architecture & Production Roadmap
 
 Phase 4 guides you through **5 progressive hands-on lab modules**. Each lab builds upon the previous, moving from pure Layer 2 VXLAN extension up to multi-site datacenter interconnects:
 

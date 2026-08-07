@@ -22,7 +22,7 @@
 
 ---
 
-## 🧠 Zero-to-Hero Technology Deep Dive: EVPN ESI Multihoming Mechanics
+## 🧠 Technology Deep Dive: EVPN ESI Multihoming Mechanics
 
 ### 1. Why ESI Multihoming Replaces MLAG / vPC
 Traditional MLAG (Multi-Chassis Link Aggregation) requires a dedicated inter-switch **Peer-Link** and **Keepalive Link** between a pair of switches. This introduces proprietary control planes, limits multihoming to exactly 2 switches, and risks split-brain scenarios if peer-links fail.
