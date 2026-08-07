@@ -4,7 +4,7 @@
 
 **Learn networking by building it.** Stand up real fabrics on Arista cEOS, break them on purpose, and understand *why* every line of config is there — not just what to paste.
 
-Choose your specialized career path in **Network Engineering**, **Cybersecurity**, **NetDevOps**, or **Technical Program Management (TPM)**.
+Choose your future-proof career track in **Network Engineering**, **Site Reliability Engineering (SRE)**, **Cybersecurity**, **NetDevOps**, **Financial Low-Latency**, or **Technical Program Management (TPM)**.
 
 <p class="nf-hero-meta">Arista cEOS · containerlab · OrbStack on macOS & Linux</p>
 
@@ -12,41 +12,57 @@ Choose your specialized career path in **Network Engineering**, **Cybersecurity*
 
 ---
 
-## 🎯 Career Specialization Tracks
+## 🎯 6 Safe & Future-Proof Career Tracks
 
 <div class="grid cards" markdown>
 
--   🌐 **Network Infrastructure & Hyperscale Track**
+-   🌐 **Network Infrastructure & Hyperscale Architect**
 
     ---
 
-    Master core IGP, BGP path selection, MPLS L3VPNs, Segment Routing, VXLAN-EVPN CLOS fabrics, and IPv6 unnumbered underlays.
+    Master 5-Stage Clos fabrics, BGP 10-step selection, MPLS L3VPNs, Segment Routing Ti-LFA, VXLAN-EVPN ESI multihoming, and IPv6 BGP unnumbered.
 
-    [Explore Network Track →](tracks/index.md#1-network-infrastructure-hyperscale-track)
+    [Explore Network Track →](tracks/network-engineer.md)
 
--   🔒 **Cybersecurity & Microsegmentation Track**
-
-    ---
-
-    Control Plane Policing (CoPP), VRF microsegmentation, Infrastructure ACLs (iACLs), 802.1AE MACsec, and RPKI Route Origin Validation.
-
-    [Explore Security Track →](tracks/index.md#2-cybersecurity-network-microsegmentation-track)
-
--   🤖 **NetDevOps & Automation Track**
+-   🤖 **Site Reliability Engineer (SRE) — Network**
 
     ---
 
-    Jinja2/YAML data modeling, PyATS parsing, Batfish AST pre-flight static analysis, gNMI telemetry, and GitHub Actions CI/CD pipelines.
+    Production incident mitigation, BFD sub-second failover, gNMI real-time streaming telemetry, Prometheus alerts, and PyATS health checks.
 
-    [Explore NetDevOps Track →](tracks/index.md#3-netdevops-infrastructure-automation-track)
+    [Explore SRE Track →](tracks/network-sre.md)
 
--   📋 **Hyperscale System Design & TPM Track**
+-   🔒 **Cybersecurity & DevSecOps Engineer**
 
     ---
 
-    System design drills for Technical Program Managers & Architects: 5-Stage Clos scaling, eBGP vs iBGP, and sub-50ms Ti-LFA FRR.
+    OWASP Top 10 WAF defenses, Zero-Trust IAM/OAuth2/mTLS, HashiCorp Vault, eBPF Falco container security, Suricata IDS/IPS, and SIEM playbooks.
 
-    [Explore TPM & Design Track →](tracks/index.md#4-hyperscale-system-design-program-management-track-tpm)
+    [Explore Security Track →](tracks/cybersecurity-engineer.md)
+
+-   🤖 **NetDevOps & Infrastructure Automation Engineer**
+
+    ---
+
+    Treat network infrastructure as code: Jinja2/YAML data models, PyATS assertions, Batfish AST static analysis, and GitHub Actions CI/CD.
+
+    [Explore NetDevOps Track →](tracks/netdevops-engineer.md)
+
+-   ⚡ **Low-Latency Financial Network Engineer**
+
+    ---
+
+    High-Frequency Trading (HFT) infrastructure: PIM-SM multicast market feeds, IGMP fast-leave, sub-second BFD failover, and MACsec line-rate encryption.
+
+    [Explore Financial Track →](tracks/financial-network-engineer.md)
+
+-   📋 **Technical Program Manager (TPM) & System Design**
+
+    ---
+
+    System design & program leadership: 5-Stage Clos scaling math, eBGP vs. iBGP trade-offs, blast radius containment, and SLA budget calculations.
+
+    [Explore TPM Track →](tracks/technical-program-manager.md)
 
 </div>
 
