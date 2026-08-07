@@ -149,6 +149,12 @@ nav:
       - "🧪 Lab 03 · Streaming Telemetry Collectors & Prometheus Metrics": courses/07-telemetry/lab-03-prometheus-time-series.md
       - "🧪 Lab 04 · Real-Time Visual Grafana Network Dashboards": courses/07-telemetry/lab-04-grafana-observability.md
       - "🧪 Lab 05 · Automated Telemetry Alerting & Anomaly Detection": courses/07-telemetry/lab-05-telemetry-alerting.md
+    - "Phase 8 · Network Security & Datacenter Segmentation":
+      - courses/08-security/index.md
+      - "🧪 Lab 01 · Control Plane Policing (CoPP) & CPU Protection": courses/08-security/lab-01-copp-cpu-protection.md
+      - "🧪 Lab 02 · VRF Microsegmentation & Inter-VRF Route Leaking": courses/08-security/lab-02-vrf-route-leaking-acls.md
+      - "🧪 Lab 03 · Infrastructure ACLs (iACLs) & Core Protection": courses/08-security/lab-03-infrastructure-acls.md
+      - "🧪 Lab 04 · MACsec Line-Rate Encryption & Port Security": courses/08-security/lab-04-macsec-line-rate-security.md
 
   - Archive:
     - archive/index.md
