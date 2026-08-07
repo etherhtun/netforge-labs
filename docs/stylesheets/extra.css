@@ -1,104 +1,103 @@
 /* ==========================================================================
-   NetForge Labs — High-Contrast Neon Design System (WCAG AAA Compliant)
-   Google Fonts: Outfit (Headings), Inter (Body), JetBrains Mono (Code)
-   Palette: High-Contrast Dark Slate + Neon Electric Cyan / Deep Light Slate
+   NetForge Labs — Official Google Labs & Google Developer Design System
+   Palette: Google Blue (#1a73e8 / #8ab4f8), Google Green (#34a853),
+            Google Red (#ea4335), Google Yellow (#fbbc04)
+   Style: Google Codelabs & Google Cloud Architecture Center Aesthetics
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Roboto+Mono:wght@400;500&display=swap');
 
-/* ---------- Light Scheme (High-Contrast Slate) ---------- */
+/* ---------- Light Scheme (Google White / Clean Grey) ---------- */
 [data-md-color-scheme="default"] {
   --md-text-font:                'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --md-code-font:                'JetBrains Mono', monospace;
+  --md-code-font:                'Roboto Mono', monospace;
 
-  --md-primary-fg-color:        #0f172a;
-  --md-primary-fg-color--light: #1e293b;
-  --md-primary-fg-color--dark:  #020617;
+  --md-primary-fg-color:        #1a73e8;
+  --md-primary-fg-color--light: #4285f4;
+  --md-primary-fg-color--dark:  #1557b0;
   --md-primary-bg-color:        #ffffff;
 
-  --md-default-fg-color:        #0f172a;
-  --md-default-bg-color:        #ffffff;
+  --md-default-fg-color:        #202124;
+  --md-default-bg-color:        #f8f9fa;
 
-  --md-accent-fg-color:         #0284c7;
-  --md-accent-fg-color--transparent: rgba(2, 132, 199, 0.08);
+  --md-accent-fg-color:         #1a73e8;
+  --md-accent-fg-color--transparent: rgba(26, 115, 232, 0.08);
 
-  --md-typeset-a-color:         #0369a1;
+  --md-typeset-a-color:         #1a73e8;
 
   --nf-surface:                 #ffffff;
-  --nf-surface-alt:             #f8fafc;
-  --nf-border:                  #e2e8f0;
-  --nf-border-strong:           #cbd5e1;
-  --nf-muted:                   #475569;
-  --nf-hero-from:               #0f172a;
-  --nf-hero-to:                 #0369a1;
-  --nf-card-glow:               rgba(2, 132, 199, 0.15);
+  --nf-surface-alt:             #f1f3f4;
+  --nf-border:                  #dadce0;
+  --nf-border-strong:           #bdc1c6;
+  --nf-muted:                   #5f6368;
+  --nf-hero-from:               #e8f0fe;
+  --nf-hero-to:                 #ffffff;
+  --nf-card-glow:               rgba(26, 115, 232, 0.12);
 }
 
-/* ---------- Dark Scheme (High-Contrast Neon Slate) ---------- */
+/* ---------- Dark Scheme (Google Dark Theme #202124) ---------- */
 [data-md-color-scheme="slate"] {
   --md-text-font:                'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --md-code-font:                'JetBrains Mono', monospace;
+  --md-code-font:                'Roboto Mono', monospace;
 
-  --md-primary-fg-color:        #090d16;
-  --md-primary-fg-color--light: #1e293b;
-  --md-primary-fg-color--dark:  #020617;
+  --md-primary-fg-color:        #202124;
+  --md-primary-fg-color--light: #292a2d;
+  --md-primary-fg-color--dark:  #171717;
 
-  --md-default-fg-color:        #f8fafc;
-  --md-default-bg-color:        #090d16;
-  --md-code-bg-color:           #0f172a;
+  --md-default-fg-color:        #e8eaed;
+  --md-default-bg-color:        #202124;
+  --md-code-bg-color:           #292a2d;
 
-  --md-accent-fg-color:         #38bdf8;
-  --md-accent-fg-color--transparent: rgba(56, 189, 248, 0.14);
+  --md-accent-fg-color:         #8ab4f8;
+  --md-accent-fg-color--transparent: rgba(138, 180, 248, 0.12);
 
-  --md-typeset-a-color:         #38bdf8;
+  --md-typeset-a-color:         #8ab4f8;
 
-  --nf-surface:                 #0f172a;
-  --nf-surface-alt:             #1e293b;
-  --nf-border:                  #1e293b;
-  --nf-border-strong:           #334155;
-  --nf-muted:                   #cbd5e1;
-  --nf-hero-from:               #090d16;
-  --nf-hero-to:                 #0284c7;
-  --nf-card-glow:               rgba(56, 189, 248, 0.28);
+  --nf-surface:                 #292a2d;
+  --nf-surface-alt:             #3c4043;
+  --nf-border:                  #3c4043;
+  --nf-border-strong:           #5f6368;
+  --nf-muted:                   #9aa0a6;
+  --nf-hero-from:               #171717;
+  --nf-hero-to:                 #202124;
+  --nf-card-glow:               rgba(138, 180, 248, 0.2);
 }
 
 /* ==========================================================================
-   Typography & Glassmorphic Navigation Header
+   Google Typography & Navigation
    ========================================================================== */
 
 body, .md-typeset {
   font-family: var(--md-text-font);
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   line-height: 1.75;
 }
 
 .md-header {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+  border-bottom: 1px solid var(--nf-border);
 }
 
 .md-tabs {
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--nf-border);
 }
 
 .md-typeset h1, .md-typeset h2, .md-typeset h3 {
-  font-family: 'Outfit', var(--md-text-font);
+  font-family: 'Plus Jakarta Sans', var(--md-text-font);
+  color: var(--md-default-fg-color);
 }
 
 .md-typeset h1 {
-  font-weight: 800;
-  letter-spacing: -0.025em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .md-typeset h2 {
   font-weight: 700;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.01em;
   margin-top: 2.2em;
-  padding-bottom: 0.35em;
-  border-bottom: 2px solid var(--nf-border);
+  padding-bottom: 0.4em;
+  border-bottom: 1px solid var(--nf-border);
 }
 
 .md-typeset h3 {
@@ -107,30 +106,24 @@ body, .md-typeset {
 }
 
 /* ==========================================================================
-   Hero — Landing Banner
+   Google Codelabs Hero Banner
    ========================================================================== */
 
 .nf-hero {
   margin: 0 0 2.5rem;
-  padding: 3.2rem 2.6rem;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #090d16 0%, #0284c7 60%, #0369a1 100%);
+  padding: 3.2rem 2.8rem;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
   color: #ffffff;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 20px 40px -15px rgba(2, 132, 199, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(26, 115, 232, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.nf-hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
+[data-md-color-scheme="slate"] .nf-hero {
+  background: linear-gradient(135deg, #171717 0%, #1a73e8 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .md-typeset .nf-hero h1 {
@@ -138,103 +131,121 @@ body, .md-typeset {
   margin: 0 0 0.6rem;
   font-size: 2.4rem;
   line-height: 1.15;
+  font-weight: 800;
 }
 
 .nf-hero p {
   margin: 0.5rem 0 0;
-  max-width: 48rem;
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 0.92rem;
+  max-width: 50rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.95rem;
   line-height: 1.65;
 }
 
-.nf-hero strong { color: #38bdf8; }
+.nf-hero strong { color: #fbbc04; }
 
 .nf-hero .nf-hero-meta {
-  margin-top: 1.6rem;
+  margin-top: 1.8rem;
   font-size: 0.74rem;
-  color: rgba(255, 255, 255, 0.8);
-  letter-spacing: 0.05em;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.2);
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
+  backdrop-filter: blur(8px);
 }
 
 /* ==========================================================================
-   Interactive Glass Cards & Hover Micro-Animations
+   Google Material Cards & Accent Top-Borders
    ========================================================================== */
 
 .md-typeset .grid.cards > ul > li {
   border: 1px solid var(--nf-border);
-  border-radius: 12px;
+  border-radius: 16px;
   background: var(--nf-surface);
-  padding: 1.3rem 1.45rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-  transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 1.4rem 1.6rem;
+  box-shadow: 0 1px 3px 0 rgba(60,64,67,0.1), 0 4px 8px 3px rgba(60,64,67,0.05);
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
   position: relative;
+  overflow: hidden;
+}
+
+/* Google 4-Color Top Border Lines on Cards */
+.md-typeset .grid.cards > ul > li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4285f4 0%, #ea4335 33%, #fbbc04 66%, #34a853 100%);
 }
 
 .md-typeset .grid.cards > ul > li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(26, 115, 232, 0.18);
   border-color: var(--md-accent-fg-color);
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 12px 30px var(--nf-card-glow);
 }
 
 .md-typeset .grid.cards > ul > li > hr {
-  margin: 0.8rem 0 0.9rem;
+  margin: 0.9rem 0 1rem;
   border-color: var(--nf-border);
 }
 
 /* ==========================================================================
-   Vibrant Status Badges
+   Google Codelabs Pill Badges
    ========================================================================== */
 
 .nf-badge {
   display: inline-block;
-  padding: 0.22em 0.8em;
-  border-radius: 999px;
-  font-size: 0.66rem;
+  padding: 0.3em 0.9em;
+  border-radius: 20px;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.03em;
   vertical-align: middle;
   white-space: nowrap;
   text-transform: uppercase;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
 .nf-badge.ok {
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.14);
-  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #137333;
+  background: #e6f4ea;
+  border: 1px solid #ceebe1;
 }
 
 [data-md-color-scheme="slate"] .nf-badge.ok {
-  color: #34d399;
-  background: rgba(16, 185, 129, 0.2);
-  border: 1px solid rgba(52, 211, 153, 0.4);
+  color: #81c995;
+  background: rgba(52, 168, 83, 0.2);
+  border: 1px solid #1e8e3e;
 }
 
 .nf-badge.wip {
-  color: #f59e0b;
-  background: rgba(245, 158, 11, 0.14);
-  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #b06000;
+  background: #fef7e0;
+  border: 1px solid #feefc3;
 }
 
 .nf-badge.plan {
-  color: #64748b;
-  background: rgba(100, 116, 139, 0.14);
-  border: 1px solid rgba(100, 116, 139, 0.35);
+  color: #5f6368;
+  background: #f1f3f4;
+  border: 1px solid #dadce0;
 }
 
 /* ==========================================================================
-   Tables & Mac Code Window Controls
+   Google Code Blocks & Mac Window Controls
    ========================================================================== */
 
 .md-typeset table:not([class]) {
   border: 1px solid var(--nf-border);
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  font-size: 0.76rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  font-size: 0.78rem;
+  box-shadow: 0 1px 3px rgba(60,64,67,0.1);
 }
 
 .md-typeset table:not([class]) th {
@@ -248,38 +259,38 @@ body, .md-typeset {
 }
 
 .md-typeset pre > code {
-  border-radius: 10px;
-  font-size: 0.76rem;
-  line-height: 1.68;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  line-height: 1.7;
   font-family: var(--md-code-font);
 }
 
 /* Mac Terminal Window Controls */
 .md-typeset .highlight {
   position: relative;
-  padding-top: 2rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  padding-top: 2.2rem;
+  border-radius: 14px;
+  border: 1px solid var(--nf-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .md-typeset .highlight::before {
   content: "";
   position: absolute;
-  top: 0.7rem;
-  left: 0.9rem;
-  width: 10px;
-  height: 10px;
+  top: 0.8rem;
+  left: 1rem;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
-  background: #ff5f56;
-  box-shadow: 16px 0 0 #ffbd2e, 32px 0 0 #27c93f;
+  background: #ea4335;
+  box-shadow: 18px 0 0 #fbbc04, 36px 0 0 #34a853;
 }
 
 .md-typeset .mermaid {
-  margin: 1.6rem auto;
-  padding: 1.2rem;
+  margin: 1.8rem auto;
+  padding: 1.4rem;
   background: var(--nf-surface);
-  border-radius: 12px;
+  border-radius: 16px;
   border: 1px solid var(--nf-border);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
