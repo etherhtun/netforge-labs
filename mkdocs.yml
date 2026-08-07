@@ -41,7 +41,12 @@ nav:
   - Home: index.md
   - "🎯 Career Tracks":
     - Overview: tracks/index.md
-    - "🔒 Network Security Architect": tracks/cybersecurity-engineer.md
+    - "🌐 Network Infrastructure Architect": tracks/network-engineer.md
+    - "🤖 Network SRE": tracks/network-sre.md
+    - "🔒 Cybersecurity & DevSecOps": tracks/cybersecurity-engineer.md
+    - "🤖 NetDevOps & Automation": tracks/netdevops-engineer.md
+    - "⚡ Low-Latency Financial Engineer": tracks/financial-network-engineer.md
+    - "📋 TPM & System Design": tracks/technical-program-manager.md
   - Roadmap: roadmap.md
 
   - Get Started:
