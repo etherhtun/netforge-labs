@@ -42,37 +42,13 @@ Configure EVPN-VPWS VPWS Service ID `100` between `leaf1` and `leaf2`.
 === "leaf1"
 
     ```eos
-    configure
-    patch panel
-       patch VPWS-CUSTOMER-A
-          connector-a Ethernet3
-          connector-b BGP VPWS 100 pseudo-circuit 1
-    !
-    router bgp 65000
-       vpws VPWS-CUSTOMER-A
-          rd 10.255.0.11:100
-          route-target import 100:100
-          route-target export 100:100
-          local-vpws-id 101
-          remote-vpws-id 102
+    --8<-- "labs/evpn-datacenter-lab/steps/05-leaf1-vpws.cfg"
     ```
 
 === "leaf2"
 
     ```eos
-    configure
-    patch panel
-       patch VPWS-CUSTOMER-A
-          connector-a Ethernet3
-          connector-b BGP VPWS 100 pseudo-circuit 1
-    !
-    router bgp 65000
-       vpws VPWS-CUSTOMER-A
-          rd 10.255.0.12:100
-          route-target import 100:100
-          route-target export 100:100
-          local-vpws-id 102
-          remote-vpws-id 101
+    --8<-- "labs/evpn-datacenter-lab/steps/05-leaf2-vpws.cfg"
     ```
 
 ---

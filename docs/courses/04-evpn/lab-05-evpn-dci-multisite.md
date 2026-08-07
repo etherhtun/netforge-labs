@@ -36,33 +36,13 @@ Configure Multi-Site Border Gateway on `bgw1` (DC1) and `bgw2` (DC2).
 === "bgw1 (DC1 Border Gateway)"
 
     ```eos
-    configure
-    vxlan multi-site
-       border-gateway ebgp
-       local-vtep-ip 10.255.1.100
-    !
-    router bgp 65001
-       neighbor 192.168.100.2 remote-as 65002
-       !
-       address-family evpn
-          neighbor 192.168.100.2 activate
-          neighbor 192.168.100.2 domain remote
+    --8<-- "labs/evpn-datacenter-lab/steps/06-bgw1-dci.cfg"
     ```
 
 === "bgw2 (DC2 Border Gateway)"
 
     ```eos
-    configure
-    vxlan multi-site
-       border-gateway ebgp
-       local-vtep-ip 10.255.2.100
-    !
-    router bgp 65002
-       neighbor 192.168.100.1 remote-as 65001
-       !
-       address-family evpn
-          neighbor 192.168.100.1 activate
-          neighbor 192.168.100.1 domain remote
+    --8<-- "labs/evpn-datacenter-lab/steps/06-bgw2-dci.cfg"
     ```
 
 ---

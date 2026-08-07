@@ -140,47 +140,13 @@ Map VLAN 10 to **L2 VNI `10100`** on `leaf1` and `leaf2`, and configure host acc
 === "leaf1 (L2 VNI 10100)"
 
     ```eos
-    configure
-    vlan 10
-       name TENANT-A-VLAN10
-    !
-    interface Vxlan1
-       vxlan source-interface Loopback1
-       vxlan udp-port 4789
-       vxlan vlan 10 vni 10100
-    !
-    router bgp 65000
-       vlan 10
-          rd 10.255.0.11:10100
-          route-target both 10100:10100
-          redistribute learned
-    !
-    interface Ethernet3
-       switchport mode access
-       switchport access vlan 10
+    --8<-- "labs/evpn-datacenter-lab/steps/03-leaf1-l2vni.cfg"
     ```
 
 === "leaf2 (L2 VNI 10100)"
 
     ```eos
-    configure
-    vlan 10
-       name TENANT-A-VLAN10
-    !
-    interface Vxlan1
-       vxlan source-interface Loopback1
-       vxlan udp-port 4789
-       vxlan vlan 10 vni 10100
-    !
-    router bgp 65000
-       vlan 10
-          rd 10.255.0.12:10100
-          route-target both 10100:10100
-          redistribute learned
-    !
-    interface Ethernet3
-       switchport mode access
-       switchport access vlan 10
+    --8<-- "labs/evpn-datacenter-lab/steps/03-leaf2-l2vni.cfg"
     ```
 
 ---

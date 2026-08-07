@@ -65,33 +65,13 @@ Configure matching 10-byte ESI values on `leaf1` and `leaf2` Ethernet3 ports.
 === "leaf1"
 
     ```eos
-    configure
-    interface Port-Channel10
-       switchport mode access
-       switchport access vlan 10
-       evpn ethernet-segment
-          identifier 00:11:22:33:44:55:66:77:88:99
-          redundancy all-active
-       lacp system-id 0011.2233.4455
-    !
-    interface Ethernet3
-       channel-group 10 mode active
+    --8<-- "labs/evpn-datacenter-lab/steps/04-leaf1-esi.cfg"
     ```
 
 === "leaf2"
 
     ```eos
-    configure
-    interface Port-Channel10
-       switchport mode access
-       switchport access vlan 10
-       evpn ethernet-segment
-          identifier 00:11:22:33:44:55:66:77:88:99
-          redundancy all-active
-       lacp system-id 0011.2233.4455
-    !
-    interface Ethernet3
-       channel-group 10 mode active
+    --8<-- "labs/evpn-datacenter-lab/steps/04-leaf2-esi.cfg"
     ```
 
 ---
