@@ -39,7 +39,9 @@ theme:
 
 nav:
   - Home: index.md
-  - "🎯 Career Tracks": tracks/index.md
+  - "🎯 Career Tracks":
+    - Overview: tracks/index.md
+    - "🔒 Network Security Architect": tracks/cybersecurity-engineer.md
   - Roadmap: roadmap.md
 
   - Get Started:
