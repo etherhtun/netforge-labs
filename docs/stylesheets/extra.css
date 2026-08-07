@@ -1,22 +1,25 @@
 /* ==========================================================================
-   NetForge Labs — design system
-   Palette: deep slate (structure) + cyan (accent).
-   Cyan is chosen deliberately: it stays distinct from the three diagram
-   colours (spine blue, leaf green, host orange) so links never read as
-   part of a topology.
+   NetForge Labs — Premium Web Design System
+   Google Fonts: Outfit (Headings), Inter (Body), JetBrains Mono (Code)
+   Palette: Deep Slate & Electric Cyan / Emerald Glassmorphism
    ========================================================================== */
 
-/* ---------- Light ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap');
+
+/* ---------- Light Scheme ---------- */
 [data-md-color-scheme="default"] {
+  --md-text-font:                'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --md-code-font:                'JetBrains Mono', monospace;
+
   --md-primary-fg-color:        #0f172a;
   --md-primary-fg-color--light: #1e293b;
   --md-primary-fg-color--dark:  #020617;
   --md-primary-bg-color:        #f8fafc;
 
-  --md-accent-fg-color:         #0e7490;
-  --md-accent-fg-color--transparent: rgba(14, 116, 144, 0.1);
+  --md-accent-fg-color:         #0284c7;
+  --md-accent-fg-color--transparent: rgba(2, 132, 199, 0.08);
 
-  --md-typeset-a-color:         #0e7490;
+  --md-typeset-a-color:         #0284c7;
 
   --nf-surface:                 #ffffff;
   --nf-surface-alt:             #f1f5f9;
@@ -24,273 +27,233 @@
   --nf-border-strong:           #cbd5e1;
   --nf-muted:                   #64748b;
   --nf-hero-from:               #0f172a;
-  --nf-hero-to:                 #155e75;
+  --nf-hero-to:                 #0369a1;
+  --nf-card-glow:               rgba(2, 132, 199, 0.15);
 }
 
-/* ---------- Dark ---------- */
+/* ---------- Dark Scheme ---------- */
 [data-md-color-scheme="slate"] {
+  --md-text-font:                'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --md-code-font:                'JetBrains Mono', monospace;
+
   --md-primary-fg-color:        #0b1120;
   --md-primary-fg-color--light: #1e293b;
   --md-primary-fg-color--dark:  #020617;
 
-  --md-accent-fg-color:         #22d3ee;
-  --md-accent-fg-color--transparent: rgba(34, 211, 238, 0.12);
+  --md-accent-fg-color:         #38bdf8;
+  --md-accent-fg-color--transparent: rgba(56, 189, 248, 0.12);
 
   --md-typeset-a-color:         #38bdf8;
 
   --md-default-bg-color:        #0b1120;
-  --md-code-bg-color:           #111a2e;
+  --md-code-bg-color:           #0f172a;
 
-  --nf-surface:                 #111a2e;
-  --nf-surface-alt:             #0e1626;
+  --nf-surface:                 #0f172a;
+  --nf-surface-alt:             #1e293b;
   --nf-border:                  #1e293b;
   --nf-border-strong:           #334155;
   --nf-muted:                   #94a3b8;
   --nf-hero-from:               #0b1120;
-  --nf-hero-to:                 #0e4b5a;
+  --nf-hero-to:                 #0284c7;
+  --nf-card-glow:               rgba(56, 189, 248, 0.25);
 }
 
 /* ==========================================================================
-   Typography
+   Typography & Glassmorphic Navigation Header
    ========================================================================== */
 
-.md-typeset {
-  font-size: 0.78rem;
+body, .md-typeset {
+  font-family: var(--md-text-font);
+  font-size: 0.8rem;
   line-height: 1.7;
 }
 
+.md-header {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.md-tabs {
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.md-typeset h1, .md-typeset h2, .md-typeset h3 {
+  font-family: 'Outfit', var(--md-text-font);
+}
+
 .md-typeset h1 {
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--md-default-fg-color);
+  font-weight: 800;
+  letter-spacing: -0.025em;
 }
 
 .md-typeset h2 {
-  font-weight: 650;
-  letter-spacing: -0.01em;
-  margin-top: 2.4em;
-  padding-bottom: 0.3em;
-  border-bottom: 1px solid var(--nf-border);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-top: 2.2em;
+  padding-bottom: 0.35em;
+  border-bottom: 2px solid var(--nf-border);
 }
 
 .md-typeset h3 {
   font-weight: 600;
-  margin-top: 1.8em;
-}
-
-/* Header sits flat against the page — no drop shadow */
-.md-header {
-  box-shadow: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.md-tabs {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 1.6em;
 }
 
 /* ==========================================================================
-   Hero — landing page banner
+   Hero — Landing Banner
    ========================================================================== */
 
 .nf-hero {
   margin: 0 0 2.5rem;
-  padding: 2.6rem 2.2rem;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--nf-hero-from) 0%, var(--nf-hero-to) 100%);
-  color: #f8fafc;
+  padding: 3rem 2.5rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #0b1120 0%, #0284c7 60%, #0369a1 100%);
+  color: #ffffff;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 20px 40px -15px rgba(2, 132, 199, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Faint grid texture — evokes a topology without being literal */
 .nf-hero::after {
   content: "";
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 34px 34px;
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
   pointer-events: none;
 }
 
 .md-typeset .nf-hero h1 {
-  color: #ffffff;
-  margin: 0 0 0.5rem;
-  font-size: 2.1rem;
+  color: #ffffff !important;
+  margin: 0 0 0.6rem;
+  font-size: 2.3rem;
   line-height: 1.15;
 }
 
 .nf-hero p {
-  margin: 0.4rem 0 0;
-  max-width: 46rem;
-  color: rgba(248, 250, 252, 0.86);
-  font-size: 0.86rem;
+  margin: 0.5rem 0 0;
+  max-width: 48rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
   line-height: 1.65;
 }
 
-.nf-hero strong { color: #ffffff; }
+.nf-hero strong { color: #38bdf8; }
 
 .nf-hero .nf-hero-meta {
-  margin-top: 1.4rem;
+  margin-top: 1.6rem;
   font-size: 0.72rem;
-  color: rgba(248, 250, 252, 0.62);
-  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-}
-
-@media screen and (max-width: 44.98em) {
-  .nf-hero { padding: 1.8rem 1.3rem; border-radius: 10px; }
-  .md-typeset .nf-hero h1 { font-size: 1.55rem; }
+  font-weight: 600;
 }
 
 /* ==========================================================================
-   Cards
+   Interactive Glass Cards & Hover Micro-Animations
    ========================================================================== */
 
 .md-typeset .grid.cards > ul > li {
   border: 1px solid var(--nf-border);
-  border-radius: 10px;
+  border-radius: 12px;
   background: var(--nf-surface);
-  padding: 1.1rem 1.2rem;
-  box-shadow: none;
-  transition: border-color 140ms ease, transform 140ms ease, box-shadow 140ms ease;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
 .md-typeset .grid.cards > ul > li:hover {
   border-color: var(--md-accent-fg-color);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(2, 6, 23, 0.10);
-}
-
-[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li:hover {
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 30px var(--nf-card-glow);
 }
 
 .md-typeset .grid.cards > ul > li > hr {
-  margin: 0.7rem 0 0.8rem;
+  margin: 0.8rem 0 0.9rem;
   border-color: var(--nf-border);
 }
 
-.md-typeset .grid.cards > ul > li > p:last-child {
-  margin-bottom: 0;
-}
-
 /* ==========================================================================
-   Status badges — ✅ validated / 🔬 in progress / 📋 planned
+   Vibrant Status Badges
    ========================================================================== */
 
 .nf-badge {
   display: inline-block;
-  padding: 0.12em 0.6em;
+  padding: 0.2em 0.75em;
   border-radius: 999px;
-  font-size: 0.64rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
   vertical-align: middle;
   white-space: nowrap;
-  border: 1px solid transparent;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .nf-badge.ok {
-  color: #166534;
-  background: #dcfce7;
-  border-color: #bbf7d0;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 .nf-badge.wip {
-  color: #92400e;
-  background: #fef3c7;
-  border-color: #fde68a;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .nf-badge.plan {
-  color: #475569;
-  background: #f1f5f9;
-  border-color: #e2e8f0;
-}
-
-[data-md-color-scheme="slate"] .nf-badge.ok {
-  color: #86efac; background: rgba(22, 101, 52, 0.28); border-color: #166534;
-}
-[data-md-color-scheme="slate"] .nf-badge.wip {
-  color: #fcd34d; background: rgba(146, 64, 14, 0.3); border-color: #92400e;
-}
-[data-md-color-scheme="slate"] .nf-badge.plan {
-  color: #cbd5e1; background: rgba(51, 65, 85, 0.4); border-color: #334155;
+  color: #64748b;
+  background: rgba(100, 116, 139, 0.12);
+  border: 1px solid rgba(100, 116, 139, 0.3);
 }
 
 /* ==========================================================================
-   Tables
+   Tables & Code Blocks
    ========================================================================== */
 
 .md-typeset table:not([class]) {
   border: 1px solid var(--nf-border);
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
-  font-size: 0.7rem;
-  box-shadow: none;
+  font-size: 0.74rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .md-typeset table:not([class]) th {
   background: var(--nf-surface-alt);
-  font-weight: 650;
-  border-bottom: 1px solid var(--nf-border-strong);
+  font-weight: 700;
+  border-bottom: 2px solid var(--nf-border-strong);
 }
 
 .md-typeset table:not([class]) tr:hover {
   background: var(--md-accent-fg-color--transparent);
 }
 
-/* ==========================================================================
-   Code
-   ========================================================================== */
-
 .md-typeset pre > code {
-  border-radius: 8px;
-  font-size: 0.72rem;
-  line-height: 1.6;
-}
-
-.md-typeset code {
-  border-radius: 4px;
-  font-size: 0.84em;
+  border-radius: 10px;
+  font-size: 0.74rem;
+  line-height: 1.65;
+  font-family: var(--md-code-font);
 }
 
 .md-typeset .highlight {
-  border-radius: 8px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
-
-/* ==========================================================================
-   Admonitions — flatter, less candy-coloured than the default
-   ========================================================================== */
-
-.md-typeset .admonition,
-.md-typeset details {
-  border-radius: 8px;
-  border-width: 1px;
-  border-left-width: 3px;
-  box-shadow: none;
-  font-size: 0.74rem;
-}
-
-/* Collapsible interview questions read as prompts, not warnings */
-.md-typeset details.question > summary,
-.md-typeset details.question {
-  border-color: var(--md-accent-fg-color);
-}
-
-/* ==========================================================================
-   Misc
-   ========================================================================== */
 
 .md-typeset .mermaid {
-  margin: 1.4rem auto;
+  margin: 1.6rem auto;
+  padding: 1.2rem;
+  background: var(--nf-surface);
+  border-radius: 12px;
+  border: 1px solid var(--nf-border);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
 }
-
-.md-footer {
-  border-top: 1px solid var(--nf-border);
-}
-
-/* Wide content must scroll inside its own box, never the page */
-.md-typeset .md-typeset__table { overflow-x: auto; }
