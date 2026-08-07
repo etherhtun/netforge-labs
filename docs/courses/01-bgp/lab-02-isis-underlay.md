@@ -22,6 +22,10 @@ The answer is the lesson.
 
 ## Prerequisites
 
+> [!IMPORTANT]
+> **Sequential Dependency Link**: Lab 02 does **NOT** start from a blank fabric. It is a live underlay migration lab that modifies the running BGP fabric built in **[Lab 01 · eBGP, iBGP and next-hop-self](lab-01-ebgp-ibgp.md)**.
+> If you are starting fresh, run `./run.sh --all` inside `labs/bgp-lab` first to establish Lab 01's starting state!
+
 **[Lab 01](lab-01-ebgp-ibgp.md) built and working.** This lab modifies it rather
 than starting fresh — that's the point. You need a running BGP deployment to swap
 the IGP underneath.
@@ -29,30 +33,20 @@ the IGP underneath.
 Concepts: **[Phase 0 · IS-IS](../00-igp-fundamentals/03-isis.md)**.
 
 !!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/bgp-lab/`)"
-    **Step 1 · Deploy the Lab Fabric (if not already running)**
+    **Prerequisite · Ensure Lab 01 is deployed and established first**
     ```bash
     cd labs/bgp-lab
     sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ./run.sh --all        # (or ./run.sh --guided) to build the starting BGP+OSPF fabric
     ```
 
-    **Step 2 · Launch the Guided Walkthrough**
+    **Step 1 · Confirm starting BGP state (should be `Estab`)**
     ```bash
-    ./run.sh --guided
+    docker exec clab-bgp-lab-r1 Cli -p 15 -c "show ip bgp summary"
     ```
 
-    ??? note "Alternative Execution Options (Automated Push or Manual CLI)"
-        - **Fast Automated Script Push**:
-          ```bash
-          ./run.sh 02          # apply + verify step 02 automatically
-          ./run.sh --all       # run all steps in order
-          ```
-        - **Manual Line-by-Line CLI Execution**:
-          Interactive CLI shell on any container node:
-          ```bash
-          docker exec -it clab-bgp-lab-r1 Cli
-          ```
-      Or push individual step snippets using stdin:
-      `docker exec -i clab-bgp-lab-r1 Cli -p 15 < steps/02-r1-underlay.cfg`
+    **Step 2 · Apply IS-IS Swap & Verify**
+    Follow Step 2 below to replace OSPF with IS-IS on `r1` and `r2`.
 
 ---
 

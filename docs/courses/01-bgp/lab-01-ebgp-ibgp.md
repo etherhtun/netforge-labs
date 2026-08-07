@@ -5,6 +5,9 @@
 
 **Time:** ~45 minutes · **Nodes:** 3
 
+> [!NOTE]
+> **Sequential Link to Lab 02**: [Lab 02 (IS-IS Underlay Migration)](lab-02-isis-underlay.md) builds directly on top of the working fabric you configure in this lab. Keep the fabric running after completing Lab 01 to transition seamlessly into Lab 02!
+
 !!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/bgp-lab/`)"
     **Step 1 · Deploy the Lab Fabric (if not already running)**
     ```bash

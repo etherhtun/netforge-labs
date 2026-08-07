@@ -14,6 +14,9 @@ and lets you express business relationships in configuration.
 
 ## Labs
 
+> [!IMPORTANT]
+> **Sequential Lab Dependency**: **Lab 01** and **Lab 02** share the same 3-router topology (`labs/bgp-lab/`). **Lab 02 builds directly on top of Lab 01's working BGP fabric.** Complete Lab 01 first (or run `./run.sh --all` inside `labs/bgp-lab/`) before starting Lab 02.
+
 | Lab | You build | Status |
 |---|---|---|
 | **[01](lab-01-ebgp-ibgp.md)** | Two ASes, eBGP + iBGP, and the next-hop trap | ✅ Validated |
