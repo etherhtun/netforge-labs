@@ -5,9 +5,15 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* ---------- Global Screen & Grid Scaling ---------- */
-:root {
-  --md-grid-max-width: 84rem;
+/* ---------- Global Screen & Grid Scaling Overrides ---------- */
+.md-grid {
+  max-width: 95% !important;
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-grid {
+    max-width: 90rem !important; /* Force layout expansion on laptops/desktops from default 61rem to 90rem (~1440px) */
+  }
 }
 
 /* ---------- Light Scheme (Clean White & Slate) ---------- */
@@ -161,7 +167,7 @@ html, body, .md-typeset {
 
 .nf-hero p {
   margin: 0.5rem 0 0;
-  max-width: 50rem;
+  max-width: 100%;
   color: rgba(255, 255, 255, 0.95);
   font-size: 0.94rem;
   line-height: 1.65;
