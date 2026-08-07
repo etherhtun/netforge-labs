@@ -1,16 +1,14 @@
 /* ==========================================================================
-   NetForge Labs — Official Google Labs & Google Developer Design System
-   Palette: Google Blue (#1a73e8 / #8ab4f8), Google Green (#34a853),
-            Google Red (#ea4335), Google Yellow (#fbbc04)
-   Style: Google Codelabs & Google Cloud Architecture Center Aesthetics
+   NetForge Labs — Standardized Typography & Google Developer Design System
+   Font Family: Inter (Headings & Body), JetBrains Mono (Code Blocks)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Roboto+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* ---------- Light Scheme (Google White / Clean Grey) ---------- */
+/* ---------- Light Scheme (Clean White & Slate) ---------- */
 [data-md-color-scheme="default"] {
-  --md-text-font:                'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --md-code-font:                'Roboto Mono', monospace;
+  --md-text-font:                'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --md-code-font:                'JetBrains Mono', 'Fira Code', monospace;
 
   --md-primary-fg-color:        #1a73e8;
   --md-primary-fg-color--light: #4285f4;
@@ -30,15 +28,15 @@
   --nf-border:                  #dadce0;
   --nf-border-strong:           #bdc1c6;
   --nf-muted:                   #5f6368;
-  --nf-hero-from:               #e8f0fe;
-  --nf-hero-to:                 #ffffff;
+  --nf-hero-from:               #1a73e8;
+  --nf-hero-to:                 #1557b0;
   --nf-card-glow:               rgba(26, 115, 232, 0.12);
 }
 
-/* ---------- Dark Scheme (Google Dark Theme #202124) ---------- */
+/* ---------- Dark Scheme (Google Dark #202124) ---------- */
 [data-md-color-scheme="slate"] {
-  --md-text-font:                'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --md-code-font:                'Roboto Mono', monospace;
+  --md-text-font:                'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --md-code-font:                'JetBrains Mono', 'Fira Code', monospace;
 
   --md-primary-fg-color:        #202124;
   --md-primary-fg-color--light: #292a2d;
@@ -59,18 +57,21 @@
   --nf-border-strong:           #5f6368;
   --nf-muted:                   #9aa0a6;
   --nf-hero-from:               #171717;
-  --nf-hero-to:                 #202124;
+  --nf-hero-to:                 #1a73e8;
   --nf-card-glow:               rgba(138, 180, 248, 0.2);
 }
 
 /* ==========================================================================
-   Google Typography & Navigation
+   Global Standardized Typography
    ========================================================================== */
 
-body, .md-typeset {
-  font-family: var(--md-text-font);
-  font-size: 0.84rem;
-  line-height: 1.75;
+html, body, .md-typeset {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.72;
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .md-header {
@@ -80,21 +81,31 @@ body, .md-typeset {
 
 .md-tabs {
   border-bottom: 1px solid var(--nf-border);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
 }
 
-.md-typeset h1, .md-typeset h2, .md-typeset h3 {
-  font-family: 'Plus Jakarta Sans', var(--md-text-font);
+.md-typeset h1, 
+.md-typeset h2, 
+.md-typeset h3, 
+.md-typeset h4, 
+.md-nav__title {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: var(--md-default-fg-color);
 }
 
 .md-typeset h1 {
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  font-size: 2rem;
+  line-height: 1.25;
 }
 
 .md-typeset h2 {
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.018em;
+  font-size: 1.35rem;
+  line-height: 1.3;
   margin-top: 2.2em;
   padding-bottom: 0.4em;
   border-bottom: 1px solid var(--nf-border);
@@ -102,17 +113,25 @@ body, .md-typeset {
 
 .md-typeset h3 {
   font-weight: 600;
+  letter-spacing: -0.012em;
+  font-size: 1.1rem;
+  line-height: 1.35;
   margin-top: 1.6em;
 }
 
+.md-typeset h4 {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
 /* ==========================================================================
-   Google Codelabs Hero Banner
+   Hero Banner Typography
    ========================================================================== */
 
 .nf-hero {
   margin: 0 0 2.5rem;
   padding: 3.2rem 2.8rem;
-  border-radius: 24px;
+  border-radius: 20px;
   background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
   color: #ffffff;
   position: relative;
@@ -132,21 +151,23 @@ body, .md-typeset {
   font-size: 2.4rem;
   line-height: 1.15;
   font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .nf-hero p {
   margin: 0.5rem 0 0;
   max-width: 50rem;
   color: rgba(255, 255, 255, 0.95);
-  font-size: 0.95rem;
+  font-size: 0.94rem;
   line-height: 1.65;
+  font-family: 'Inter', sans-serif;
 }
 
 .nf-hero strong { color: #fbbc04; }
 
 .nf-hero .nf-hero-meta {
   margin-top: 1.8rem;
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   color: #ffffff;
   background: rgba(255, 255, 255, 0.2);
   display: inline-block;
@@ -155,11 +176,11 @@ body, .md-typeset {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   font-weight: 700;
-  backdrop-filter: blur(8px);
+  font-family: 'Inter', sans-serif;
 }
 
 /* ==========================================================================
-   Google Material Cards & Accent Top-Borders
+   Google Cards & Top-Border Accent Lines
    ========================================================================== */
 
 .md-typeset .grid.cards > ul > li {
@@ -173,7 +194,6 @@ body, .md-typeset {
   overflow: hidden;
 }
 
-/* Google 4-Color Top Border Lines on Cards */
 .md-typeset .grid.cards > ul > li::before {
   content: "";
   position: absolute;
@@ -196,7 +216,7 @@ body, .md-typeset {
 }
 
 /* ==========================================================================
-   Google Codelabs Pill Badges
+   Pill Badges
    ========================================================================== */
 
 .nf-badge {
@@ -209,6 +229,7 @@ body, .md-typeset {
   vertical-align: middle;
   white-space: nowrap;
   text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
   box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
@@ -237,8 +258,15 @@ body, .md-typeset {
 }
 
 /* ==========================================================================
-   Google Code Blocks & Mac Window Controls
+   Standardized Code Blocks & Monospaced Typography
    ========================================================================== */
+
+.md-typeset pre,
+.md-typeset code,
+.md-typeset kbd,
+.md-typeset .highlight {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+}
 
 .md-typeset table:not([class]) {
   border: 1px solid var(--nf-border);
@@ -261,8 +289,8 @@ body, .md-typeset {
 .md-typeset pre > code {
   border-radius: 12px;
   font-size: 0.78rem;
-  line-height: 1.7;
-  font-family: var(--md-code-font);
+  line-height: 1.68;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
 }
 
 /* Mac Terminal Window Controls */
