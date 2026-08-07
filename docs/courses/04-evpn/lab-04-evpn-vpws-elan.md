@@ -6,6 +6,21 @@
 
 ---
 
+## 🚀 Getting Started & Repository Setup
+
+Before starting this lab, clone the repository (or run `git pull` if already cloned) and navigate to the lab directory:
+
+```bash
+# 1. Clone repository (or pull latest changes)
+git clone https://github.com/etherhtun/netforge-labs.git
+cd netforge-labs
+
+# 2. Enter the EVPN datacenter lab directory
+cd labs/evpn-datacenter-lab
+```
+
+---
+
 ## 🧠 Technology Deep Dive: EVPN Service Modes
 
 While standard EVPN-VXLAN handles Ethernet bridging and routing, EVPN also defines specialized Carrier Ethernet service architectures (RFC 8214 & RFC 7432):

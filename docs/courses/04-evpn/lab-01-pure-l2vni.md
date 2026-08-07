@@ -23,6 +23,21 @@
 
 ---
 
+## 🚀 Getting Started & Repository Setup
+
+Before starting this lab, clone the repository (or run `git pull` if already cloned) and navigate to the lab directory:
+
+```bash
+# 1. Clone repository (or pull latest changes)
+git clone https://github.com/etherhtun/netforge-labs.git
+cd netforge-labs
+
+# 2. Enter the EVPN datacenter lab directory
+cd labs/evpn-datacenter-lab
+```
+
+---
+
 ## 🧠 Technology Deep Dive: Pure L2VNI Bridging
 
 ### 1. Why Legacy Spanning Tree (STP) & MLAG Failed
