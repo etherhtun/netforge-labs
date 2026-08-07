@@ -244,9 +244,25 @@ body, .md-typeset {
   font-family: var(--md-code-font);
 }
 
+/* Mac Terminal Window Controls */
 .md-typeset .highlight {
-  border-radius: 10px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  position: relative;
+  padding-top: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.md-typeset .highlight::before {
+  content: "";
+  position: absolute;
+  top: 0.7rem;
+  left: 0.9rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff5f56;
+  box-shadow: 16px 0 0 #ffbd2e, 32px 0 0 #27c93f;
 }
 
 .md-typeset .mermaid {
