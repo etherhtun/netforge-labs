@@ -5,29 +5,31 @@
 
 **Time:** ~45 minutes · **Nodes:** 3
 
-!!! tip "Guided Learning Approaches (Location: `labs/bgp-lab/`)"
-    Every lab supports fully guided interactive walkthroughs, automated script execution, and manual CLI configuration:
+!!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/bgp-lab/`)"
+    **Step 1 · Deploy the Lab Fabric (if not already running)**
+    ```bash
+    cd labs/bgp-lab
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ```
 
-    - **Option A · Fully Guided Walkthrough (Recommended)**:
-      ```bash
-      cd labs/bgp-lab
-      ./run.sh --guided    # (or -g) interactive step-by-step execution with config previews & CLI prompts
-      ```
-    - **Option B · Fast Automated Script Push**:
-      ```bash
-      cd labs/bgp-lab
-      ./run.sh 02          # apply + verify step 02 automatically
-      ./run.sh --all       # run all steps in order
-      ```
-    - **Option C · Manual Line-by-Line CLI Execution**:
-      Interactive CLI shell on any container node:
-      ```bash
-      docker exec -it clab-bgp-lab-r1 Cli
-      r1> enable
-      r1# configure
-      ```
-      Or push individual step snippets using stdin:
-      `docker exec -i clab-bgp-lab-r1 Cli -p 15 < steps/02-r1-underlay.cfg`
+    **Step 2 · Launch the Fully Guided Interactive Walkthrough**
+    ```bash
+    ./run.sh --guided
+    ```
+
+    ??? note "Alternative Execution Options (Automated Push or Manual CLI)"
+        - **Fast Automated Script Push**:
+          ```bash
+          ./run.sh 02          # apply + verify step 02 automatically
+          ./run.sh --all       # run all steps in order
+          ```
+        - **Manual Line-by-Line CLI Execution**:
+          Interactive CLI shell on any container node:
+          ```bash
+          docker exec -it clab-bgp-lab-r1 Cli
+          ```
+          Or push individual step snippets via stdin:
+          `docker exec -i clab-bgp-lab-r1 Cli -p 15 < steps/02-r1-underlay.cfg`
 
 Build two autonomous systems, peer them, and hit the single most common iBGP
 mistake on purpose — then fix it and prove traffic flows.

@@ -19,21 +19,29 @@ single provider protects against a cable fault. Two providers protects against t
 provider having a bad day — and it's the case that actually forces you to think
 about path selection and policy.
 
-!!! tip "Hybrid Approach — Script Push or Manual Typing"
-    Every lab supports both automated execution and manual line-by-line configuration:
+!!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/edge-lab/`)"
+    **Step 1 · Deploy the Lab Fabric (if not already running)**
+    ```bash
+    cd labs/edge-lab
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ```
 
-    - **Option A · Automated Script Push (Fast & Error-Free)**:
-      ```bash
-      ./run.sh 02          # apply + verify step 02 automatically
-      ./run.sh --all       # run all steps in order
-      ```
-    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
-      Interactive CLI shell on any container node:
-      ```bash
-      docker exec -it clab-edge-lab-r1 Cli
-      r1> enable
-      r1# configure
-      ```
+    **Step 2 · Launch the Fully Guided Interactive Walkthrough**
+    ```bash
+    ./run.sh --guided
+    ```
+
+    ??? note "Alternative Execution Options (Automated Push or Manual CLI)"
+        - **Fast Automated Script Push**:
+          ```bash
+          ./run.sh 02          # apply + verify step 02 automatically
+          ./run.sh --all       # run all steps in order
+          ```
+        - **Manual Line-by-Line CLI Execution**:
+          Interactive CLI shell on any container node:
+          ```bash
+          docker exec -it clab-edge-lab-r1 Cli
+          ```
       Or push individual step snippets using stdin:
       `docker exec -i clab-edge-lab-r1 Cli -p 15 < steps/02-r1-underlay.cfg`
 

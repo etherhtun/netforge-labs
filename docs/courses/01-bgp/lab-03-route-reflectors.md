@@ -34,21 +34,24 @@ graph LR
     class R1 rr; class R2,R3 cl;
 ```
 
-!!! tip "Hybrid Approach — Script Push or Manual Typing"
-    Every lab supports both automated execution and manual line-by-line configuration:
+!!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/02-ospf-ibgp-rr/`)"
+    **Step 1 · Deploy the Lab Fabric (if not already running)**
+    ```bash
+    cd labs/02-ospf-ibgp-rr
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ```
 
-    - **Option A · Automated Script Push (Fast & Error-Free)**:
-      ```bash
-      ./run.sh 02          # apply + verify step 02 automatically
-      ./run.sh --all       # run all steps in order
-      ```
-    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
-      Interactive CLI shell on any container node:
-      ```bash
-      docker exec -it clab-bgp-lab-r1 Cli
-      r1> enable
-      r1# configure
-      ```
+    **Step 2 · Apply & Verify Step Configurations**
+    ```bash
+    ../../scripts/apply.sh 02-ospf-ibgp-rr all
+    ```
+
+    ??? note "Alternative Execution Options (Manual CLI)"
+        - **Manual Line-by-Line CLI Execution**:
+          Interactive CLI shell on any container node:
+          ```bash
+          docker exec -it clab-02-ospf-ibgp-rr-rr1 Cli
+          ```
       Or push individual step snippets using stdin:
       `docker exec -i clab-bgp-lab-r1 Cli -p 15 < steps/lab03-r1-reflector.cfg`
 
