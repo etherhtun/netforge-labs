@@ -138,8 +138,13 @@ nav:
       - "🧪 Lab 05 · Containerlab CI/CD Pipelines in GitHub Actions": courses/05-netdevops/lab-05-github-actions-cicd.md
     - "Phase 6 · Hybrid Cloud & Edge":
       - courses/06-hybrid-cloud/index.md
-    - "Phase 7 · Telemetry & Observability":
+    - "Phase 7 · Streaming Telemetry & Observability":
       - courses/07-telemetry/index.md
+      - "🧪 Lab 01 · Enabling gNMI & OpenConfig YANG Data Models": courses/07-telemetry/lab-01-gnmi-openconfig.md
+      - "🧪 Lab 02 · Querying Live Telemetry via pygnmi & Python": courses/07-telemetry/lab-02-pygnmi-python.md
+      - "🧪 Lab 03 · Streaming Telemetry Collectors & Prometheus Metrics": courses/07-telemetry/lab-03-prometheus-time-series.md
+      - "🧪 Lab 04 · Real-Time Visual Grafana Network Dashboards": courses/07-telemetry/lab-04-grafana-observability.md
+      - "🧪 Lab 05 · Automated Telemetry Alerting & Anomaly Detection": courses/07-telemetry/lab-05-telemetry-alerting.md
 
   - Archive:
     - archive/index.md
