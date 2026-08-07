@@ -136,8 +136,12 @@ nav:
       - "🧪 Lab 03 · Pre-Deployment Policy Verification (Batfish)": courses/05-netdevops/lab-03-batfish-simulation.md
       - "🧪 Lab 04 · Programmatic Telemetry & State Parsing (gNMI)": courses/05-netdevops/lab-04-gnmi-telemetry.md
       - "🧪 Lab 05 · Containerlab CI/CD Pipelines in GitHub Actions": courses/05-netdevops/lab-05-github-actions-cicd.md
-    - "Phase 6 · Hybrid Cloud & Edge":
+    - "Phase 6 · Enterprise WAN Edge & Dual-ISP Multihoming":
       - courses/06-hybrid-cloud/index.md
+      - "🧪 Lab 01 · Active/Standby & Active/Active Dual-ISP eBGP": courses/06-hybrid-cloud/lab-01-dual-isp-ebgp.md
+      - "🧪 Lab 02 · Inbound & Outbound BGP Traffic Engineering": courses/06-hybrid-cloud/lab-02-bgp-traffic-engineering.md
+      - "🧪 Lab 03 · Sub-Second WAN Link Failover with BFD": courses/06-hybrid-cloud/lab-03-bfd-subsecond-failover.md
+      - "🧪 Lab 04 · Local RPKI Route Origin Validation (ROV)": courses/06-hybrid-cloud/lab-04-rpki-route-validation.md
     - "Phase 7 · Streaming Telemetry & Observability":
       - courses/07-telemetry/index.md
       - "🧪 Lab 01 · Enabling gNMI & OpenConfig YANG Data Models": courses/07-telemetry/lab-01-gnmi-openconfig.md
