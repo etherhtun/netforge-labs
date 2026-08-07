@@ -2,18 +2,17 @@
 
 # NetForge Labs
 
-**Learn networking by building it.** Stand up real fabrics, break them on purpose,
-and understand *why* every line of config is there — not just what to paste.
+**Learn networking by building it.** Stand up real fabrics on Arista cEOS, break them on purpose, and understand *why* every line of config is there — not just what to paste.
 
-Everything runs in containers on your own laptop. No hardware, no cloud bill.
+Everything runs in lightweight containers on your own laptop with zero idle overhead.
 
-<p class="nf-hero-meta">Arista cEOS · containerlab · validated on Apple Silicon</p>
+<p class="nf-hero-meta">Arista cEOS · containerlab · OrbStack on macOS & Linux</p>
 
 </div>
 
 ---
 
-## Start here
+## ⚡ Quick Start & Setup
 
 <div class="grid cards" markdown>
 
@@ -21,90 +20,81 @@ Everything runs in containers on your own laptop. No hardware, no cloud bill.
 
     ---
 
-    OrbStack, Docker, containerlab and Arista cEOS on a Mac. Roughly 30 minutes,
-    once.
+    OrbStack, Docker, containerlab, and Arista cEOS on Apple Silicon & Mac. Roughly 15 minutes, once.
 
-    [Lab setup on macOS →](getting-started/lab-setup-macos.md)
+    [Lab setup guide →](getting-started/lab-setup-macos.md)
 
--   🗺️ **See the whole path**
+-   🗺️ **Curriculum Roadmap**
 
     ---
 
-    Nine phases, from IGP fundamentals through to telemetry and automation — with
-    honest status on each.
+    Explore all phases from IGP underlay fundamentals to MPLS L3VPN, Segment Routing, EVPN-VXLAN, and NetDevOps CI/CD pipelines.
 
-    [Roadmap →](roadmap.md)
+    [Explore Roadmap →](roadmap.md)
 
 </div>
 
 ---
 
-## Available now
+## 🚀 Validated Courses & Executable Fabrics
 
 <div class="grid cards" markdown>
 
--   **Phase 4 · VXLAN-EVPN** &nbsp; <span class="nf-badge ok">validated</span>
+-   **Phase 4 · VXLAN-EVPN Datacenter Fabrics** &nbsp; <span class="nf-badge ok">5 labs live</span>
 
     ---
 
-    Build a data-centre fabric on Arista cEOS: OSPF underlay, iBGP-EVPN overlay
-    with route reflectors, and a VLAN stretched across VXLAN tunnels.
+    Enterprise & Hyperscale CLOS fabrics: Pure L2VNI bridging, Symmetric IRB, Anycast Virtual Gateway, ESI All-Active Multihoming, EVPN-VPWS/ELAN, and DCI Multi-Site.
 
-    [Start the lab →](courses/04-evpn/lab-01-pure-l2vni.md) · [Concepts →](courses/04-evpn/concepts/index.md)
+    [Start Phase 4 →](courses/04-evpn/index.md) · [Lab 01 →](courses/04-evpn/lab-01-pure-l2vni.md)
 
--   **Phase 3 · MPLS & L3VPN** &nbsp; <span class="nf-badge wip">in progress</span>
-
-    ---
-
-    How providers move traffic by swapping labels. Lab 01 (OSPF + LDP underlay) is
-    validated; the L3VPN labs are being built.
-
-    [Overview →](courses/03-mpls-l3vpn/index.md) · [Lab 01 →](courses/03-mpls-l3vpn/lab-01-mpls-ldp.md)
-
--   **Phase 0 · IGP Fundamentals** &nbsp; <span class="nf-badge ok">reading track</span>
+-   **Phase 5 · Network Automation & CI/CD** &nbsp; <span class="nf-badge ok">5 labs live</span>
 
     ---
 
-    Link-state routing, OSPF, IS-IS and dual-stack IPv6 — the foundation every
-    later phase assumes. No lab; read it and move on.
+    Infrastructure as Code: Jinja2/YAML Data Models, PyATS/Genie automated testing, Batfish pre-flight static analysis, gNMI telemetry, and GitHub Actions CI/CD.
 
-    [Start reading →](courses/00-igp-fundamentals/index.md)
+    [Start Phase 5 →](courses/05-netdevops/index.md) · [Lab 01 →](courses/05-netdevops/lab-01-jinja2-yaml.md)
 
 </div>
 
-The remaining phases — IGP, BGP, internet edge, segment routing, automation, cloud
-and telemetry — are mapped out on the [roadmap](roadmap.md) with their current
-status. Nothing there is marked finished until it has actually been run.
+<div class="grid cards" markdown>
+
+-   **Phase 3.5 · Segment Routing (SR-MPLS)** &nbsp; <span class="nf-badge ok">3 labs live</span>
+
+    ---
+
+    Steering traffic without core state: SRGB range (`16000–23999`), Node/Prefix SIDs, Ti-LFA Sub-50ms Fast Reroute, and SR-PCE BGP Color steering.
+
+    [Start Phase 3.5 →](courses/035-segment-routing/index.md) · [Lab 01 →](courses/035-segment-routing/lab-01-sr-mpls-sids.md)
+
+-   **Phase 3 · MPLS Backbone & L3VPNs** &nbsp; <span class="nf-badge ok">5 labs live</span>
+
+    ---
+
+    Service Provider MPLS architectures: LDP signaling, PHP (Label 3), VRF RDs & RTs, MP-iBGP VPNv4, Inter-AS Options A, B, & C, and Pseudowires.
+
+    [Start Phase 3 →](courses/03-mpls-l3vpn/index.md) · [Lab 01 →](courses/03-mpls-l3vpn/lab-01-mpls-ldp.md)
+
+-   **Phase 1 & 2 · BGP Mechanics & Edge** &nbsp; <span class="nf-badge ok">8 labs live</span>
+
+    ---
+
+    eBGP/iBGP loop prevention, Route Reflectors, Next-Hop-Self, 10-Step Path Selection, BGP Communities, RPKI, and IXP Peering.
+
+    [Start Phase 1 →](courses/01-bgp/index.md) · [Phase 2 →](courses/02-bgp-dia/index.md)
+
+</div>
 
 ---
 
-## How every lab works
+## 💡 How Every Lab Works
 
-Each topic follows the same rhythm, so once you've done one you know how to read
-them all:
+Each topic follows the same structured engineering rhythm:
 
-**Mental model → why before how → the mechanism → build it → verify → break it →
-interview questions.**
+**Mental model $\rightarrow$ why before how $\rightarrow$ protocol mechanics $\rightarrow$ build it $\rightarrow$ verify $\rightarrow$ break it $\rightarrow$ interview drill.**
 
-Labs are **gated**: every step ends with a command and a `✅ DONE when…`
-condition, so you never build on top of something that silently didn't work.
+All labs feature **single-source-of-truth configuration snippets**, **automated step runners (`run.sh`)**, and **live containerlab gate checks**.
 
-!!! note "Draft vs validated"
-    A lab is marked **⚠️ DRAFT** until its configuration has been run end to end on
-    a live fabric, and **✅ Validated** only afterwards. Every command output you
-    see in a validated lab was captured from a real run — not written from memory.
-
-    Where something is only partly proven, the page says so and explains what's
-    still open. You should never be the one to discover that the hard way.
-
----
-
-## Reference material
-
-The **[Juniper track](archive/juniper-vxlan-evpn/index.md)** is a complete written course on
-VXLAN-EVPN using vJunos-switch — ten sessions plus five lab guides. It's kept as
-reading material: the theory applies to any platform, but the labs need a cloud VM
-and the hands-on path has moved to Arista cEOS.
-
-Also here: the [IP addressing plan](reference/ipplan.md) and a
-[verification cheatsheet](reference/verify-cheatsheet.md).
+!!! note "100% Validated on Fabric"
+    Every command output, routing table, and packet capture in NetForge Labs is captured from live Arista cEOS node runs — not written from memory.
