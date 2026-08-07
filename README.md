@@ -1,135 +1,71 @@
-# VXLAN-EVPN on Juniper — Zero to Hero
+# ⚡ NetForge Labs
 
-A hands-on, layer-by-layer learning path for building VXLAN-EVPN fabrics on
-**Juniper vJunos-switch**, run in **containerlab** on a **GCP** VM.
+> **Learn networking by building it** — hands-on, executable lab-driven courses for BGP, MPLS L3VPN, Segment Routing, and VXLAN-EVPN Datacenter Fabrics.
 
-> Learn by building, not by pasting. Each layer is a checkpoint you *verify*
-> before moving on. The fabric is built bottom-up — underlay first, then the
-> overlay, then services — because that is the order in which it actually
-> becomes real.
-
-**📖 [Read the full docs](https://etherhtun.github.io/netforge-labs/)** —
-hosted on GitHub Pages, searchable, with inline code snippets and verification
-checklists.
-
-Inspired by the Cisco-Nexus [`vxlan-evpn-zero-to-hero`](https://github.com/atr399/vxlan-evpn-zero-to-hero)
-curriculum, re-built for Junos and organised around *routing-design variants*
-rather than feature add-ons.
+📖 **Live Documentation Portal**: **[https://netforge-labs.pages.dev](https://netforge-labs.pages.dev)**
 
 ---
 
-## The learning axis
+## 🏛️ Curriculum Roadmap & Lab Matrix
 
-Instead of stacking features, this repo teaches the **fabric design choices** by
-swapping the underlay and overlay one at a time:
+NetForge Labs takes you from foundational routing protocols up to enterprise-grade service provider and data center fabric architectures. Every lab includes **single-source-of-truth configuration snippets**, **automated step runners (`run.sh`)**, and **live verification gates**:
 
-| Lab | Underlay | Overlay | Status |
-|-----|----------|---------|--------|
-| `01-ospf-ibgp`  | OSPF   | iBGP-EVPN (leaf-to-leaf full mesh) | 🏗️ building |
-| `02-isis-ibgp`  | IS-IS  | iBGP-EVPN                          | 📋 planned |
-| `03-ebgp-ibgp`  | eBGP   | iBGP-EVPN                          | 📋 planned |
-| `04-ebgp-ebgp`  | eBGP   | eBGP-EVPN                          | 📋 planned |
+| Phase | Course Focus | Validated Environment | Status |
+|---|---|---|---|
+| **Phase 0** | **IGP Fundamentals** (OSPF Area 0 & IS-IS Wide Metrics RFC 5305) | Arista cEOS | ✅ Published |
+| **Phase 1** | **BGP Mechanics** (eBGP/iBGP Loop Prevention, 10-Step Path Selection, RRs) | Arista cEOS | ✅ Published |
+| **Phase 3** | **MPLS Backbone & L3VPNs** (LDP, PHP Label 3, VRF RDs/RTs, Inter-AS Options A/B/C, L2VPN) | Arista cEOS 5-Node | ✅ Published |
+| **Phase 3.5** | **Segment Routing (SR-MPLS)** (SRGB 16000–23999, Node SIDs, Ti-LFA Sub-50ms FRR, SR-PCE) | Arista cEOS 5-Node | ✅ Published |
+| **Phase 4** | **VXLAN-EVPN Datacenter Fabrics** (Pure L2VNI, Symmetric IRB, ESI All-Active, VPWS/ELAN, DCI) | Arista cEOS 6-Node | ✅ Published |
+| **Phase 5** | **NetDevOps & Automation** (PyATS, Batfish, CI/CD Pipelines) | Python & Containerlab | 📋 Planned |
 
-Once the designs click, the plan is to borrow the *feature* modules
-(anycast gateway, multi-VRF, ESI multihoming, multi-site) as later labs.
+---
 
-## Repo layout
+## 🛠️ The Hybrid Lab Approach
 
-```
-common/ipplan.md        Single source of truth: IPs, ASNs, VNIs, interface map
-docs/concepts/          Protocol-agnostic theory (written once, reused everywhere)
-docs/host-setup/        One-time GCP + containerlab bring-up
-scripts/                deploy / switch / reset / capture
-labs/<NN-name>/
-  topology.clab.yml     The fabric definition
-  configs/*.conf        Full per-node config for that lab (the "reset button")
-  steps/*.md            The layered guide you follow by hand (the learning)
-  verify.md             Success checklist
-  break-it.md           Deliberate-failure exercises
+Every lab in NetForge Labs supports two flexible execution modes:
+
+### Option A · Automated Script Push (Fast & Validated)
+Run all step configurations and live gate checks with a single command:
+```bash
+cd labs/evpn-datacenter-lab
+./run.sh --all
 ```
 
-## Build order (every lab follows this)
-
+### Option B · Manual Hands-on Typing (Deep Learning)
+Access interactive CLI shells directly on container nodes:
+```bash
+docker exec -it clab-evpn-datacenter-lab-leaf1 Cli
+leaf1> enable
+leaf1# configure
 ```
-lo0 reachable (ping)  →  BGP Establ  →  Type-3 + tunnel up  →  Type-2  →  host ping
-     ▲                       ▲                 ▲                  ▲
-  underlay               overlay            evpn/vxlan         services
-```
 
-Each arrow is a `show` command. If an arrow is broken, the fault is *at that
-layer* — you never debug the whole stack at once.
+---
 
-## Quick start
+## 💻 Local Development & Docs Build
+
+To run the documentation site locally with live hot-reloading:
 
 ```bash
-# One-time (see docs/host-setup/):
-#   1. Create a GCP VM with NESTED VIRTUALIZATION enabled
-#   2. Install docker + containerlab, load the vJunos-switch image
+# 1. Clone repository
+git clone https://github.com/etherhtun/netforge-labs.git
+cd netforge-labs
 
-./scripts/deploy.sh 01-ospf-ibgp       # boot the fabric (vJunos ~5-8 min/node)
-# ... follow labs/01-ospf-ibgp/README.md by hand, OR:
-./scripts/apply.sh  01-ospf-ibgp all   # build every step with one command
-./scripts/switch.sh 01-ospf-ibgp       # (alt) push the full working config
-./scripts/reset.sh  01-ospf-ibgp       # destroy + redeploy clean
+# 2. Set up Python virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# 3. Serve docs locally
+mkdocs serve
+# Access site at http://127.0.0.1:8000
+
+# 4. Strict build verification
+mkdocs build --strict
 ```
 
-## Iterating without a reboot ⚡
+---
 
-vJunos nodes are slow to boot, so **don't `reset` to start over** — reset destroys
-and reboots the containers (many minutes). Instead:
+## 📄 License
 
-```bash
-./scripts/clean.sh 01-ospf-ibgp        # wipe CONFIG to baseline (~30s, no reboot)
-./scripts/apply.sh 01-ospf-ibgp all    # reconfigure from scratch
-```
-
-`clean.sh` deletes everything the lab added and keeps the mgmt user, so you get a
-blank fabric in seconds. Boot the fabric **once** per session (`deploy.sh`), then
-`clean` + `apply` as many times as you like. Only use `reset.sh` when a node is
-genuinely wedged and needs fresh containers.
-
-## Tearing down / wiping a lab
-
-To completely wipe a running fabric (destroy the containers, leave nothing up):
-
-```bash
-./scripts/destroy.sh 01-ospf-ibgp      # wipe — no redeploy
-docker ps | grep clab                  # confirm nothing is left running
-```
-
-(Under the hood that runs `containerlab destroy -t <topology> --cleanup`; add
-`sudo` if you hit a permissions error.)
-
-> **Each lab has its own independent fabric** (distinct container names, e.g.
-> `clab-evpn-lab-*` for lab 01, `clab-evpn-lab-*` for lab 02) — so labs never
-> conflict. But a 2×2 vJunos fabric needs ~16 GB RAM, so **run only one lab at a
-> time.** To switch labs, wipe the current one first, then deploy the next:
-> ```bash
-> ./scripts/destroy.sh 01-ospf-ibgp        # wipe the current lab
-> ./scripts/deploy.sh  02-ospf-ibgp-rr     # boot the next one
-> ```
-
-**Stop the GCP VM** when you're done for the day (the fabric does not survive a
-VM stop/start — you re-run `deploy.sh` after starting it again):
-```bash
-gcloud compute instances stop clab-lab --zone=asia-southeast1-b
-```
-
-## ⚠️ Do not commit
-
-- The vJunos-switch image (`*.qcow2` / `*.tar`) — redistribution violates
-  Juniper's licence. Keep it on the GCP host only.
-- Any Juniper credentials, licence keys, or GCP service-account JSON.
-
-See [`.gitignore`](.gitignore).
-
-## Requirements
-
-- GCP VM, Intel N1/N2/C2 family, **nested virtualization on**
-- ~8 vCPU / 32 GB RAM minimum for a 2-spine × 2-leaf fabric
-- containerlab + Docker
-- vJunos-switch image (free from Juniper, requires an account)
-
-## Licence
-
-MIT — see [`LICENSE`](LICENSE).
+MIT License — see [LICENSE](LICENSE).
