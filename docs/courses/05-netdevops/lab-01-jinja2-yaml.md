@@ -19,6 +19,26 @@
 
 ---
 
+## 🚀 Getting Started & Repository Setup
+
+Before starting Lab 01, clone the repository (or run `git pull` if already cloned) and set up your Python environment:
+
+```bash
+# 1. Clone repository (or pull latest changes)
+git clone https://github.com/etherhtun/netforge-labs.git
+cd netforge-labs
+
+# 2. Set up Python virtual environment & install dependencies
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# 3. Enter the NetDevOps lab directory
+cd labs/netdevops-lab
+```
+
+---
+
 ## 🧠 Technology Deep Dive: Separating Data from Logic
 
 In traditional network engineering, device hostname, IP addresses, and routing parameters are hardcoded directly into vendor CLI strings. If you need to change an OSPF area ID across 100 leaf switches, you have to edit 100 individual configuration files!
