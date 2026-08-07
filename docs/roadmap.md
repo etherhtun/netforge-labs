@@ -1,120 +1,67 @@
 # Curriculum Roadmap
 
-NetForge is built in **phases**, from the routing foundations up to operating a
-network in production. Each phase is a standalone course with its own sessions and
-labs — but they're ordered so each one builds on the last.
+NetForge Labs is built in **phases**, from routing underlay foundations up to operating high-scale service provider and data center fabrics in production. Each phase is a standalone course with executable containerlab topologies, single-source step configs, and automated verifiers.
 
-Everything runs in **containers on your own laptop**. No cloud bill, no hardware.
+Everything runs in **containers on your own laptop**. No cloud bills, no hardware.
 
 ---
 
-## The path
+## 🏛️ Curriculum Path & Phase Dependencies
 
 ```mermaid
 graph TD
-    P0["Phase 0<br/>IGP Fundamentals"] --> P1["Phase 1<br/>BGP Fundamentals<br/>& Policies"]
-    P1 --> P2["Phase 2<br/>BGP-DIA &<br/>Internet Edge"]
-    P1 --> P3["Phase 3<br/>MPLS & L3VPN"]
-    P3 --> P35["Phase 3.5<br/>Segment Routing"]
-    P1 --> P4["Phase 4<br/>EVPN Unified<br/>Services"]
-    P4 --> P5["Phase 5<br/>NetDevOps"]
-    P2 --> P6["Phase 6<br/>Hybrid Cloud<br/>& Edge"]
-    P5 --> P7["Phase 7<br/>Telemetry &<br/>Observability"]
+    P0["Phase 0<br/>IGP Fundamentals"] ==> P1["Phase 1<br/>BGP Fundamentals<br/>& Policies"]
+    P1 ==> P2["Phase 2<br/>BGP-DIA &<br/>Internet Edge"]
+    P1 ==> P3["Phase 3<br/>MPLS & L3VPN"]
+    P3 ==> P35["Phase 3.5<br/>Segment Routing"]
+    P1 ==> P4["Phase 4<br/>VXLAN-EVPN Fabrics"]
+    P4 ==> P5["Phase 5<br/>NetDevOps & CI/CD"]
+    P2 --> P6["Phase 6<br/>Hybrid Cloud & Edge"]
+    P5 --> P7["Phase 7<br/>Telemetry & Observability"]
 
-    classDef done fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20,stroke-width:2px;
-    classDef next fill:#e3f2fd,stroke:#1565c0,color:#0d47a1,stroke-width:2px;
-    classDef plan fill:#f5f5f5,stroke:#9e9e9e,color:#424242;
-    class P0,P1,P2,P3,P35,P4 done; class P5,P6,P7 plan;
+    classDef done fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef plan fill:#0d47a1,stroke:#64b5f6,color:#ffffff,stroke-width:2px,font-weight:bold;
+
+    class P0,P1,P2,P3,P35,P4,P5 done; class P6,P7 plan;
 ```
 
 ---
 
-## Phases
+## 📋 Course Status & Lab Matrix
 
-| Phase | Course | Focus | Status |
+| Phase | Course | Focus & Core Architecture | Status |
 |---|---|---|---|
-| **–** | [Foundations · Linux & Physical Infrastructure](courses/linux-foundations/index.md) | Shell, text processing, SSH, systemd/logs, git, kernel networking & physical optics | 🟢 **Available** — prerequisite |
-| **0** | [IGP Fundamentals](courses/00-igp-fundamentals/index.md) | OSPFv2/v3, IS-IS (dual-stack IPv4/IPv6) | 🟢 **Available** — reading track |
-| **1** | [BGP Fundamentals & Policies](courses/01-bgp/index.md) | eBGP, iBGP, route reflectors, advanced path selection | 🟢 **4 labs live** |
+| **–** | [Foundations · Linux & Networking](courses/linux-foundations/index.md) | Shell, text processing, SSH, systemd/logs, git, kernel networking | 🟢 **Available** — prerequisite |
+| **0** | [IGP Fundamentals](courses/00-igp-fundamentals/index.md) | OSPFv2/v3, IS-IS Wide Metrics (RFC 5305) | 🟢 **Available** — reading track |
+| **1** | [BGP Fundamentals & Policies](courses/01-bgp/index.md) | eBGP, iBGP, Route Reflectors, 10-Step Path Selection | 🟢 **4 labs live** |
 | **2** | [BGP-DIA & Internet Edge](courses/02-bgp-dia/index.md) | Multi-homing, BGP Communities, RPKI, IXP Peering, BFD, CGNAT | 🟢 **4 labs live** |
-| **3** | [MPLS & L3VPN](courses/03-mpls-l3vpn/index.md) | LDP, RSVP-TE, L3VPN (Options A, B, C) | 🟢 **4 labs live** |
-| **3.5** | [Segment Routing](courses/035-segment-routing/index.md) | SR-MPLS, SR-PCE, Ti-LFA. Steering FAANG traffic without core state | 🟢 **3 labs live** |
-| **4** | EVPN Unified Services | EVPN-VPWS, EVPN-ELAN, VXLAN-EVPN DCI | 🟢 **Partly live** |
-| **5** | Network Automation & NetDevOps | Infrastructure as Code: Python, NetBox, Ansible, CI/CD pipelines | 📋 Planned |
-| **6** | Hybrid Cloud & Edge | AWS TGW, BGP over DirectConnect, IPSec / SD-WAN | 📋 Planned |
-| **7** | Telemetry & Observability | Streaming telemetry: OpenConfig, gNMI, Prometheus, Grafana | 📋 Planned |
-
-**Available now:** [Linux Foundations](courses/linux-foundations/index.md) (prerequisite) ·
-[IGP Fundamentals](courses/00-igp-fundamentals/index.md) (Phase 0, reading track) ·
-[eBGP + iBGP](courses/01-bgp/lab-01-ebgp-ibgp.md) (Phase 1, Lab 01) ·
-[MPLS + LDP](courses/03-mpls-l3vpn/lab-01-mpls-ldp.md) (Phase 3, Lab 01) · [VXLAN-EVPN on Arista cEOS](courses/04-evpn/lab-01-pure-l2vni.md) — the validated core of
-Phase 4 — plus [VXLAN-EVPN on Juniper](archive/juniper-vxlan-evpn/index.md) as a written reference
-course.
+| **3** | [MPLS & L3VPN](courses/03-mpls-l3vpn/index.md) | LDP, PHP (Label 3), L3VPN Options A/B/C, MPLS L2VPN VPWS/VPLS | 🟢 **5 labs live** |
+| **3.5** | [Segment Routing](courses/035-segment-routing/index.md) | SR-MPLS, SRGB (16000–23999), Node SIDs, Ti-LFA Sub-50ms FRR, SR-PCE | 🟢 **3 labs live** |
+| **4** | [VXLAN-EVPN Datacenter Fabrics](courses/04-evpn/index.md) | Pure L2VNI, Symmetric IRB, ESI All-Active, EVPN-VPWS/ELAN, DCI | 🟢 **5 labs live** |
+| **5** | [Network Automation & CI/CD](courses/05-netdevops/index.md) | Jinja2/YAML, PyATS, Batfish Static Analysis, gNMI, GitHub Actions CI/CD | 🟢 **5 labs live** |
+| **6** | Hybrid Cloud & Edge | AWS DirectConnect Gateway, GCP Cloud Router, BGP IPsec Tunnels | 📋 Planned |
+| **7** | Telemetry & Observability | Streaming Telemetry: OpenConfig YANG, gNMI, Prometheus, Grafana | 📋 Planned |
 
 ---
 
-## Where to start
+## 🧭 Learning Paths
 
-- **New to routing?** Phase 0 → 1 → 2. That's the enterprise path.
-- **Data-centre focus?** Phase 1, then jump to
-  [Phase 4 (VXLAN-EVPN)](courses/04-evpn/lab-01-pure-l2vni.md) — it's live today.
-- **Service-provider focus?** Phase 1 → 3 → 3.5.
-- **Already know the protocols?** Phase 5 and 7 are where the job actually is.
-
-Phase 0 is deliberately light. OSPF and IS-IS are well covered everywhere; we cover
-what you need for the labs and move on to the parts that are harder to find.
+- **Enterprise & Data Center Focus**: Phase 0 $\rightarrow$ Phase 1 $\rightarrow$ **[Phase 4 (VXLAN-EVPN)](courses/04-evpn/index.md)** $\rightarrow$ **[Phase 5 (NetDevOps)](courses/05-netdevops/index.md)**.
+- **Service Provider & WAN Focus**: Phase 1 $\rightarrow$ **[Phase 3 (MPLS)](courses/03-mpls-l3vpn/index.md)** $\rightarrow$ **[Phase 3.5 (Segment Routing)](courses/035-segment-routing/index.md)**.
+- **Network Automation & NetDevOps**: Jump straight into **[Phase 5 · Network Automation & CI/CD Pipelines](courses/05-netdevops/index.md)**.
 
 ---
 
-## Platform
+## ⚡ Validated NOS Platform
 
-Everything is built on **Arista cEOS** — a container, so a full fabric boots on a
-laptop in minutes. Start with the [macOS lab setup](getting-started/lab-setup-macos.md).
+All labs are validated on **Arista cEOS 4.32.0F** running in **OrbStack** containers:
 
-We verify what the platform can actually do *before* writing a course. Current
-findings for the MPLS and Segment Routing phases:
-
-| Capability | cEOS 4.32.0F |
+| Capability | Arista cEOS 4.32.0F |
 |---|---|
-| MPLS + LDP | ✅ supported |
-| BGP VPNv4 / VPNv6, VRF with RD/RT | ✅ supported |
-| IS-IS / OSPF Segment Routing (SR-MPLS) | ✅ supported |
-| EVPN-VPWS | ✅ supported |
-| SRv6 | ❌ not available — will use a second NOS |
-
-### Live LDP test — result
-
-We built a 3-node fabric (`pe1 — p1 — pe2`) and ran OSPF + LDP for real. What we
-found:
-
-- **LDP sessions reach `oper`** on both peers, with label bindings exchanged
-  correctly in both directions.
-- **MPLS forwarding entries are programmed with resolved adjacencies** — next-hop
-  MAC, VLAN, egress interface. That's genuine forwarding state, not just the CLI
-  accepting a command.
-
-!!! note "What is still open"
-    A loopback-to-loopback ping passed, but `traceroute` showed **plain IP hops with
-    no label stack** — which is expected, not a fault. LDP *builds* the path; only a
-    service (L3VPN, pseudowire) steers traffic onto it.
-
-    So labelled **transit** is not yet proven. The conclusive test is a minimal
-    L3VPN, where the label is mandatory — and that's Phase 3's opening lab anyway.
-    Phase 3 will be built lab-first and this page updated with the outcome.
-
----
-
-## How courses are built
-
-Every course follows the same rhythm, so once you've done one you know how to read
-them all:
-
-**Mental model → why → mechanism → build → verify → break it → interview.**
-
-Labs are gated: each step has a verification command and a **✅ DONE when…**
-condition, so you never build on top of something that silently didn't work.
-
-!!! warning "Draft vs validated"
-    A lab is marked **⚠️ DRAFT** until its configuration has been run end to end on a
-    live fabric, and **✅ Validated** only after. Every `show` output you see in a
-    validated course was captured from a real run — not written from memory.
+| **OSPFv2 / OSPFv3 & IS-IS Wide Metrics** | ✅ Supported |
+| **BGP EVPN (AFI 25 / SAFI 70) & Route Types 1–5** | ✅ Supported |
+| **MPLS + LDP Forwarding & PHP (Label 3)** | ✅ Supported |
+| **BGP VPNv4 / VPNv6 & VRF RD/RT Isolation** | ✅ Supported |
+| **IS-IS Segment Routing (SR-MPLS) & Ti-LFA FRR** | ✅ Supported |
+| **EVPN-VPWS & EVPN-ELAN Services** | ✅ Supported |
+| **gNMI Streaming Telemetry & OpenConfig YANG** | ✅ Supported |
