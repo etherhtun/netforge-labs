@@ -162,6 +162,9 @@ nav:
       - "🧪 Lab 03 · 6PE & 6VPE (IPv6 Provider Edge over MPLS)": courses/09-ipv6/lab-03-6pe-6vpe-mpls.md
       - "🧪 Lab 04 · Stateful NAT64 & DNS64 Translation Mechanics": courses/09-ipv6/lab-04-nat64-dns64.md
 
+  - "🎯 Interview Prep":
+    - "Google & Hyperscale System Design Drill": interview-prep/google-system-design.md
+
   - Archive:
     - archive/index.md
     - "Juniper VXLAN-EVPN": archive/juniper-vxlan-evpn/index.md
