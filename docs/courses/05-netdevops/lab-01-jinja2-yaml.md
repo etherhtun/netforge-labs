@@ -70,7 +70,7 @@ spines:
 
 ### 2. Jinja2 Template Breakdown (`templates/spine.j2`)
 **Jinja2** is a templating engine for Python that dynamically generates text files:
-- **`{{ variable }}`**: Inserts a data value (e.g. `{{ node.name }}` $\rightarrow$ `spine1`).
+- **`{{ variable }}`**: Inserts a data value (e.g. `{{ node.name }}` → `spine1`).
 - **`{% for item in list %}`**: Loops through an array of interfaces.
 
 ```jinja2

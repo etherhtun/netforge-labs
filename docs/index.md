@@ -134,6 +134,6 @@ Choose your milestone-driven learning path in **AI & Hyperscale Architecture**, 
 
 Each topic follows the same structured engineering rhythm:
 
-**Mental model $\rightarrow$ why before how $\rightarrow$ protocol mechanics $\rightarrow$ build it $\rightarrow$ verify $\rightarrow$ break it $\rightarrow$ interview drill.**
+**Mental model → why before how → protocol mechanics → build it → verify → break it → interview drill.**
 
 All labs feature **single-source-of-truth configuration snippets**, **automated step runners (`run.sh`)**, and **live containerlab gate checks**.

@@ -74,7 +74,7 @@ Configure **Topology-Independent Loop-Free Alternate (Ti-LFA)** with node protec
 
 ## Step 2 · Pre-Computed Repair Path Verification
 
-Verify that Ti-LFA computes the post-convergence backup repair path (`p2` $\rightarrow$ `p3` $\rightarrow$ `pe2`) in advance.
+Verify that Ti-LFA computes the post-convergence backup repair path (`p2` → `p3` → `pe2`) in advance.
 
 ```bash
 docker exec -i clab-segment-routing-lab-pe1 Cli -p 15 <<'EOF'

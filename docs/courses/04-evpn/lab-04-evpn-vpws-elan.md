@@ -22,7 +22,7 @@ While standard EVPN-VXLAN handles Ethernet bridging and routing, EVPN also defin
 ### 1. EVPN-VPWS (Virtual Private Wire Service / E-LINE)
 - **Concept**: Replaces legacy LDP Pseudowires (VPWS) with BGP control-plane signaling.
 - **Protocol Mechanics**:
-  - Uses **EVPN Route Type 1 (VPWS NLRI)** carrying a **VPWS Service ID** (`Local VPWS ID` $\leftrightarrow$ `Remote VPWS ID`).
+  - Uses **EVPN Route Type 1 (VPWS NLRI)** carrying a **VPWS Service ID** (`Local VPWS ID` ↔ `Remote VPWS ID`).
   - No MAC lookup is performed! Traffic arriving on `leaf1` port `Et3` is encapsulated and sent directly to `leaf2` port `Et3` as a raw wire stream.
 
 ---

@@ -57,8 +57,8 @@ sequenceDiagram
     PE2->>CE2: Unlabelled IP Packet (Src: 10.100.1.1, Dst: 10.100.2.2)
 ```
 
-1. **CE1 $\rightarrow$ PE1**: CE1 sends a standard IP packet to `pe1`.
+1. **CE1 → PE1**: CE1 sends a standard IP packet to `pe1`.
 2. **PE1 Lookup**: `pe1` looks up `10.100.2.2` in `VRF RED`, finds the BGP VPNv4 next-hop (`3.3.3.3`), inner VPN service label (`24012`), and outer LDP transport label (`16002`).
-3. **PE1 $\rightarrow$ P1**: Transmits packet with two-label stack: `[Outer LDP 16002] [Inner VPN 24012] [IP Payload]`.
+3. **PE1 → P1**: Transmits packet with two-label stack: `[Outer LDP 16002] [Inner VPN 24012] [IP Payload]`.
 4. **P1 PHP (Penultimate Hop Popping)**: `p1` swaps/pops the outer transport label using PHP (Implicit Null Label 3) and delivers `[Inner VPN 24012] [IP Payload]` to `pe2`.
-5. **PE2 $\rightarrow$ CE2**: `pe2` looks up inner VPN label `24012` in its LFIB, identifies `VRF RED`, pops the label, and forwards the native IP packet to `ce2`.
+5. **PE2 → CE2**: `pe2` looks up inner VPN label `24012` in its LFIB, identifies `VRF RED`, pops the label, and forwards the native IP packet to `ce2`.

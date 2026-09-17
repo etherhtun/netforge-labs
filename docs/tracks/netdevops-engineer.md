@@ -9,7 +9,7 @@
 | Metric | Target Specification |
 |---|---|
 | **Estimated Completion Time** | **35 – 40 Hours** (Self-paced, hands-on lab driven) |
-| **Milestone Stages** | **5 Progressive Stages** (Data Modeling $\rightarrow$ Automated Assertions $\rightarrow$ Offline Pre-Flight $\rightarrow$ CI/CD Automation $\rightarrow$ Telemetry) |
+| **Milestone Stages** | **5 Progressive Stages** (Data Modeling → Automated Assertions → Offline Pre-Flight → CI/CD Automation → Telemetry) |
 | **Lab Framework** | **Containerlab + Arista cEOS + Python 3** (Runs 100% locally on macOS OrbStack or Linux Docker) |
 | **Target Roles** | NetDevOps Engineer, Network Automation Developer, Cloud Network Automation Architect, Site Reliability Engineer |
 | **Target Employers** | Tech Enterprise Companies, Hyperscalers, Financial Tech (FinTech), Telecom Operators, and Automation Consultancies |

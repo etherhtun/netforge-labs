@@ -93,8 +93,8 @@ IPv6-Only Host ──(queries IPv4 address)──> DNS64 synthesizes 64:ff9b::20
 >
 > - **Example**:
 >   - Public IP Pool: `203.0.113.10`, Block Size: `1024` ports, Base Port: `1024`.
->   - Subscriber A (`100.64.10.5`) $\rightarrow$ Assigned `203.0.113.10` Ports `1024 – 2047`.
->   - Subscriber B (`100.64.10.6`) $\rightarrow$ Assigned `203.0.113.10` Ports `2048 – 3071`.
+>   - Subscriber A (`100.64.10.5`) → Assigned `203.0.113.10` Ports `1024 – 2047`.
+>   - Subscriber B (`100.64.10.6`) → Assigned `203.0.113.10` Ports `2048 – 3071`.
 > - **Law Enforcement Compliance**: Given an abuse log `(203.0.113.10 : Port 2500 at 14:02:00 UTC)`, law enforcement officers compute $\lfloor \frac{2500 - 1024}{1024} \rfloor = 1$ in $O(1)$ mathematical time, immediately resolving Subscriber B (`100.64.10.6`) without searching raw log files!
 
 > [!TIP]

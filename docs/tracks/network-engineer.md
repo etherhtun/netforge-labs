@@ -11,7 +11,7 @@
 | Metric | Target Specification |
 |---|---|
 | **Estimated Completion Time** | **40 – 50 Hours** (Self-paced, hands-on lab driven) |
-| **Milestone Stages** | **6 Progressive Stages** (Underlay $\rightarrow$ BGP Core $\rightarrow$ SR-MPLS $\rightarrow$ AI/EVPN Fabrics $\rightarrow$ Telemetry $\rightarrow$ Capstone) |
+| **Milestone Stages** | **6 Progressive Stages** (Underlay → BGP Core → SR-MPLS → AI/EVPN Fabrics → Telemetry → Capstone) |
 | **Lab Framework** | **Containerlab + Arista cEOS** (Runs 100% locally on macOS OrbStack or Linux Docker) |
 | **Target Roles** | Architect - Network for AI, Hyperscale Infrastructure Architect, Principal Network Engineer, Core Backbone Architect |
 | **Target Employers** | Hyperscalers (Google, Meta, AWS, Microsoft), AI Supercomputing Labs (NVIDIA, OpenAI, Anthropic), OEM Titans (HPE/Aruba, Arista, Cisco), and Tier-1 Service Providers |
@@ -213,7 +213,7 @@ This learning path directly mirrors the production competencies required by lead
 
 ### 📍 Stage 2: Enterprise Edge & Hyperscale BGP-4 Core
 - **Core Focus**: Autonomous System boundaries, multi-homed transit edge, and massive-scale datacenter routing based on RFC 7938.
-- **Protocol Mechanics**: 10-step BGP decision algorithm (Weight $\rightarrow$ Local Pref $\rightarrow$ AS-PATH $\rightarrow$ Origin $\rightarrow$ MED $\rightarrow$ eBGP over iBGP), iBGP full-mesh avoidance via Route Reflectors (`cluster-id`, `originator-id`), BGP communities for traffic engineering, and BGP Unnumbered over IPv6 Link-Local (RFC 5549).
+- **Protocol Mechanics**: 10-step BGP decision algorithm (Weight → Local Pref → AS-PATH → Origin → MED → eBGP over iBGP), iBGP full-mesh avoidance via Route Reflectors (`cluster-id`, `originator-id`), BGP communities for traffic engineering, and BGP Unnumbered over IPv6 Link-Local (RFC 5549).
 - **Interactive Labs**:
     - [Phase 1: BGP Fundamentals & Policy Routing](../courses/01-bgp/index.md)
     - [Lab 01: eBGP Peering & Policy Enforcement](../courses/01-bgp/lab-01-ebgp-ibgp.md)

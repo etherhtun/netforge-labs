@@ -9,7 +9,7 @@
 | Metric | Target Specification |
 |---|---|
 | **Estimated Completion Time** | **25 – 30 Hours** (Self-paced, hands-on lab driven) |
-| **Milestone Stages** | **5 Progressive Stages** (Low-Latency Peering $\rightarrow$ Microsecond Failover $\rightarrow$ Multicast Market Feeds $\rightarrow$ Line-Rate Encryption $\rightarrow$ Hardware Acceleration) |
+| **Milestone Stages** | **5 Progressive Stages** (Low-Latency Peering → Microsecond Failover → Multicast Market Feeds → Line-Rate Encryption → Hardware Acceleration) |
 | **Lab Framework** | **Containerlab + Arista cEOS** (Runs 100% locally on macOS OrbStack or Linux Docker) |
 | **Target Roles** | High-Frequency Trading (HFT) Network Engineer, Quantitative Infrastructure Engineer, Low-Latency Systems Architect, Exchange Co-location Lead |
 | **Target Employers** | Citadel, Jane Street, Jump Trading, Two Sigma, Optiver, DRW, Hudson River Trading, NYSE, NASDAQ, and CME Group |

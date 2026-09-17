@@ -26,7 +26,7 @@ sequenceDiagram
 
 ---
 
-## 2. Inter-Subnet Symmetric IRB Packet Walk (VNI 10100 $\rightarrow$ L3VNI 50001 $\rightarrow$ VNI 10200)
+## 2. Inter-Subnet Symmetric IRB Packet Walk (VNI 10100 → L3VNI 50001 → VNI 10200)
 
 In **Symmetric Integrated Routing and Bridging (IRB)**, routing occurs at **both the ingress leaf and egress leaf**:
 

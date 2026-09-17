@@ -122,8 +122,8 @@ BGP routing table entry for 10.100.2.0/24, Route Distinguisher 65002:100
 >
 > In Inter-AS Option B, as a packet crosses from AS 65001 to AS 65002:
 > 1. Inside AS 65001: Packet travels with `[Transport Label LDP_AS1] [VPN Label L1]`.
-> 2. At `asbr1` (ASBR Handoff): `asbr1` pops `LDP_AS1`, swaps `VPN Label L1` $\rightarrow$ `VPN Label L2`, and transmits the packet un-encapsulated by LDP directly across the inter-AS link with `[VPN Label L2]`.
-> 3. At `asbr2` (Receiving ASBR): `asbr2` swaps `VPN Label L2` $\rightarrow$ `VPN Label L3`, pushes new transport label `[LDP_AS2]`, and forwards into AS 65002 core.
+> 2. At `asbr1` (ASBR Handoff): `asbr1` pops `LDP_AS1`, swaps `VPN Label L1` → `VPN Label L2`, and transmits the packet un-encapsulated by LDP directly across the inter-AS link with `[VPN Label L2]`.
+> 3. At `asbr2` (Receiving ASBR): `asbr2` swaps `VPN Label L2` → `VPN Label L3`, pushes new transport label `[LDP_AS2]`, and forwards into AS 65002 core.
 
 > [!IMPORTANT]
 > ### 2. Security & Carrier Interconnection Best Practices

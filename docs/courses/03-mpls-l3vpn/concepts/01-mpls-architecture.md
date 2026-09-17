@@ -72,4 +72,4 @@ graph TD
 ```
 
 - **LIB (Label Information Base)**: Control-plane database storing **all** label bindings received from all LDP peers.
-- **LFIB (Label Forwarding Information Base)**: Hardware ASIC data-plane table containing **only the best** incoming label $\rightarrow$ action (Push/Swap/Pop) $\rightarrow$ outgoing label $\rightarrow$ next-hop interface mappings.
+- **LFIB (Label Forwarding Information Base)**: Hardware ASIC data-plane table containing **only the best** incoming label → action (Push/Swap/Pop) → outgoing label → next-hop interface mappings.

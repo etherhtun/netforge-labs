@@ -33,7 +33,7 @@
 
 Standard BGP uses a 60-second Keepalive and a 180-second Hold-Timer. If an intermediate fiber transport fails without an interface link down signal, BGP can take 3 minutes to detect the failure!
 
-**BFD (Bidirectional Forwarding Detection)** sends micro-hello control packets at sub-second intervals (e.g., 300ms intervals with a multiplier of 3 $\rightarrow$ 900ms failure detection):
+**BFD (Bidirectional Forwarding Detection)** sends micro-hello control packets at sub-second intervals (e.g., 300ms intervals with a multiplier of 3 → 900ms failure detection):
 
 ```eos
 interface Ethernet1

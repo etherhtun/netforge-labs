@@ -9,7 +9,7 @@
 | Metric | Target Specification |
 |---|---|
 | **Estimated Completion Time** | **20 – 25 Hours** (Architectural analysis, system design drills, and case studies) |
-| **Milestone Stages** | **5 Progressive Stages** (Clos Scaling Math $\rightarrow$ Routing Architecture $\rightarrow$ SLA & Convergence Budgets $\rightarrow$ Overlay Virtualization $\rightarrow$ Vendor RFPs & Telemetry) |
+| **Milestone Stages** | **5 Progressive Stages** (Clos Scaling Math → Routing Architecture → SLA & Convergence Budgets → Overlay Virtualization → Vendor RFPs & Telemetry) |
 | **Target Roles** | Technical Program Manager (TPM) - Infrastructure, Network Solutions Architect, Infrastructure Program Lead, Engineering Director |
 | **Target Employers** | Google, Meta, Apple, AWS, Microsoft, ByteDance, NVIDIA, Global Financial Institutions, and Cloud Infrastructure Consultancies |
 

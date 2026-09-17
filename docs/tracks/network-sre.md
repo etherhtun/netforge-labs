@@ -9,7 +9,7 @@
 | Metric | Target Specification |
 |---|---|
 | **Estimated Completion Time** | **30 – 35 Hours** (Hands-on lab driven, scenario-based) |
-| **Milestone Stages** | **5 Progressive Stages** (Convergence $\rightarrow$ Automated Assertions $\rightarrow$ Telemetry $\rightarrow$ Control Plane Hardening $\rightarrow$ Incident Drills) |
+| **Milestone Stages** | **5 Progressive Stages** (Convergence → Automated Assertions → Telemetry → Control Plane Hardening → Incident Drills) |
 | **Lab Framework** | **Containerlab + Arista cEOS** (Runs 100% locally on macOS OrbStack or Linux Docker) |
 | **Target Roles** | Network SRE, Production Infrastructure Engineer, Network Observability Lead, Cloud Network SRE |
 | **Target Employers** | Google, Meta, Apple, AWS, Microsoft, ByteDance, Netflix, Stripe, and High-Scale SaaS Platforms |

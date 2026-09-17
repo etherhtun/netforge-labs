@@ -33,9 +33,9 @@
 
 BGP route hijacking occurs when an unauthorized Autonomous System advertises prefixes belonging to another organization. **RPKI (Resource Public Key Infrastructure)** uses cryptographically signed ROA objects to validate that the origin AS is authorized to announce the prefix:
 
-- **Valid**: Origin AS matches ROA record $\rightarrow$ Accept route.
-- **Invalid**: Origin AS does NOT match ROA record $\rightarrow$ Drop route immediately.
-- **NotFound**: No ROA record exists $\rightarrow$ Accept with lower preference.
+- **Valid**: Origin AS matches ROA record → Accept route.
+- **Invalid**: Origin AS does NOT match ROA record → Drop route immediately.
+- **NotFound**: No ROA record exists → Accept with lower preference.
 
 ```eos
 router bgp 65000

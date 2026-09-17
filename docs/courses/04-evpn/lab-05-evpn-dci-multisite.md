@@ -22,7 +22,7 @@ Connecting multiple geographically dispersed data centers (Data Center Interconn
 
 ### 1. Border Gateway (BGW) VTEP Mechanics
 - **Internal Fabric**: Leaf VTEPs run BGP EVPN peering to local Spines/BGWs.
-- **Inter-Site WAN**: Border Gateways (`bgw1` in DC1 $\leftrightarrow$ `bgw2` in DC2) peer over eBGP EVPN (AFI 25 / SAFI 70).
+- **Inter-Site WAN**: Border Gateways (`bgw1` in DC1 ↔ `bgw2` in DC2) peer over eBGP EVPN (AFI 25 / SAFI 70).
 - **NLRI Re-Origination**: Border Gateways rewrite the BGP Next-Hop on all EVPN Route Types (2, 3, 5) to their local Border VTEP IP, preventing internal VTEP IPs from leaking into the WAN.
 
 ---

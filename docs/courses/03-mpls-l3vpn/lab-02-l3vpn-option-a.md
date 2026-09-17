@@ -60,10 +60,10 @@ graph LR
 
 | Node | Role | VRF | Route Distinguisher (RD) | Import / Export Route Target (RT) | Interface / IP |
 |---|---|---|---|---|---|
-| **pe1** | Provider Edge | `RED` | `65000:100` | `target:65000:100` | `Et2` $\rightarrow$ `10.0.11.1/24` |
-| **pe2** | Provider Edge | `RED` | `65000:100` | `target:65000:100` | `Et2` $\rightarrow$ `10.0.22.2/24` |
-| **ce1** | Customer Edge | - | Customer LAN | - | `Et1` $\rightarrow$ `10.0.11.10/24` |
-| **ce2** | Customer Edge | - | Customer LAN | - | `Et1` $\rightarrow$ `10.0.22.20/24` |
+| **pe1** | Provider Edge | `RED` | `65000:100` | `target:65000:100` | `Et2` → `10.0.11.1/24` |
+| **pe2** | Provider Edge | `RED` | `65000:100` | `target:65000:100` | `Et2` → `10.0.22.2/24` |
+| **ce1** | Customer Edge | - | Customer LAN | - | `Et1` → `10.0.11.10/24` |
+| **ce2** | Customer Edge | - | Customer LAN | - | `Et1` → `10.0.22.20/24` |
 
 ---
 
@@ -87,7 +87,7 @@ Create VRF `RED` on `pe1` and `pe2`. Assign Route Distinguishers (RD) to ensure 
 
 ## Step 2 · MP-iBGP VPNv4 Peer Session Setup
 
-Configure MP-iBGP between PE loopbacks (`2.2.2.2` $\leftrightarrow$ `3.3.3.3`) in address-family `vpn-ipv4`.
+Configure MP-iBGP between PE loopbacks (`2.2.2.2` ↔ `3.3.3.3`) in address-family `vpn-ipv4`.
 
 === "pe1"
 

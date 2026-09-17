@@ -9,7 +9,7 @@
 | Metric | Target Specification |
 |---|---|
 | **Estimated Completion Time** | **30 – 35 Hours** (Hands-on labs & scenario-driven drills) |
-| **Milestone Stages** | **6 Progressive Stages** (Packet Analysis $\rightarrow$ AppSec/WAF $\rightarrow$ Zero-Trust $\rightarrow$ Network & CoPP Defense $\rightarrow$ Container Security $\rightarrow$ SIEM & IR) |
+| **Milestone Stages** | **6 Progressive Stages** (Packet Analysis → AppSec/WAF → Zero-Trust → Network & CoPP Defense → Container Security → SIEM & IR) |
 | **Lab Framework** | **Containerlab + Arista cEOS + Linux Security Tools** (Runs 100% locally on macOS OrbStack or Linux Docker) |
 | **Target Roles** | Cybersecurity Engineer, DevSecOps Engineer, Security Operations (SecOps) Lead, Cloud Security Architect |
 | **Target Employers** | Hyperscalers, Financial Tech (FinTech), Healthcare, Defense Contractors, and Security Operations Centers (SOC) |

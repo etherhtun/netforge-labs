@@ -75,7 +75,7 @@ graph TD
 | **ASN Allocation** | Private 2-Byte (`64512-65534`) or 4-Byte ASNs per tier | Single AS number fabric-wide |
 
 > 📌 **BGP 10-Step Path Selection Tie-Breaker Order**:
-> 1. Highest `WEIGHT` (Cisco/Arista local) $\rightarrow$ 2. Highest `LOCAL_PREF` $\rightarrow$ 3. Locally Originated Routes $\rightarrow$ 4. Shortest `AS-PATH` $\rightarrow$ 5. Lowest `ORIGIN` (`IGP < EGP < Incomplete`) $\rightarrow$ 6. Lowest `MED` $\rightarrow$ 7. Prefer eBGP over iBGP $\rightarrow$ 8. Lowest IGP Metric to Next-Hop $\rightarrow$ 9. Oldest Route $\rightarrow$ 10. Lowest BGP Router-ID.
+> 1. Highest `WEIGHT` (Cisco/Arista local) → 2. Highest `LOCAL_PREF` → 3. Locally Originated Routes → 4. Shortest `AS-PATH` → 5. Lowest `ORIGIN` (`IGP < EGP < Incomplete`) → 6. Lowest `MED` → 7. Prefer eBGP over iBGP → 8. Lowest IGP Metric to Next-Hop → 9. Oldest Route → 10. Lowest BGP Router-ID.
 
 ---
 
