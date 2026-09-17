@@ -12,11 +12,6 @@ Choose your milestone-driven learning path in **AI & Hyperscale Architecture**, 
 
 </div>
 
-<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem; flex-wrap:wrap; gap:0.5rem;">
-  <span class="nf-hud-tag" style="margin-bottom:0;">// LANGUAGE SELECTOR</span>
-  <a href="my/" class="nf-chip" style="color:var(--nf-accent-emerald); font-weight:700; text-decoration:none; padding: 0.35rem 0.8rem; border: 1px solid var(--nf-accent-emerald);">🇲🇲 မြန်မာဘာသာဖြင့် ဖတ်ရှုရန် →</a>
-</div>
-
 ---
 
 ## 🎯 6 Milestone-Driven Learning Paths

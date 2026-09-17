@@ -48,11 +48,6 @@ nav:
     - "⚡ Low-Latency Financial Engineer": tracks/financial-network-engineer.md
     - "📋 TPM & System Design": tracks/technical-program-manager.md
   - Roadmap: roadmap.md
-  - "🇲🇲 မြန်မာဗားရှင်း":
-    - "ပင်မစာမျက်နှာ": my/index.md
-    - "သင်ယူမှုလမ်းကြောင်းများ":
-      - "လမ်းကြောင်းများ ခြုံငုံသုံးသပ်ချက်": my/tracks/index.md
-      - "🌐 Network for AI & Hyperscale Architect": my/tracks/network-engineer.md
 
   - Get Started:
     - getting-started/index.md
@@ -210,6 +205,15 @@ extra_css:
 
 plugins:
   - search
+  - i18n:
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: my
+          name: မြန်မာ
+          build: true
   - git-revision-date-localized:
       enable_creation_date: true
       fallback_to_build_date: true

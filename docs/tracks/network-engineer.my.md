@@ -1,9 +1,5 @@
 <div class="nf-hud-tag">TRACK 01 / 06 &bull; HYPERSCALE CORE ARCHITECTURE (မြန်မာဗားရှင်း)</div>
 
-<div style="display:flex; justify-content:flex-end; margin-bottom: 0.8rem;">
-  <a href="../../../tracks/network-engineer/" class="nf-chip" style="color:var(--nf-accent-emerald); font-weight:700; text-decoration:none; padding: 0.35rem 0.8rem; border: 1px solid var(--nf-accent-emerald);">🌐 Switch to English Version →</a>
-</div>
-
 # 🌐 Network for AI & Hyperscale Infrastructure Architect သင်ယူမှုလမ်းကြောင်း
 
 > 🚀 **အဆင့်မြင့် အခြေခံအဆောက်အအုံ လက်တွေ့သင်ရိုး**: Non-blocking AI training fabrics (RoCEv2, PFC, ECN)၊ 5-stage BGP Clos fabrics (RFC 7938)၊ Segment Routing Ti-LFA backbones နှင့် EVPN-VXLAN ESI multihomed clusters များကို စစ်မှန်သော Arista cEOS containers များပေါ်တွင် ကိုယ်တိုင်တိုက်ရိုက် ဒီဇိုင်းဆွဲ၊ တည်ဆောက်ပြီး မောင်းနှင်လည်ပတ်ပါ။
@@ -188,12 +184,12 @@
 
 | အဆင့် (Stage) | အဓိက Protocol များ | လက်တွေ့လေ့ကျင့်ခန်း သင်ခန်းစာများ | Runnable Lab | စတင်ရန် |
 |---|---|---|---|---|
-| **Stage 1**<br/>`Underlay Routing` | OSPFv2/v3, IS-IS Wide Metrics, Point-to-Point Adjacencies, ECMP | • [01 · Link-State Routing Foundations](../../courses/00-igp-fundamentals/01-link-state.md)<br/>• [02 · OSPF Multi-Area Core Architecture](../../courses/00-igp-fundamentals/02-ospf.md)<br/>• [03 · IS-IS Backbone Engineering](../../courses/00-igp-fundamentals/03-isis.md)<br/>• [05 · IGPs at Hyper-Scale](../../courses/00-igp-fundamentals/05-at-scale.md) | `labs/igp-lab` | [Stage 1 စတင်ရန် →](../../courses/00-igp-fundamentals/02-ospf.md) |
-| **Stage 2**<br/>`BGP-4 Core & Edge` | RFC 7938 BGP Clos, 10-Step Decision, Route Reflectors, Multi-Homing | • [Lab 01 · eBGP, iBGP & next-hop-self](../../courses/01-bgp/lab-01-ebgp-ibgp.md)<br/>• [Lab 02 · iBGP over IS-IS Underlay](../../courses/01-bgp/lab-02-isis-underlay.md)<br/>• [Lab 03 · Scalable Route Reflectors](../../courses/01-bgp/lab-03-route-reflectors.md)<br/>• [Lab 04 · Multihomed BGP Edge](../../courses/01-bgp/lab-04-dual-homed-edge.md)<br/>• [DIA Lab 01 · Multi-Provider Transit](../../courses/02-bgp-dia/lab-01-dia-multihoming.md) | `labs/bgp-lab` | [Stage 2 စတင်ရန် →](../../courses/01-bgp/lab-01-ebgp-ibgp.md) |
-| **Stage 3**<br/>`Backbone & SR-MPLS` | MP-BGP VPNv4, SRGB 16000–23999, Prefix SIDs, Sub-50ms Ti-LFA | • [MPLS Lab 01 · MPLS + LDP Underlay](../../courses/03-mpls-l3vpn/lab-01-mpls-ldp.md)<br/>• [MPLS Lab 02 · Single-AS L3VPN & VRF](../../courses/03-mpls-l3vpn/lab-02-l3vpn-option-a.md)<br/>• [SR Lab 01 · SR-MPLS Node & Prefix SIDs](../../courses/035-segment-routing/lab-01-sr-mpls-sids.md)<br/>• [SR Lab 02 · Ti-LFA Sub-50ms FRR](../../courses/035-segment-routing/lab-02-ti-lfa-frr.md)<br/>• [SR Lab 03 · BGP Color Traffic Steering](../../courses/035-segment-routing/lab-03-sr-pce-te.md) | `labs/segment-routing-lab` | [Stage 3 စတင်ရန် →](../../courses/035-segment-routing/lab-01-sr-mpls-sids.md) |
-| **Stage 4**<br/>`AI & EVPN Fabrics` | Lossless RoCEv2, PFC 802.1Qbb, ECN, Symmetric IRB, ESI Multihoming | • [EVPN Lab 01 · Pure Layer-2 VNI](../../courses/04-evpn/lab-01-pure-l2vni.md)<br/>• [EVPN Lab 02 · Symmetric IRB Routing](../../courses/04-evpn/lab-02-symmetric-irb.md)<br/>• [EVPN Lab 03 · ESI All-Active Multihoming](../../courses/04-evpn/lab-03-esi-multihoming.md)<br/>• [EVPN Lab 04 · EVPN-VPWS & E-LAN](../../courses/04-evpn/lab-04-evpn-vpws-elan.md)<br/>• [EVPN Lab 05 · EVPN DCI Multi-Site](../../courses/04-evpn/lab-05-evpn-dci-multisite.md) | `labs/evpn-datacenter-lab` | [Stage 4 စတင်ရန် →](../../courses/04-evpn/lab-01-pure-l2vni.md) |
-| **Stage 5**<br/>`NetDevOps & Telemetry` | gNMI Streaming Protobuf, OpenConfig YANG, Prometheus, PyATS Assertions | • [NetDevOps Lab 01 · Jinja2/YAML Modeling](../../courses/05-netdevops/lab-01-jinja2-yaml.md)<br/>• [NetDevOps Lab 02 · PyATS Assertions](../../courses/05-netdevops/lab-02-pyats-verification.md)<br/>• [Telemetry Lab 01 · gNMI & OpenConfig](../../courses/07-telemetry/lab-01-gnmi-openconfig.md)<br/>• [Telemetry Lab 02 · pygnmi Python Streams](../../courses/07-telemetry/lab-02-pygnmi-python.md)<br/>• [Telemetry Lab 04 · Real-Time Grafana](../../courses/07-telemetry/lab-04-grafana-observability.md) | `labs/telemetry-lab` | [Stage 5 စတင်ရန် →](../../courses/07-telemetry/lab-01-gnmi-openconfig.md) |
-| **Stage 6**<br/>`Capstone System Design` | 5-Stage Clos Sizing, Buffer Exhaustion, CoPP Defense, BGP Unnumbered | • [System Design Masterclass & Scenario Drills](../../interview-prep/google-system-design.md)<br/>• [Security Lab 01 · CoPP CPU Protection](../../courses/08-security/lab-01-copp-cpu-protection.md)<br/>• [IPv6 Lab 02 · BGP Unnumbered (RFC 5549)](../../courses/09-ipv6/lab-02-bgp-unnumbered-rfc5549.md) | `labs/security-lab` | [Stage 6 စတင်ရန် →](../../interview-prep/google-system-design.md) |
+| **Stage 1**<br/>`Underlay Routing` | OSPFv2/v3, IS-IS Wide Metrics, Point-to-Point Adjacencies, ECMP | • [01 · Link-State Routing Foundations](../courses/00-igp-fundamentals/01-link-state.md)<br/>• [02 · OSPF Multi-Area Core Architecture](../courses/00-igp-fundamentals/02-ospf.md)<br/>• [03 · IS-IS Backbone Engineering](../courses/00-igp-fundamentals/03-isis.md)<br/>• [05 · IGPs at Hyper-Scale](../courses/00-igp-fundamentals/05-at-scale.md) | `labs/igp-lab` | [Stage 1 စတင်ရန် →](../courses/00-igp-fundamentals/02-ospf.md) |
+| **Stage 2**<br/>`BGP-4 Core & Edge` | RFC 7938 BGP Clos, 10-Step Decision, Route Reflectors, Multi-Homing | • [Lab 01 · eBGP, iBGP & next-hop-self](../courses/01-bgp/lab-01-ebgp-ibgp.md)<br/>• [Lab 02 · iBGP over IS-IS Underlay](../courses/01-bgp/lab-02-isis-underlay.md)<br/>• [Lab 03 · Scalable Route Reflectors](../courses/01-bgp/lab-03-route-reflectors.md)<br/>• [Lab 04 · Multihomed BGP Edge](../courses/01-bgp/lab-04-dual-homed-edge.md)<br/>• [DIA Lab 01 · Multi-Provider Transit](../courses/02-bgp-dia/lab-01-dia-multihoming.md) | `labs/bgp-lab` | [Stage 2 စတင်ရန် →](../courses/01-bgp/lab-01-ebgp-ibgp.md) |
+| **Stage 3**<br/>`Backbone & SR-MPLS` | MP-BGP VPNv4, SRGB 16000–23999, Prefix SIDs, Sub-50ms Ti-LFA | • [MPLS Lab 01 · MPLS + LDP Underlay](../courses/03-mpls-l3vpn/lab-01-mpls-ldp.md)<br/>• [MPLS Lab 02 · Single-AS L3VPN & VRF](../courses/03-mpls-l3vpn/lab-02-l3vpn-option-a.md)<br/>• [SR Lab 01 · SR-MPLS Node & Prefix SIDs](../courses/035-segment-routing/lab-01-sr-mpls-sids.md)<br/>• [SR Lab 02 · Ti-LFA Sub-50ms FRR](../courses/035-segment-routing/lab-02-ti-lfa-frr.md)<br/>• [SR Lab 03 · BGP Color Traffic Steering](../courses/035-segment-routing/lab-03-sr-pce-te.md) | `labs/segment-routing-lab` | [Stage 3 စတင်ရန် →](../courses/035-segment-routing/lab-01-sr-mpls-sids.md) |
+| **Stage 4**<br/>`AI & EVPN Fabrics` | Lossless RoCEv2, PFC 802.1Qbb, ECN, Symmetric IRB, ESI Multihoming | • [EVPN Lab 01 · Pure Layer-2 VNI](../courses/04-evpn/lab-01-pure-l2vni.md)<br/>• [EVPN Lab 02 · Symmetric IRB Routing](../courses/04-evpn/lab-02-symmetric-irb.md)<br/>• [EVPN Lab 03 · ESI All-Active Multihoming](../courses/04-evpn/lab-03-esi-multihoming.md)<br/>• [EVPN Lab 04 · EVPN-VPWS & E-LAN](../courses/04-evpn/lab-04-evpn-vpws-elan.md)<br/>• [EVPN Lab 05 · EVPN DCI Multi-Site](../courses/04-evpn/lab-05-evpn-dci-multisite.md) | `labs/evpn-datacenter-lab` | [Stage 4 စတင်ရန် →](../courses/04-evpn/lab-01-pure-l2vni.md) |
+| **Stage 5**<br/>`NetDevOps & Telemetry` | gNMI Streaming Protobuf, OpenConfig YANG, Prometheus, PyATS Assertions | • [NetDevOps Lab 01 · Jinja2/YAML Modeling](../courses/05-netdevops/lab-01-jinja2-yaml.md)<br/>• [NetDevOps Lab 02 · PyATS Assertions](../courses/05-netdevops/lab-02-pyats-verification.md)<br/>• [Telemetry Lab 01 · gNMI & OpenConfig](../courses/07-telemetry/lab-01-gnmi-openconfig.md)<br/>• [Telemetry Lab 02 · pygnmi Python Streams](../courses/07-telemetry/lab-02-pygnmi-python.md)<br/>• [Telemetry Lab 04 · Real-Time Grafana](../courses/07-telemetry/lab-04-grafana-observability.md) | `labs/telemetry-lab` | [Stage 5 စတင်ရန် →](../courses/07-telemetry/lab-01-gnmi-openconfig.md) |
+| **Stage 6**<br/>`Capstone System Design` | 5-Stage Clos Sizing, Buffer Exhaustion, CoPP Defense, BGP Unnumbered | • [System Design Masterclass & Scenario Drills](../interview-prep/google-system-design.md)<br/>• [Security Lab 01 · CoPP CPU Protection](../courses/08-security/lab-01-copp-cpu-protection.md)<br/>• [IPv6 Lab 02 · BGP Unnumbered (RFC 5549)](../courses/09-ipv6/lab-02-bgp-unnumbered-rfc5549.md) | `labs/security-lab` | [Stage 6 စတင်ရန် →](../interview-prep/google-system-design.md) |
 
 ---
 
@@ -203,9 +199,9 @@
 - **အဓိက အလေးပေးမှု**: Deterministic equal-cost multi-pathing (ECMP)၊ မီလီစက္ကန့်အတွင်း convergence ရရှိမှုနှင့် Carrier-grade link-state protocols များ။
 - **Protocol Mechanics**: OSPFv2 LSA types 1/2/3/5၊ Point-to-Point network types (DR/BDR ရွေးချယ်မှု ကြန့်ကြာမှုကို ကျော်လွှားနိုင်ခြင်း)၊ IS-IS Level-1/Level-2 hierarchy၊ နှင့် TLV-based wide metric extensions (RFC 5305)။
 - **လက်တွေ့ Lab သင်ခန်းစာများ**:
-    - [Phase 0: IGP Fundamentals Overview](../../courses/00-igp-fundamentals/index.md)
-    - [OSPFv2 Multi-Area Core](../../courses/00-igp-fundamentals/02-ospf.md)
-    - [IS-IS Backbone Engineering](../../courses/00-igp-fundamentals/03-isis.md)
+    - [Phase 0: IGP Fundamentals Overview](../courses/00-igp-fundamentals/index.md)
+    - [OSPFv2 Multi-Area Core](../courses/00-igp-fundamentals/02-ospf.md)
+    - [IS-IS Backbone Engineering](../courses/00-igp-fundamentals/03-isis.md)
 - **Local Runner**:
     ```bash
     cd labs/igp-lab
@@ -219,11 +215,11 @@
 - **အဓိက အလေးပေးမှု**: Autonomous System နယ်နိမိတ်များ၊ Multi-homed transit edge နှင့် RFC 7938 အခြေပြု ဒေတာစင်တာ လမ်းကြောင်းသတ်မှတ်မှုများ။
 - **Protocol Mechanics**: BGP 10-step decision algorithm (Weight → Local Pref → AS-PATH → Origin → MED → eBGP over iBGP)၊ Route Reflectors (`cluster-id`, `originator-id`) ဖြင့် iBGP Full-mesh ရှုပ်ထွေးမှုကို ရှင်းထုတ်ခြင်း၊ Traffic engineering အတွက် BGP communities သုံးခြင်း၊ နှင့် IPv6 Link-Local ပေါ်မှ BGP Unnumbered (RFC 5549)။
 - **လက်တွေ့ Lab သင်ခန်းစာများ**:
-    - [Phase 1: BGP Fundamentals & Policy Routing](../../courses/01-bgp/index.md)
-    - [Lab 01: eBGP Peering & Policy Enforcement](../../courses/01-bgp/lab-01-ebgp-ibgp.md)
-    - [Lab 02: IS-IS Underlay Core](../../courses/01-bgp/lab-02-isis-underlay.md)
-    - [Lab 03: Scalable iBGP Route Reflectors](../../courses/01-bgp/lab-03-route-reflectors.md)
-    - [Phase 2: BGP Dual-Homed Internet Access (DIA)](../../courses/02-bgp-dia/index.md)
+    - [Phase 1: BGP Fundamentals & Policy Routing](../courses/01-bgp/index.md)
+    - [Lab 01: eBGP Peering & Policy Enforcement](../courses/01-bgp/lab-01-ebgp-ibgp.md)
+    - [Lab 02: IS-IS Underlay Core](../courses/01-bgp/lab-02-isis-underlay.md)
+    - [Lab 03: Scalable iBGP Route Reflectors](../courses/01-bgp/lab-03-route-reflectors.md)
+    - [Phase 2: BGP Dual-Homed Internet Access (DIA)](../courses/02-bgp-dia/index.md)
 - **Local Runners**:
     ```bash
     cd labs/bgp-lab && ./run.sh --guided
@@ -237,11 +233,11 @@
 - **အဓိက အလေးပေးမှု**: Source Routing နည်းပညာဖြင့် Control Plane ရှုပ်ထွေးမှု (LDP နှင့် RSVP-TE) ကို ဖယ်ရှားခြင်း၊ Multi-tenant VRF သီးသန့်ခွဲထုတ်ခြင်းနှင့် 50ms အောက် အလိုအလျောက် လမ်းကြောင်းလွှဲနိုင်မှု အာမခံခြင်း။
 - **Protocol Mechanics**: MPLS label stacks၊ Penultimate Hop Popping (PHP, Implicit Null label 3)၊ MP-BGP VPNv4 (RD နှင့် RT)၊ Segment Routing Global Block (SRGB `16000–23999`)၊ Node SIDs၊ Adjacency SIDs၊ နှင့် Topology-Independent Loop-Free Alternate (Ti-LFA)။
 - **လက်တွေ့ Lab သင်ခန်းစာများ**:
-    - [Phase 3: MPLS L3VPN Backbones](../../courses/03-mpls-l3vpn/index.md)
-    - [Phase 3.5: Segment Routing (SR-MPLS) & Ti-LFA](../../courses/035-segment-routing/index.md)
-    - [SR Lab 01: SRGB & Node SID Transport](../../courses/035-segment-routing/lab-01-sr-mpls-sids.md)
-    - [SR Lab 02: Ti-LFA Sub-50ms Fast Reroute](../../courses/035-segment-routing/lab-02-ti-lfa-frr.md)
-    - [SR Lab 03: Color-Based SLA Traffic Steering](../../courses/035-segment-routing/lab-03-sr-pce-te.md)
+    - [Phase 3: MPLS L3VPN Backbones](../courses/03-mpls-l3vpn/index.md)
+    - [Phase 3.5: Segment Routing (SR-MPLS) & Ti-LFA](../courses/035-segment-routing/index.md)
+    - [SR Lab 01: SRGB & Node SID Transport](../courses/035-segment-routing/lab-01-sr-mpls-sids.md)
+    - [SR Lab 02: Ti-LFA Sub-50ms Fast Reroute](../courses/035-segment-routing/lab-02-ti-lfa-frr.md)
+    - [SR Lab 03: Color-Based SLA Traffic Steering](../courses/035-segment-routing/lab-03-sr-pce-te.md)
 - **Local Runners**:
     ```bash
     cd labs/mpls-l3vpn-lab && ./run.sh --guided
@@ -257,12 +253,12 @@
     - **EVPN-VXLAN**: Symmetric Integrated Routing & Bridging (IRB)၊ Anycast Virtual Gateway၊ Ethernet Segment Identifier (ESI) Type-0/Type-1 All-Active Multihoming (vendor-locked MLAG/vPC ကို ဖယ်ရှားခြင်း)၊ EVPN Route Types 2 (MAC/IP), 3 (Inclusive Multicast), 4 (Ethernet Segment), နှင့် 5 (IP Prefix)။
     - **Lossless AI Transport**: GPU Ingress Buffers များတွင် packet drop မရှိစေရန် Priority Flow Control (PFC, IEEE 802.1Qbb) သုံးခြင်း၊ Buffer မပြည့်မီ အချက်ပြသည့် ECN (RFC 3168) နှင့် WRED marking။
 - **လက်တွေ့ Lab သင်ခန်းစာများ**:
-    - [Phase 4: EVPN-VXLAN Datacenter Fabrics](../../courses/04-evpn/index.md)
-    - [EVPN Lab 01: Pure Layer-2 VNI Bridging](../../courses/04-evpn/lab-01-pure-l2vni.md)
-    - [EVPN Lab 02: Symmetric IRB Distributed Routing](../../courses/04-evpn/lab-02-symmetric-irb.md)
-    - [EVPN Lab 03: ESI All-Active Multihoming](../../courses/04-evpn/lab-03-esi-multihoming.md)
-    - [EVPN Lab 04: EVPN-VPWS & E-LAN Service](../../courses/04-evpn/lab-04-evpn-vpws-elan.md)
-    - [EVPN Lab 05: EVPN DCI Multi-Site](../../courses/04-evpn/lab-05-evpn-dci-multisite.md)
+    - [Phase 4: EVPN-VXLAN Datacenter Fabrics](../courses/04-evpn/index.md)
+    - [EVPN Lab 01: Pure Layer-2 VNI Bridging](../courses/04-evpn/lab-01-pure-l2vni.md)
+    - [EVPN Lab 02: Symmetric IRB Distributed Routing](../courses/04-evpn/lab-02-symmetric-irb.md)
+    - [EVPN Lab 03: ESI All-Active Multihoming](../courses/04-evpn/lab-03-esi-multihoming.md)
+    - [EVPN Lab 04: EVPN-VPWS & E-LAN Service](../courses/04-evpn/lab-04-evpn-vpws-elan.md)
+    - [EVPN Lab 05: EVPN DCI Multi-Site](../courses/04-evpn/lab-05-evpn-dci-multisite.md)
 - **Local Runner**:
     ```bash
     cd labs/evpn-datacenter-lab
@@ -276,12 +272,12 @@
 - **အဓိက အလေးပေးမှု**: ရိုးရာ CLI ရိုက်နှိပ်ခြင်းနှင့် ၅ မိနစ် SNMP polling စနစ်များမှသည် Infrastructure-as-Code နှင့် Sub-second Push Telemetry သို့ အဆင့်မြှင့်တင်ခြင်း။
 - **Protocol Mechanics**: gNMI (gRPC Network Management Interface) streaming over HTTP/2 with Protocol Buffers၊ OpenConfig standardized YANG schemas၊ Prometheus time-series scraping၊ Grafana dashboards နှင့် Cisco PyATS/Genie automated state assertions။
 - **လက်တွေ့ Lab သင်ခန်းစာများ**:
-    - [Phase 5: Network Automation & CI/CD](../../courses/05-netdevops/index.md)
-    - [Phase 7: Streaming Telemetry & Observability](../../courses/07-telemetry/index.md)
-    - [Telemetry Lab 01: gNMI Basics & OpenConfig](../../courses/07-telemetry/lab-01-gnmi-openconfig.md)
-    - [Telemetry Lab 02: pygnmi Python Integration](../../courses/07-telemetry/lab-02-pygnmi-python.md)
-    - [Telemetry Lab 03: Prometheus Metric Exporter](../../courses/07-telemetry/lab-03-prometheus-time-series.md)
-    - [Telemetry Lab 04: Real-Time Grafana Dashboards](../../courses/07-telemetry/lab-04-grafana-observability.md)
+    - [Phase 5: Network Automation & CI/CD](../courses/05-netdevops/index.md)
+    - [Phase 7: Streaming Telemetry & Observability](../courses/07-telemetry/index.md)
+    - [Telemetry Lab 01: gNMI Basics & OpenConfig](../courses/07-telemetry/lab-01-gnmi-openconfig.md)
+    - [Telemetry Lab 02: pygnmi Python Integration](../courses/07-telemetry/lab-02-pygnmi-python.md)
+    - [Telemetry Lab 03: Prometheus Metric Exporter](../courses/07-telemetry/lab-03-prometheus-time-series.md)
+    - [Telemetry Lab 04: Real-Time Grafana Dashboards](../courses/07-telemetry/lab-04-grafana-observability.md)
 - **Local Runners**:
     ```bash
     cd labs/netdevops-lab && ./run.sh --guided
@@ -299,8 +295,8 @@
     - PFC deadlock နှင့် Microburst buffer ပြည့်လျှံမှုကြောင့် ဖြစ်သော Silent packet drop ပြဿနာများကို ရှာဖွေဖြေရှင်းခြင်း။
     - System design interview drills များနှင့် နည်းပညာ ရွေးချယ်မှု အားသာချက်/အားနည်းချက်များ (RoCEv2 vs InfiniBand vs Ultra Ethernet Consortium)။
 - **ကိုးကား သင်ရိုးများ**:
-    - [Google & Hyperscale System Design Masterclass](../../interview-prep/google-system-design.md)
-    - [NetForge Master Curriculum Architecture Roadmap](../../roadmap.md)
+    - [Google & Hyperscale System Design Masterclass](../interview-prep/google-system-design.md)
+    - [NetForge Master Curriculum Architecture Roadmap](../roadmap.md)
 
 ---
 
