@@ -30,25 +30,91 @@
 
 ## 🗺️ 5-Stage Progressive Milestone Roadmap
 
-```mermaid
-graph TD
-    S1["<b>Stage 1: Fast Convergence & Link Resilience</b><br/>Sub-Second BFD Failover & BGP Route Dampening<br/><i>Achieve instant failover on fiber faults</i>"]
-    S2["<b>Stage 2: Automated Testing & Verification Gates</b><br/>PyATS & Genie Operational State Assertions<br/><i>Automate pre/post-maintenance health checks</i>"]
-    S3["<b>Stage 3: Real-Time Telemetry & Observability</b><br/>gNMI gRPC Protobuf, OpenConfig YANG & Prometheus<br/><i>Replace blind spots with sub-second time-series metrics</i>"]
-    S4["<b>Stage 4: Control Plane Defense & Blast Radius</b><br/>Control Plane Policing (CoPP) & VRF Microsegmentation<br/><i>Shield switch CPUs during DDoS or traffic floods</i>"]
-    S5["<b>Stage 5: Chaos Engineering & Incident Drills</b><br/>Link Flap Simulation, MTTR Reduction & Post-Mortems<br/><i>Production fire drills and SRE operational mastery</i>"]
+<div class="nf-stepper">
 
-    S1 ==> S2 ==> S3 ==> S4 ==> S5
+  <a class="nf-step-card" href="#stage-1-fast-convergence-link-resilience">
+    <div class="nf-step-num">01</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 1 · Fast Convergence & Link Resilience</h4>
+        <span class="nf-badge ok">Sub-Second Failover</span>
+      </div>
+      <p class="nf-step-desc">Achieve sub-second link fault detection with hardware-offloaded BFD and suppress routing churn with BGP flap dampening.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">BFD Hardware Offload</span>
+        <span class="nf-chip">BGP Flap Dampening</span>
+        <span class="nf-chip">Graceful Restart RFC 4724</span>
+      </div>
+    </div>
+  </a>
 
-    click S1 href "#stage-1-fast-convergence-link-resilience" "Jump to Stage 1"
-    click S2 href "#stage-2-automated-testing-verification-gates" "Jump to Stage 2"
-    click S3 href "#stage-3-real-time-telemetry-observability" "Jump to Stage 3"
-    click S4 href "#stage-4-control-plane-defense-blast-radius-isolation" "Jump to Stage 4"
-    click S5 href "#stage-5-chaos-engineering-incident-drills" "Jump to Stage 5"
+  <a class="nf-step-card" href="#stage-2-automated-testing-verification-gates">
+    <div class="nf-step-num">02</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 2 · Automated Testing & Verification Gates</h4>
+        <span class="nf-badge ok">Codified Assertions</span>
+      </div>
+      <p class="nf-step-desc">Replace human CLI error with programmatic pre- and post-maintenance test suites using Cisco PyATS and Genie structured parsers.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">PyATS Testbeds</span>
+        <span class="nf-chip">Genie JSON Parsers</span>
+        <span class="nf-chip">Operational State Diffs</span>
+      </div>
+    </div>
+  </a>
 
-    classDef sre fill:#4a148c,stroke:#ab47bc,color:#ffffff,stroke-width:2px,font-weight:bold;
-    class S1,S2,S3,S4,S5 sre;
-```
+  <a class="nf-step-card" href="#stage-3-real-time-telemetry-observability">
+    <div class="nf-step-num">03</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 3 · Real-Time Telemetry & Observability</h4>
+        <span class="nf-badge ok">Streaming Metrics</span>
+      </div>
+      <p class="nf-step-desc">Eliminate monitoring blind spots by deploying gNMI streaming telemetry, OpenConfig YANG models, and Prometheus scraping.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">gNMI gRPC Protobuf</span>
+        <span class="nf-chip">OpenConfig YANG</span>
+        <span class="nf-chip">Prometheus</span>
+        <span class="nf-chip">Grafana</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-4-control-plane-defense-blast-radius-isolation">
+    <div class="nf-step-num">04</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 4 · Control Plane Defense & Blast Radius Isolation</h4>
+        <span class="nf-badge ok">Switch Hardening</span>
+      </div>
+      <p class="nf-step-desc">Shield switch Supervisor engines from denial of service attacks using Control Plane Policing (CoPP) and VRF microsegmentation.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">CoPP CPU Protection</span>
+        <span class="nf-chip">MQC Rate Limiting</span>
+        <span class="nf-chip">VRF Route Leaking</span>
+        <span class="nf-chip">iACLs</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-5-chaos-engineering-incident-drills">
+    <div class="nf-step-num">05</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 5 · Chaos Engineering & Incident Drills</h4>
+        <span class="nf-badge ok">Production Drills</span>
+      </div>
+      <p class="nf-step-desc">Simulate live link drop storms, diagnose routing oscillations under pressure, and practice blameless post-mortem triage.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">Link Flap Injection</span>
+        <span class="nf-chip">BGP Churn Triage</span>
+        <span class="nf-chip">MTTR Optimization</span>
+      </div>
+    </div>
+  </a>
+
+</div>
 
 ---
 

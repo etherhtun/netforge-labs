@@ -30,25 +30,92 @@
 
 ## 🗺️ 5-Stage Progressive Milestone Roadmap
 
-```mermaid
-graph TD
-    S1["<b>Stage 1: Deterministic Low-Latency Edge Peering</b><br/>Deterministic eBGP Route Selection & MED Policies<br/><i>Guaranteeing the lowest propagation delay egress path</i>"]
-    S2["<b>Stage 2: Microsecond Link Failure Detection</b><br/>Hardware-Offloaded BFD with Aggressive Timers<br/><i>Detecting fiber cuts in under 50ms before orders queue</i>"]
-    S3["<b>Stage 3: Multicast Market Data Distribution Trees</b><br/>PIM Sparse-Mode, Anycast RP & IGMP Fast-Leave<br/><i>Delivering market feeds simultaneously to trading desks</i>"]
-    S4["<b>Stage 4: Line-Rate Point-to-Point Encryption</b><br/>IEEE 802.1AE MACsec (AES-256-GCM)<br/><i>Securing metro cross-connects without adding IPsec latency</i>"]
-    S5["<b>Stage 5: High-Frequency System Design & FPGA Integration</b><br/>Cut-Through Switching, Clock Synchronization (PTP 1588) & DPDK<br/><i>Nanosecond-scale architecture for co-located matching engines</i>"]
+<div class="nf-stepper">
 
-    S1 ==> S2 ==> S3 ==> S4 ==> S5
+  <a class="nf-step-card" href="#stage-1-deterministic-low-latency-edge-peering">
+    <div class="nf-step-num">01</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 1 · Deterministic Low-Latency Edge Peering</h4>
+        <span class="nf-badge ok">Zero Jitter Peering</span>
+      </div>
+      <p class="nf-step-desc">Engineer deterministic outbound traffic paths with strict Local Preference and AS-PATH policies, eliminating route hunting oscillations.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">Deterministic BGP</span>
+        <span class="nf-chip">Local Preference</span>
+        <span class="nf-chip">AS-PATH Prepending</span>
+        <span class="nf-chip">BGP Communities</span>
+      </div>
+    </div>
+  </a>
 
-    click S1 href "#stage-1-deterministic-low-latency-edge-peering" "Jump to Stage 1"
-    click S2 href "#stage-2-microsecond-link-failure-detection" "Jump to Stage 2"
-    click S3 href "#stage-3-multicast-market-data-distribution-trees" "Jump to Stage 3"
-    click S4 href "#stage-4-line-rate-point-to-point-encryption" "Jump to Stage 4"
-    click S5 href "#stage-5-high-frequency-system-design-and-precision-timing" "Jump to Stage 5"
+  <a class="nf-step-card" href="#stage-2-microsecond-link-failure-detection">
+    <div class="nf-step-num">02</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 2 · Microsecond Link Failure Detection</h4>
+        <span class="nf-badge ok">Sub-50ms Cutover</span>
+      </div>
+      <p class="nf-step-desc">Detect dark fiber cuts and transceiver drops in under 50ms before trading order packets queue or drop on dead interfaces.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">BFD Async Mode</span>
+        <span class="nf-chip">Microsecond Timers</span>
+        <span class="nf-chip">Hardware ASIC Offload</span>
+      </div>
+    </div>
+  </a>
 
-    classDef hft fill:#bf360c,stroke:#ff8a65,color:#ffffff,stroke-width:2px,font-weight:bold;
-    class S1,S2,S3,S4,S5 hft;
-```
+  <a class="nf-step-card" href="#stage-3-multicast-market-data-distribution-trees">
+    <div class="nf-step-num">03</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 3 · Multicast Market Data Distribution Trees</h4>
+        <span class="nf-badge ok">Market Tick Feeds</span>
+      </div>
+      <p class="nf-step-desc">Deliver market tick feeds simultaneously to hundreds of trading servers with zero packet serialization delay and instant buffer release.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">PIM-SM Anycast RP</span>
+        <span class="nf-chip">IGMPv3 SSM</span>
+        <span class="nf-chip">IGMP Fast-Leave</span>
+        <span class="nf-chip">SPT Switchover</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-4-line-rate-point-to-point-encryption">
+    <div class="nf-step-num">04</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 4 · Line-Rate Point-to-Point Encryption</h4>
+        <span class="nf-badge ok">Zero-Latency Security</span>
+      </div>
+      <p class="nf-step-desc">Secure inter-datacenter and exchange cross-connects at 100Gbps line rate with sub-microsecond hardware encryption latency.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">IEEE 802.1AE MACsec</span>
+        <span class="nf-chip">AES-256-GCM</span>
+        <span class="nf-chip">MKA Key Agreement</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-5-high-frequency-system-design-and-precision-timing">
+    <div class="nf-step-num">05</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 5 · High-Frequency System Design & Precision Timing</h4>
+        <span class="nf-badge ok">Nanosecond Architecture</span>
+      </div>
+      <p class="nf-step-desc">Master the hardware architecture of exchange co-location facilities: cut-through switching, IEEE 1588 PTP nanosecond clocks, and DPDK kernel bypass.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">Cut-Through Forwarding</span>
+        <span class="nf-chip">IEEE 1588 PTP</span>
+        <span class="nf-chip">Solarflare OpenOnload</span>
+        <span class="nf-chip">DPDK</span>
+      </div>
+    </div>
+  </a>
+
+</div>
 
 ---
 

@@ -30,25 +30,90 @@
 
 ## 🗺️ 5-Stage Progressive Milestone Roadmap
 
-```mermaid
-graph TD
-    S1["<b>Stage 1: Data Modeling & Template Generation</b><br/>YAML Schema Definition & Jinja2 Network Templates<br/><i>Decouple business intent from vendor CLI syntax</i>"]
-    S2["<b>Stage 2: Operational State Assertions</b><br/>PyATS & Genie Structured State Validation<br/><i>Turn CLI show commands into structured JSON assertions</i>"]
-    S3["<b>Stage 3: Offline Pre-Flight Verification</b><br/>Batfish Abstract Syntax Tree (AST) Simulation<br/><i>Mathematically prove ACL & route policy safety before deploy</i>"]
-    S4["<b>Stage 4: Automated CI/CD Deployment Pipelines</b><br/>GitHub Actions, Pull Request Gating & Containerlab<br/><i>Run headless virtual fabric testing on every pull request</i>"]
-    S5["<b>Stage 5: Programmable Telemetry & Feedback Loops</b><br/>pygnmi, OpenConfig YANG & Streaming Telemetry<br/><i>Close the loop with automated verification and metrics</i>"]
+<div class="nf-stepper">
 
-    S1 ==> S2 ==> S3 ==> S4 ==> S5
+  <a class="nf-step-card" href="#stage-1-data-modeling-template-generation">
+    <div class="nf-step-num">01</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 1 · Data Modeling & Template Generation</h4>
+        <span class="nf-badge ok">Single Source of Truth</span>
+      </div>
+      <p class="nf-step-desc">Decouple business network intent from proprietary device CLI syntax using YAML data schemas and Jinja2 rendering engines.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">YAML Data Models</span>
+        <span class="nf-chip">Jinja2 Templating</span>
+        <span class="nf-chip">Schema Validation</span>
+      </div>
+    </div>
+  </a>
 
-    click S1 href "#stage-1-data-modeling-template-generation" "Jump to Stage 1"
-    click S2 href "#stage-2-operational-state-assertions" "Jump to Stage 2"
-    click S3 href "#stage-3-offline-pre-flight-verification-with-batfish" "Jump to Stage 3"
-    click S4 href "#stage-4-automated-cicd-deployment-pipelines" "Jump to Stage 4"
-    click S5 href "#stage-5-programmable-telemetry-feedback-loops" "Jump to Stage 5"
+  <a class="nf-step-card" href="#stage-2-operational-state-assertions">
+    <div class="nf-step-num">02</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 2 · Operational State Assertions</h4>
+        <span class="nf-badge ok">Automated Testing</span>
+      </div>
+      <p class="nf-step-desc">Convert fragile text scraping into robust JSON assertions using Cisco PyATS testbeds and Genie operational state parsers.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">Cisco PyATS</span>
+        <span class="nf-chip">Genie Parsers</span>
+        <span class="nf-chip">State Diffs</span>
+        <span class="nf-chip">Route Table Assertions</span>
+      </div>
+    </div>
+  </a>
 
-    classDef dev fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
-    class S1,S2,S3,S4,S5 dev;
-```
+  <a class="nf-step-card" href="#stage-3-offline-pre-flight-verification-with-batfish">
+    <div class="nf-step-num">03</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 3 · Offline Pre-Flight Verification</h4>
+        <span class="nf-badge ok">Digital Twin</span>
+      </div>
+      <p class="nf-step-desc">Mathematically verify routing policies, ACL safety, and end-to-end reachability offline using Batfish AST simulation before pushing changes.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">Batfish AST</span>
+        <span class="nf-chip">Symbolic Reachability</span>
+        <span class="nf-chip">ACL Simulation</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-4-automated-cicd-deployment-pipelines">
+    <div class="nf-step-num">04</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 4 · Automated CI/CD Deployment Pipelines</h4>
+        <span class="nf-badge ok">GitOps</span>
+      </div>
+      <p class="nf-step-desc">Spin up headless containerlab testbeds inside GitHub Actions runners to automatically gate pull requests on passing verification tests.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">GitHub Actions</span>
+        <span class="nf-chip">Containerlab Headless</span>
+        <span class="nf-chip">PR Gate Checks</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-5-programmable-telemetry-feedback-loops">
+    <div class="nf-step-num">05</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 5 · Programmable Telemetry & Feedback Loops</h4>
+        <span class="nf-badge ok">gNMI Automation</span>
+      </div>
+      <p class="nf-step-desc">Build programmatic closed-loop automation scripts that subscribe to OpenConfig streaming paths and trigger remediation events.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">pygnmi Python Client</span>
+        <span class="nf-chip">OpenConfig YANG</span>
+        <span class="nf-chip">Event-Driven Automation</span>
+      </div>
+    </div>
+  </a>
+
+</div>
 
 ---
 

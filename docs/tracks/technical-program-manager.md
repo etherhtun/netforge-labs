@@ -29,25 +29,89 @@
 
 ## 🗺️ 5-Stage Progressive Milestone Roadmap
 
-```mermaid
-graph TD
-    S1["<b>Stage 1: 5-Stage Clos Fabric Sizing & Capacity Math</b><br/>Port Radix Math, Spine-to-Leaf Ratios & Oversubscription<br/><i>Size compute fabrics for 100,000+ servers without blocking</i>"]
-    S2["<b>Stage 2: Routing Architecture & Blast Radius Design</b><br/>eBGP Datacenter Routing (RFC 7938) vs. iBGP<br/><i>Design deterministic failure domains and AS-PATH policies</i>"]
-    S3["<b>Stage 3: High-Availability & Convergence SLA Budgets</b><br/>Sub-50ms Ti-LFA Fast Reroute & BFD Offload<br/><i>Calculate SLA availability budgets and recovery times</i>"]
-    S4["<b>Stage 4: Multi-Tenant Overlays & Open Standards</b><br/>EVPN-VXLAN ESI Multihoming vs. Proprietary MLAG<br/><i>Eliminate vendor lock-in with open RFC standards</i>"]
-    S5["<b>Stage 5: Telemetry Governance & Vendor RFP Delivery</b><br/>gNMI OpenConfig Standardization & Acceptance Testing<br/><i>Define testable acceptance criteria for multi-million dollar RFPs</i>"]
+<div class="nf-stepper">
 
-    S1 ==> S2 ==> S3 ==> S4 ==> S5
+  <a class="nf-step-card" href="#stage-1-5-stage-clos-fabric-sizing-capacity-math">
+    <div class="nf-step-num">01</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 1 · 5-Stage Clos Fabric Sizing & Capacity Math</h4>
+        <span class="nf-badge ok">Fabric Math</span>
+      </div>
+      <p class="nf-step-desc">Calculate non-blocking Clos port radix formulas and oversubscription ratios across Tier-1 Leaf, Tier-2 Spine, and Tier-3 Super-Spine switches.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">5-Stage Clos</span>
+        <span class="nf-chip">Port Radix Formulas</span>
+        <span class="nf-chip">Oversubscription Ratios</span>
+      </div>
+    </div>
+  </a>
 
-    click S1 href "#stage-1-5-stage-clos-fabric-sizing-capacity-math" "Jump to Stage 1"
-    click S2 href "#stage-2-routing-architecture-blast-radius-design" "Jump to Stage 2"
-    click S3 href "#stage-3-high-availability-convergence-sla-budgets" "Jump to Stage 3"
-    click S4 href "#stage-4-multi-tenant-overlays-open-standards" "Jump to Stage 4"
-    click S5 href "#stage-5-telemetry-governance-vendor-rfp-delivery" "Jump to Stage 5"
+  <a class="nf-step-card" href="#stage-2-routing-architecture-blast-radius-design">
+    <div class="nf-step-num">02</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 2 · Routing Architecture & Blast Radius Design</h4>
+        <span class="nf-badge ok">Governance</span>
+      </div>
+      <p class="nf-step-desc">Compare RFC 7938 eBGP leaf-spine fabrics against IGP+iBGP to eliminate routing loops and contain failure blast radiuses.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">RFC 7938 eBGP</span>
+        <span class="nf-chip">ASN Allocation Strategy</span>
+        <span class="nf-chip">Failure Domain Isolation</span>
+      </div>
+    </div>
+  </a>
 
-    classDef tpm fill:#004d40,stroke:#80cbc4,color:#ffffff,stroke-width:2px,font-weight:bold;
-    class S1,S2,S3,S4,S5 tpm;
-```
+  <a class="nf-step-card" href="#stage-3-high-availability-convergence-sla-budgets">
+    <div class="nf-step-num">03</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 3 · High-Availability & Convergence SLA Budgets</h4>
+        <span class="nf-badge ok">99.999% SLAs</span>
+      </div>
+      <p class="nf-step-desc">Calculate production availability budgets and evaluate sub-50ms Ti-LFA fast reroute vs. traditional IGP convergence timers.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">Ti-LFA Sub-50ms</span>
+        <span class="nf-chip">Error Budgeting</span>
+        <span class="nf-chip">BFD Hardware Offload</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-4-multi-tenant-overlays-open-standards">
+    <div class="nf-step-num">04</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 4 · Multi-Tenant Overlays & Open Standards</h4>
+        <span class="nf-badge ok">Open Standards</span>
+      </div>
+      <p class="nf-step-desc">Decouple physical fabrics from tenant services using EVPN-VXLAN with ESI multihoming, avoiding proprietary MLAG/vPC lock-in.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">EVPN-VXLAN</span>
+        <span class="nf-chip">ESI Multihoming</span>
+        <span class="nf-chip">Multi-Vendor Interop</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-5-telemetry-governance-vendor-rfp-delivery">
+    <div class="nf-step-num">05</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 5 · Telemetry Governance & Vendor RFP Delivery</h4>
+        <span class="nf-badge ok">Vendor RFPs</span>
+      </div>
+      <p class="nf-step-desc">Write standardized multi-vendor OpenConfig telemetry specs and mandate automated PyATS acceptance tests for hardware procurement.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">OpenConfig YANG</span>
+        <span class="nf-chip">gNMI Governance</span>
+        <span class="nf-chip">Automated RFP Acceptance</span>
+      </div>
+    </div>
+  </a>
+
+</div>
 
 ---
 

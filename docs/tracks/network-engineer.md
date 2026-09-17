@@ -22,59 +22,159 @@ Modern AI training clusters (LLM pre-training, mixture-of-experts, distributed G
 
 This learning path directly mirrors the production competencies required by leading architecture positions (such as the *HPE Architect - Network for AI, Routing and Automation* and *Meta Production Network Architect* roles):
 
-```mermaid
-mindmap
-  root((Network for AI &<br/>Hyperscale Architect))
-    AI & Datacenter Fabrics
-      Lossless RoCEv2 & RDMA
-      PFC 802.1Qbb Priority Flow Control
-      ECN RFC 3168 & WRED Marking
-      5-Stage Non-Blocking Clos
-      EVPN-VXLAN RFC 8365/7432
-      ESI All-Active Multihoming
-    High-Radix Routing & Core
-      BGP RFC 7938 Datacenter Design
-      10-Step BGP Path Selection
-      BGP Unnumbered RFC 5549
-      iBGP Route Reflectors
-      Sub-second BFD Link Detection
-    Modern Backbone Transport
-      Segment Routing SR-MPLS
-      SRGB 16000-23999 Allocation
-      Sub-50ms Ti-LFA Fast Reroute
-      MP-BGP VPNv4 Carrier Edge
-    NetDevOps & Telemetry
-      gNMI gRPC Streaming Telemetry
-      OpenConfig YANG Data Models
-      Prometheus & Grafana Alerts
-      PyATS Automated Post-Change Gates
-```
+<div class="grid cards" markdown>
+
+-   ⚡ **AI Fabric & Lossless Transport**
+
+    ---
+
+    - **Zero Packet Drop**: Priority Flow Control (PFC 802.1Qbb) to prevent buffer overflows
+    - **Congestion Avoidance**: ECN (RFC 3168) & WRED marking before pause storms
+    - **Ultra-Low Latency**: RDMA over Converged Ethernet (RoCEv2) for GPU memory access
+    - **Buffer Sizing**: Incast mitigation and dynamic headroom partition sizing
+
+-   🌐 **Hyperscale Clos Datacenter Fabrics**
+
+    ---
+
+    - **Non-Blocking Scale**: 5-Stage Clos topology math supporting 16,384+ GPUs
+    - **Overlay Routing**: EVPN-VXLAN (RFC 8365 / RFC 7432) with Symmetric IRB
+    - **Open Multihoming**: ESI All-Active multihoming replacing proprietary MLAG/vPC
+    - **Multi-Pod Interconnect**: VXLAN DCI and seamless inter-fabric data movement
+
+-   🛣️ **High-Radix Routing & Backbone**
+
+    ---
+
+    - **Datacenter BGP**: RFC 7938 leaf-spine BGP design with per-tier private ASNs
+    - **BGP Unnumbered**: RFC 5549 IPv4 peering over IPv6 Link-Local interfaces
+    - **Segment Routing**: SR-MPLS with SRGB `16000–23999` and Node/Prefix SIDs
+    - **Sub-50ms Protection**: Topology-Independent LFA (Ti-LFA) Fast Reroute
+
+-   🤖 **NetDevOps & Telemetry Automation**
+
+    ---
+
+    - **Push Observability**: Sub-second gNMI streaming telemetry over gRPC HTTP/2
+    - **Standardized Schemas**: Multi-vendor OpenConfig YANG telemetry models
+    - **Time-Series Monitoring**: Prometheus metrics scraping and Grafana dashboards
+    - **Automated Verification**: Cisco PyATS/Genie pre- and post-maintenance test suites
+
+</div>
 
 ---
 
 ## 🗺️ 6-Stage Progressive Milestone Roadmap
 
-```mermaid
-graph TD
-    S1["<b>Stage 1: Underlay Routing & High-Performance Fabrics</b><br/>OSPFv2/v3 Area 0 & IS-IS Wide Metrics (RFC 5305)<br/><i>Foundation for predictable latency & ECMP</i>"]
-    S2["<b>Stage 2: Enterprise Edge & Hyperscale BGP-4 Core</b><br/>RFC 7938 eBGP Clos, Route Reflectors & 10-Step Path Selection<br/><i>Blast-radius containment across massive scale</i>"]
-    S3["<b>Stage 3: Backbone Transport & Segment Routing</b><br/>MP-BGP VPNv4 & SR-MPLS Ti-LFA Sub-50ms Fast Reroute<br/><i>Next-gen traffic steering without LDP/RSVP-TE bloat</i>"]
-    S4["<b>Stage 4: AI & Datacenter Fabrics (EVPN-VXLAN + Lossless)</b><br/>Symmetric IRB, ESI Multihoming, RoCEv2, PFC & ECN<br/><i>Ultra-Ethernet architectures for GPU-to-GPU clusters</i>"]
-    S5["<b>Stage 5: NetDevOps & Real-Time Streaming Telemetry</b><br/>gNMI OpenConfig, Prometheus, Grafana & PyATS Validations<br/><i>Sub-second telemetry replacing legacy SNMP polling</i>"]
-    S6["<b>Stage 6: Capstone System Design & Failure Triage</b><br/>5-Stage Clos Scaling Math, Buffer Overflows & Link Drop Drills<br/><i>Staff-level architecture defense & live troubleshooting</i>"]
+<div class="nf-stepper">
 
-    S1 ==> S2 ==> S3 ==> S4 ==> S5 ==> S6
+  <a class="nf-step-card" href="#stage-1-underlay-routing-high-performance-fabrics">
+    <div class="nf-step-num">01</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 1 · Underlay Routing & High-Performance Fabrics</h4>
+        <span class="nf-badge ok">Foundation</span>
+      </div>
+      <p class="nf-step-desc">Establish deterministic ECMP load-balancing, sub-second convergence, and point-to-point link-state fabrics without DR/BDR election overhead.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">OSPFv2/v3 Area 0</span>
+        <span class="nf-chip">IS-IS Wide Metrics</span>
+        <span class="nf-chip">RFC 5305</span>
+        <span class="nf-chip">ECMP Hashing</span>
+      </div>
+    </div>
+  </a>
 
-    click S1 href "#stage-1-underlay-routing-high-performance-fabrics" "Jump to Stage 1 Lessons"
-    click S2 href "#stage-2-enterprise-edge-hyperscale-bgp-4-core" "Jump to Stage 2 Lessons"
-    click S3 href "#stage-3-backbone-transport-segment-routing-sr-mpls" "Jump to Stage 3 Lessons"
-    click S4 href "#stage-4-ai-datacenter-fabrics-evpn-vxlan-lossless-ethernet" "Jump to Stage 4 Lessons"
-    click S5 href "#stage-5-netdevops-real-time-streaming-telemetry" "Jump to Stage 5 Lessons"
-    click S6 href "#stage-6-capstone-system-design-failure-triage-drills" "Jump to Stage 6 Lessons"
+  <a class="nf-step-card" href="#stage-2-enterprise-edge-hyperscale-bgp-4-core">
+    <div class="nf-step-num">02</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 2 · Enterprise Edge & Hyperscale BGP-4 Core</h4>
+        <span class="nf-badge ok">Control Plane</span>
+      </div>
+      <p class="nf-step-desc">Scale the control plane across massive leaf-spine fabrics with blast-radius containment, 10-step path selection, and iBGP route reflectors.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">RFC 7938 BGP</span>
+        <span class="nf-chip">Route Reflectors</span>
+        <span class="nf-chip">10-Step Decision</span>
+        <span class="nf-chip">BGP Communities</span>
+        <span class="nf-chip">Dual-Homed DIA</span>
+      </div>
+    </div>
+  </a>
 
-    classDef stage fill:#0d47a1,stroke:#64b5f6,color:#ffffff,stroke-width:2px,font-weight:bold;
-    class S1,S2,S3,S4,S5,S6 stage;
-```
+  <a class="nf-step-card" href="#stage-3-backbone-transport-segment-routing-sr-mpls">
+    <div class="nf-step-num">03</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 3 · Backbone Transport & Segment Routing</h4>
+        <span class="nf-badge ok">Transport Core</span>
+      </div>
+      <p class="nf-step-desc">Eliminate LDP and RSVP-TE state bloat using Source Routing, establish multi-tenant MP-BGP VPNv4, and guarantee sub-50ms failover.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">SR-MPLS</span>
+        <span class="nf-chip">SRGB 16000-23999</span>
+        <span class="nf-chip">Prefix SIDs</span>
+        <span class="nf-chip">Ti-LFA Sub-50ms</span>
+        <span class="nf-chip">MP-BGP VPNv4</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-4-ai-datacenter-fabrics-evpn-vxlan-lossless-ethernet">
+    <div class="nf-step-num">04</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 4 · AI & Datacenter Fabrics (EVPN-VXLAN + Lossless)</h4>
+        <span class="nf-badge ok">AI Flagship</span>
+      </div>
+      <p class="nf-step-desc">Deploy high-radix leaf-spine fabrics with distributed Symmetric IRB routing, vendor-neutral ESI multihoming, and lossless RoCEv2/PFC tuning for GPU clusters.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">RoCEv2 Lossless</span>
+        <span class="nf-chip">PFC 802.1Qbb</span>
+        <span class="nf-chip">ECN RFC 3168</span>
+        <span class="nf-chip">EVPN-VXLAN</span>
+        <span class="nf-chip">ESI Multihoming</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-5-netdevops-real-time-streaming-telemetry">
+    <div class="nf-step-num">05</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 5 · NetDevOps & Real-Time Streaming Telemetry</h4>
+        <span class="nf-badge ok">Observability</span>
+      </div>
+      <p class="nf-step-desc">Replace 5-minute SNMP polling with sub-second gRPC push streams, standardized OpenConfig YANG models, Prometheus alerting, and PyATS verification.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">gNMI gRPC Protobuf</span>
+        <span class="nf-chip">OpenConfig YANG</span>
+        <span class="nf-chip">Prometheus</span>
+        <span class="nf-chip">Grafana</span>
+        <span class="nf-chip">PyATS Assertions</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-6-capstone-system-design-failure-triage-drills">
+    <div class="nf-step-num">06</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 6 · Capstone System Design & Failure Triage Drills</h4>
+        <span class="nf-badge ok">Architecture Mastery</span>
+      </div>
+      <p class="nf-step-desc">Tackle real-world hyperscale scaling calculations for 16,384+ GPU fabrics, debug silent packet drop and PFC deadlock, and defend designs in staff-level interview drills.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">5-Stage Clos Sizing</span>
+        <span class="nf-chip">PFC Deadlock Mitigation</span>
+        <span class="nf-chip">CoPP Defense</span>
+        <span class="nf-chip">BGP Unnumbered RFC 5549</span>
+      </div>
+    </div>
+  </a>
+
+</div>
 
 ---
 

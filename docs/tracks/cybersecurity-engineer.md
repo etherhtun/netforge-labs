@@ -31,27 +31,106 @@
 
 ## 🗺️ 6-Stage Progressive Milestone Roadmap
 
-```mermaid
-graph TD
-    S1["<b>Stage 1: Packet Forensics & Traffic Inspection</b><br/>Wireshark, tcpdump & Flow Analysis<br/><i>Dissect protocol handshakes and malformed headers</i>"]
-    S2["<b>Stage 2: Application Security & Edge WAF</b><br/>OWASP Top 10 Defenses & ModSecurity Rules<br/><i>Filter malicious payloads before reaching application backends</i>"]
-    S3["<b>Stage 3: Zero-Trust Identity & Secrets Management</b><br/>OAuth2, OIDC, mTLS & HashiCorp Vault<br/><i>Cryptographic identity and short-lived credential rotation</i>"]
-    S4["<b>Stage 4: Network Fabric Hardening & CoPP Defense</b><br/>Control Plane Policing, iACLs & VRF Segmentation<br/><i>Shield switch CPUs from distributed denial of service</i>"]
-    S5["<b>Stage 5: Container & Cloud DevSecOps</b><br/>Trivy Scanning & Falco eBPF Kernel Threat Detection<br/><i>Detect container breakouts and privilege escalation in real time</i>"]
-    S6["<b>Stage 6: SIEM Ingestion & Incident Response Playbooks</b><br/>Wazuh, Log Analysis & Forensic Containment<br/><i>Investigate breaches and automate threat isolation</i>"]
+<div class="nf-stepper">
 
-    S1 ==> S2 ==> S3 ==> S4 ==> S5 ==> S6
+  <a class="nf-step-card" href="#stage-1-packet-forensics-traffic-inspection">
+    <div class="nf-step-num">01</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 1 · Packet Forensics & Traffic Inspection</h4>
+        <span class="nf-badge ok">Deep Packet Inspection</span>
+      </div>
+      <p class="nf-step-desc">Dissect raw TCP 3-way handshake anomalies, TCP window exhaustion, and protocol evasion techniques using Wireshark and tcpdump.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">Wireshark</span>
+        <span class="nf-chip">tcpdump PCAPs</span>
+        <span class="nf-chip">Layer 2-7 Forensics</span>
+      </div>
+    </div>
+  </a>
 
-    click S1 href "#stage-1-packet-forensics-traffic-inspection" "Jump to Stage 1"
-    click S2 href "#stage-2-application-security-edge-waf" "Jump to Stage 2"
-    click S3 href "#stage-3-zero-trust-identity-secrets-management" "Jump to Stage 3"
-    click S4 href "#stage-4-network-fabric-hardening-copp-defense" "Jump to Stage 4"
-    click S5 href "#stage-5-container-cloud-devsecops" "Jump to Stage 5"
-    click S6 href "#stage-6-siem-ingestion-incident-response-playbooks" "Jump to Stage 6"
+  <a class="nf-step-card" href="#stage-2-application-security-edge-waf">
+    <div class="nf-step-num">02</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 2 · Application Security & Edge WAF</h4>
+        <span class="nf-badge ok">AppSec</span>
+      </div>
+      <p class="nf-step-desc">Defend microservices and APIs against OWASP Top 10 exploits by configuring Web Application Firewall rules and rate-limiting thresholds.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">OWASP Top 10</span>
+        <span class="nf-chip">ModSecurity</span>
+        <span class="nf-chip">API Rate Limiting</span>
+      </div>
+    </div>
+  </a>
 
-    classDef sec fill:#b71c1c,stroke:#ef5350,color:#ffffff,stroke-width:2px,font-weight:bold;
-    class S1,S2,S3,S4,S5,S6 sec;
-```
+  <a class="nf-step-card" href="#stage-3-zero-trust-identity-secrets-management">
+    <div class="nf-step-num">03</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 3 · Zero-Trust Identity & Secrets Management</h4>
+        <span class="nf-badge ok">Zero-Trust</span>
+      </div>
+      <p class="nf-step-desc">Enforce cryptographic identity boundaries with Mutual TLS (mTLS), scoped OAuth2/OIDC JWT tokens, and automated HashiCorp Vault secret rotation.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">Mutual TLS (mTLS)</span>
+        <span class="nf-chip">OAuth2 / OIDC</span>
+        <span class="nf-chip">HashiCorp Vault</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-4-network-fabric-hardening-copp-defense">
+    <div class="nf-step-num">04</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 4 · Network Fabric Hardening & CoPP Defense</h4>
+        <span class="nf-badge ok">Switch Hardening</span>
+      </div>
+      <p class="nf-step-desc">Protect switch Supervisor CPUs from DDoS floods using Control Plane Policing (CoPP), Infrastructure ACLs (iACL), and VRF microsegmentation.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">CoPP CPU Protection</span>
+        <span class="nf-chip">Infrastructure ACLs</span>
+        <span class="nf-chip">VRF Route Leaking</span>
+        <span class="nf-chip">MACsec AES-256</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-5-container-cloud-devsecops">
+    <div class="nf-step-num">05</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 5 · Container & Cloud DevSecOps</h4>
+        <span class="nf-badge ok">eBPF Security</span>
+      </div>
+      <p class="nf-step-desc">Detect container breakouts and privilege escalations in real time using eBPF system call filtering with Falco and static image scanning with Trivy.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">Falco eBPF</span>
+        <span class="nf-chip">Trivy Vulnerability Scanner</span>
+        <span class="nf-chip">Linux Capabilities</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="nf-step-card" href="#stage-6-siem-ingestion-incident-response-playbooks">
+    <div class="nf-step-num">06</div>
+    <div class="nf-step-content">
+      <div class="nf-step-header">
+        <h4 class="nf-step-title">Stage 6 · SIEM Ingestion & Incident Response Playbooks</h4>
+        <span class="nf-badge ok">SecOps</span>
+      </div>
+      <p class="nf-step-desc">Aggregate security telemetry into Wazuh / Elastic SIEM, triage multi-stage attack vectors, and execute containment playbooks.</p>
+      <div class="nf-chips">
+        <span class="nf-chip">Wazuh SIEM</span>
+        <span class="nf-chip">Log Correlation</span>
+        <span class="nf-chip">Incident Response</span>
+      </div>
+    </div>
+  </a>
+
+</div>
 
 ---
 
