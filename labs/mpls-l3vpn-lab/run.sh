@@ -13,12 +13,14 @@ cd "$(dirname "$0")"
 FABRIC="clab-mpls-l3vpn-lab"
 STEPS=(01 02 03 04)
 
-declare -A TITLE=(
-  [01]="MPLS + LDP Underlay — OSPF & LDP Label Exchange"
-  [02]="Customer VRF RED & Route Target Configuration"
-  [03]="MP-iBGP VPNv4 Peer Session Setup"
-  [04]="PE-CE Routing & End-to-End Data Plane Verification"
-)
+step_title() {
+  case "$1" in
+    01) echo "MPLS + LDP Underlay — OSPF & LDP Label Exchange" ;;
+    02) echo "Customer VRF RED & Route Target Configuration" ;;
+    03) echo "MP-iBGP VPNv4 Peer Session Setup" ;;
+    04) echo "PE-CE Routing & End-to-End Data Plane Verification" ;;
+  esac
+}
 
 c_ok=$'\033[32m'; c_bad=$'\033[31m'; c_dim=$'\033[2m'; c_off=$'\033[0m'
 [ -t 1 ] || { c_ok=; c_bad=; c_dim=; c_off=; }
@@ -61,13 +63,63 @@ verify_step() {
 run_step() {
   local step=$1
   echo
-  echo "── Step ${step} · ${TITLE[$step]:-}"
+  echo "── Step ${step} · $(step_title "$step")"
   apply_step "$step"
   if verify_step "$step"; then
     echo "  ${c_ok}✅ DONE${c_off}"
     return 0
   else
     echo "  ${c_bad}❌ FAILED — fix this before continuing${c_off}"
+    return 1
+  fi
+}
+
+run_guided_step() {
+  local step=$1
+  echo
+  echo "=========================================================================="
+  echo "  📖 FULLY GUIDED WALKTHROUGH: Step ${step} · $(step_title "$step")"
+  echo "=========================================================================="
+
+  echo
+  echo "  [1/3] Configuration Snippets to Apply:"
+  for cfg in steps/${step}-*.cfg; do
+    [ -e "$cfg" ] || continue
+    local node; node=$(basename "$cfg" | cut -d- -f2)
+    echo "  ------------------------------------------------------------------------"
+    echo "  📄 Target Node: ${node} (${cfg})"
+    echo "  ------------------------------------------------------------------------"
+    cat "$cfg" | sed 's/^/    /'
+    echo
+  done
+
+  printf "  ${c_dim}👉 Press [ENTER] to apply configuration to target router nodes...${c_off}"
+  read -r _ < /dev/tty || true
+
+  echo
+  echo "  Applying configuration..."
+  apply_step "$step"
+
+  echo
+  echo "  [2/3] Suggested CLI Commands for Manual Verification:"
+  case "$step" in
+    01) echo "    docker exec -it ${FABRIC}-pe1 Cli -p 15 -c \"show mpls ldp neighbor\"" ;;
+    02) echo "    docker exec -it ${FABRIC}-pe1 Cli -p 15 -c \"show vrf RED\"" ;;
+    03) echo "    docker exec -it ${FABRIC}-pe1 Cli -p 15 -c \"show bgp vpn-ipv4 summary\"" ;;
+    04) echo "    docker exec -it ${FABRIC}-ce1 Cli -p 15 -c \"ping 10.100.2.2 repeat 3\"" ;;
+  esac
+  echo
+
+  printf "  ${c_dim}👉 Press [ENTER] to run automated verification gate...${c_off}"
+  read -r _ < /dev/tty || true
+
+  echo
+  echo "  [3/3] Running Automated Verification Gate:"
+  if verify_step "$step"; then
+    echo "  ${c_ok}✅ STEP ${step} PASSED!${c_off}"
+    return 0
+  else
+    echo "  ${c_bad}❌ STEP ${step} FAILED — fix configuration before proceeding${c_off}"
     return 1
   fi
 }
@@ -82,10 +134,18 @@ case "${1:---all}" in
     echo "Fabric redeployed."
     exec "$0" --all ;;
   --list)
-    for s in "${STEPS[@]}"; do printf "  %s  %s\n" "$s" "${TITLE[$s]}"; done ;;
+    for s in "${STEPS[@]}"; do printf "  %s  %s\n" "$s" "$(step_title "$s")"; done ;;
   --verify)
     preflight; step="${2:?usage: ./run.sh --verify <step>}"
     verify_step "$step" && echo "  ${c_ok}✅ DONE${c_off}" || { echo "  ${c_bad}❌ FAILED${c_off}"; exit 1; } ;;
+  --guided|-g)
+    preflight
+    echo "Starting Fully Guided Interactive Walkthrough across all steps..."
+    for s in "${STEPS[@]}"; do
+      run_guided_step "$s" || die "Stopped at step ${s}. Fix issue before continuing."
+    done
+    echo
+    echo "${c_ok}🎉 All guided steps completed successfully!${c_off}" ;;
   --all)
     preflight
     for s in "${STEPS[@]}"; do
@@ -96,5 +156,5 @@ case "${1:---all}" in
   [0-9]*)
     preflight; run_step "$1" || exit 1 ;;
   *)
-    die "usage: ./run.sh [--all | --list | --verify <step> | <step>]" ;;
+    die "usage: ./run.sh [--all | --guided | --list | --verify <step> | <step>]" ;;
 esac

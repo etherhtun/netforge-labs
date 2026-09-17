@@ -4,17 +4,31 @@
 
 **Time:** ~45 minutes · **Tools:** 6PE, 6VPE, MP-BGP Label Exchange
 
+!!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/ipv6-lab/`)"
+    **Step 1 · Deploy the Lab Fabric (if not already running)**
+    ```bash
+    cd labs/ipv6-lab
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ```
+
+    **Step 2 · Launch the Fully Guided Interactive Walkthrough**
+    ```bash
+    ./run.sh --guided
+    ```
+
+    ??? note "Alternative Execution Options (Automated Push or Manual CLI)"
+        - **Fast Automated Script Push**:
+          ```bash
+          ./run.sh 01          # apply + verify step 01 automatically
+          ./run.sh --all       # run all steps in order
+          ```
+        - **Manual Line-by-Line CLI Execution**:
+          Interactive CLI shell on any container node:
+          ```bash
+          docker exec -it clab-ipv6-lab-leaf1-v6 Cli
+          ```
+
 ---
-
-## 🚀 Getting Started & Repository Setup
-
-```bash
-git clone https://github.com/etherhtun/netforge-labs.git
-cd netforge-labs/labs/ipv6-lab
-```
-
----
-
 ## 🧠 Technology Deep Dive: 6PE & 6VPE Mechanics
 
 Upgrading a core service provider MPLS network to native IPv6 is expensive and complex. 

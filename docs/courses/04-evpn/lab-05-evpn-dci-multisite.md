@@ -4,23 +4,6 @@
 
 **Time:** ~50 minutes · **Nodes:** 8 (4 Spines/BGWs, 4 Leafs across 2 Datacenter Sites)
 
----
-
-## 🚀 Getting Started & Repository Setup
-
-Before starting this lab, clone the repository (or run `git pull` if already cloned) and navigate to the lab directory:
-
-```bash
-# 1. Clone repository (or pull latest changes)
-git clone https://github.com/etherhtun/netforge-labs.git
-cd netforge-labs
-
-# 2. Enter the EVPN datacenter lab directory
-cd labs/evpn-datacenter-lab
-```
-
----
-
 ## 🧠 Technology Deep Dive: EVPN Multi-Site DCI Architecture
 
 Connecting multiple geographically dispersed data centers (Data Center Interconnect / DCI) requires scaling EVPN beyond a single IP underlay domain:

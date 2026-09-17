@@ -4,17 +4,31 @@
 
 **Time:** ~45 minutes · **Tools:** BFD (Bidirectional Forwarding Detection)
 
+!!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/wan-edge-lab/`)"
+    **Step 1 · Deploy the Lab Fabric (if not already running)**
+    ```bash
+    cd labs/wan-edge-lab
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ```
+
+    **Step 2 · Launch the Fully Guided Interactive Walkthrough**
+    ```bash
+    ./run.sh --guided
+    ```
+
+    ??? note "Alternative Execution Options (Automated Push or Manual CLI)"
+        - **Fast Automated Script Push**:
+          ```bash
+          ./run.sh 01          # apply + verify step 01 automatically
+          ./run.sh --all       # run all steps in order
+          ```
+        - **Manual Line-by-Line CLI Execution**:
+          Interactive CLI shell on any container node:
+          ```bash
+          docker exec -it clab-wan-edge-lab-wan-edge1 Cli
+          ```
+
 ---
-
-## 🚀 Getting Started & Repository Setup
-
-```bash
-git clone https://github.com/etherhtun/netforge-labs.git
-cd netforge-labs/labs/wan-edge-lab
-```
-
----
-
 ## 🧠 Technology Deep Dive: BFD vs. Standard BGP Timers
 
 Standard BGP uses a 60-second Keepalive and a 180-second Hold-Timer. If an intermediate fiber transport fails without an interface link down signal, BGP can take 3 minutes to detect the failure!

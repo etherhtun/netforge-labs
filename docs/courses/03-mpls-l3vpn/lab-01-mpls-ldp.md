@@ -10,51 +10,29 @@ underlay, and LDP handing out labels on top.
 **What you'll end up with:** two edge routers (`pe1`, `pe2`) that can reach each
 other through a core router (`p1`), with a label-switched path built between them.
 
-!!! tip "Hybrid Approach — Script Push or Manual Typing"
-    Every lab supports both automated execution and manual line-by-line configuration:
+!!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/mpls-l3vpn-lab/`)"
+    **Step 1 · Deploy the Lab Fabric (if not already running)**
+    ```bash
+    cd labs/mpls-l3vpn-lab
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ```
 
-    - **Option A · Automated Script Push (Fast & Error-Free)**:
-      ```bash
-      cd netforge-labs/labs/mpls-l3vpn-lab
-      ./run.sh 01          # apply + verify step 01 automatically
-      ./run.sh --all       # run all steps in order
-      ```
-    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
-      Interactive CLI shell on any container node:
-      ```bash
-      docker exec -it clab-mpls-l3vpn-lab-pe1 Cli
-      pe1> enable
-      pe1# configure
-      ```
-      Or push individual step snippets using stdin:
-      `docker exec -i clab-mpls-l3vpn-lab-pe1 Cli -p 15 < steps/01-pe1-underlay.cfg`
+    **Step 2 · Launch the Fully Guided Interactive Walkthrough**
+    ```bash
+    ./run.sh --guided
+    ```
 
-```mermaid
-graph LR
-    PE1["pe1 (PE Edge)<br/>2.2.2.2/32"] <===>|OSPF + LDP<br/>10.1.1.0/24| P1["p1 (P Core)<br/>1.1.1.1/32"]
-    P1 <===>|OSPF + LDP<br/>10.1.2.0/24| PE2["pe2 (PE Edge)<br/>3.3.3.3/32"]
-    
-    classDef edge fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
-    classDef core fill:#0d47a1,stroke:#64b5f6,color:#ffffff,stroke-width:2px,font-weight:bold;
-    class PE1,PE2 edge; class P1 core;
-```
-
-| Node | Role | Loopback0 | Links |
-|---|---|---|---|
-| `p1` | core (P) | 1.1.1.1/32 | Et1 → pe1 (10.1.1.1/24) · Et2 → pe2 (10.1.2.1/24) |
-| `pe1` | edge (PE) | 2.2.2.2/32 | Et1 → p1 (10.1.1.2/24) |
-| `pe2` | edge (PE) | 3.3.3.3/32 | Et1 → p1 (10.1.2.2/24) |
-
-!!! danger "Two cEOS traps — read before you deploy"
-    **1. Link endpoints must be lowercase `ethN`.** cEOS counts `eth*` interfaces to
-    know when containerlab has finished wiring. Name one `Ethernet1` and it hangs on
-    `Connected 0 interfaces out of N` forever — EOS never boots, and
-    `docker exec … Cli` then fails with *"executable file not found"*. That error
-    means **EOS hasn't started**, not that your image is broken.
-
-    **2. Piping config in requires `docker exec -i`.** Without `-i`, stdin is never
-    attached, your heredoc is silently discarded, and the command **exits 0 having
-    applied nothing** — indistinguishable from success. Every block below uses `-i`.
+    ??? note "Alternative Execution Options (Automated Push or Manual CLI)"
+        - **Fast Automated Script Push**:
+          ```bash
+          ./run.sh 01          # apply + verify step 01 automatically
+          ./run.sh --all       # run all steps in order
+          ```
+        - **Manual Line-by-Line CLI Execution**:
+          Interactive CLI shell on any container node:
+          ```bash
+          docker exec -it clab-mpls-l3vpn-lab-pe1 Cli
+          ```
 
 ---
 

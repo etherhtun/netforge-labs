@@ -54,18 +54,52 @@ EOF
   echo "  ✅ DONE"
 }
 
-usage() {
-  echo "Usage: ./run.sh [--all | --render | --push | --verify]"
+list_steps() {
+  echo "Available steps in netdevops-lab:"
+  echo "  01 - Render Configuration Templates (Jinja2 + YAML)"
+  echo "  02 - Push Rendered Configurations to Fabric Nodes"
+  echo "  03 - Verify Fabric Health & Neighbor Status"
   exit 0
 }
 
-preflight
+usage() {
+  echo "Usage: ./run.sh [--all | --guided | --render | --push | --verify | --list]"
+  exit 0
+}
 
 case "${1:-}" in
+  --list|-l) list_steps ;;
+  --help|-h) usage ;;
   --render) render_configs ;;
-  --push) push_configs ;;
-  --verify) verify_fabric ;;
+  --push) preflight; push_configs ;;
+  --verify) preflight; verify_fabric ;;
+  --guided|-g)
+    preflight
+    echo "=========================================================================="
+    echo "  📖 FULLY GUIDED WALKTHROUGH: Phase 5 NetDevOps Automation Pipeline"
+    echo "=========================================================================="
+    echo ""
+    echo "  [1/3] Step 01: Template Rendering (Jinja2 + YAML)"
+    printf "  \033[2m👉 Press [ENTER] to execute template generation...\033[0m"
+    read -r _ < /dev/tty || true
+    render_configs
+
+    echo ""
+    echo "  [2/3] Step 02: Deploy Rendered Configurations to Fabric"
+    printf "  \033[2m👉 Press [ENTER] to push configurations via EOS Cli...\033[0m"
+    read -r _ < /dev/tty || true
+    push_configs
+
+    echo ""
+    echo "  [3/3] Step 03: Automated Network Verification Gate"
+    printf "  \033[2m👉 Press [ENTER] to run EVPN verification...\033[0m"
+    read -r _ < /dev/tty || true
+    verify_fabric
+    echo ""
+    echo -e "\033[32m🎉 NetDevOps pipeline executed and verified successfully!\033[0m"
+    ;;
   --all|-a)
+    preflight
     render_configs
     push_configs
     verify_fabric

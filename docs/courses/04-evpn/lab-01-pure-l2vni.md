@@ -4,39 +4,29 @@
 
 **Time:** ~45 minutes · **Nodes:** 6 (2 Spines, 2 Leafs, 2 Customer Hosts)
 
-!!! tip "Hybrid Approach — Script Push or Manual Typing"
-    Every lab supports both automated execution and manual line-by-line configuration:
+!!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/evpn-datacenter-lab/`)"
+    **Step 1 · Deploy the Lab Fabric (if not already running)**
+    ```bash
+    cd labs/evpn-datacenter-lab
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ```
 
-    - **Option A · Automated Script Push (Fast & Error-Free)**:
-      ```bash
-      cd netforge-labs/labs/evpn-datacenter-lab
-      ./run.sh 01          # apply + verify step 01 automatically
-      ./run.sh --all       # run all steps in order
-      ```
-    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
-      Interactive CLI shell on any container node:
-      ```bash
-      docker exec -it clab-evpn-datacenter-lab-leaf1 Cli
-      leaf1> enable
-      leaf1# configure
-      ```
+    **Step 2 · Launch the Fully Guided Interactive Walkthrough**
+    ```bash
+    ./run.sh --guided
+    ```
 
----
-
-## 🚀 Getting Started & Repository Setup
-
-Before starting this lab, clone the repository (or run `git pull` if already cloned) and navigate to the lab directory:
-
-```bash
-# 1. Clone repository (or pull latest changes)
-git clone https://github.com/etherhtun/netforge-labs.git
-cd netforge-labs
-
-# 2. Enter the EVPN datacenter lab directory
-cd labs/evpn-datacenter-lab
-```
-
----
+    ??? note "Alternative Execution Options (Automated Push or Manual CLI)"
+        - **Fast Automated Script Push**:
+          ```bash
+          ./run.sh 01          # apply + verify step 01 automatically
+          ./run.sh --all       # run all steps in order
+          ```
+        - **Manual Line-by-Line CLI Execution**:
+          Interactive CLI shell on any container node:
+          ```bash
+          docker exec -it clab-evpn-datacenter-lab-leaf1 Cli
+          ```
 
 ## 🧠 Technology Deep Dive: Pure L2VNI Bridging
 

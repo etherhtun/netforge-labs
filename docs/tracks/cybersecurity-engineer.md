@@ -1,12 +1,18 @@
-# 🔒 Cybersecurity & DevSecOps Engineer Track
+# 🔒 Cybersecurity & DevSecOps Learning Path
 
-> 🚀 **Real Cybersecurity Engineering**: From Web Application Firewalls (WAF) and Identity & Access Management (IAM) to Cloud/Container Security (Trivy/Falco), Suricata IDS/IPS, SIEM Log Analysis, and Incident Response Playbooks.
+> 🚀 **Real Cybersecurity & Infrastructure Defense**: From Control Plane Policing (CoPP) and VRF microsegmentation to Web Application Firewalls (WAF), Zero-Trust Identity (IAM/mTLS), Container Security (Falco eBPF), and SIEM Incident Response.
 
 ---
 
-## 🎯 Target Roles & Industry Demand
-- **Roles**: Cybersecurity Engineer, DevSecOps Engineer, Security Operations (SecOps) Lead, Cloud Security Architect, Incident Responder.
-- **Target Employers**: Hyperscalers, Financial Tech (FinTech), Healthcare, Defense Contractors, and Security Operations Centers (SOC).
+## 📊 Learning Path Overview
+
+| Metric | Target Specification |
+|---|---|
+| **Estimated Completion Time** | **30 – 35 Hours** (Hands-on labs & scenario-driven drills) |
+| **Milestone Stages** | **6 Progressive Stages** (Packet Analysis $\rightarrow$ AppSec/WAF $\rightarrow$ Zero-Trust $\rightarrow$ Network & CoPP Defense $\rightarrow$ Container Security $\rightarrow$ SIEM & IR) |
+| **Lab Framework** | **Containerlab + Arista cEOS + Linux Security Tools** (Runs 100% locally on macOS OrbStack or Linux Docker) |
+| **Target Roles** | Cybersecurity Engineer, DevSecOps Engineer, Security Operations (SecOps) Lead, Cloud Security Architect |
+| **Target Employers** | Hyperscalers, Financial Tech (FinTech), Healthcare, Defense Contractors, and Security Operations Centers (SOC) |
 
 ---
 
@@ -14,26 +20,86 @@
 
 | Security Domain | Real Engineering Tool | Key Technical Mechanics |
 |---|---|---|
-| **AppSec & WAF** | **OWASP Top 10 / WAF (ModSecurity)** | Preventing SQLi, XSS, CSRF, and API rate-limiting |
-| **IAM & Zero-Trust Auth** | **OAuth2 / OIDC / mTLS / HashiCorp Vault** | Secret management, mTLS client certs, JWT validation |
-| **Cloud & Container Sec** | **Trivy / Falco / K8s RBAC** | Container vulnerability scanning, eBPF runtime threat detection |
-| **IDS / IPS & Detection** | **Suricata / Snort / Zeek** | Deep packet inspection, signature matching, YARA rules |
-| **SIEM & SecOps** | **Elastic SIEM / Wazuh / Splunk** | Log aggregation, PCAP forensic analysis, automated IR playbooks |
+| **Network & Switch Defense** | **Arista cEOS / CoPP / iACLs** | CPU control plane rate-limiting, BGP TTL security, and VRF microsegmentation |
+| **AppSec & WAF** | **OWASP Top 10 / ModSecurity** | Preventing SQLi, XSS, CSRF, and enforcing API rate-limiting rules |
+| **IAM & Zero-Trust Auth** | **OAuth2 / OIDC / mTLS / Vault** | Secret lifecycle management, mTLS client certificates, and scoped JWT validation |
+| **Cloud & Container Sec** | **Trivy / Falco / K8s RBAC** | Static image vulnerability scanning and eBPF runtime kernel call interception |
+| **IDS / IPS & Detection** | **Suricata / Snort / Zeek** | Deep packet inspection, signature matching, and automated threat blocking |
+| **SIEM & SecOps** | **Wazuh / Elastic SIEM / PCAP** | Centralized security log ingestion, forensic analysis, and automated triage playbooks |
 
 ---
 
-## 🧪 Real Cybersecurity Lab Roadmap
+## 🗺️ 6-Stage Progressive Milestone Roadmap
 
 ```mermaid
 graph TD
-    S1["1. Network Packet Analysis<br/>(Wireshark / PCAP / tcpdump)"] ==> S2["2. AppSec & WAF Defenses<br/>(OWASP Top 10 & ModSecurity)"]
-    S2 ==> S3["3. Zero-Trust IAM & Secrets<br/>(OAuth2 / mTLS / HashiCorp Vault)"]
-    S3 ==> S4["4. IDS/IPS Threat Detection<br/>(Suricata / Zeek Rules)"]
-    S4 ==> S5["5. Container & Cloud DevSecOps<br/>(Trivy / Falco eBPF)"]
-    S5 ==> S6["6. SIEM & Incident Response<br/>(Wazuh / PCAP Forensics)"]
+    S1["<b>Stage 1: Packet Forensics & Traffic Inspection</b><br/>Wireshark, tcpdump & Flow Analysis<br/><i>Dissect protocol handshakes and malformed headers</i>"]
+    S2["<b>Stage 2: Application Security & Edge WAF</b><br/>OWASP Top 10 Defenses & ModSecurity Rules<br/><i>Filter malicious payloads before reaching application backends</i>"]
+    S3["<b>Stage 3: Zero-Trust Identity & Secrets Management</b><br/>OAuth2, OIDC, mTLS & HashiCorp Vault<br/><i>Cryptographic identity and short-lived credential rotation</i>"]
+    S4["<b>Stage 4: Network Fabric Hardening & CoPP Defense</b><br/>Control Plane Policing, iACLs & VRF Segmentation<br/><i>Shield switch CPUs from distributed denial of service</i>"]
+    S5["<b>Stage 5: Container & Cloud DevSecOps</b><br/>Trivy Scanning & Falco eBPF Kernel Threat Detection<br/><i>Detect container breakouts and privilege escalation in real time</i>"]
+    S6["<b>Stage 6: SIEM Ingestion & Incident Response Playbooks</b><br/>Wazuh, Log Analysis & Forensic Containment<br/><i>Investigate breaches and automate threat isolation</i>"]
+
+    S1 ==> S2 ==> S3 ==> S4 ==> S5 ==> S6
 
     classDef sec fill:#b71c1c,stroke:#ef5350,color:#ffffff,stroke-width:2px,font-weight:bold;
     class S1,S2,S3,S4,S5,S6 sec;
+```
+
+---
+
+## 🧪 Detailed Milestone Curricula
+
+### 📍 Stage 1: Packet Forensics & Traffic Inspection
+- **Core Focus**: Mastering raw packet capture analysis and protocol behavior at Layer 2 through Layer 7.
+- **Key Concepts**: TCP 3-way handshake anomalies, TCP window exhaustion, ARP poisoning detection, and ICMP tunneling.
+
+### 📍 Stage 2: Application Security & Edge WAF
+- **Core Focus**: Defending web APIs and microservices against the OWASP Top 10 web application vulnerabilities.
+- **Key Concepts**: SQL injection patterns, cross-site scripting (XSS), request rate-limiting, and CRS rule tuning in ModSecurity.
+
+### 📍 Stage 3: Zero-Trust Identity & Secrets Management
+- **Core Focus**: Cryptographic mutual authentication and dynamic secret issuance.
+- **Key Concepts**: Public Key Infrastructure (PKI), TLS 1.3 handshakes, mutual TLS (mTLS) with client certs, OAuth2 scopes, and HashiCorp Vault transit secrets.
+
+### 📍 Stage 4: Network Fabric Hardening & CoPP Defense
+- **Core Focus**: Hardening network switches and routers against control-plane exhaustion and unauthorized lateral movement.
+- **Key Concepts**: Modular QoS CLI (MQC) Control Plane Policing (CoPP), Infrastructure ACLs (iACLs) dropping spoofed traffic, BGP Generalized TTL Security Mechanism (GTSM RFC 5082), and VRF microsegmentation.
+- **Interactive Labs**:
+    - [Phase 8: Network Security & Microsegmentation](../courses/08-security/index.md)
+    - [Lab 01: Control Plane Policing (CoPP)](../courses/08-security/lab-01-copp-cpu-protection.md)
+    - [Lab 02: VRF Microsegmentation](../courses/08-security/lab-02-vrf-route-leaking-acls.md)
+    - [Lab 03: Infrastructure ACLs (iACL)](../courses/08-security/lab-03-infrastructure-acls.md)
+    - [Lab 04: MACsec Line-Rate Encryption](../courses/08-security/lab-04-macsec-line-rate-security.md)
+- **Local Runner**:
+    ```bash
+    cd labs/security-lab
+    ./run.sh --guided
+    ```
+
+### 📍 Stage 5: Container & Cloud DevSecOps
+- **Core Focus**: Securing cloud-native containers across CI/CD build time and cluster runtime.
+- **Key Concepts**: Static vulnerability scanners (Trivy), Linux kernel capabilities, and eBPF system call tracing with Falco.
+
+### 📍 Stage 6: SIEM Ingestion & Incident Response Playbooks
+- **Core Focus**: Detecting, triaging, and responding to security incidents with verifiable audit trails.
+- **Key Concepts**: Syslog/gNMI telemetry ingestion, correlation rules, PCAP deep dives, and automated quarantine scripts.
+
+---
+
+## 🛠️ Executable Local Lab Environment
+
+Test your network security policies on live Arista cEOS containers:
+
+```bash
+# 1. Navigate to the Security & Microsegmentation lab
+cd labs/security-lab
+
+# 2. Launch the guided interactive runner
+./run.sh --guided
+
+# Or deploy the complete verified topology in one command
+./run.sh --all
 ```
 
 ---
@@ -42,10 +108,14 @@ graph TD
 
 ### ❓ Question 1: How does eBPF runtime detection (Falco) catch container breakouts without adding latency?
 **Answer:**
-Traditional security agents run in user space and poll process tables, adding CPU overhead. **Falco uses eBPF (Extended Berkeley Packet Filter)** programs loaded directly inside the Linux kernel to intercept system calls (`execve`, `clone`, `openat`) in real-time. If a container executes a shell (`/bin/sh`) or modifies sensitive host paths (`/etc/shadow`), Falco triggers an instant high-priority alert with zero user-space context switching overhead.
+Traditional security agents run in user space and poll process tables, adding substantial CPU overhead. **Falco uses eBPF (Extended Berkeley Packet Filter)** programs loaded directly inside the Linux kernel to intercept system calls (`execve`, `clone`, `openat`) in real-time. If a container executes an unauthorized shell (`/bin/sh`) or modifies sensitive host paths (`/etc/shadow`), Falco triggers an instant alert with zero user-space context switching overhead.
 
 ### ❓ Question 2: Explain the difference between OAuth2, OIDC, and mTLS in a Zero-Trust architecture.
 **Answer:**
 - **OAuth2**: An **authorization framework** providing scoped access tokens (`Bearer JWT`) to third-party applications.
-- **OIDC (OpenID Connect)**: An **identity layer on top of OAuth2** (`id_token`) providing user authentication details.
+- **OIDC (OpenID Connect)**: An **identity layer on top of OAuth2** (`id_token`) providing cryptographically signed user authentication claims.
 - **mTLS (Mutual TLS)**: A **transport-layer security mechanism** where both client and server present X.509 cryptographic certificates to mutually authenticate before exchanging application payload bytes.
+
+### ❓ Question 3: Why is Control Plane Policing (CoPP) mandatory on high-throughput datacenter switches?
+**Answer:**
+Switch ASICs forward data plane packets at terabit speeds using dedicated TCAM. However, packets destined for the switch CPU (BGP keepalives, OSPF hellos, ARP, ICMP, SSH) travel across an internal low-bandwidth PCIe bus. Without **CoPP rate-limiters**, a simple ping flood or SYN flood can overwhelm the Supervisor CPU, causing BGP sessions to time out and bringing down the entire datacenter fabric.

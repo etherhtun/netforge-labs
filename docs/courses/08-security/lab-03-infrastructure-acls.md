@@ -4,17 +4,31 @@
 
 **Time:** ~45 minutes · **Tools:** Infrastructure ACLs (iACLs)
 
+!!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/security-lab/`)"
+    **Step 1 · Deploy the Lab Fabric (if not already running)**
+    ```bash
+    cd labs/security-lab
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ```
+
+    **Step 2 · Launch the Fully Guided Interactive Walkthrough**
+    ```bash
+    ./run.sh --guided
+    ```
+
+    ??? note "Alternative Execution Options (Automated Push or Manual CLI)"
+        - **Fast Automated Script Push**:
+          ```bash
+          ./run.sh 01          # apply + verify step 01 automatically
+          ./run.sh --all       # run all steps in order
+          ```
+        - **Manual Line-by-Line CLI Execution**:
+          Interactive CLI shell on any container node:
+          ```bash
+          docker exec -it clab-security-lab-leaf1 Cli
+          ```
+
 ---
-
-## 🚀 Getting Started & Repository Setup
-
-```bash
-git clone https://github.com/etherhtun/netforge-labs.git
-cd netforge-labs/labs/security-lab
-```
-
----
-
 ## 🧠 Technology Deep Dive: Infrastructure Protection ACLs
 
 **Infrastructure Access Control Lists (iACLs)** protect core router loopback addresses (`10.255.0.0/16`) and point-to-point transit interfaces (`10.0.0.0/16`) from unauthorized external scanning and spoofing:

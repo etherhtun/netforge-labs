@@ -4,40 +4,29 @@
 
 **Time:** ~40 minutes · **Tools:** Python 3, PyYAML, Jinja2
 
-!!! tip "Hybrid Approach — Script Push or Manual Typing"
-    Every lab supports both automated execution and manual line-by-line configuration:
+!!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/netdevops-lab/`)"
+    **Step 1 · Deploy the Lab Fabric (if not already running)**
+    ```bash
+    cd labs/netdevops-lab
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ```
 
-    - **Option A · Automated Script Push (Fast & Error-Free)**:
-      ```bash
-      cd netforge-labs/labs/netdevops-lab
-      ./run.sh --all       # render, push, and verify automatically
-      ```
-    - **Option B · Hands-on Python Script Execution**:
-      ```bash
-      python3 labs/netdevops-lab/scripts/generate_configs.py
-      ```
+    **Step 2 · Launch the Fully Guided Interactive Walkthrough**
+    ```bash
+    ./run.sh --guided
+    ```
 
----
-
-## 🚀 Getting Started & Repository Setup
-
-Before starting Lab 01, clone the repository (or run `git pull` if already cloned) and set up your Python environment:
-
-```bash
-# 1. Clone repository (or pull latest changes)
-git clone https://github.com/etherhtun/netforge-labs.git
-cd netforge-labs
-
-# 2. Set up Python virtual environment & install dependencies
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
-# 3. Enter the NetDevOps lab directory
-cd labs/netdevops-lab
-```
-
----
+    ??? note "Alternative Execution Options (Automated Push or Manual CLI)"
+        - **Fast Automated Script Push**:
+          ```bash
+          ./run.sh 01          # apply + verify step 01 automatically
+          ./run.sh --all       # run all steps in order
+          ```
+        - **Manual Line-by-Line CLI Execution**:
+          Interactive CLI shell on any container node:
+          ```bash
+          docker exec -it clab-netdevops-lab-node1 Cli
+          ```
 
 ## 🧠 Technology Deep Dive: Separating Data from Logic
 
@@ -129,7 +118,7 @@ for spine in data["spines"]:
 Run the Jinja2 generator script to produce device configurations:
 
 ```bash
-cd netforge-labs/labs/netdevops-lab
+cd labs/netdevops-lab
 python3 scripts/generate_configs.py
 ```
 

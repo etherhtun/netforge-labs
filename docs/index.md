@@ -4,7 +4,7 @@
 
 **Learn networking by building it.** Stand up real fabrics on Arista cEOS, break them on purpose, and understand *why* every line of config is there — not just what to paste.
 
-Choose your future-proof career track in **Network Engineering**, **Site Reliability Engineering (SRE)**, **Cybersecurity**, **NetDevOps**, **Financial Low-Latency**, or **Technical Program Management (TPM)**.
+Choose your milestone-driven learning path in **AI & Hyperscale Architecture**, **Network SRE & Observability**, **Cybersecurity & DevSecOps**, **NetDevOps**, **Low-Latency Finance**, or **TPM System Design**.
 
 <p class="nf-hero-meta">Arista cEOS · containerlab · OrbStack on macOS & Linux</p>
 
@@ -12,57 +12,57 @@ Choose your future-proof career track in **Network Engineering**, **Site Reliabi
 
 ---
 
-## 🎯 6 Safe & Future-Proof Career Tracks
+## 🎯 6 Milestone-Driven Learning Paths
 
 <div class="grid cards" markdown>
 
--   🌐 **Network Infrastructure & Hyperscale Architect**
+-   🌐 **Network for AI & Hyperscale Architect** &nbsp; <span class="nf-badge ok">40–50 hrs</span>
 
     ---
 
-    Master 5-Stage Clos fabrics, BGP 10-step selection, MPLS L3VPNs, Segment Routing Ti-LFA, VXLAN-EVPN ESI multihoming, and IPv6 BGP unnumbered.
+    Non-blocking AI training fabrics (RoCEv2, PFC, ECN), 5-Stage BGP Clos (RFC 7938), MPLS/SR-MPLS Ti-LFA, and EVPN-VXLAN ESI multihomed clusters.
 
-    [Explore Network Track →](tracks/network-engineer.md)
+    [Explore AI Architect Path →](tracks/network-engineer.md)
 
--   🤖 **Site Reliability Engineer (SRE) — Network**
-
-    ---
-
-    Production incident mitigation, BFD sub-second failover, gNMI real-time streaming telemetry, Prometheus alerts, and PyATS health checks.
-
-    [Explore SRE Track →](tracks/network-sre.md)
-
--   🔒 **Cybersecurity & DevSecOps Engineer**
+-   🤖 **Network SRE & Observability** &nbsp; <span class="nf-badge ok">30–35 hrs</span>
 
     ---
 
-    OWASP Top 10 WAF defenses, Zero-Trust IAM/OAuth2/mTLS, HashiCorp Vault, eBPF Falco container security, Suricata IDS/IPS, and SIEM playbooks.
+    Production incident mitigation, BFD sub-second failover, gNMI real-time streaming telemetry, Prometheus alerts, and PyATS automated assertions.
 
-    [Explore Security Track →](tracks/cybersecurity-engineer.md)
+    [Explore SRE Path →](tracks/network-sre.md)
 
--   🤖 **NetDevOps & Infrastructure Automation Engineer**
+-   🔒 **Cybersecurity & DevSecOps** &nbsp; <span class="nf-badge ok">30–35 hrs</span>
 
     ---
 
-    Treat network infrastructure as code: Jinja2/YAML data models, PyATS assertions, Batfish AST static analysis, and GitHub Actions CI/CD.
+    Control Plane Policing (CoPP), VRF segmentation, Zero-Trust IAM/OAuth2/mTLS, Falco eBPF container security, Suricata IDS/IPS, and SIEM playbooks.
 
-    [Explore NetDevOps Track →](tracks/netdevops-engineer.md)
+    [Explore Security Path →](tracks/cybersecurity-engineer.md)
 
--   ⚡ **Low-Latency Financial Network Engineer**
+-   🤖 **NetDevOps & Infrastructure Automation** &nbsp; <span class="nf-badge ok">35–40 hrs</span>
+
+    ---
+
+    Treat network infrastructure as code: Jinja2/YAML data models, PyATS assertions, Batfish AST static pre-flight analysis, and GitHub Actions CI/CD.
+
+    [Explore NetDevOps Path →](tracks/netdevops-engineer.md)
+
+-   ⚡ **Low-Latency Financial Network Engineer** &nbsp; <span class="nf-badge ok">25–30 hrs</span>
 
     ---
 
     High-Frequency Trading (HFT) infrastructure: PIM-SM multicast market feeds, IGMP fast-leave, sub-second BFD failover, and MACsec line-rate encryption.
 
-    [Explore Financial Track →](tracks/financial-network-engineer.md)
+    [Explore Financial Path →](tracks/financial-network-engineer.md)
 
--   📋 **Technical Program Manager (TPM) & System Design**
+-   📋 **TPM & Hyperscale System Design** &nbsp; <span class="nf-badge ok">20–25 hrs</span>
 
     ---
 
     System design & program leadership: 5-Stage Clos scaling math, eBGP vs. iBGP trade-offs, blast radius containment, and SLA budget calculations.
 
-    [Explore TPM Track →](tracks/technical-program-manager.md)
+    [Explore TPM Path →](tracks/technical-program-manager.md)
 
 </div>
 

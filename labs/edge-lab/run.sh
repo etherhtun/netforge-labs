@@ -19,13 +19,15 @@ cd "$(dirname "$0")"
 FABRIC="clab-edge-lab"
 STEPS=(01 02 03 04 05)
 
-declare -A TITLE=(
-  [01]="Health check — nodes and hosts ready"
-  [02]="Access layer — sw1 VLAN 10"
-  [03]="Edge routers — OSPF + VRRP gateway"
-  [04]="Two upstream providers (AS 65002, AS 65003)"
-  [05]="Multihomed BGP + transit filter + end-to-end"
-)
+step_title() {
+  case "$1" in
+    01) echo "Health check — nodes and hosts ready" ;;
+    02) echo "Access layer — sw1 VLAN 10" ;;
+    03) echo "Edge routers — OSPF + VRRP gateway" ;;
+    04) echo "Two upstream providers (AS 65002, AS 65003)" ;;
+    05) echo "Multihomed BGP + transit filter + end-to-end" ;;
+  esac
+}
 
 c_ok=$'\033[32m'; c_bad=$'\033[31m'; c_dim=$'\033[2m'; c_off=$'\033[0m'
 [ -t 1 ] || { c_ok=; c_bad=; c_dim=; c_off=; }
@@ -74,7 +76,7 @@ verify_step() {
 run_step() {
   local step=$1
   echo
-  echo "── Step ${step} · ${TITLE[$step]:-}"
+  echo "── Step ${step} · $(step_title "$step")"
   apply_step "$step"
   if verify_step "$step"; then
     echo "  ${c_ok}✅ DONE${c_off}"
@@ -89,7 +91,7 @@ run_guided_step() {
   local step=$1
   echo
   echo "=========================================================================="
-  echo "  📖 FULLY GUIDED WALKTHROUGH: Step ${step} · ${TITLE[$step]:-}"
+  echo "  📖 FULLY GUIDED WALKTHROUGH: Step ${step} · $(step_title "$step")"
   echo "=========================================================================="
   
   echo
@@ -146,7 +148,7 @@ case "${1:---all}" in
     echo "Fabric redeployed."
     exec "$0" --all ;;
   --list)
-    for s in "${STEPS[@]}"; do printf "  %s  %s\n" "$s" "${TITLE[$s]}"; done ;;
+    for s in "${STEPS[@]}"; do printf "  %s  %s\n" "$s" "$(step_title "$s")"; done ;;
   --verify)
     preflight; step="${2:?usage: ./run.sh --verify <step>}"
     verify_step "$step" && echo "  ${c_ok}✅ DONE${c_off}" || { echo "  ${c_bad}❌ FAILED${c_off}"; exit 1; } ;;

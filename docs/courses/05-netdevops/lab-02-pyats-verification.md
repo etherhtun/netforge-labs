@@ -54,7 +54,7 @@ if __name__ == '__main__':
 Execute the automated test suite against the running containerlab topology:
 
 ```bash
-cd netforge-labs/labs/netdevops-lab
+cd labs/netdevops-lab
 python3 scripts/test_fabric.py
 ```
 

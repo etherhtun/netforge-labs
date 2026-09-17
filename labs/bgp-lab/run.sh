@@ -20,14 +20,16 @@ cd "$(dirname "$0")"
 FABRIC="clab-bgp-lab"
 STEPS=(01 02 03 04 05 06)
 
-declare -A TITLE=(
-  [01]="Health check — interfaces ready"
-  [02]="OSPF underlay (r1, r2)"
-  [03]="BGP sessions (r1, r2, r3)"
-  [04]="Observe the next-hop trap"
-  [05]="Fix with next-hop-self"
-  [06]="Lab 02 — IS-IS underlay swap (r1, r2)"
-)
+step_title() {
+  case "$1" in
+    01) echo "Health check — interfaces ready" ;;
+    02) echo "OSPF underlay (r1, r2)" ;;
+    03) echo "BGP sessions (r1, r2, r3)" ;;
+    04) echo "Observe the next-hop trap" ;;
+    05) echo "Fix with next-hop-self" ;;
+    06) echo "Lab 02 — IS-IS underlay swap (r1, r2)" ;;
+  esac
+}
 
 c_ok=$'\033[32m'; c_bad=$'\033[31m'; c_dim=$'\033[2m'; c_off=$'\033[0m'
 [ -t 1 ] || { c_ok=; c_bad=; c_dim=; c_off=; }
@@ -76,7 +78,7 @@ verify_step() {
 run_step() {
   local step=$1
   echo
-  echo "── Step ${step} · ${TITLE[$step]:-}"
+  echo "── Step ${step} · $(step_title "$step")"
   apply_step "$step"
   if verify_step "$step"; then
     echo "  ${c_ok}✅ DONE${c_off}"
@@ -91,7 +93,7 @@ run_guided_step() {
   local step=$1
   echo
   echo "=========================================================================="
-  echo "  📖 FULLY GUIDED WALKTHROUGH: Step ${step} · ${TITLE[$step]:-}"
+  echo "  📖 FULLY GUIDED WALKTHROUGH: Step ${step} · $(step_title "$step")"
   echo "=========================================================================="
   
   echo
@@ -149,7 +151,7 @@ case "${1:---all}" in
     echo "Fabric redeployed."
     exec "$0" --all ;;
   --list)
-    for s in "${STEPS[@]}"; do printf "  %s  %s\n" "$s" "${TITLE[$s]}"; done ;;
+    for s in "${STEPS[@]}"; do printf "  %s  %s\n" "$s" "$(step_title "$s")"; done ;;
   --verify)
     preflight; step="${2:?usage: ./run.sh --verify <step>}"
     verify_step "$step" && echo "  ${c_ok}✅ DONE${c_off}" || { echo "  ${c_bad}❌ FAILED${c_off}"; exit 1; } ;;
@@ -164,6 +166,40 @@ case "${1:---all}" in
       echo "${c_ok}  ✅ Prerequisite BGP fabric bootstrapped successfully.${c_off}"
     fi
     run_guided_step 06 ;;
+  --lab03)
+    preflight
+    echo "Starting Independent Walkthrough for Lab 03 (Route Reflectors)..."
+    echo "  [1/4] Applying Hub-and-Spoke Base Configs (r1 hub, r2/r3 clients)..."
+    docker exec -i "${FABRIC}-r1" Cli -p 15 < steps/lab03-r1-hub.cfg >/dev/null 2>&1 || die "r1 config failed"
+    docker exec -i "${FABRIC}-r2" Cli -p 15 < steps/lab03-r2-client.cfg >/dev/null 2>&1 || die "r2 config failed"
+    docker exec -i "${FABRIC}-r3" Cli -p 15 < steps/lab03-r3-client.cfg >/dev/null 2>&1 || die "r3 config failed"
+    echo "  ${c_dim}Waiting 12s for OSPF underlay and iBGP sessions to converge...${c_off}"
+    sleep 12
+
+    echo
+    echo "  [2/4] Verifying the iBGP Non-Reflection Trap:"
+    echo "  ↪ Checking routes learned on r2 (should ONLY see its own 172.16.20.0/24)..."
+    r2_pre=$(docker exec clab-bgp-lab-r2 Cli -p 15 -c "show ip bgp" 2>/dev/null | tail -3)
+    echo "$r2_pre" | sed 's/^/    /'
+    if echo "$r2_pre" | grep -q "172.16.30.0/24"; then
+      echo "  ${c_dim}Notice: 172.16.30.0/24 already present.${c_off}"
+    else
+      echo "  ${c_ok}✅ Trap confirmed: r2 has NOT learned r3's prefix due to iBGP split-horizon rule.${c_off}"
+    fi
+
+    echo
+    echo "  [3/4] Enabling Route Reflection on Hub r1:"
+    docker exec -i "${FABRIC}-r1" Cli -p 15 < steps/lab03-r1-reflector.cfg >/dev/null 2>&1 || die "r1 reflector config failed"
+    sleep 6
+
+    echo
+    echo "  [4/4] Executing Automated Verification Gate:"
+    if bash verify/lab03-route-reflector.sh; then
+      echo
+      echo "${c_ok}🎉 Lab 03 (Route Reflectors) passed successfully!${c_off}"
+    else
+      die "Lab 03 verification failed."
+    fi ;;
   --guided|-g)
     preflight
     echo "Starting Fully Guided Interactive Walkthrough across all steps..."
@@ -185,5 +221,5 @@ would only produce confusing failures further along."
   [0-9]*)
     preflight; run_step "$1" || exit 1 ;;
   *)
-    die "usage: ./run.sh [--all | --guided | --lab02 | --list | --verify <step> | <step>]" ;;
+    die "usage: ./run.sh [--all | --guided | --lab02 | --lab03 | --list | --verify <step> | <step>]" ;;
 esac

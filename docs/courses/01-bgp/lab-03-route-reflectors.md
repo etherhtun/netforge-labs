@@ -34,26 +34,26 @@ graph LR
     class R1 rr; class R2,R3 cl;
 ```
 
-!!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/02-ospf-ibgp-rr/`)"
+!!! tip "Quick Start — Standalone Execution Guide (Location: `labs/bgp-lab/`)"
     **Step 1 · Deploy the Lab Fabric (if not already running)**
     ```bash
-    cd labs/02-ospf-ibgp-rr
+    cd labs/bgp-lab
     sudo containerlab deploy -t topology.clab.yml --max-workers 1
     ```
 
-    **Step 2 · Apply & Verify Step Configurations**
+    **Step 2 · Launch Standalone Lab 03 Walkthrough**
     ```bash
-    ../../scripts/apply.sh 02-ospf-ibgp-rr all
+    ./run.sh --lab03
     ```
 
     ??? note "Alternative Execution Options (Manual CLI)"
         - **Manual Line-by-Line CLI Execution**:
           Interactive CLI shell on any container node:
           ```bash
-          docker exec -it clab-02-ospf-ibgp-rr-rr1 Cli
+          docker exec -it clab-bgp-lab-r1 Cli
           ```
-      Or push individual step snippets using stdin:
-      `docker exec -i clab-bgp-lab-r1 Cli -p 15 < steps/lab03-r1-reflector.cfg`
+          Or push individual step snippets using stdin:
+          `docker exec -i clab-bgp-lab-r1 Cli -p 15 < steps/lab03-r1-reflector.cfg`
 
 | Device | Role | Loopback | Advertises |
 |---|---|---|---|
@@ -72,7 +72,7 @@ client-to-client session, which is the whole point.
     Redeploy for a clean start rather than un-picking Lab 01's config:
 
     ```bash
-    cd netforge-labs/labs/bgp-lab
+    cd labs/bgp-lab
     sudo containerlab destroy -t topology.clab.yml
     sudo containerlab deploy -t topology.clab.yml --max-workers 1
     ```

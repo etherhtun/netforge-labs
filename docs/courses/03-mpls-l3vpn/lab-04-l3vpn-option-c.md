@@ -4,24 +4,29 @@
 
 **Time:** ~60 minutes · **Nodes:** 6 (2 PE Routers, 2 ASBR Routers, 2 P Core Routers across AS 65001 & AS 65002)
 
-!!! tip "Hybrid Approach — Script Push or Manual Typing"
-    Every lab supports both automated execution and manual line-by-line configuration:
+!!! tip "Quick Start — Step-by-Step Execution Guide (Location: `labs/mpls-l3vpn-lab/`)"
+    **Step 1 · Deploy the Lab Fabric (if not already running)**
+    ```bash
+    cd labs/mpls-l3vpn-lab
+    sudo containerlab deploy -t topology.clab.yml --max-workers 1
+    ```
 
-    - **Option A · Automated Script Push (Fast & Error-Free)**:
-      ```bash
-      cd netforge-labs/labs/mpls-l3vpn-lab
-      ./run.sh 04          # apply + verify step 04 automatically
-      ./run.sh --all       # run all steps in order
-      ```
-    - **Option B · Manual Typing / Copy-Paste (Hands-on Deep Learning)**:
-      Interactive CLI shell on any container node:
-      ```bash
-      docker exec -it clab-mpls-l3vpn-lab-asbr1 Cli
-      asbr1> enable
-      asbr1# configure
-      ```
-      Or push individual step snippets using stdin:
-      `docker exec -i clab-mpls-l3vpn-lab-asbr1 Cli -p 15 < steps/04-asbr1-optionc.cfg`
+    **Step 2 · Launch the Fully Guided Interactive Walkthrough**
+    ```bash
+    ./run.sh --guided
+    ```
+
+    ??? note "Alternative Execution Options (Automated Push or Manual CLI)"
+        - **Fast Automated Script Push**:
+          ```bash
+          ./run.sh 01          # apply + verify step 01 automatically
+          ./run.sh --all       # run all steps in order
+          ```
+        - **Manual Line-by-Line CLI Execution**:
+          Interactive CLI shell on any container node:
+          ```bash
+          docker exec -it clab-mpls-l3vpn-lab-asbr1 Cli
+          ```
 
 ---
 

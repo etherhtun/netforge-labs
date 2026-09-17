@@ -39,10 +39,10 @@ theme:
 
 nav:
   - Home: index.md
-  - "🎯 Career Tracks":
+  - "🎯 Learning Paths":
     - Overview: tracks/index.md
-    - "🌐 Network Infrastructure Architect": tracks/network-engineer.md
-    - "🤖 Network SRE": tracks/network-sre.md
+    - "🌐 Network for AI & Hyperscale Architect": tracks/network-engineer.md
+    - "🤖 Network SRE & Observability": tracks/network-sre.md
     - "🔒 Cybersecurity & DevSecOps": tracks/cybersecurity-engineer.md
     - "🤖 NetDevOps & Automation": tracks/netdevops-engineer.md
     - "⚡ Low-Latency Financial Engineer": tracks/financial-network-engineer.md
