@@ -1,3 +1,5 @@
+<div class="nf-hud-tag">TRACK 01 / 06 &bull; HYPERSCALE CORE ARCHITECTURE</div>
+
 # 🌐 Network for AI & Hyperscale Infrastructure Architect Learning Path
 
 > 🚀 **Elite Infrastructure Masterclass**: Design, build, and operate non-blocking AI training fabrics (RoCEv2, PFC, ECN), 5-stage BGP Clos fabrics (RFC 7938), Segment Routing Ti-LFA backbones, and EVPN-VXLAN ESI multihomed clusters on real Arista cEOS containers.

@@ -1,12 +1,14 @@
 <div class="nf-hero" markdown>
 
-# NetForge Labs
+<div class="nf-hud-tag">NETFORGE // LABS &bull; HIGH-PRECISION NETWORK ENGINEERING</div>
+
+# NETFORGE LABS
 
 **Learn networking by building it.** Stand up real fabrics on Arista cEOS, break them on purpose, and understand *why* every line of config is there — not just what to paste.
 
 Choose your milestone-driven learning path in **AI & Hyperscale Architecture**, **Network SRE & Observability**, **Cybersecurity & DevSecOps**, **NetDevOps**, **Low-Latency Finance**, or **TPM System Design**.
 
-<p class="nf-hero-meta">Arista cEOS · containerlab · OrbStack on macOS & Linux</p>
+<p class="nf-hero-meta">ARISTA cEOS &bull; CONTAINERLAB &bull; ORBSTACK ON MACOS & LINUX</p>
 
 </div>
 

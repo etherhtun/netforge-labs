@@ -1,9 +1,10 @@
 /* ==========================================================================
-   NetForge Labs — Standardized Typography & Google Developer Design System
-   Font Family: Inter (Headings & Body), JetBrains Mono (Code Blocks)
+   NetForge Labs — Technical Neo-Brutalism & Blueprint Design System
+   Aesthetic: Linear / Teenage Engineering / Retro-Futuristic Terminal
+   Font Family: Inter (Display & Headings), JetBrains Mono (HUD & Code)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 /* ---------- Global Screen & Grid Scaling Overrides ---------- */
 .md-grid {
@@ -12,73 +13,93 @@
 
 @media screen and (min-width: 76.25em) {
   .md-grid {
-    max-width: 90rem !important; /* Force layout expansion on laptops/desktops from default 61rem to 90rem (~1440px) */
+    max-width: 90rem !important; /* Force layout expansion on laptops/desktops to 90rem (~1440px) */
   }
 }
 
-/* ---------- Light Scheme (Clean White & Slate) ---------- */
+/* ==========================================================================
+   1. COLOR TOKENS & BLUEPRINT GRAPH CANVAS
+   ========================================================================== */
+
+/* ---------- Light Scheme (Technical Drafting Paper) ---------- */
 [data-md-color-scheme="default"] {
   --md-text-font:                'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --md-code-font:                'JetBrains Mono', 'Fira Code', monospace;
 
-  --md-primary-fg-color:        #1a73e8;
-  --md-primary-fg-color--light: #4285f4;
-  --md-primary-fg-color--dark:  #1557b0;
+  --md-primary-fg-color:        #00875a;
+  --md-primary-fg-color--light: #00a67e;
+  --md-primary-fg-color--dark:  #005a3c;
   --md-primary-bg-color:        #ffffff;
 
-  --md-default-fg-color:        #202124;
-  --md-default-bg-color:        #f8f9fa;
+  --md-default-fg-color:        #111827;
+  --md-default-bg-color:        #f8faf9;
 
-  --md-accent-fg-color:         #1a73e8;
-  --md-accent-fg-color--transparent: rgba(26, 115, 232, 0.08);
+  --md-accent-fg-color:         #00875a;
+  --md-accent-fg-color--transparent: rgba(0, 135, 90, 0.08);
 
-  --md-typeset-a-color:         #1a73e8;
+  --md-typeset-a-color:         #00875a;
 
   --nf-surface:                 #ffffff;
-  --nf-surface-alt:             #f1f3f4;
-  --nf-border:                  #dadce0;
-  --nf-border-strong:           #bdc1c6;
-  --nf-muted:                   #5f6368;
-  --nf-hero-from:               #1a73e8;
-  --nf-hero-to:                 #1557b0;
-  --nf-card-glow:               rgba(26, 115, 232, 0.12);
+  --nf-surface-alt:             #f0f4f2;
+  --nf-border:                  #d1dad5;
+  --nf-border-strong:           #9eb0a6;
+  --nf-muted:                   #4b5563;
+  --nf-accent-emerald:          #00a67e;
+  --nf-card-glow:               rgba(0, 166, 126, 0.12);
 }
 
-/* ---------- Dark Scheme (Google Dark #202124) ---------- */
+/* ---------- Dark Scheme (Deep Stealth Terminal Slate) ---------- */
 [data-md-color-scheme="slate"] {
   --md-text-font:                'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --md-code-font:                'JetBrains Mono', 'Fira Code', monospace;
 
-  --md-primary-fg-color:        #202124;
-  --md-primary-fg-color--light: #292a2d;
-  --md-primary-fg-color--dark:  #171717;
+  --md-primary-fg-color:        #090d10;
+  --md-primary-fg-color--light: #11171d;
+  --md-primary-fg-color--dark:  #050709;
 
-  --md-default-fg-color:        #e8eaed;
-  --md-default-bg-color:        #202124;
-  --md-code-bg-color:           #292a2d;
+  --md-default-fg-color:        #e2e8f0;
+  --md-default-bg-color:        #090d10;
+  --md-code-bg-color:           #0f141a;
 
-  --md-accent-fg-color:         #8ab4f8;
-  --md-accent-fg-color--transparent: rgba(138, 180, 248, 0.12);
+  --md-accent-fg-color:         #00c896;
+  --md-accent-fg-color--transparent: rgba(0, 200, 150, 0.12);
 
-  --md-typeset-a-color:         #8ab4f8;
+  --md-typeset-a-color:         #00c896;
 
-  --nf-surface:                 #292a2d;
-  --nf-surface-alt:             #3c4043;
-  --nf-border:                  #3c4043;
-  --nf-border-strong:           #5f6368;
-  --nf-muted:                   #9aa0a6;
-  --nf-hero-from:               #171717;
-  --nf-hero-to:                 #1a73e8;
-  --nf-card-glow:               rgba(138, 180, 248, 0.2);
+  --nf-surface:                 #0f151b;
+  --nf-surface-alt:             #161e27;
+  --nf-border:                  #222d3a;
+  --nf-border-strong:           #354456;
+  --nf-muted:                   #94a3b8;
+  --nf-accent-emerald:          #00c896;
+  --nf-card-glow:               rgba(0, 200, 150, 0.18);
+}
+
+/* ---------- Precision Graph-Paper Blueprint Grid ---------- */
+body, .md-container {
+  background-color: var(--md-default-bg-color);
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+[data-md-color-scheme="slate"] body, 
+[data-md-color-scheme="slate"] .md-container {
+  background-color: #090d10;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 26px 26px;
 }
 
 /* ==========================================================================
-   Global Standardized Typography
+   2. GLOBAL TYPOGRAPHY & TECHNICAL HEADINGS
    ========================================================================== */
 
 html, body, .md-typeset {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 0.96rem;
+  font-size: 0.95rem;
   line-height: 1.72;
   letter-spacing: -0.006em;
   -webkit-font-smoothing: antialiased;
@@ -93,6 +114,7 @@ html, body, .md-typeset {
 
 .md-nav__link {
   font-size: 0.82rem;
+  font-family: 'Inter', sans-serif;
 }
 
 /* Right Sidebar Table of Contents */
@@ -100,28 +122,38 @@ html, body, .md-typeset {
   font-size: 0.8rem;
 }
 
-.md-nav--secondary .md-nav__link {
-  font-size: 0.8rem;
-}
-
-/* Admonitions / Callout Boxes */
-.md-typeset .admonition,
-.md-typeset details {
-  font-size: 0.88rem;
-  line-height: 1.65;
-}
-
 .md-header {
-  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+  background: var(--nf-surface) !important;
+  color: var(--md-default-fg-color) !important;
   border-bottom: 1px solid var(--nf-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.md-header__title,
+.md-header__button {
+  color: var(--md-default-fg-color) !important;
 }
 
 .md-tabs {
+  background: var(--nf-surface) !important;
   border-bottom: 1px solid var(--nf-border);
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
+.md-tabs__link {
+  color: var(--nf-muted) !important;
+}
+
+.md-tabs__link--active,
+.md-tabs__link:hover {
+  color: var(--md-accent-fg-color) !important;
+}
+
+/* Display Headings */
 .md-typeset h1, 
 .md-typeset h2, 
 .md-typeset h3, 
@@ -132,15 +164,16 @@ html, body, .md-typeset {
 }
 
 .md-typeset h1 {
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  font-size: 2rem;
-  line-height: 1.25;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  font-size: 2.2rem;
+  line-height: 1.15;
+  text-transform: uppercase;
 }
 
 .md-typeset h2 {
-  font-weight: 700;
-  letter-spacing: -0.018em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   font-size: 1.35rem;
   line-height: 1.3;
   margin-top: 2.2em;
@@ -149,225 +182,147 @@ html, body, .md-typeset {
 }
 
 .md-typeset h3 {
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.012em;
-  font-size: 1.1rem;
+  font-size: 1.08rem;
   line-height: 1.35;
   margin-top: 1.6em;
 }
 
-.md-typeset h4 {
-  font-weight: 600;
-  font-size: 0.95rem;
+/* Technical Monospace Trackers */
+.nf-hud-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--nf-accent-emerald);
+  margin-bottom: 0.6rem;
+}
+
+.nf-hud-tag::before {
+  content: "//";
+  opacity: 0.5;
+  font-weight: 400;
 }
 
 /* ==========================================================================
-   Hero Banner Typography
+   3. BLUEPRINT HERO BOARD
    ========================================================================== */
 
 .nf-hero {
-  margin: 0 0 2.5rem;
-  padding: 3.2rem 2.8rem;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
-  color: #ffffff;
+  margin: 0 0 2.2rem;
+  padding: 2.6rem 2.8rem;
+  border-radius: 6px;
+  background: var(--nf-surface);
+  color: var(--md-default-fg-color);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(26, 115, 232, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--nf-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
-[data-md-color-scheme="slate"] .nf-hero {
-  background: linear-gradient(135deg, #171717 0%, #1a73e8 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Blueprint Corner Accent */
+.nf-hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  background-image: radial-gradient(var(--nf-accent-emerald) 1px, transparent 1px);
+  background-size: 8px 8px;
+  opacity: 0.35;
+  pointer-events: none;
 }
 
 .md-typeset .nf-hero h1 {
-  color: #ffffff !important;
+  color: var(--md-default-fg-color) !important;
   margin: 0 0 0.6rem;
-  font-size: 2.4rem;
+  font-size: 2.3rem;
   line-height: 1.15;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
 }
 
 .nf-hero p {
   margin: 0.5rem 0 0;
   max-width: 100%;
-  color: rgba(255, 255, 255, 0.95);
-  font-size: 0.94rem;
+  color: var(--nf-muted);
+  font-size: 0.95rem;
   line-height: 1.65;
   font-family: 'Inter', sans-serif;
 }
 
-.nf-hero strong { color: #fbbc04; }
+.nf-hero strong { 
+  color: var(--nf-accent-emerald); 
+  font-weight: 700;
+}
 
 .nf-hero .nf-hero-meta {
-  margin-top: 1.8rem;
+  margin-top: 1.6rem;
   font-size: 0.72rem;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.2);
+  color: var(--nf-accent-emerald);
+  background: var(--nf-surface-alt);
+  border: 1px solid var(--nf-border);
   display: inline-block;
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  letter-spacing: 0.04em;
+  padding: 0.35rem 0.9rem;
+  border-radius: 4px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 700;
-  font-family: 'Inter', sans-serif;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 /* ==========================================================================
-   Google Cards & Top-Border Accent Lines
+   4. BLUEPRINT CARDS & WIREFRAME PANELS
    ========================================================================== */
 
 .md-typeset .grid.cards > ul > li {
   border: 1px solid var(--nf-border);
-  border-radius: 16px;
+  border-radius: 6px;
   background: var(--nf-surface);
   padding: 1.4rem 1.6rem;
-  box-shadow: 0 1px 3px 0 rgba(60,64,67,0.1), 0 4px 8px 3px rgba(60,64,67,0.05);
-  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
   position: relative;
   overflow: hidden;
 }
 
+/* Minimalist Emerald Top Hairline */
 .md-typeset .grid.cards > ul > li::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #4285f4 0%, #ea4335 33%, #fbbc04 66%, #34a853 100%);
+  height: 2px;
+  background: var(--nf-accent-emerald);
 }
 
 .md-typeset .grid.cards > ul > li:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(26, 115, 232, 0.18);
-  border-color: var(--md-accent-fg-color);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--nf-card-glow);
+  border-color: var(--nf-accent-emerald);
 }
 
 .md-typeset .grid.cards > ul > li > hr {
-  margin: 0.9rem 0 1rem;
+  margin: 0.8rem 0 1rem;
   border-color: var(--nf-border);
 }
 
 /* ==========================================================================
-   Pill Badges
-   ========================================================================== */
-
-.nf-badge {
-  display: inline-block;
-  padding: 0.3em 0.9em;
-  border-radius: 20px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  vertical-align: middle;
-  white-space: nowrap;
-  text-transform: uppercase;
-  font-family: 'Inter', sans-serif;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-
-.nf-badge.ok {
-  color: #137333;
-  background: #e6f4ea;
-  border: 1px solid #ceebe1;
-}
-
-[data-md-color-scheme="slate"] .nf-badge.ok {
-  color: #81c995;
-  background: rgba(52, 168, 83, 0.2);
-  border: 1px solid #1e8e3e;
-}
-
-.nf-badge.wip {
-  color: #b06000;
-  background: #fef7e0;
-  border: 1px solid #feefc3;
-}
-
-.nf-badge.plan {
-  color: #5f6368;
-  background: #f1f3f4;
-  border: 1px solid #dadce0;
-}
-
-/* ==========================================================================
-   Standardized Code Blocks & Monospaced Typography
-   ========================================================================== */
-
-.md-typeset pre,
-.md-typeset code,
-.md-typeset kbd,
-.md-typeset .highlight {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
-}
-
-.md-typeset table:not([class]) {
-  border: 1px solid var(--nf-border);
-  border-radius: 12px;
-  overflow: hidden;
-  font-size: 0.88rem;
-  box-shadow: 0 1px 3px rgba(60,64,67,0.1);
-}
-
-.md-typeset table:not([class]) th {
-  background: var(--nf-surface-alt);
-  font-weight: 700;
-  border-bottom: 2px solid var(--nf-border-strong);
-}
-
-.md-typeset table:not([class]) tr:hover {
-  background: var(--md-accent-fg-color--transparent);
-}
-
-.md-typeset pre > code {
-  border-radius: 12px;
-  font-size: 0.86rem;
-  line-height: 1.68;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
-}
-
-/* Mac Terminal Window Controls */
-.md-typeset .highlight {
-  position: relative;
-  padding-top: 2.2rem;
-  border-radius: 14px;
-  border: 1px solid var(--nf-border);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-.md-typeset .highlight::before {
-  content: "";
-  position: absolute;
-  top: 0.8rem;
-  left: 1rem;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: #ea4335;
-  box-shadow: 18px 0 0 #fbbc04, 36px 0 0 #34a853;
-}
-
-.md-typeset .mermaid {
-  margin: 1.8rem auto;
-  padding: 1.4rem;
-  background: var(--nf-surface);
-  border-radius: 16px;
-  border: 1px solid var(--nf-border);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-/* ==========================================================================
-   Modern Milestone Stepper / Timeline Cards
+   5. NEO-BRUTALIST MILESTONE STEPPER (.nf-stepper)
    ========================================================================== */
 
 .nf-stepper {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.85rem;
   margin: 1.8rem 0 2.5rem;
 }
 
@@ -375,12 +330,12 @@ html, body, .md-typeset {
   display: flex;
   align-items: flex-start;
   gap: 1.4rem;
-  padding: 1.3rem 1.6rem;
-  border-radius: 14px;
+  padding: 1.2rem 1.6rem;
+  border-radius: 6px;
   background: var(--nf-surface);
   border: 1px solid var(--nf-border);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  transition: all 0.18s ease-in-out;
   text-decoration: none !important;
   color: inherit !important;
   position: relative;
@@ -393,41 +348,40 @@ html, body, .md-typeset {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, #1a73e8 0%, #4285f4 100%);
-  opacity: 0.8;
-  transition: width 0.2s ease;
+  width: 3px;
+  background: var(--nf-accent-emerald);
+  transition: width 0.18s ease;
 }
 
 .nf-step-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--md-accent-fg-color);
-  box-shadow: 0 8px 24px var(--nf-card-glow);
+  transform: translateY(-2px);
+  border-color: var(--nf-accent-emerald);
+  box-shadow: 0 6px 20px var(--nf-card-glow);
 }
 
 .nf-step-card:hover::before {
-  width: 6px;
+  width: 5px;
 }
 
 .nf-step-num {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 42px;
-  height: 42px;
-  border-radius: 12px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 4px;
   font-weight: 800;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   color: #ffffff;
-  background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
-  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.35);
+  background: var(--nf-accent-emerald);
   flex-shrink: 0;
   font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -0.02em;
 }
 
-[data-md-color-scheme="slate"] .nf-step-num {
-  background: linear-gradient(135deg, #1f6feb 0%, #1158c7 100%);
-  box-shadow: 0 4px 12px rgba(31, 111, 235, 0.4);
+[data-md-color-scheme="default"] .nf-step-num {
+  background: #111827;
+  color: var(--nf-accent-emerald);
 }
 
 .nf-step-content {
@@ -444,31 +398,33 @@ html, body, .md-typeset {
 }
 
 .nf-step-title {
-  font-size: 1.02rem;
+  font-size: 0.98rem;
   font-weight: 700;
   color: var(--md-default-fg-color);
   margin: 0;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
 }
 
 .nf-step-desc {
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   color: var(--nf-muted);
   line-height: 1.55;
-  margin: 0.25rem 0 0.65rem;
+  margin: 0.2rem 0 0.6rem;
 }
 
 .nf-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
-  margin-top: 0.4rem;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
 }
 
 .nf-chip {
   display: inline-flex;
   align-items: center;
-  padding: 0.2rem 0.65rem;
-  border-radius: 6px;
+  padding: 0.18rem 0.55rem;
+  border-radius: 3px;
   font-size: 0.72rem;
   font-weight: 600;
   font-family: 'JetBrains Mono', monospace;
@@ -479,21 +435,115 @@ html, body, .md-typeset {
 }
 
 [data-md-color-scheme="slate"] .nf-chip {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.12);
-  color: #c9d1d9;
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
 }
 
-/* Enhanced Table Aesthetics */
-.md-typeset table:not([class]) th {
-  padding: 0.9rem 1.1rem;
-  font-size: 0.85rem;
-  letter-spacing: 0.02em;
+/* ==========================================================================
+   6. PILL BADGES & DATA STATUS INDICATORS
+   ========================================================================== */
+
+.nf-badge {
+  display: inline-block;
+  padding: 0.22em 0.7em;
+  border-radius: 3px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  vertical-align: middle;
+  white-space: nowrap;
   text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.nf-badge.ok {
+  color: #00875a;
+  background: #e6f7f1;
+  border: 1px solid #b8ebd9;
+}
+
+[data-md-color-scheme="slate"] .nf-badge.ok {
+  color: #00c896;
+  background: rgba(0, 200, 150, 0.12);
+  border: 1px solid rgba(0, 200, 150, 0.3);
+}
+
+.nf-badge.wip {
+  color: #b06000;
+  background: #fef7e0;
+  border: 1px solid #feefc3;
+}
+
+.nf-badge.plan {
+  color: #5f6368;
+  background: #f1f3f4;
+  border: 1px solid #dadce0;
+}
+
+/* ==========================================================================
+   7. TECHNICAL TABLES & CONSOLE BLOCKS
+   ========================================================================== */
+
+.md-typeset table:not([class]) {
+  border: 1px solid var(--nf-border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.88rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--nf-surface-alt);
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.8rem 1rem;
+  border-bottom: 2px solid var(--nf-border);
 }
 
 .md-typeset table:not([class]) td {
-  padding: 0.85rem 1.1rem;
+  padding: 0.8rem 1rem;
   vertical-align: middle;
 }
 
+.md-typeset table:not([class]) tr:hover {
+  background: var(--md-accent-fg-color--transparent);
+}
+
+.md-typeset pre,
+.md-typeset code,
+.md-typeset kbd,
+.md-typeset .highlight {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+}
+
+.md-typeset pre > code {
+  border-radius: 6px;
+  font-size: 0.86rem;
+  line-height: 1.68;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+}
+
+/* Mac / Terminal Console Window */
+.md-typeset .highlight {
+  position: relative;
+  padding-top: 2.2rem;
+  border-radius: 6px;
+  border: 1px solid var(--nf-border);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.md-typeset .highlight::before {
+  content: "";
+  position: absolute;
+  top: 0.8rem;
+  left: 1rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff5f56;
+  box-shadow: 16px 0 0 #ffbd2e, 32px 0 0 #27c93f;
+}
