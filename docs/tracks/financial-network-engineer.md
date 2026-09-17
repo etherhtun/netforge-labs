@@ -40,9 +40,27 @@ graph TD
 
     S1 ==> S2 ==> S3 ==> S4 ==> S5
 
+    click S1 href "#stage-1-deterministic-low-latency-edge-peering" "Jump to Stage 1"
+    click S2 href "#stage-2-microsecond-link-failure-detection" "Jump to Stage 2"
+    click S3 href "#stage-3-multicast-market-data-distribution-trees" "Jump to Stage 3"
+    click S4 href "#stage-4-line-rate-point-to-point-encryption" "Jump to Stage 4"
+    click S5 href "#stage-5-high-frequency-system-design-and-precision-timing" "Jump to Stage 5"
+
     classDef hft fill:#bf360c,stroke:#ff8a65,color:#ffffff,stroke-width:2px,font-weight:bold;
     class S1,S2,S3,S4,S5 hft;
 ```
+
+---
+
+## 🚀 Interactive Lesson Directory (Click Any Lesson to Start)
+
+| Milestone Stage | Engineering Pillar | Clickable Lessons & Hands-on Labs | Runnable Lab | Action |
+|---|---|---|---|---|
+| **Stage 1**<br/>`Low-Latency Peering` | Deterministic eBGP Local-Pref, Communities, Inbound/Outbound TE | • [Phase 1 · Lab 01: eBGP Peering & Policy](../courses/01-bgp/lab-01-ebgp-ibgp.md)<br/>• [Phase 2 · Lab 01: Multi-Provider Transit](../courses/02-bgp-dia/lab-01-dia-multihoming.md) | `labs/bgp-dia-lab` | [Start Stage 1 →](../courses/02-bgp-dia/lab-01-dia-multihoming.md) |
+| **Stage 2**<br/>`Sub-50ms Failover` | Microsecond BFD Hardware Offload, Async Mode, Link Cutover | • [Phase 2 · Lab 03: Sub-Second BFD Peering](../courses/02-bgp-dia/lab-03-ixp-peering.md)<br/>• [Phase 6 · Lab 03: WAN Edge BFD Failover](../courses/06-hybrid-cloud/lab-03-bfd-subsecond-failover.md) | `labs/wan-edge-lab` | [Start Stage 2 →](../courses/06-hybrid-cloud/lab-03-bfd-subsecond-failover.md) |
+| **Stage 3**<br/>`Multicast Market Feeds` | PIM Sparse-Mode, Anycast RP Trees, IGMPv3 SSM, IGMP Fast-Leave | • [Multicast Distribution Architecture & Verification Drills](../courses/04-evpn/lab-01-pure-l2vni.md) | `labs/evpn-datacenter-lab` | [Start Stage 3 →](../courses/04-evpn/lab-01-pure-l2vni.md) |
+| **Stage 4**<br/>`Line-Rate Security` | IEEE 802.1AE MACsec AES-256-GCM Hardware Wire Encryption | • [Phase 8 · Lab 04: MACsec Line-Rate Security](../courses/08-security/lab-04-macsec-line-rate-security.md) | `labs/security-lab` | [Start Stage 4 →](../courses/08-security/lab-04-macsec-line-rate-security.md) |
+| **Stage 5**<br/>`Nanosecond Hardware` | Cut-Through Forwarding, IEEE 1588 PTP Clocks, Solarflare OpenOnload | • [System Design Trade-off Drills](../interview-prep/google-system-design.md) | N/A | [Start Stage 5 →](../interview-prep/google-system-design.md) |
 
 ---
 

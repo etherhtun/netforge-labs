@@ -39,9 +39,27 @@ graph TD
 
     S1 ==> S2 ==> S3 ==> S4 ==> S5
 
+    click S1 href "#stage-1-5-stage-clos-fabric-sizing-capacity-math" "Jump to Stage 1"
+    click S2 href "#stage-2-routing-architecture-blast-radius-design" "Jump to Stage 2"
+    click S3 href "#stage-3-high-availability-convergence-sla-budgets" "Jump to Stage 3"
+    click S4 href "#stage-4-multi-tenant-overlays-open-standards" "Jump to Stage 4"
+    click S5 href "#stage-5-telemetry-governance-vendor-rfp-delivery" "Jump to Stage 5"
+
     classDef tpm fill:#004d40,stroke:#80cbc4,color:#ffffff,stroke-width:2px,font-weight:bold;
     class S1,S2,S3,S4,S5 tpm;
 ```
+
+---
+
+## 🚀 Interactive Lesson Directory (Click Any Lesson to Start)
+
+| Milestone Stage | Architecture & Program Focus | Clickable Lessons & System Designs | Technical Focus | Action |
+|---|---|---|---|---|
+| **Stage 1**<br/>`Clos Sizing Math` | ASIC Port Radix Math, Oversubscription Ratios, Super-Spine Pods | • [EVPN-VXLAN Clos Fabric Design](../courses/04-evpn/index.md)<br/>• [Hyperscale System Design Masterclass](../interview-prep/google-system-design.md) | Pod Math | [Start Stage 1 →](../interview-prep/google-system-design.md) |
+| **Stage 2**<br/>`BGP Governance` | RFC 7938 eBGP Clos Design, Blast Radius, ASN Allocation Policies | • [Phase 1 · BGP Fundamentals & Architecture](../courses/01-bgp/index.md)<br/>• [Phase 1 · Lab 03: Route Reflector Hierarchy](../courses/01-bgp/lab-03-route-reflectors.md) | ASN Model | [Start Stage 2 →](../courses/01-bgp/index.md) |
+| **Stage 3**<br/>`SLA & FRR Budgets` | Sub-50ms Ti-LFA Fast Reroute, BFD Hardware Offload, Error Budgets | • [Segment Routing (SR-MPLS) Ti-LFA Architecture](../courses/035-segment-routing/lab-02-ti-lfa-frr.md)<br/>• [WAN Edge BFD Sub-Second Failover](../courses/06-hybrid-cloud/lab-03-bfd-subsecond-failover.md) | 99.999% SLAs | [Start Stage 3 →](../courses/035-segment-routing/lab-02-ti-lfa-frr.md) |
+| **Stage 4**<br/>`Multi-Tenant Overlays` | RFC 8365/7432 EVPN-VXLAN, ESI All-Active Multihoming vs MLAG Lock-in | • [EVPN Lab 03: ESI All-Active Multihoming](../courses/04-evpn/lab-03-esi-multihoming.md)<br/>• [EVPN Lab 05: Multi-Site DCI Architecture](../courses/04-evpn/lab-05-evpn-dci-multisite.md) | Open Standards | [Start Stage 4 →](../courses/04-evpn/lab-03-esi-multihoming.md) |
+| **Stage 5**<br/>`Vendor RFP Delivery` | OpenConfig YANG Governance, gNMI Telemetry SLAs, PyATS Pre-Checks | • [Phase 7 · Streaming Telemetry & Observability](../courses/07-telemetry/index.md)<br/>• [Phase 5 · Automated Network Testing with PyATS](../courses/05-netdevops/lab-02-pyats-verification.md) | RFP Criteria | [Start Stage 5 →](../courses/07-telemetry/index.md) |
 
 ---
 

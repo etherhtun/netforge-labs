@@ -42,9 +42,29 @@ graph TD
 
     S1 ==> S2 ==> S3 ==> S4 ==> S5 ==> S6
 
+    click S1 href "#stage-1-packet-forensics-traffic-inspection" "Jump to Stage 1"
+    click S2 href "#stage-2-application-security-edge-waf" "Jump to Stage 2"
+    click S3 href "#stage-3-zero-trust-identity-secrets-management" "Jump to Stage 3"
+    click S4 href "#stage-4-network-fabric-hardening-copp-defense" "Jump to Stage 4"
+    click S5 href "#stage-5-container-cloud-devsecops" "Jump to Stage 5"
+    click S6 href "#stage-6-siem-ingestion-incident-response-playbooks" "Jump to Stage 6"
+
     classDef sec fill:#b71c1c,stroke:#ef5350,color:#ffffff,stroke-width:2px,font-weight:bold;
     class S1,S2,S3,S4,S5,S6 sec;
 ```
+
+---
+
+## 🚀 Interactive Lesson Directory (Click Any Lesson to Start)
+
+| Milestone Stage | Security Domain | Clickable Lessons & Hands-on Labs | Runnable Lab | Action |
+|---|---|---|---|---|
+| **Stage 1**<br/>`Packet Forensics` | Wireshark Dissection, TCP Handshake Anomalies, tcpdump PCAPs | • [Linux Networking & Packet Diagnostics](../courses/linux-foundations/06-kernel-networking.md) | Local Terminal | [Start Stage 1 →](../courses/linux-foundations/06-kernel-networking.md) |
+| **Stage 2**<br/>`AppSec & WAF` | OWASP Top 10 Defenses, ModSecurity Rules, Rate-Limiting | • [Application Security & Reverse Proxy Architecture](../courses/02-bgp-dia/lab-04-cgnat-services.md) | Local Container | [Start Stage 2 →](../courses/02-bgp-dia/lab-04-cgnat-services.md) |
+| **Stage 3**<br/>`Zero-Trust Auth` | OAuth2 Scopes, OIDC Claims, mTLS Client Certs, HashiCorp Vault | • [Zero-Trust Architecture & Interview Drills](#question-2-explain-the-difference-between-oauth2-oidc-and-mtls-in-a-zero-trust-architecture) | Local Terminal | [Review Questions →](#question-2-explain-the-difference-between-oauth2-oidc-and-mtls-in-a-zero-trust-architecture) |
+| **Stage 4**<br/>`Network Defense` | Control Plane Policing (CoPP), Infrastructure ACLs, VRF Isolation, MACsec | • [Phase 8 · Lab 01: CoPP CPU Protection](../courses/08-security/lab-01-copp-cpu-protection.md)<br/>• [Phase 8 · Lab 02: VRF Microsegmentation](../courses/08-security/lab-02-vrf-route-leaking-acls.md)<br/>• [Phase 8 · Lab 03: Infrastructure ACLs (iACL)](../courses/08-security/lab-03-infrastructure-acls.md)<br/>• [Phase 8 · Lab 04: MACsec Line-Rate Security](../courses/08-security/lab-04-macsec-line-rate-security.md) | `labs/security-lab` | [Start Stage 4 →](../courses/08-security/lab-01-copp-cpu-protection.md) |
+| **Stage 5**<br/>`Container Security` | Trivy Image Scanning, Linux Namespaces, Falco eBPF System Call Filters | • [Container Security & eBPF Drills](#question-1-how-does-ebpf-runtime-detection-falco-catch-container-breakouts-without-adding-latency) | Local Docker | [Review Drills →](#question-1-how-does-ebpf-runtime-detection-falco-catch-container-breakouts-without-adding-latency) |
+| **Stage 6**<br/>`SIEM & IR Playbooks` | Wazuh SIEM Ingestion, Alert Correlation, Incident Containment | • [Telemetry Alerting & Anomaly Detection](../courses/07-telemetry/lab-05-telemetry-alerting.md) | `labs/telemetry-lab` | [Start Stage 6 →](../courses/07-telemetry/lab-05-telemetry-alerting.md) |
 
 ---
 

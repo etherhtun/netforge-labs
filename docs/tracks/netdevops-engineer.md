@@ -40,9 +40,27 @@ graph TD
 
     S1 ==> S2 ==> S3 ==> S4 ==> S5
 
+    click S1 href "#stage-1-data-modeling-template-generation" "Jump to Stage 1"
+    click S2 href "#stage-2-operational-state-assertions" "Jump to Stage 2"
+    click S3 href "#stage-3-offline-pre-flight-verification-with-batfish" "Jump to Stage 3"
+    click S4 href "#stage-4-automated-cicd-deployment-pipelines" "Jump to Stage 4"
+    click S5 href "#stage-5-programmable-telemetry-feedback-loops" "Jump to Stage 5"
+
     classDef dev fill:#1b5e20,stroke:#81c784,color:#ffffff,stroke-width:2px,font-weight:bold;
     class S1,S2,S3,S4,S5 dev;
 ```
+
+---
+
+## 🚀 Interactive Lesson Directory (Click Any Lesson to Start)
+
+| Milestone Stage | Automation Layer | Clickable Lessons & Hands-on Labs | Runnable Lab | Action |
+|---|---|---|---|---|
+| **Stage 1**<br/>`Data Modeling` | YAML Single Source of Truth & Jinja2 Network Templates | • [Phase 5 · Lab 01: Jinja2 & YAML Data Modeling](../courses/05-netdevops/lab-01-jinja2-yaml.md) | `labs/netdevops-lab` | [Start Stage 1 →](../courses/05-netdevops/lab-01-jinja2-yaml.md) |
+| **Stage 2**<br/>`State Assertions` | Cisco PyATS & Genie Structured Testbed Validation | • [Phase 5 · Lab 02: PyATS State Verification](../courses/05-netdevops/lab-02-pyats-verification.md) | `labs/netdevops-lab` | [Start Stage 2 →](../courses/05-netdevops/lab-02-pyats-verification.md) |
+| **Stage 3**<br/>`Pre-Flight Verification` | Batfish Abstract Syntax Tree Reachability & ACL Simulation | • [Phase 5 · Lab 03: Batfish Simulation](../courses/05-netdevops/lab-03-batfish-simulation.md) | `labs/netdevops-lab` | [Start Stage 3 →](../courses/05-netdevops/lab-03-batfish-simulation.md) |
+| **Stage 4**<br/>`CI/CD Pipelines` | GitHub Actions Workflows & Ephemeral Containerlab Testbeds | • [Phase 5 · Lab 05: GitHub Actions CI/CD](../courses/05-netdevops/lab-05-github-actions-cicd.md) | `labs/netdevops-lab` | [Start Stage 4 →](../courses/05-netdevops/lab-05-github-actions-cicd.md) |
+| **Stage 5**<br/>`Programmable Telemetry` | pygnmi Python Library, OpenConfig YANG Schemas, gRPC | • [Phase 7 · Lab 01: gNMI Basics & OpenConfig](../courses/07-telemetry/lab-01-gnmi-openconfig.md)<br/>• [Phase 7 · Lab 02: pygnmi Python Client Integration](../courses/07-telemetry/lab-02-pygnmi-python.md) | `labs/telemetry-lab` | [Start Stage 5 →](../courses/07-telemetry/lab-01-gnmi-openconfig.md) |
 
 ---
 

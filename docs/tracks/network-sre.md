@@ -40,9 +40,27 @@ graph TD
 
     S1 ==> S2 ==> S3 ==> S4 ==> S5
 
+    click S1 href "#stage-1-fast-convergence-link-resilience" "Jump to Stage 1"
+    click S2 href "#stage-2-automated-testing-verification-gates" "Jump to Stage 2"
+    click S3 href "#stage-3-real-time-telemetry-observability" "Jump to Stage 3"
+    click S4 href "#stage-4-control-plane-defense-blast-radius-isolation" "Jump to Stage 4"
+    click S5 href "#stage-5-chaos-engineering-incident-drills" "Jump to Stage 5"
+
     classDef sre fill:#4a148c,stroke:#ab47bc,color:#ffffff,stroke-width:2px,font-weight:bold;
     class S1,S2,S3,S4,S5 sre;
 ```
+
+---
+
+## 🚀 Interactive Lesson Directory (Click Any Lesson to Start)
+
+| Milestone Stage | SRE Pillar Focus | Clickable Lessons & Hands-on Labs | Runnable Lab | Action |
+|---|---|---|---|---|
+| **Stage 1**<br/>`Fast Convergence` | BFD Sub-Second Failover, BGP Flap Dampening, Graceful Restart | • [Phase 2 · Lab 03: Sub-Second BFD Peering](../courses/02-bgp-dia/lab-03-ixp-peering.md)<br/>• [Phase 6 · Lab 03: WAN Edge BFD Failover](../courses/06-hybrid-cloud/lab-03-bfd-subsecond-failover.md) | `labs/wan-edge-lab` | [Start Stage 1 →](../courses/06-hybrid-cloud/lab-03-bfd-subsecond-failover.md) |
+| **Stage 2**<br/>`Automated Gates` | PyATS Testbeds, Genie Parsers, Pre/Post-Maintenance State Diffing | • [Phase 5 · Lab 02: PyATS State Verification](../courses/05-netdevops/lab-02-pyats-verification.md)<br/>• [Phase 5 · Lab 05: CI/CD Pipeline Automation](../courses/05-netdevops/lab-05-github-actions-cicd.md) | `labs/netdevops-lab` | [Start Stage 2 →](../courses/05-netdevops/lab-02-pyats-verification.md) |
+| **Stage 3**<br/>`Observability` | gNMI Streaming Protobuf, OpenConfig YANG, Prometheus, Grafana | • [Phase 7 · Lab 01: gNMI & OpenConfig YANG](../courses/07-telemetry/lab-01-gnmi-openconfig.md)<br/>• [Phase 7 · Lab 02: pygnmi Python Streams](../courses/07-telemetry/lab-02-pygnmi-python.md)<br/>• [Phase 7 · Lab 03: Prometheus Metric Collectors](../courses/07-telemetry/lab-03-prometheus-time-series.md)<br/>• [Phase 7 · Lab 04: Real-Time Grafana Dashboards](../courses/07-telemetry/lab-04-grafana-observability.md) | `labs/telemetry-lab` | [Start Stage 3 →](../courses/07-telemetry/lab-01-gnmi-openconfig.md) |
+| **Stage 4**<br/>`Control Plane Defense` | CoPP CPU Protection, MQC Rate-Limiting, VRF Microsegmentation | • [Phase 8 · Lab 01: CoPP CPU Protection](../courses/08-security/lab-01-copp-cpu-protection.md)<br/>• [Phase 8 · Lab 02: VRF Microsegmentation](../courses/08-security/lab-02-vrf-route-leaking-acls.md)<br/>• [Phase 8 · Lab 03: Infrastructure ACLs (iACL)](../courses/08-security/lab-03-infrastructure-acls.md) | `labs/security-lab` | [Start Stage 4 →](../courses/08-security/lab-01-copp-cpu-protection.md) |
+| **Stage 5**<br/>`Incident Drills` | Link Flaps, BGP Churn, MTTR Reduction & Blameless Post-Mortems | • [Phase 1 · Lab 04: Multihomed Edge Failure Triage](../courses/01-bgp/lab-04-dual-homed-edge.md)<br/>• [System Design Incident Response Drills](../interview-prep/google-system-design.md) | `labs/bgp-lab` | [Start Stage 5 →](../interview-prep/google-system-design.md) |
 
 ---
 
