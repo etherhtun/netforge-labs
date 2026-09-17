@@ -48,6 +48,11 @@ nav:
     - "⚡ Low-Latency Financial Engineer": tracks/financial-network-engineer.md
     - "📋 TPM & System Design": tracks/technical-program-manager.md
   - Roadmap: roadmap.md
+  - "🇲🇲 မြန်မာဗားရှင်း":
+    - "ပင်မစာမျက်နှာ": my/index.md
+    - "သင်ယူမှုလမ်းကြောင်းများ":
+      - "လမ်းကြောင်းများ ခြုံငုံသုံးသပ်ချက်": my/tracks/index.md
+      - "🌐 Network for AI & Hyperscale Architect": my/tracks/network-engineer.md
 
   - Get Started:
     - getting-started/index.md
