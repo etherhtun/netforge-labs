@@ -1,7 +1,7 @@
 <div class="nf-hud-tag">TRACK 01 / 06 &bull; HYPERSCALE CORE ARCHITECTURE</div>
 
 <div style="display:flex; justify-content:flex-end; margin-bottom: 0.8rem;">
-  <a href="../my/tracks/network-engineer.md" class="nf-chip" style="color:var(--nf-accent-emerald); font-weight:700; text-decoration:none; padding: 0.35rem 0.8rem; border: 1px solid var(--nf-accent-emerald);">🇲🇲 မြန်မာဘာသာဖြင့် ဖတ်ရှုရန် →</a>
+  <a href="../../my/tracks/network-engineer/" class="nf-chip" style="color:var(--nf-accent-emerald); font-weight:700; text-decoration:none; padding: 0.35rem 0.8rem; border: 1px solid var(--nf-accent-emerald);">🇲🇲 မြန်မာဘာသာဖြင့် ဖတ်ရှုရန် →</a>
 </div>
 
 # 🌐 Network for AI & Hyperscale Infrastructure Architect Learning Path
