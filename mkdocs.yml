@@ -203,6 +203,15 @@ nav:
 extra_css:
   - stylesheets/extra.css
 
+extra:
+  alternate:
+    - name: English
+      link: ./
+      lang: en
+    - name: မြန်မာ
+      link: ./my/
+      lang: my
+
 plugins:
   - search
   - i18n:
