@@ -37,7 +37,7 @@
     - **Push Telemetry**: gNMI gRPC Protobuf၊ OpenConfig YANG၊ Prometheus & Grafana
     - **Reliability Engineering**: CoPP CPU protection၊ PyATS assertions & incident drills
 
-    [Network SRE လမ်းကြောင်း စတင်ရန် →](../tracks/network-sre.md)
+    [Network SRE လမ်းကြောင်း စတင်ရန် →](network-sre.md)
 
 -   🔒 **3. Cybersecurity & DevSecOps** &nbsp; <span class="nf-badge ok">၃၀–၃၅ နာရီ</span>
 
@@ -49,7 +49,7 @@
     - **Zero-Trust Identity**: OAuth2၊ OIDC၊ mutual TLS (mTLS) နှင့် HashiCorp Vault
     - **Runtime & AppSec**: OWASP Top 10 WAF၊ Falco eBPF kernel detection နှင့် SIEM
 
-    [Cybersecurity လမ်းကြောင်း စတင်ရန် →](../tracks/cybersecurity-engineer.md)
+    [Cybersecurity လမ်းကြောင်း စတင်ရန် →](cybersecurity-engineer.md)
 
 -   🤖 **4. NetDevOps & Infrastructure Automation** &nbsp; <span class="nf-badge ok">၃၅–၄၀ နာရီ</span>
 
@@ -61,7 +61,7 @@
     - **Pre-Flight Static Analysis**: Batfish AST simulation ဖြင့် မ run မီ reachability အတည်ပြုခြင်း
     - **CI/CD Automation**: GitHub Actions၊ Containerlab headless testbeds နှင့် PyATS
 
-    [NetDevOps လမ်းကြောင်း စတင်ရန် →](../tracks/netdevops-engineer.md)
+    [NetDevOps လမ်းကြောင်း စတင်ရန် →](netdevops-engineer.md)
 
 -   ⚡ **5. Low-Latency Financial Network Engineer** &nbsp; <span class="nf-badge ok">၂၅–၃၀ နာရီ</span>
 
@@ -73,7 +73,7 @@
     - **Sub-50ms Failover**: အလင်းမျှင်ချိတ်ဆက်မှုများပေါ်တွင် မိုက်ခရိုစက္ကန့် BFD timers
     - **Line-Rate Security**: IEEE 802.1AE MACsec AES-256-GCM hardware encryption
 
-    [Low-Latency လမ်းကြောင်း စတင်ရန် →](../tracks/financial-network-engineer.md)
+    [Low-Latency လမ်းကြောင်း စတင်ရန် →](financial-network-engineer.md)
 
 -   📋 **6. TPM & Hyperscale System Design** &nbsp; <span class="nf-badge ok">၂၀–၂၅ နာရီ</span>
 
@@ -85,7 +85,7 @@
     - **Protocol Governance**: RFC 7938 eBGP နှင့် iBGP blast-radius ထိန်းချုပ်မှု
     - **SLA & Vendor RFPs**: Sub-50ms Ti-LFA error budgets နှင့် OpenConfig စံနှုန်းများ
 
-    [TPM System Design လမ်းကြောင်း စတင်ရန် →](../tracks/technical-program-manager.md)
+    [TPM System Design လမ်းကြောင်း စတင်ရန် →](technical-program-manager.md)
 
 </div>
 
