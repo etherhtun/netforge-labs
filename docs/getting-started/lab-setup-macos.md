@@ -134,6 +134,33 @@ the lab guide.
 
 ---
 
+## 8. Destroy and clean up the lab
+
+When you are done with your session (or want to rebuild from a clean slate), use Containerlab's `destroy` command:
+
+### 1. Destroy a specific lab topology:
+```bash
+sudo containerlab destroy -t ceos-evpn.clab.yml
+```
+This cleanly stops and removes the containers, deletes all virtual ethernet (veth) link pairs, and cleans up `/etc/hosts` and SSH configuration entries automatically.
+
+### 2. Destroy all running labs / orphaned containers:
+If you have leftover containers from previous or interrupted labs:
+```bash
+sudo containerlab destroy --all
+```
+
+### 3. Deep cleanup (remove lab directories and artifacts):
+```bash
+sudo containerlab destroy -t ceos-evpn.clab.yml --cleanup
+```
+(The `--cleanup` or `-c` flag deletes the generated `clab-ceos-evpn` directory, bind mounts, and node flash files).
+
+!!! tip "Why tear down daily?"
+    A 4-node emulated cEOS fabric consumes ~8 GB of RAM and continuous CPU cycles. Running `destroy` frees up all system memory and CPU instantly, keeping your Mac cool and preserving battery life.
+
+---
+
 ## Troubleshooting
 
 | Symptom | Cause | Fix |
