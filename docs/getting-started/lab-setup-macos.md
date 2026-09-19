@@ -119,8 +119,15 @@ You're ready for the [Course 2 lab](../courses/04-evpn/lab-01-pure-l2vni.md). Dr
 and:
 ```bash
 cd ~/ceos-lab
-sudo containerlab deploy -t ceos-evpn.clab.yml
+sudo containerlab deploy -t ceos-evpn.clab.yml --max-workers 1
 ```
+
+!!! tip "Why `--max-workers 1` is critical on Apple Silicon"
+    Under Rosetta emulation, multiple emulated x86 nodes booting simultaneously contend
+    for CPU, causing EOS to start interface enumeration before containerlab finishes wiring
+    the veth pairs (the boot-race). `--max-workers 1` serializes container deployment node
+    by node, preventing this race entirely.
+
 The full 2-spine × 2-leaf + 2-host fabric takes ~5–8 min to boot under emulation.
 **Always health-check before configuring** (see the boot-race note below), then follow
 the lab guide.
@@ -133,7 +140,7 @@ the lab guide.
 |---------|-------|-----|
 | `docker: command not found` / can't connect | Docker context not set in the machine | It's usually automatic in OrbStack; re-enter with `ssh orb`, or check the OrbStack app is running |
 | `exec format error` on container start | forgot `--platform linux/amd64` on import | Re-import with the flag |
-| Node boots, `show interfaces Ethernet1 status` shows type **`Unknown`** | cEOS **boot-race** — EOS scanned before containerlab wired the veths (worse under emulation) | `containerlab destroy` + `deploy`, then health-check until all nodes show `connected / EbraTestPhyPort`. **Never `docker restart`** a clab node — it destroys the veths (`reload` is also unavailable — it's a container) |
+| Node boots, `show interfaces Ethernet1 status` shows type **`Unknown`** | cEOS **boot-race** — EOS scanned before containerlab wired the veths (worse under emulation) | `sudo containerlab destroy -t ...` and redeploy with `--max-workers 1` (e.g. `sudo containerlab deploy -t ... --max-workers 1`). Health-check until all nodes show `connected / EbraTestPhyPort`. **Never `docker restart`** a clab node — it destroys the veths (`reload` is also unavailable — it's a container) |
 | Fabric slow to boot | 4 emulated nodes booting at once | Normal — give it 5–8 min; watch with `watch -n 5 'docker ps --filter name=clab-ceos-evpn --format "table {{.Names}}\t{{.Status}}"'` |
 | Can't `reload` a node | it's a container, not a box | Redeploy via containerlab; there's no in-box reboot |
 

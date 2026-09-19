@@ -128,8 +128,12 @@ sudo containerlab destroy -t smoke.clab.yml
 
 ```bash
 cd ~/ceos-lab
-sudo containerlab deploy -t ceos-evpn.clab.yml
+sudo containerlab deploy -t ceos-evpn.clab.yml --max-workers 1
 ```
+
+!!! tip "Apple Silicon Mac များအတွက် `--max-workers 1` အဘယ်ကြောင့် မဖြစ်မနေ လိုအပ်သလဲ"
+    Rosetta emulation အောက်တွင် x86 cEOS switch ၄ လုံး ပြိုင်တူ boot တက်ပါက CPU ဝန်ပိမှုကြောင့် virtual cable (veth) မငြိမ်မီ switch OS က interface ကို အရင် scan ဖတ်မိကာ interface type သည် `Unknown` ဖြစ်သွားတတ်ပါသည် (Boot-Race ပြဿနာ)။  
+    **`--max-workers 1`** flag ထည့်သွင်းခြင်းဖြင့် switch များကို တစ်လုံးပြီးမှတစ်လုံး စနစ်တကျ ကြိုးတပ်ဆင်ပြီး boot တင်ပေးသွားမည် ဖြစ်သောကြောင့် အဆိုပါ race condition ကို ၁၀၀% အမြစ်ပြတ် တားဆီးပေးပါသည်။
 
 Spine ၂ လုံး၊ Leaf ၂ လုံးနှင့် Host ၂ လုံးပါဝင်သော fabric အပြည့်အစုံသည် Rosetta emulation အောက်တွင် boot အပြည့်အဝတက်ရန် ၅ မိနစ် မှ ၈ မိနစ်ခန့် ကြာမြင့်နိုင်ပါသည်။  
 **စနစ်အတွင်း config များ မစတင်မီ ကျန်းမာရေး (Health-check) ကို အမြဲတမ်း စစ်ဆေးပါ** (အောက်ပါ boot-race မှတ်ချက်ကို ဖတ်ပါ)၊ ထို့နောက် lab လမ်းညွှန်ချက်များအတိုင်း လက်တွေ့ ဆက်လက်လေ့ကျင့်နိုင်ပါသည်။
@@ -142,7 +146,7 @@ Spine ၂ လုံး၊ Leaf ၂ လုံးနှင့် Host ၂ လု�
 |---|---|---|
 | `docker: command not found` သို့မဟုတ် ချိတ်ဆက်မရခြင်း | Linux စက်အတွင်း Docker context ချိတ်ဆက်မှု မရရှိသေးခြင်း | OrbStack တွင် အလိုအလျောက် ချိတ်ဆက်ပေးလေ့ရှိပြီး `ssh orb` ဖြင့် စက်ထဲ ပြန်လည်ဝင်ရောက်ပါ၊ သို့မဟုတ် OrbStack app ပွင့်နေခြင်း ရှိမရှိ စစ်ဆေးပါ |
 | Container စတင်ချိန်တွင် `exec format error` ဖြစ်ပေါ်ခြင်း | Image import ပြုလုပ်စဉ် `--platform linux/amd64` ထည့်ရန် ကျန်ခဲ့ခြင်း | Flag ကို ထည့်သွင်း၍ image ကို ပြန်လည် import လုပ်ပါ |
-| Node တက်လာသော်လည်း `show interfaces Ethernet1 status` တွင် type သည် **`Unknown`** ဖြစ်နေခြင်း | cEOS ၏ **Boot-Race** ပြဿနာ — containerlab က virtual cables (veths) များကို မချိတ်ဆက်မီ EOS က interface များကို စောလျင်စွာ scan ဖတ်လိုက်ခြင်းကြောင့် ဖြစ်သည် (emulation အောက်တွင် ပိုကြုံရတတ်သည်) | `containerlab destroy` လုပ်ပြီး ပြန်လည် `deploy` လုပ်ပါ၊ ထို့နောက် nodes အားလုံး `connected / EbraTestPhyPort` မပြမချင်း health-check စစ်ဆေးပါ။ **clab node များကို `docker restart` လုံးဝ မလုပ်ပါနှင့်** — ၎င်းသည် veth ကြိုးများကို ပျက်စီးစေပါသည် (`reload` သည်လည်း container ဖြစ်၍ ပြုလုပ်၍ မရပါ) |
+| Node တက်လာသော်လည်း `show interfaces Ethernet1 status` တွင် type သည် **`Unknown`** ဖြစ်နေခြင်း | cEOS ၏ **Boot-Race** ပြဿနာ — switch များ ပြိုင်တူတက်စဉ် virtual cables (veths) များကို containerlab က မချိတ်ဆက်မီ EOS က interface များကို စောလျင်စွာ scan ဖတ်လိုက်ခြင်းကြောင့် ဖြစ်သည် | `containerlab destroy` ပြုလုပ်ပြီး **`--max-workers 1`** flag ဖြင့် ပြန်လည် `deploy` လုပ်ပါ (ဥပမာ `sudo containerlab deploy -t ... --max-workers 1`)။ ပြီးနောက် nodes အားလုံး `connected / EbraTestPhyPort` မပြမချင်း health-check စစ်ဆေးပါ။ **clab node များကို `docker restart` လုံးဝ မလုပ်ပါနှင့်** — ၎င်းသည် veth ကြိုးများကို ပျက်စီးစေပါသည် (`reload` သည်လည်း container ဖြစ်၍ ပြုလုပ်၍ မရပါ) |
 | Fabric စတင်ချိန်တွင် အလွန်နှေးကွေးနေခြင်း | Emulated nodes ၄ ခု တစ်ပြိုင်နက် boot တက်နေရခြင်းကြောင့် ဖြစ်သည် | ပုံမှန်သာဖြစ်ပါသည် — ၅ မိနစ်ခန့် စိတ်ရှည်စွာ စောင့်ဆိုင်းပါ၊ အခြေအနေကို `watch -n 5 'docker ps --filter name=clab-ceos-evpn --format "table {{.Names}}\t{{.Status}}"'` ဖြင့် စောင့်ကြည့်နိုင်ပါသည် |
 | Node တစ်ခုကို `reload` လုပ်၍ မရခြင်း | သီးခြား hardware switch မဟုတ်ဘဲ container ဖြစ်နေခြင်းကြောင့် ဖြစ်သည် | Switch reboot ပြုလုပ်လိုပါက Containerlab မှတစ်ဆင့်သာ redeploy ပြုလုပ်ပေးရပါမည် |
 
