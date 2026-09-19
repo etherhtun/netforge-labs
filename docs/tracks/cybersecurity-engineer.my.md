@@ -1,4 +1,4 @@
-<div class="nf-hud-tag">TRACK 03 / 06 &bull; CYBERSECURITY & DEVSECOPS (မြန်မာဗားရှင်း)</div>
+<div class="nf-hud-tag">TRACK 03 / 06 &bull; CYBERSECURITY & DEVSECOPS</div>
 
 # 🔒 Cybersecurity & DevSecOps သင်ယူမှုလမ်းကြောင်း
 

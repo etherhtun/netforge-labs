@@ -1,4 +1,4 @@
-<div class="nf-hud-tag">TRACK 05 / 06 &bull; LOW-LATENCY FINANCIAL ENGINEERING (မြန်မာဗားရှင်း)</div>
+<div class="nf-hud-tag">TRACK 05 / 06 &bull; LOW-LATENCY FINANCIAL ENGINEERING</div>
 
 # ⚡ Low-Latency Financial Network Engineer သင်ယူမှုလမ်းကြောင်း
 

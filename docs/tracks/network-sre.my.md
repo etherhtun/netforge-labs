@@ -1,4 +1,4 @@
-<div class="nf-hud-tag">TRACK 02 / 06 &bull; PRODUCTION RELIABILITY (မြန်မာဗားရှင်း)</div>
+<div class="nf-hud-tag">TRACK 02 / 06 &bull; PRODUCTION RELIABILITY</div>
 
 # 🤖 Network SRE & Observability သင်ယူမှုလမ်းကြောင်း
 

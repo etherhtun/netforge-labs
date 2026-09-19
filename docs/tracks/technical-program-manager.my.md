@@ -1,4 +1,4 @@
-<div class="nf-hud-tag">TRACK 06 / 06 &bull; TPM & SYSTEM DESIGN (မြန်မာဗားရှင်း)</div>
+<div class="nf-hud-tag">TRACK 06 / 06 &bull; TPM & SYSTEM DESIGN</div>
 
 # 📋 Technical Program Manager (TPM) & System Design သင်ယူမှုလမ်းကြောင်း
 

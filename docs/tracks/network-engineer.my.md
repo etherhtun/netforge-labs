@@ -1,4 +1,4 @@
-<div class="nf-hud-tag">TRACK 01 / 06 &bull; HYPERSCALE CORE ARCHITECTURE (မြန်မာဗားရှင်း)</div>
+<div class="nf-hud-tag">TRACK 01 / 06 &bull; HYPERSCALE CORE ARCHITECTURE</div>
 
 # 🌐 Network for AI & Hyperscale Infrastructure Architect သင်ယူမှုလမ်းကြောင်း
 

@@ -1,4 +1,4 @@
-<div class="nf-hud-tag">TRACK 04 / 06 &bull; NETDEVOPS & INFRASTRUCTURE AUTOMATION (မြန်မာဗားရှင်း)</div>
+<div class="nf-hud-tag">TRACK 04 / 06 &bull; NETDEVOPS & INFRASTRUCTURE AUTOMATION</div>
 
 # 🤖 NetDevOps & Infrastructure Automation သင်ယူမှုလမ်းကြောင်း
 
