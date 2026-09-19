@@ -1,182 +1,150 @@
-# Host setup 2 — Docker, containerlab, and the vJunos image
+# Docker & Containerlab CLI Guide
 
-Run everything here **on the GCP VM** (after SSHing in from
-[host setup 1](cloud-vm.md)). By the end you'll have containerlab
-installed and a bootable `vJunos-switch` image that `topology.clab.yml`
-references.
-
-The one genuinely fiddly step is #4 — vJunos-switch ships as a raw VM disk that
-you wrap into a container image with **vrnetlab**. Everything else is routine.
+> Every lab in NetForge Labs is powered by **Docker** and **Containerlab**.  
+> This guide breaks down the structure of topology files (`topology.clab.yml`), how network fabrics are deployed and destroyed, and the essential CLI commands every network engineer needs for daily lab work.
 
 ---
 
-## 1. Install Docker
+## 🧠 Mental Model
 
-```bash
-curl -fsSL https://get.docker.com | sudo sh
-sudo usermod -aG docker "$USER"
+For a network engineer, think of Docker and Containerlab working together as follows:
+
+- **Docker (The Device Runtime)**: Creates and manages isolated Linux processes (containers) representing individual routers, switches, and hosts.
+- **Containerlab (The Network Orchestrator)**: Reads your declarative topology YAML file, spins up the containers, and wires them together with virtual ethernet (veth) cable pairs.
+
+```mermaid
+graph TD
+    YAML["📄 topology.clab.yml<br/>(Network Specification)"] --> CLAB["⚡ Containerlab CLI<br/>(Orchestrator)"]
+    CLAB --> D1["📦 Node: spine1<br/>(Arista cEOS)"]
+    CLAB --> D2["📦 Node: leaf1<br/>(Arista cEOS)"]
+    CLAB --> D3["📦 Node: host1<br/>(Alpine Linux)"]
+    D1 <-->|"veth virtual cable<br/>(spine1:eth1 ↔ leaf1:eth1)"| D2
+    D2 <-->|"veth virtual cable<br/>(leaf1:eth2 ↔ host1:eth1)"| D3
+    
+    classDef file fill:#1e293b,stroke:#38bdf8,color:#f8fafc,stroke-width:2px;
+    classDef node fill:#0f172a,stroke:#a855f7,color:#f8fafc,stroke-width:1.5px;
+    class YAML file; class CLAB file; class D1,D2,D3 node;
 ```
-> **Log out and back in** after the `usermod` (or run `newgrp docker`) so your
-> shell picks up the `docker` group — otherwise every `docker` call needs
-> `sudo`. Verify:
-> ```bash
-> docker run --rm hello-world     # should print "Hello from Docker!"
-> ```
 
-## 2. Install containerlab
+---
 
-```bash
-bash -c "$(curl -sL https://get.containerlab.dev)"
-containerlab version
-```
+## 📄 Anatomy of a Topology File (`topology.clab.yml`)
 
-## 3. Extra tools the repo scripts need
+Every lab directory contains a `topology.clab.yml` definition structured into three simple sections:
 
-```bash
-sudo apt update && sudo apt install -y sshpass tcpdump make git
-```
-- `sshpass` — `switch.sh` uses it to push configs over SSH
-- `tcpdump` — `capture.sh` uses it for `.pcap` capture
-- `make` / `git` — needed to build the vJunos image next
-
-## 4. Build the vJunos-switch image (vrnetlab)
-
-vJunos-switch is a free download from Juniper (**account required**). It's a
-`.qcow2` VM disk; vrnetlab packages it into a Docker image containerlab can run.
-
-> ⚠️ We want **vJunos-switch** (L2 / EVPN-VXLAN switching), *not* vJunosEvolved
-> (routing/PTX). Make sure you grab the switch image.
-
-### 4a. Get the image onto the VM
-Download the `.qcow2` from the Juniper support site to your laptop, then copy it
-up (or download directly on the VM if you have a signed URL):
-```bash
-# from your laptop:
-gcloud compute scp ~/Downloads/vJunos-switch-23.2R1.14.qcow2 \
-    clab-lab:~/ --zone=asia-southeast1-b
-```
-> 🔒 The `.qcow2` is licensed — keep it on the VM only. It's already in
-> `.gitignore`; **never commit it**.
-
-### 4b. Clone the vrnetlab fork containerlab uses
-```bash
-git clone https://github.com/hellt/vrnetlab.git
-cd vrnetlab
-```
-> Use the **`hellt/vrnetlab`** fork (the one containerlab documents), not the
-> upstream — it has the current Juniper build recipes.
-
-### 4c. Drop the image in and build
-On the `23.2R1` release the directory is **`vjunosswitch`** (confirmed):
-```bash
-cp ~/vJunos-switch-23.2R1.14.qcow2 juniper/vjunosswitch/
-cd juniper/vjunosswitch
-make
-```
-The `make` boots the VM once, bakes in defaults, and produces a Docker image.
-> If your fork/version differs, list the options with `ls ~/vrnetlab/juniper*/`.
-
-### 4d. Capture the exact image tag
-```bash
-docker images | grep -i vjunos
-```
-On `23.2R1.14` this produces exactly:
-```
-vrnetlab/juniper_vjunos-switch   23.2R1.14   <id>   7.27GB
-```
-Note the **`REPOSITORY:TAG`** (`vrnetlab/juniper_vjunos-switch:23.2R1.14`).
-
-## 5. Point the topology at your image
-
-**Good news:** the lab's `topology.clab.yml` already defaults to exactly this
-tag — if you built `23.2R1.14`, **no edit is needed.** Confirm with:
-```bash
-grep image labs/01-ospf-ibgp/topology.clab.yml
-# → vrnetlab/juniper_vjunos-switch:23.2R1.14
-```
-If your tag differs (different Junos version), edit the `image:` line to match:
 ```yaml
-  kinds:
-    juniper_vjunosswitch:                       # containerlab kind for vJunos-switch
-      image: vrnetlab/juniper_vjunos-switch:23.2R1.14   # ← your tag from 4d
-```
-> If `containerlab deploy` later complains about an unknown kind, check
-> `containerlab version` — very old versions predate the native
-> `juniper_vjunosswitch` kind.
+name: ceos-evpn                    # 1. Lab name
 
-## 6. Clone the lab repo
+topology:
+  nodes:                           # 2. Network nodes (Routers / Switches / Hosts)
+    spine1:
+      kind: arista_ceos            # Device kind
+      image: ceos:4.32.0F          # Container image to boot
+    leaf1:
+      kind: arista_ceos
+      image: ceos:4.32.0F
+    host1:
+      kind: linux                  # Standard Linux client host
+      image: alpine:latest
 
-The image build happened inside the **vrnetlab** repo. The labs live in a
-**separate** repo — clone it now:
-```bash
-cd ~
-git clone https://github.com/etherhtun/netforge-labs.git
-cd netforge-labs
-ls labs/                    # → 01-ospf-ibgp
-```
-All the `./scripts/*` and `labs/*` commands below run from **this** directory.
-
-## 7. Smoke test
-
-From the repo root (`~/netforge-labs`):
-```bash
-./scripts/deploy.sh 01-ospf-ibgp
-```
-First boot is slow — **~5–8 min per vJunos node**. Watch one boot:
-```bash
-docker logs -f clab-evpn-lab-spine1
-```
-When it settles, list the lab and SSH into a node:
-```bash
-containerlab inspect -t labs/01-ospf-ibgp/topology.clab.yml
-ssh admin@clab-evpn-lab-spine1        # confirm creds on first login
-```
-> This is exactly when you resolve the repo's `NOTE/TODO` markers: the real
-> login user/password, and the `ethN → et-/xe-/ge-` interface mapping
-> (`show interfaces terse`). Lock both into `common/ipplan.md` once confirmed.
-
-## 8. Troubleshooting
-
-| Symptom | Cause / fix |
-|---------|-------------|
-| `docker` needs `sudo` every time | Group not applied — log out/in, or `newgrp docker`. |
-| `make` fails early / VM won't boot during build | Nested virt off on the VM — recheck `grep -cw vmx /proc/cpuinfo` (host setup 1, step 6). |
-| `permission denied: /dev/kvm` | Add yourself: `sudo usermod -aG kvm "$USER"`, then re-login. |
-| `unknown kind juniper_vjunosswitch` | containerlab too old — reinstall (step 2) to get the latest. |
-| Nodes boot but no mgmt SSH | Wait longer (Junos mgmt comes up late), then confirm creds; adjust `LAB_USER`/`LAB_PASS` for `switch.sh`. |
-| Out of disk during build | `.qcow2` + Docker layers are big — the 100 GB SSD disk from host setup 1 is sized for this. |
-
-## 9. 💰 Stop the VM when you're done (save cost)
-
-A GCP VM bills **by the second while it's running**. When you finish for the day,
-**stop it** — you keep the disk (image, repo, configs) and pay only for storage.
-
-**Easiest — from inside the VM itself** (where you already are):
-```bash
-sudo poweroff        # (or: sudo shutdown -h now)
-```
-The guest OS shuts down, GCP marks the instance **TERMINATED**, and compute billing
-stops. Your SSH session drops — that's expected. To turn it back on, use the
-Console or `gcloud … start` below.
-
-**From your laptop or Cloud Shell** (NOT from inside the VM — the VM's service
-account lacks permission and you'll get `insufficient authentication scopes`):
-```bash
-gcloud compute instances stop   clab-lab --zone=asia-southeast1-b   # pause — cheap
-gcloud compute instances start  clab-lab --zone=asia-southeast1-b   # resume later
-gcloud compute instances delete clab-lab --zone=asia-southeast1-b   # remove entirely
+  links:                           # 3. Inter-device wiring
+    - endpoints: ["spine1:eth1", "leaf1:eth1"]
+    - endpoints: ["leaf1:eth2", "host1:eth1"]
 ```
 
-Or use the **Cloud Console:** VM instances → **⋮ → Stop / Start**.
-
-> ⚠️ **A running containerlab fabric does NOT survive a VM stop/start.** After you
-> `start` the VM again, the vJunos containers are gone — re-run
-> `./scripts/deploy.sh <lab>` and rebuild with `./scripts/apply.sh <lab> all`. The
-> repo (guides, configs, scripts) is safe in git, so nothing is lost.
-
-Make this a habit — an idle running fabric is the main way lab costs sneak up.
+### Key Conventions:
+1. **Container Naming**: Containerlab automatically formats container names as `clab-<lab_name>-<node_name>` (e.g. `clab-ceos-evpn-spine1`).
+2. **Interface Naming**: Always use lowercase **`eth1`, `eth2`** in the topology file. Inside Arista EOS, they are mapped to `Ethernet1`, `Ethernet2`.
 
 ---
 
-Next: back to [lab 01](../archive/juniper-vxlan-evpn/labs/lab-01-fullmesh.md)
-— deploy the bare fabric and work through the complete guide.
+## ⚡ Essential Containerlab CLI Commands
+
+### 1. Deploy the Fabric
+```bash
+# Standard deployment
+sudo containerlab deploy -t topology.clab.yml
+
+# Recommended on macOS Apple Silicon (prevents parallel boot-race)
+sudo containerlab deploy -t topology.clab.yml --max-workers 1
+```
+*(Creates containers, assigns management IPs, and establishes veth link pairs in seconds).*
+
+### 2. Inspect Running Labs
+```bash
+sudo containerlab inspect -t topology.clab.yml
+```
+*(Displays a clean tabular summary of container names, IPv4/IPv6 management addresses, and port mappings).*
+
+### 3. Visual Web Topology (Graph)
+```bash
+sudo containerlab graph -t topology.clab.yml
+```
+*(Launches a local lightweight web server and provides an interactive browser-based visualization of your topology).*
+
+### 4. Destroy & Clean Up
+```bash
+# Destroy current lab
+sudo containerlab destroy -t topology.clab.yml
+
+# Deep cleanup (also removes generated lab directory and node flash files)
+sudo containerlab destroy -t topology.clab.yml --cleanup
+
+# Destroy all leftover/orphaned containerlab deployments
+sudo containerlab destroy --all
+```
+
+---
+
+## 🐳 Essential Docker Commands for Network Engineers
+
+Once Containerlab brings up the topology, use standard Docker commands to interact with the nodes:
+
+### 1. Enter the Switch CLI
+Directly enter the Arista EOS interactive CLI:
+```bash
+docker exec -it clab-ceos-evpn-leaf1 Cli
+```
+*(Once inside, run familiar commands: `leaf1> enable`, `show ip route`, `show interfaces status`).*
+
+### 2. Run Single Commands from Outside
+Execute a command directly without opening an interactive session:
+```bash
+docker exec clab-ceos-evpn-leaf1 Cli -c "show interfaces status"
+```
+
+### 3. Enter the Underlying Linux Shell
+Because Arista EOS runs on top of Linux, you can inspect the Linux namespace directly:
+```bash
+docker exec -it clab-ceos-evpn-leaf1 bash
+```
+
+### 4. Check Running Containers
+```bash
+docker ps
+```
+*(Verify node status, uptime, and container names).*
+
+### 5. Follow Container Startup Logs
+```bash
+docker logs -f clab-ceos-evpn-spine1
+```
+
+---
+
+## 📋 Quick Reference Cheat Sheet
+
+| Task | Command | Description |
+|---|---|---|
+| **Deploy Lab** | `sudo containerlab deploy -t <file.yml> --max-workers 1` | Recommended on macOS Apple Silicon |
+| **Inspect Lab** | `sudo containerlab inspect -t <file.yml>` | View node IPs and port mappings |
+| **Graph Topology** | `sudo containerlab graph -t <file.yml>` | Interactive browser diagram |
+| **Destroy Lab** | `sudo containerlab destroy -t <file.yml>` | Tear down containers and veth links |
+| **Destroy All** | `sudo containerlab destroy --all` | Wipe all orphaned labs |
+| **Switch CLI** | `docker exec -it <container-name> Cli` | Open native Arista EOS prompt |
+| **List Containers** | `docker ps` | View all active containers |
+
+---
+
+### 🚀 Next Steps:
+To see how Linux Network Namespaces and virtual ethernet (veth) pairs work under the hood, proceed to **[Page 3 · How the Lab Works →](how-the-lab-works.md)**.

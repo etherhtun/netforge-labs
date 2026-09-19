@@ -1,150 +1,150 @@
-# Host Setup 2 — Docker, containerlab, နှင့် vJunos Image
+# Docker & Containerlab CLI အခြေခံလမ်းညွှန်
 
-ဤနေရာရှိ လုပ်ဆောင်ချက်များအားလုံးကို **GCP VM ပေါ်တွင်** run ရန် ဖြစ်ပါသည် ([host setup 1](cloud-vm.md) မှ SSH ဖြင့် ဝင်ရောက်ပြီးနောက်)။ ဤအဆင့်ပြီးဆုံးချိန်တွင် containerlab ကို install ပြုလုပ်ပြီးဖြစ်မည်ဖြစ်ပြီး `topology.clab.yml` က ညွှန်းဆိုထားသော boot တက်နိုင်သည့် `vJunos-switch` image တစ်ခု အသင့်ရှိနေမည် ဖြစ်ပါသည်။
-
-အဓိက ဂရုတစိုက် ပြုလုပ်ရမည့် အဆင့်မှာ အဆင့် (၄) ဖြစ်ပါသည် — vJunos-switch သည် raw VM disk အဖြစ် ထွက်ရှိပြီး ၎င်းကို containerlab run နိုင်စေရန် **vrnetlab** ဖြင့် container image တစ်ခုအဖြစ် wrap လုပ်ပေးရမည် ဖြစ်ပါသည်။ ကျန်ရှိသော အဆင့်များမှာ ရိုးရှင်းပါသည်။
+> NetForge Labs တွင် လက်တွေ့ စမ်းသပ်မှုတိုင်းကို **Docker** နှင့် **Containerlab** ဖြင့် မောင်းနှင်ထားပါသည်။  
+> ဤလမ်းညွှန်သည် Topology ဖိုင်များ (`topology.clab.yml`) တည်ဆောက်ပုံ၊ ကွန်ရက်ခလုတ်များကို deploy / destroy လုပ်ပုံနှင့် အင်ဂျင်နီယာတစ်ယောက် နေ့စဉ် မဖြစ်မနေ သုံးရမည့် CLI commands များကို အစအဆုံး ရှင်းလင်းတင်ပြထားပါသည်။
 
 ---
 
-## ၁။ Docker ကို Install ပြုလုပ်ခြင်း
+## 🧠 အခြေခံ အယူအဆ (Mental Model)
 
-```bash
-curl -fsSL https://get.docker.com | sudo sh
-sudo usermod -aG docker "$USER"
+ကွန်ရက်အင်ဂျင်နီယာတစ်ယောက်အတွက် Docker နှင့် Containerlab ၏ အခန်းကဏ္ဍကို အောက်ပါအတိုင်း နားလည်နိုင်ပါသည်:
+
+- **Docker (စက်ပစ္စည်းတည်ဆောက်သူ)**: Router, Switch သို့မဟုတ် Host တစ်ခုချင်းစီကို သီးခြား isolated Linux process (container) တစ်ခုအဖြစ် ဖန်တီးပေးသည့် runtime အင်ဂျင် ဖြစ်သည်။
+- **Containerlab (ကွန်ရက်ချိတ်ဆက်မောင်းနှင်သူ)**: သင် ရေးဆွဲထားသော topology YAML ဖိုင်ကို ဖတ်ရှုပြီး၊ Docker container များကို အလိုအလျောက် တည်ဆောက်ပေးကာ ၎င်းတို့အကြားသို့ virtual ethernet (veth) ကွန်ရက်ကြိုးများ ချိတ်ဆက်ပေးသည့် orchestration tool ဖြစ်သည်။
+
+```mermaid
+graph TD
+    YAML["📄 topology.clab.yml<br/>(ကွန်ရက်ဒီဇိုင်း သတ်မှတ်ချက်)"] --> CLAB["⚡ Containerlab CLI<br/>(Orchestrator)"]
+    CLAB --> D1["📦 Node: spine1<br/>(Arista cEOS)"]
+    CLAB --> D2["📦 Node: leaf1<br/>(Arista cEOS)"]
+    CLAB --> D3["📦 Node: host1<br/>(Alpine Linux)"]
+    D1 <-->|"veth virtual cable<br/>(spine1:eth1 ↔ leaf1:eth1)"| D2
+    D2 <-->|"veth virtual cable<br/>(leaf1:eth2 ↔ host1:eth1)"| D3
+    
+    classDef file fill:#1e293b,stroke:#38bdf8,color:#f8fafc,stroke-width:2px;
+    classDef node fill:#0f172a,stroke:#a855f7,color:#f8fafc,stroke-width:1.5px;
+    class YAML file; class CLAB file; class D1,D2,D3 node;
 ```
-> `usermod` ပြီးနောက် သင်၏ shell သည် `docker` group ကို သိရှိစေရန် **log out ပြုလုပ်ပြီး ပြန်လည်ဝင်ရောက်ပါ** (သို့မဟုတ် `newgrp docker` ကို run ပါ) — သို့မဟုတ်ပါက `docker` command တိုင်းတွင် `sudo` ခံရိုက်နေရပါမည်။ အတည်ပြုရန်:
-> ```bash
-> docker run --rm hello-world     # "Hello from Docker!" ဟု ပြသရမည်
-> ```
 
-## ၂။ Containerlab ကို Install ပြုလုပ်ခြင်း
+---
 
-```bash
-bash -c "$(curl -sL https://get.containerlab.dev)"
-containerlab version
-```
+## 📄 Topology ဖိုင် (`topology.clab.yml`) တည်ဆောက်ပုံ အသေးစိတ်
 
-## ၃။ Repo Scripts များအတွက် လိုအပ်သော Tools များကို သွင်းခြင်း
+NetForge Labs ၏ lab တိုင်းတွင် `topology.clab.yml` ဖိုင်တစ်ခုစီ ပါဝင်ပါသည်။ ၎င်းသည် ရိုးရှင်းသော အဓိက အပိုင်း (၃) ပိုင်းဖြင့် ဖွဲ့စည်းထားပါသည်:
 
-```bash
-sudo apt update && sudo apt install -y sshpass tcpdump make git
-```
-- `sshpass` — `switch.sh` က SSH မှတစ်ဆင့် configs များကို ပို့ဆောင်ရာတွင် သုံးသည်
-- `tcpdump` — `capture.sh` က `.pcap` packet capture ပြုလုပ်ရာတွင် သုံးသည်
-- `make` / `git` — vJunos image ကို build ပြုလုပ်ရာတွင် လိုအပ်သည်
-
-## ၄။ vJunos-switch Image ကို Build ပြုလုပ်ခြင်း (vrnetlab)
-
-vJunos-switch ကို Juniper ဝဘ်ဆိုက်မှ အခမဲ့ ဒေါင်းလုဒ်ရယူနိုင်ပါသည် (**အကောင့်တစ်ခု လိုအပ်သည်**)။ ၎င်းသည် `.qcow2` VM disk ဖိုင်ဖြစ်ပြီး vrnetlab က containerlab run နိုင်သော Docker image အဖြစ် ပြောင်းလဲတည်ဆောက်ပေးပါသည်။
-
-> ⚠️ ကျွန်ုပ်တို့ လိုအပ်သည်မှာ **vJunos-switch** (L2 / EVPN-VXLAN switching) ဖြစ်ပြီး vJunosEvolved (routing/PTX) *မဟုတ်ပါ*။ Switch image ကို ရွေးချယ်ဒေါင်းလုဒ်ဆွဲရန် သတိပြုပါ။
-
-### ၄က။ Image ဖိုင်ကို VM ပေါ်သို့ ပို့ဆောင်ခြင်း
-Juniper support site မှ `.qcow2` ဖိုင်ကို မိမိ laptop ပေါ်သို့ ဦးစွာ download ရယူပြီး VM ပေါ်သို့ copy ကူးတင်ပါ:
-```bash
-# မိမိ laptop ပေါ်မှ ရိုက်ရန်:
-gcloud compute scp ~/Downloads/vJunos-switch-23.2R1.14.qcow2 \
-    clab-lab:~/ --zone=asia-southeast1-b
-```
-> 🔒 `.qcow2` ဖိုင်သည် လိုင်စင်ပါဝင်သဖြင့် VM ပေါ်တွင်သာ ထားရှိပါ။ Git ထဲသို့ မတော်တဆ မရောက်စေရန် `.gitignore` ထဲတွင် ထည့်သွင်းထားပြီး ဖြစ်သည်။
-
-### ၄ခ။ Containerlab သုံးသော vrnetlab fork ကို Clone လုပ်ခြင်း
-```bash
-git clone https://github.com/hellt/vrnetlab.git
-cd vrnetlab
-```
-> လက်ရှိ Juniper build recipes များ ပါဝင်သော **`hellt/vrnetlab`** fork ကို အသုံးပြုပါ။
-
-### ၄ဂ။ Image ဖိုင်ကို ထည့်သွင်းပြီး Build လုပ်ခြင်း
-`23.2R1` release တွင် directory အမည်မှာ **`vjunosswitch`** ဖြစ်ပါသည်:
-```bash
-cp ~/vJunos-switch-23.2R1.14.qcow2 juniper/vjunosswitch/
-cd juniper/vjunosswitch
-make
-```
-`make` သည် VM ကို တစ်ကြိမ် boot တက်စေကာ defaults များကို သတ်မှတ်ပြီး Docker image အဖြစ် ထုတ်လုပ်ပေးမည် ဖြစ်ပါသည်။
-
-### ၄ဃ။ တိကျသော Image Tag ကို ရယူခြင်း
-```bash
-docker images | grep -i vjunos
-```
-`23.2R1.14` တွင် အောက်ပါအတိုင်း ပြသမည်ဖြစ်ပါသည်:
-```
-vrnetlab/juniper_vjunos-switch   23.2R1.14   <id>   7.27GB
-```
-**`REPOSITORY:TAG`** (`vrnetlab/juniper_vjunos-switch:23.2R1.14`) ကို သတိပြုမှတ်သားထားပါ။
-
-## ၅။ Topology ဖိုင်တွင် မိမိ၏ Image ကို ညွှန်ပြခြင်း
-
-Lab ၏ `topology.clab.yml` သည် ဤ default tag အတိုင်း အတိအကျ သတ်မှတ်ထားပြီး ဖြစ်ပါသည် — အကယ်၍ `23.2R1.14` ကို build ခဲ့ပါက **မည်သည့်အရာမှ ပြင်ဆင်ရန် မလိုပါ။** အောက်ပါ command ဖြင့် စစ်ဆေးပါ:
-```bash
-grep image labs/01-ospf-ibgp/topology.clab.yml
-# → vrnetlab/juniper_vjunos-switch:23.2R1.14
-```
-အကယ်၍ သင်၏ tag သည် Junos version ကွဲပြားနေပါက `image:` စာကြောင်းကို ကိုက်ညီအောင် ပြင်ဆင်ပါ:
 ```yaml
-  kinds:
-    juniper_vjunosswitch:                       # vJunos-switch အတွက် containerlab kind
-      image: vrnetlab/juniper_vjunos-switch:23.2R1.14   # ← အဆင့် ၄ဃ မှ သင်၏ tag
+name: ceos-evpn                    # ၁။ Lab ၏ အမည်
+
+topology:
+  nodes:                           # ၂။ ပါဝင်မည့် Routers / Switches / Hosts များ
+    spine1:
+      kind: arista_ceos            # စက်အမျိုးအစား (kind)
+      image: ceos:4.32.0F          # အသုံးပြုမည့် Docker image
+    leaf1:
+      kind: arista_ceos
+      image: ceos:4.32.0F
+    host1:
+      kind: linux                  # ရိုးရိုး Linux client host
+      image: alpine:latest
+
+  links:                           # ၃။ စက်များအချင်းချင်း ကြိုးချိတ်ဆက်မှုများ
+    - endpoints: ["spine1:eth1", "leaf1:eth1"]
+    - endpoints: ["leaf1:eth2", "host1:eth1"]
 ```
 
-## ၆။ Lab Repo ကို Clone ပြုလုပ်ခြင်း
-
-Image build ပြုလုပ်ခြင်းကို **vrnetlab** repo အတွင်း ပြုလုပ်ခဲ့ခြင်း ဖြစ်သည်။ လက်တွေ့ labs များသည် **သီးခြား** repo တစ်ခုတွင် တည်ရှိပါသည်:
-```bash
-cd ~
-git clone https://github.com/etherhtun/netforge-labs.git
-cd netforge-labs
-ls labs/                    # → 01-ospf-ibgp
-```
-အောက်ပါ `./scripts/*` နှင့် `labs/*` commands အားလုံးကို **ဤ directory ထဲမှ** run ရန် ဖြစ်ပါသည်။
-
-## ၇။ စမ်းသပ်မောင်းနှင်ခြင်း (Smoke Test)
-
-Repo root (`~/netforge-labs`) မှ run ပါ:
-```bash
-./scripts/deploy.sh 01-ospf-ibgp
-```
-ပထမဆုံးအကြိမ် boot တက်ခြင်းသည် အနည်းငယ် နှေးကွေးနိုင်ပါသည် — **vJunos node တစ်ခုလျှင် ~၅–၈ မိနစ်ခန့်** ကြာမြင့်မည်။ Node တစ်ခု boot တက်နေမှုကို ကြည့်ရှုရန်:
-```bash
-docker logs -f clab-evpn-lab-spine1
-```
-ပြီးဆုံးပါက lab အခြေအနေကို စစ်ဆေးပြီး node ထဲသို့ SSH ဖြင့် ဝင်ရောက်ပါ:
-```bash
-containerlab inspect -t labs/01-ospf-ibgp/topology.clab.yml
-ssh admin@clab-evpn-lab-spine1        # ပထမဆုံး login တွင် credentials စစ်ဆေးပါ
-```
-
-## ၈။ ပြဿနာ ဖြေရှင်းနည်းများ (Troubleshooting)
-
-| ပြဿနာလက္ခဏာ | အကြောင်းရင်း / ဖြေရှင်းနည်း |
-|---|---|
-| `docker` သုံးတိုင်း `sudo` လိုအပ်နေခြင်း | Group မဝင်သေးခြင်းကြောင့်ဖြစ်သည် — log out/in ပြုလုပ်ပါ သို့မဟုတ် `newgrp docker` ကို run ပါ။ |
-| `make` fail ဖြစ်ခြင်း / Build စဉ် VM boot မတက်ခြင်း | VM တွင် Nested virtualization မပွင့်သေးခြင်းကြောင့်ဖြစ်သည် — `grep -cw vmx /proc/cpuinfo` ဖြင့် ပြန်စစ်ပါ။ |
-| `permission denied: /dev/kvm` | မိမိ user ကို kvm group ထဲ ထည့်ပါ: `sudo usermod -aG kvm "$USER"`၊ ပြီးလျှင် re-login ပြုလုပ်ပါ။ |
-| `unknown kind juniper_vjunosswitch` | containerlab ဗားရှင်းဟောင်းနေခြင်းဖြစ်သည် — နောက်ဆုံးဗားရှင်းသို့ reinstall ပြုလုပ်ပါ (အဆင့် ၂)။ |
-| Nodes များ boot တက်သော်လည်း mgmt SSH ဝင်မရခြင်း | အနည်းငယ် ထပ်မံစောင့်ဆိုင်းပါ (Junos mgmt သည် နောက်ကျမှ တက်ပါသည်)၊ ပြီးနောက် credentials စစ်ဆေးပါ။ |
-| Build လုပ်စဉ် Disk ပြည့်သွားခြင်း | `.qcow2` နှင့် Docker layers များသည် ကြီးမားပါသည် — 100 GB SSD disk သတ်မှတ်ထားရန် လိုအပ်ပါသည်။ |
-
-## ၉။ 💰 အသုံးပြုပြီးပါက VM ကို ရပ်တန့်ထားပါ (ကုန်ကျစရိတ် သက်သာစေရန်)
-
-GCP VM သည် **စက်ပွင့်နေချိန်တွင် စက္ကန့်နှင့်အမျှ ကျသင့်ငွေ တက်နေပါသည်**။ တစ်နေ့တာ အသုံးပြုပြီးပါက **စက်ကို ရပ်တန့် (stop) ထားပါ** — သင်၏ disk (image, repo, configs) များ ပျက်စီးမသွားဘဲ သိုလှောင်မှုစရိတ် အနည်းငယ်သာ ကျသင့်မည် ဖြစ်ပါသည်။
-
-**အလွယ်ကူဆုံးနည်းလမ်း — VM အတွင်းမှ တိုက်ရိုက် ရပ်တန့်ခြင်း**:
-```bash
-sudo poweroff        # (သို့မဟုတ်: sudo shutdown -h now)
-```
-Guest OS သည် shutdown ဖြစ်သွားမည်ဖြစ်ပြီး GCP က instance ကို **TERMINATED** အဖြစ် သတ်မှတ်ကာ compute billing ရပ်တန့်သွားပါမည်။ SSH session ပြတ်တောက်သွားမည်ဖြစ်ပြီး ၎င်းမှာ ပုံမှန်သာ ဖြစ်ပါသည်။ ပြန်လည်ဖွင့်လိုပါက Console သို့မဟုတ် `gcloud` command ကို သုံးပါ။
-
-**Laptop သို့မဟုတ် Cloud Shell မှ ရပ်တန့်ခြင်း**:
-```bash
-gcloud compute instances stop   clab-lab --zone=asia-southeast1-b   # ရပ်တန့်ရန် — ကုန်ကျစရိတ် သက်သာသည်
-gcloud compute instances start  clab-lab --zone=asia-southeast1-b   # နောက်တစ်ကြိမ် ပြန်လည်စတင်ရန်
-gcloud compute instances delete clab-lab --zone=asia-southeast1-b   # လုံးဝဖျက်သိမ်းရန်
-```
-
-> ⚠️ **လည်ပတ်နေသော containerlab fabric သည် VM stop/start ပြုလုပ်မှုကို မခံနိုင်ပါ။** VM ကို ပြန်လည် `start` လုပ်ပြီးနောက် vJunos containers များ ပျောက်ကွယ်သွားနိုင်သဖြင့် `./scripts/deploy.sh <lab>` ဖြင့် ပြန်လည် deploy ပြုလုပ်ပြီး `./scripts/apply.sh <lab> all` ဖြင့် rebuild ပြုလုပ်ပေးပါ။ Git ထဲတွင် ဖိုင်များ လုံခြုံစွာ ရှိနေသဖြင့် မည်သည့်အရာမှ ဆုံးရှုံးမည် မဟုတ်ပါ။
+### အဓိက သတိပြုဖွယ် အချက်များ:
+1. **Container အမည်ပေးပုံ**: Containerlab သည် container အမည်များကို `clab-<lab_name>-<node_name>` အဖြစ် အလိုအလျောက် သတ်မှတ်ပါသည် (ဥပမာ `clab-ceos-evpn-spine1`)။
+2. **Interface အမည်သတ်မှတ်မှု**: Topology ဖိုင်ထဲတွင် အမြဲတမ်း စာလုံးသေး **`eth1`, `eth2`** ဟုသာ ရေးရပါမည်။ (Arista switch OS ထဲတွင် ၎င်းတို့ကို `Ethernet1`, `Ethernet2` အဖြစ် အလိုအလျောက် ပြောင်းလဲမြင်တွေ့ရမည် ဖြစ်သည်)။
 
 ---
 
-ဆက်လက်လေ့လာရန်: [Lab 01 သို့ ပြန်သွားပါ](../archive/juniper-vxlan-evpn/labs/lab-01-fullmesh.md)။
+## ⚡ မဖြစ်မနေ သိထားရမည့် Containerlab CLI Commands
+
+### ၁။ Lab စတင် ဖွင့်လှစ်ခြင်း (Deploy)
+```bash
+# သာမန် Deploy ပြုလုပ်ခြင်း
+sudo containerlab deploy -t topology.clab.yml
+
+# Apple Silicon (Mac) များတွင် Boot-Race မဖြစ်စေရန် စနစ်တကျ deploy ပြုလုပ်ခြင်း
+sudo containerlab deploy -t topology.clab.yml --max-workers 1
+```
+*(Containers များ တည်ဆောက်ခြင်း၊ IP address များ ခွဲဝေခြင်းနှင့် ကြိုးများ ချိတ်ဆက်ခြင်းကို စက္ကန့်ပိုင်းအတွင်း အလိုအလျောက် ဆောင်ရွက်ပေးပါသည်)*
+
+### ၂။ လက်ရှိ Lab အခြေအနေကို စစ်ဆေးခြင်း (Inspect)
+```bash
+sudo containerlab inspect -t topology.clab.yml
+```
+*(Node အားလုံး၏ Container Name၊ IPv4/IPv6 Management IP၊ သက်ဆိုင်ရာ Port Mappings များနှင့် အခြေအနေကို ဇယားကွက်ဖြင့် သေသပ်စွာ ပြသပေးပါသည်)*
+
+### ၃။ Visual Web Topology ဖြင့် ပုံဆွဲကြည့်ရှုခြင်း (Graph)
+```bash
+sudo containerlab graph -t topology.clab.yml
+```
+*(သင့်စက်တွင်း၌ local web server တစ်ခု ဖွင့်ပေးပြီး၊ Browser မှတစ်ဆင့် ကွန်ရက် topology ချိတ်ဆက်ပုံ diagram ကို အပြန်အလှန် လှည့်ပတ်ကြည့်ရှုနိုင်ပါသည်)*
+
+### ၄။ Lab ကို ပြန်လည်ဖျက်သိမ်းခြင်း (Destroy)
+```bash
+# လက်ရှိ lab တစ်ခုတည်းကို ဖျက်ရန်
+sudo containerlab destroy -t topology.clab.yml
+
+# ဖိုင်တွဲများနှင့် configuration cache များကိုပါ အပြီးရှင်းထုတ်ရန်
+sudo containerlab destroy -t topology.clab.yml --cleanup
+
+# စက်ထဲရှိ မေ့ကျန်နေသော lab အဟောင်းများအားလုံးကို အမြစ်ပြတ် ရှင်းထုတ်ရန်
+sudo containerlab destroy --all
+```
+
+---
+
+## 🐳 ကွန်ရက်အင်ဂျင်နီယာများ နေ့စဉ်သုံးရမည့် Docker Commands
+
+Containerlab ဖြင့် lab တက်လာပြီးပါက၊ အောက်ပါ Docker command များဖြင့် switch များကို ထိန်းချုပ်မောင်းနှင်ရပါသည်:
+
+### ၁။ Switch ထဲသို့ ဝင်ရောက်ခြင်း (CLI Access)
+Arista cEOS switch CLI ထဲသို့ တိုက်ရိုက် ဝင်ရောက်ရန်:
+```bash
+docker exec -it clab-ceos-evpn-leaf1 Cli
+```
+*(ဝင်ရောက်ပြီးပါက ရင်းနှီးပြီးသားဖြစ်သော `leaf1> enable` မှတစ်ဆင့် `show ip route` စသည့် switch command များကို ပုံမှန်အတိုင်း စတင်အသုံးပြုနိုင်ပါသည်)*
+
+### ၂။ Switch အား command တစ်ကြောင်းတည်း အပြင်မှ လှမ်းမေးခြင်း
+Switch CLI ထဲ ဝင်မနေဘဲ Terminal မှ တိုက်ရိုက် output ထုတ်ယူလိုပါက:
+```bash
+docker exec clab-ceos-evpn-leaf1 Cli -c "show interfaces status"
+```
+
+### ၃။ Switch ၏ အတွင်းပိုင်း Linux Shell ထဲသို့ ဝင်ရောက်ခြင်း
+Arista EOS သည် Linux OS ပေါ်တွင် တည်ဆောက်ထားသဖြင့် bash shell ကိုလည်း တိုက်ရိုက် လေ့လာနိုင်ပါသည်:
+```bash
+docker exec -it clab-ceos-evpn-leaf1 bash
+```
+
+### ၄။ လက်ရှိ လည်ပတ်နေသော Containers များကို စစ်ဆေးခြင်း
+```bash
+docker ps
+```
+*(စက်ပေါ်တွင် မည်သည့် switch များနှင့် host များ run နေသလဲ၊ အချိန် မည်မျှကြာမြင့်ပြီလဲ ဆိုသည်ကို ချက်ချင်း စစ်ဆေးနိုင်ပါသည်)*
+
+### ၅။ Switch စတင်တက်လာသည့် Logs များကို တိုက်ရိုက် စောင့်ကြည့်ခြင်း
+```bash
+docker logs -f clab-ceos-evpn-spine1
+```
+
+---
+
+## 📋 လက်စွဲ Command အကျဉ်းချုပ် (Quick Reference Cheat Sheet)
+
+| လုပ်ဆောင်ချက် | အသုံးပြုရမည့် Command | မှတ်ချက် |
+|---|---|---|
+| **Lab Deploy လုပ်ရန်** | `sudo containerlab deploy -t <file.yml> --max-workers 1` | Mac ပေါ်တွင် `--max-workers 1` အမြဲတွဲသုံးပါ |
+| **Lab အခြေအနေကြည့်ရန်** | `sudo containerlab inspect -t <file.yml>` | Mgmt IP နှင့် ports များကို ပြသသည် |
+| **Topology ပုံကြည့်ရန်** | `sudo containerlab graph -t <file.yml>` | Browser တွင် visual diagram ပြသသည် |
+| **Lab ဖျက်သိမ်းရန်** | `sudo containerlab destroy -t <file.yml>` | Container နှင့် ကြိုးများကို ရှင်းထုတ်သည် |
+| **Lab အားလုံး ရှင်းထုတ်ရန်** | `sudo containerlab destroy --all` | ကျန်နေသော container ဟောင်းများ ရှင်းသည် |
+| **Switch CLI ဝင်ရန်** | `docker exec -it <container-name> Cli` | Arista EOS prompt သို့ ရောက်ရှိမည် |
+| **Container အခြေအနေစစ်ရန်** | `docker ps` | လည်ပတ်နေသော nodes အားလုံး ပြသသည် |
+
+---
+
+### 🚀 နောက်တစ်ဆင့် လေ့လာရန်:
+Containerlab ၏ အောက်ခြေတွင် Linux Network Namespaces နှင့် Virtual Ethernet (veth) ကြိုးများ မည်သို့ အလုပ်လုပ်နေသလဲဆိုသည်ကို **[စာမျက်နှာ ၃ · Lab နည်းပညာ အလုပ်လုပ်ပုံ (How the Lab Works) →](how-the-lab-works.md)** တွင် ဆက်လက်လေ့လာနိုင်ပါသည်။
