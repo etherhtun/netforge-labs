@@ -52,8 +52,8 @@ nav:
   - Get Started:
     - getting-started/index.md
     - Lab setup on macOS: getting-started/lab-setup-macos.md
+    - Lab setup on GCP: getting-started/cloud-vm.md
     - Docker & containerlab: getting-started/containerlab.md
-    - Cloud VM (optional): getting-started/cloud-vm.md
     - Team quickstart: getting-started/team-quickstart.md
     - How the lab works: getting-started/how-the-lab-works.md
     - Lab troubleshooting: getting-started/lab-troubleshooting.md
